@@ -30,6 +30,7 @@ npm run dev        # dev-сервер: откройте адрес из конс
 - Концепция — `docs/CONCEPT.md`; решения — `docs/DECISIONS.md`; архитектура — `docs/ARCHITECTURE.md`.
 - Звук и озвучка — `docs/AUDIO.md`; стиль — `docs/ART_STYLE.md`; персонажи — `docs/CHARACTERS.md`.
 - Правила игр — `docs/games/`; платформа — `docs/YANDEX.md`; монетизация — `docs/MONETIZATION.md`.
+- Компоновки для телефона и компьютера — `docs/LAYOUT.md`.
 - Тестирование — `docs/TESTING.md`; локализация — `docs/LOCALIZATION.md`.
 - Правила для ассистента — `CLAUDE.md`.
 
