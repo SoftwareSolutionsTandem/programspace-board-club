@@ -295,10 +295,8 @@ export const FAN_ANCHOR = { x: 146, y: 296 } as const;
 const svgDoc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
 
-const chair = (): string => `<path d="M24 340 C24 196 396 196 396 340 L370 340 C370 236 50 236 50 340 Z" fill="#8C5A31" ${ol(4)}/>`;
-
-/** Тело со спинкой кресла (без головы и рук). */
-export const bodySvg = (): string => svgDoc(FIGURE_BOX, chair() + body('rb'));
+/** Тело (без головы и рук). Спинку кресла не рисуем: в кадре она читалась как лишние дуги за спиной. */
+export const bodySvg = (): string => svgDoc(FIGURE_BOX, body('rb'));
 
 /** Голова с эмоцией; рот рисуется отдельным слоем (для синхронизации с голосом). */
 export const headSvg = (emotion: Emotion): string => svgDoc(HEAD_BOX, `<g transform="translate(90 0)">${head(EXPR[emotion], 'rh' + emotion, false)}</g>`);
@@ -309,9 +307,19 @@ export type MouthShape = (typeof MOUTHS)[number];
 export const mouthSvg = (shape: MouthShape): string => svgDoc(MOUTH_BOX, `<g transform="translate(90 0)">${mouth(shape)}</g>`);
 export const emotionMouth = (emotion: Emotion): MouthShape => (EXPR[emotion].mouth as MouthShape | undefined) ?? 'smile';
 
-/** Веки для моргания поверх головы (координаты головы). */
-export const blinkSvg = (): string =>
-  svgDoc(HEAD_BOX, `<g transform="translate(90 0)">${eye(EYE_L, -1, 'closed', [0, 0])}${eye(EYE_R, 1, 'closed', [0, 0])}</g>`);
+/** Верхний край век в координатах головы: от него веко опускается при моргании. */
+export const LID_TOP = EYE_L[1] - 19.5;
+
+/**
+ * Опущенные веки поверх открытых глаз (координаты головы): кожа целиком закрывает глазное яблоко,
+ * поверх — тот же оттенок линзы очков и линия ресниц. Анимация — масштаб по вертикали от LID_TOP.
+ */
+export const blinkSvg = (): string => {
+  const lid = ([cx, cy]: [number, number]) => `<ellipse cx="${cx}" cy="${cy}" rx="17.5" ry="19.5" fill="${C.skin}"/>
+    <ellipse cx="${cx}" cy="${cy}" rx="17.5" ry="19.5" fill="${C.lens}" opacity="0.28"/>
+    <path d="M${cx - 15} ${cy + 3} Q${cx} ${cy + 13} ${cx + 15} ${cy + 3}" fill="none" ${ol(3.6)}/>`;
+  return svgDoc(HEAD_BOX, `<g transform="translate(90 0)">${lid(EYE_L)}${lid(EYE_R)}</g>`);
+};
 
 // Левая рука (держит веер) и правая — по позам.
 const LEFT_FAN_ARM = () => tube('M132 256 Q96 318 150 338') + cuff(146, 334, 70);
@@ -335,25 +343,29 @@ export const CARD_BOX = { x: -24, y: -34, w: 48, h: 68 } as const;
 const RANK_LABEL: Record<number, string> = { 6: '6', 7: '7', 8: '8', 9: '9', 10: '10', 11: 'В', 12: 'Д', 13: 'К', 14: 'Т' };
 const SUIT_KEY: Record<string, SuitKey> = { H: 'h', D: 'd', S: 's', C: 'c' };
 
-/** Лицо карты: крупное достоинство и масть в углу, большая масть в центре; подписи — по-русски (В, Д, К, Т). */
+/**
+ * Лицо карты: крупное достоинство и масть в углах, масть в центре; подписи — по-русски (В, Д, К, Т).
+ * Угловые индексы и центральная масть не пересекаются: центр занимает |x| ≤ 9,8, углы — |x| ≥ 10,3.
+ */
 export function cardFaceSvg(suitCode: 'S' | 'C' | 'D' | 'H', rank: number): string {
   const k = SUIT_KEY[suitCode] as SuitKey;
   const col = suitColor(k);
   const label = RANK_LABEL[rank] ?? String(rank);
   const fs = label.length > 1 ? 13 : 15;
+  const x = label.length > 1 ? -21 : -20;
+  const corner = `<text x="${x}" y="-17" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="${fs}" fill="${col}"${label.length > 1 ? ' letter-spacing="-1"' : ''}>${label}</text>${suit(k, -16, -6, 0.38)}`;
   const inner = `<rect x="-23" y="-33" width="46" height="66" rx="6" fill="${C.card}" ${ol(2.2)}/>
-  <text x="-18" y="-17" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="${fs}" fill="${col}">${label}</text>
-  ${suit(k, -13, -6.5, 0.42)}
-  <g transform="rotate(180)"><text x="-18" y="-17" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="${fs}" fill="${col}">${label}</text>${suit(k, -13, -6.5, 0.42)}</g>
-  ${suit(k, 0, 1, rank >= 11 ? 0.62 : 0.8)}
-  ${rank >= 11 ? `<path d="M-14 15 Q0 9 14 15" fill="none" stroke="${col}" stroke-width="1.6" opacity="0.6"/>` : ''}`;
+  ${corner}
+  <g transform="rotate(180)">${corner}</g>
+  ${suit(k, 0, 1, 0.65)}`;
   return svgDoc(CARD_BOX, inner);
 }
 export const cardBackSvg = (): string => svgDoc(CARD_BOX, cardBack(0, 0, 0));
 
 // ---------- фон кафе (единицы BG_DESIGN: 2400 × 900, центр персонажа x = 1200, дальний край стола y = 470) ----------
 export function cafeBackgroundSvg(): string {
-  const lamp = (x: number) => `<path d="M${x} 0 V60" ${ol(3)}/><path d="M${x - 48} 104 Q${x} 46 ${x + 48} 104 Z" fill="#C5333B" ${ol(4)}/><ellipse cx="${x}" cy="106" rx="17" ry="6" fill="#FFF1C9"/>`;
+  // Провод доходит до верхушки купола плафона (вершина кривой — y = 75).
+  const lamp = (x: number) => `<path d="M${x} 0 V77" ${ol(3)}/><path d="M${x - 48} 104 Q${x} 46 ${x + 48} 104 Z" fill="#C5333B" ${ol(4)}/><ellipse cx="${x}" cy="106" rx="17" ry="6" fill="#FFF1C9"/>`;
   const glow = (x: number) => `<ellipse cx="${x}" cy="280" rx="360" ry="300" fill="url(#bgGlow)"/>`;
   const panel = (x: number) => `<rect x="${x}" y="368" width="210" height="88" rx="6" fill="none" stroke="#8C5A31" stroke-width="3"/>`;
   const window = (x: number) => `<g>
@@ -387,7 +399,7 @@ export function cafeBackgroundSvg(): string {
   ${[30, 270, 510, 750, 1460, 1700, 1940, 2180].map(panel).join('')}
   ${window(640)}${window(120)}
   ${picture(2120)}
-  ${shelf(1500)}${board}
+  ${board}${shelf(1500)}
   ${glow(880)}${glow(1520)}
   ${lamp(880)}${lamp(1520)}
   </svg>`;

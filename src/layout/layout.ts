@@ -40,6 +40,8 @@ export interface LayoutSpec {
   readonly tableCard: { readonly w: number; readonly h: number };
   readonly deck: Point;
   readonly discard: Point;
+  /** Центр плашки с числом карт в колоде — на самой колоде, чтобы её не закрывал отбой. */
+  readonly deckLabel: Point;
   /** Пары «атака/защита»: колонки и ряды. */
   readonly pairs: { readonly x: number; readonly y: number; readonly cols: number; readonly pitchX: number; readonly pitchY: number };
   readonly hand: { readonly cx: number; readonly bottom: number; readonly cardW: number; readonly cardH: number; readonly left: number; readonly right: number; readonly lift: number };
@@ -86,16 +88,18 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   const portraitish = kind === 'portrait' || kind === 'portrait-wide';
 
   // --- Размер карт руки ---
+  // Карты в веере перекрываются, поэтому ширина карты может быть больше доли экрана на карту:
+  // на телефоне шесть карт занимают ширину, каждая видна на ~70 % — индексы в углу читаются без прищура.
   let handW: number;
-  if (kind === 'portrait') handW = clamp(Math.min(safe.w / 6.1, H * 0.105), 56, 96);
-  else if (kind === 'portrait-wide') handW = clamp(Math.min(safe.w / 8, H * 0.1), 64, 110);
-  else if (kind === 'landscape') handW = clamp(H * 0.13, 64, 124);
-  else handW = clamp(H * 0.17, 46, 76);
+  if (kind === 'portrait') handW = clamp(Math.min(safe.w / 4.6, H * 0.125), 56, 110);
+  else if (kind === 'portrait-wide') handW = clamp(Math.min(safe.w / 6.5, H * 0.115), 64, 124);
+  else if (kind === 'landscape') handW = clamp(H * 0.145, 64, 136);
+  else handW = clamp(H * 0.19, 46, 84);
   const handH = handW * CARD_RATIO;
   const lift = handH * 0.16;
 
   // --- Кнопки и строка состояния ---
-  const btnH = clamp(H * 0.07, MIN_TOUCH + 4, 56);
+  const btnH = clamp(H * 0.07, MIN_TOUCH + 4, 76);
   const hud: Rect = { x: safe.x, y: safe.y, w: safe.w, h: MIN_TOUCH };
 
   const handBottom = safe.y + safe.h;
@@ -122,7 +126,8 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   else status = { x: actions.x, y: actions.y - 54, w: actions.w, h: 48 };
 
   // --- Стол и персонаж ---
-  const farRatio = { portrait: 0.44, 'portrait-wide': 0.42, landscape: 0.54, 'landscape-compact': H < 400 ? 0.38 : 0.43 }[kind];
+  // На невысоком телефоне стол начинается выше: иначе карты на столе слишком мелкие.
+  const farRatio = { portrait: H < 720 ? 0.39 : 0.44, 'portrait-wide': 0.42, landscape: 0.54, 'landscape-compact': H < 400 ? 0.38 : 0.43 }[kind];
   const farY = Math.round(H * farRatio);
   const crop = kind === 'landscape-compact' ? 'bust' : 'waist';
   const anchorLocal = crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
@@ -164,8 +169,10 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   const pitchY = th * 1.34;
   const pairsW = cols * pitchX;
   const deck: Point = { x: tableLeft + tw * 0.75, y: playTop + th * 0.62 };
-  // На телефоне отбой — в левой колонке под колодой, чтобы не наезжать на пары.
-  const discard: Point = portraitish ? { x: deck.x, y: deck.y + Math.max(th * 1.5, (rows - 1) * pitchY) } : { x: tableRight - tw * 0.75, y: playTop + th * 0.62 };
+  // На телефоне отбой — в левой колонке под колодой, чтобы не наезжать на пары. Телефон боком: левее колонки
+  // кнопок и строки состояния.
+  const discardRight = kind === 'landscape-compact' ? Math.min(tableRight, actions.x - 10) : tableRight;
+  const discard: Point = portraitish ? { x: deck.x, y: Math.min(deck.y + Math.max(th * 1.5, (rows - 1) * pitchY), playBottom - th * 0.6) } : { x: discardRight - tw * 0.75, y: playTop + th * 0.62 };
   const pairsLeft = portraitish ? clamp(cx - pairsW / 2, tableLeft + tw * 1.75, tableRight - pairsW) : cx - pairsW / 2;
   const pairs = { x: pairsLeft + tw / 2, y: playTop + th / 2 + 2, cols, pitchX, pitchY };
 
@@ -176,7 +183,7 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   return {
     kind, tooSmall: isTooSmall(W, H), width: W, height: H, safe, pointer, hud,
     character: { x: cx, y: charY, scale, crop, bounds: charBounds },
-    table, tableCard: { w: tw, h: th }, deck, discard, pairs,
+    table, tableCard: { w: tw, h: th }, deck, discard, deckLabel: { x: deck.x, y: deck.y + th * 0.18 }, pairs,
     hand: { cx: (handLeft + handRight) / 2, bottom: handBottom, cardW: handW, cardH: handH, left: handLeft, right: handRight, lift },
     actions, status, background,
   };

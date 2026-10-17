@@ -14,6 +14,7 @@ export interface Probe {
     series: { wins: [number, number]; draws: number };
     pose: string;
     emotion: string;
+    blinks: number;
   };
 }
 export interface Card { suit: string; rank: number }

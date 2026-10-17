@@ -211,6 +211,13 @@ test('слишком маленькое окно — подсказка, пар�
   expect(after.session!.view.hand).toEqual(before.hand);
 });
 
+test('Агата моргает: веко опускается и поднимается', async ({ page }) => {
+  await seedSettings(page, { tutorialDone: true, metAgata: true });
+  await sitAtTable(page, 'Лёгкая');
+  const before = (await probe(page)).session!.blinks;
+  await expect.poll(async () => (await probe(page)).session!.blinks, { timeout: 20_000 }).toBeGreaterThan(before);
+});
+
 test.describe('высокая плотность пикселей (Pixel 7, 2.625)', () => {
   test.use({ deviceScaleFactor: 2.625 });
   test('сцена строится, рука и стол на экране, ход проходит', async ({ page }, info) => {

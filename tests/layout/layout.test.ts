@@ -57,6 +57,12 @@ describe('компоновка: инварианты на наборе экра�
         expect(overlap(z.pairs, z.hand)).toBe(false);
         expect(overlap(z.pairs, z.deck)).toBe(false);
         expect(overlap(z.pairs, z.discard)).toBe(false);
+        // Плашка с числом карт колоды не закрыта отбоем и парами.
+        const label = { x: s.deckLabel.x - 18, y: s.deckLabel.y - 11, w: 36, h: 22 };
+        expect(overlap(label, z.discard), JSON.stringify({ label, discard: z.discard })).toBe(false);
+        expect(overlap(label, z.pairs)).toBe(false);
+        for (const r of [z.hand, s.actions, s.status]) expect(overlap(z.discard, r)).toBe(false);
+        expect(overlap(z.deck, z.discard)).toBe(false);
         expect(overlap(z.pairs, s.actions)).toBe(false);
         expect(overlap(z.hand, s.actions)).toBe(false);
         expect(overlap(z.pairs, s.status)).toBe(false);

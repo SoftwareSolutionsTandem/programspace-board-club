@@ -1,7 +1,12 @@
 // Риг сидящего персонажа (docs/ART_STYLE.md §5): слои тела, головы, рта, век и рук, веер своих карт.
 // Анимации — дыхание, моргание, смена эмоции и позы, рот по уровню голоса. Состояние игры от рига не зависит.
 import { Container, Sprite, type Texture } from 'pixi.js';
-import { emotionMouth, FAN_ANCHOR, FIGURE_BOX, HEAD_BOX, MOUTH_BOX, poseHoldsFan, type MouthShape } from './agata/art';
+import { EXPR, emotionMouth, FAN_ANCHOR, FIGURE_BOX, HEAD_BOX, LID_TOP, MOUTH_BOX, poseHoldsFan, type MouthShape } from './agata/art';
+
+// Моргание: веко опускается, держится и поднимается (мс).
+const BLINK_CLOSE = 70, BLINK_HOLD = 50, BLINK_OPEN = 80;
+// Глаза, которые не моргают: уже закрытые от смеха, «звёздочки» азарта, широко раскрытые от удивления.
+const NO_BLINK_EYES = new Set(['happy', 'star', 'wide']);
 import type { Emotion, Pose } from './types';
 import type { TextureBank } from '../games/durak/scene/textures';
 
@@ -32,7 +37,10 @@ export class CharacterRig {
   private poseUntil = 0;
   private time = 0;
   private nextBlink = 2500;
-  private blinkUntil = 0;
+  private blinkStart = -Infinity;
+  private blinkScaleY = 1;
+  /** Сколько раз моргнула (для e2e). */
+  blinks = 0;
   private crossHead = 1;
   private crossArms = 1;
   private speaking = 0;
@@ -55,8 +63,13 @@ export class CharacterRig {
     this.bank = bank;
     this.body.texture = bank.body;
     place(this.body, FIGURE_BOX);
-    for (const s of [this.head, this.headOld, this.blink]) place(s, HEAD_BOX);
+    for (const s of [this.head, this.headOld]) place(s, HEAD_BOX);
     this.blink.texture = bank.blink;
+    place(this.blink, HEAD_BOX);
+    // Точка опоры — верхний край век: масштаб по вертикали опускает веко сверху вниз.
+    this.blinkScaleY = this.blink.scale.y;
+    this.blink.anchor.set(0, (LID_TOP - HEAD_BOX.y) / HEAD_BOX.h);
+    this.blink.y = LID_TOP;
     this.blink.visible = false;
     for (const s of [this.arms, this.armsOld, this.fanHand]) place(s, FIGURE_BOX);
     this.fanHand.texture = bank.fanHand;
@@ -179,11 +192,13 @@ export class CharacterRig {
     this.armsOld.visible = this.crossArms < 1;
     // Моргание каждые 2–6 с (детерминированно по времени, без Math.random).
     if (this.time >= this.nextBlink) {
-      this.blinkUntil = this.time + 120;
+      this.blinkStart = this.time;
+      if (!NO_BLINK_EYES.has(EXPR[this.emotion].eyes)) this.blinks++;
       this.nextBlink = this.time + 2000 + ((this.time * 7919) % 4000);
     }
-    const eyesClosed = this.time < this.blinkUntil && this.emotion !== 'laugh';
-    this.blink.visible = eyesClosed;
+    const lid = NO_BLINK_EYES.has(EXPR[this.emotion].eyes) ? 0 : blinkAmount(this.time - this.blinkStart, this.reducedMotion);
+    this.blink.visible = lid > 0;
+    this.blink.scale.y = this.blinkScaleY * Math.max(lid, 0.001);
     if (!this.reducedMotion) {
       const breath = Math.sin(this.time / 900) * 0.008;
       this.headPivot.rotation = Math.sin(this.time / 1700) * 0.02;
@@ -191,4 +206,13 @@ export class CharacterRig {
     }
     this.updateMouth();
   }
+}
+
+/** Насколько опущено веко (0 — открыт, 1 — закрыт) через `t` мс после начала моргания. Без движения — сразу закрыто на время моргания. */
+export function blinkAmount(t: number, reducedMotion = false): number {
+  if (t < 0 || t >= BLINK_CLOSE + BLINK_HOLD + BLINK_OPEN) return 0;
+  if (reducedMotion) return t < BLINK_CLOSE + BLINK_HOLD ? 1 : 0;
+  if (t < BLINK_CLOSE) return t / BLINK_CLOSE;
+  if (t < BLINK_CLOSE + BLINK_HOLD) return 1;
+  return 1 - (t - BLINK_CLOSE - BLINK_HOLD) / BLINK_OPEN;
 }
