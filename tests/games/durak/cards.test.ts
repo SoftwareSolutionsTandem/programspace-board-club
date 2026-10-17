@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createRng, shuffle } from '../../../src/core/rng';
 import { cardCode, createDeck, lowestTrump, otherSeat, parseCard, parseCards, RANKS, SUITS } from '../../../src/games/durak/rules/cards';
 
 describe('карты', () => {
@@ -7,6 +8,16 @@ describe('карты', () => {
     expect(deck).toHaveLength(36);
     expect(new Set(deck.map(cardCode)).size).toBe(36);
     for (const s of SUITS) expect(deck.filter((c) => c.suit === s).map((c) => c.rank)).toEqual([...RANKS]);
+  });
+
+  it('перемешивание сохраняет состав колоды и воспроизводимо', () => {
+    const deck = createDeck();
+    for (let seed = 0; seed < 100; seed++) {
+      const [mixed] = shuffle(createRng(seed), deck);
+      expect(mixed.map(cardCode).sort()).toEqual(deck.map(cardCode).sort());
+      expect(shuffle(createRng(seed), deck)[0]).toEqual(mixed);
+    }
+    expect(deck).toEqual(createDeck());
   });
 
   it('запись карты обратима', () => {

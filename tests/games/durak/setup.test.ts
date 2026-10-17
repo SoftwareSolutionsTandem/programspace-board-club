@@ -6,6 +6,12 @@ import type { DurakState } from '../../../src/games/durak/rules/state';
 
 const codes = (cards: readonly Card[]) => cards.map(cardCode);
 const allCards = (s: DurakState) => [...s.hands[0], ...s.hands[1], ...s.deck, ...s.discard, ...s.table.flatMap((p) => (p.defense ? [p.attack, p.defense] : [p.attack]))];
+/** Каждая из 36 карт ровно в одной зоне: ни потерь, ни дублей. */
+const expectEveryCardOnce = (zones: readonly (readonly Card[])[]) => {
+  const all = codes(zones.flat());
+  expect(all).toHaveLength(36);
+  expect([...all].sort()).toEqual(codes(createDeck()).sort());
+};
 const noTrumpsDealt = (seed: number) => {
   const d = deal(createRng(seed));
   return ![...d.hands[0], ...d.hands[1]].some((c) => c.suit === d.trumpCard.suit);
@@ -20,13 +26,27 @@ describe('раздача', () => {
     expect(d.deck[d.deck.length - 1]).toEqual(d.trumpCard);
   });
 
-  it('все 36 карт на месте и без повторов', () => {
+  it('все 36 карт на месте: каждая ровно в одной зоне (руки, колода)', () => {
     for (let seed = 0; seed < 200; seed++) {
       const d = deal(createRng(seed));
-      const all = codes([...d.hands[0], ...d.hands[1], ...d.deck]);
-      expect(new Set(all).size).toBe(36);
-      expect([...all].sort()).toEqual(codes(createDeck()).sort());
+      expectEveryCardOnce([d.hands[0], d.hands[1], d.deck]);
     }
+  });
+
+  it('открытый козырь входит в запас для добора: лежит последним в колоде и не попадает в руки', () => {
+    for (let seed = 0; seed < 200; seed++) {
+      const d = deal(createRng(seed));
+      expect(d.deck[d.deck.length - 1]).toEqual(d.trumpCard);
+      // Учитывается один раз: в колоде ровно одна такая карта, в руках её нет.
+      expect(d.deck.filter((c) => cardCode(c) === cardCode(d.trumpCard))).toHaveLength(1);
+      expect(codes([...d.hands[0], ...d.hands[1]])).not.toContain(cardCode(d.trumpCard));
+    }
+  });
+
+  it('разные seed дают разные раздачи (на 500 seed почти все результаты различны)', () => {
+    const results = new Set(Array.from({ length: 500 }, (_, seed) => JSON.stringify(deal(createRng(seed)).hands)));
+    // Совпадения теоретически возможны, поэтому проверяем не каждую пару, а долю различных результатов.
+    expect(results.size).toBeGreaterThanOrEqual(495);
   });
 
   it('детерминирована по seed и не мутирует ГСЧ', () => {
@@ -34,7 +54,6 @@ describe('раздача', () => {
     const before = JSON.stringify(rng);
     expect(deal(rng)).toEqual(deal(createRng(42)));
     expect(JSON.stringify(rng)).toBe(before);
-    expect(deal(createRng(1)).hands).not.toEqual(deal(createRng(2)).hands);
   });
 
   it('возвращает продвинутый ГСЧ', () => {
@@ -93,7 +112,18 @@ describe('новая партия', () => {
     expect(s.result).toBeNull();
     expect(s.trumpSuit).toBe(s.trumpCard.suit);
     expect(defenderOf(s)).toBe(s.attacker === 0 ? 1 : 0);
-    expect(new Set(codes(allCards(s))).size).toBe(36);
+    expectEveryCardOnce([allCards(s)]);
+  });
+
+  it('при одинаковом seed начальное состояние партии воспроизводимо', () => {
+    for (const seed of [0, 1, 42, 9999]) {
+      expect(newGame(createRng(seed))).toEqual(newGame(createRng(seed)));
+      expect(newGame(createRng(seed), { previousResult: { winner: 0 } })).toEqual(newGame(createRng(seed), { previousResult: { winner: 0 } }));
+    }
+  });
+
+  it('после пересдачи и во всех партиях каждая карта ровно в одной зоне', () => {
+    for (let seed = 0; seed < 500; seed++) expectEveryCardOnce([allCards(newGame(createRng(seed)))]);
   });
 
   it('показанный младший козырь известен обоим и действительно в руке атакующего', () => {
