@@ -5,7 +5,8 @@
 - Документы: концепция `docs/CONCEPT.md`, архитектура `docs/ARCHITECTURE.md`, звук `docs/AUDIO.md`, стиль `docs/ART_STYLE.md`, персонажи `docs/CHARACTERS.md`, правила `docs/games/*.md`, платформа `docs/YANDEX.md`, монетизация `docs/MONETIZATION.md`.
 
 ## Команды
-- `npm run dev`, `npm test`, `npm run typecheck`, `npm run build` (появятся на этапе 1).
+- `npm run dev`, `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; `npm run check` — всё сразу (как CI).
+- Перед коммитом — `npm run check`. Браузерная проверка — Playwright против `npm run preview`, без ошибок в консоли.
 
 ## Нерушимые правила
 - Персонажи говорят голосом. Текстовые облачка вместо речи запрещены. Заглушки и пустые файлы не выдавать за озвучку.
