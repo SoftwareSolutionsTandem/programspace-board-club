@@ -130,12 +130,18 @@ WAV (исходник) → обрезка тишины → нормализац�
 
 ### 8.2 Хранение
 ```
-assets-src/audio/<lang>/<character>/*.wav     исходники (в сборку не входят; Git LFS — по решению)
-assets/audio/<lang>/<character>/*.{opus,m4a}  сборочные файлы
-assets/audio/<lang>/<character>/manifest.json
-assets/audio/<lang>/<character>/lipsync/*.json
-assets/audio/LICENSES.md                       права на каждый файл
+assets-src/audio/<lang>/<character>/*.wav       исходники (в сборку не входят; Git LFS — по решению)
+public/audio/<lang>/<character>/*.{opus,m4a}    сборочные файлы (отдаются как есть)
+public/audio/<lang>/<character>/manifest.json   какие реплики реально записаны: { "lines": { id: { "opus": файл, "m4a": файл } } }
+assets/audio/LICENSES.md                        права на каждый файл; `npm run check:assets` (входит в `npm run check`) не пропускает файл без записи и манифест со ссылкой на отсутствующий файл
 ```
+Реализация (2026-10-17):
+- каталог реплик — `src/characters/agata/lines.ts`;
+- режиссёр — `src/characters/director.ts`, связь с событиями партии — `src/games/durak/reactions.ts`;
+- голосовой канал — `src/audio/voiceChannel.ts`;
+- движок Web Audio — `src/audio/engine.ts`.
+
+Реплика без файла в манифесте не выбирается: эмоция и поза отыгрываются молча, текст не выводится вместо голоса.
 
 ### 8.3 Каталог реплик
 Каталог реплик — данные (`src/characters/agata/lines.ts`). Пример записи:
