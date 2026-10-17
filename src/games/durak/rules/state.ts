@@ -36,6 +36,8 @@ export interface DurakState {
   readonly phase: DurakPhase;
   /** В первом отбое партии лимит 5 карт, дальше 6 (§4.4). */
   readonly firstBout: boolean;
+  /** Сколько карт было у защитника в начале текущего отбоя (лимит по руке, §4.4). */
+  readonly boutDefenderHand: number;
   readonly knowledge: PublicKnowledge;
   readonly firstAttackerReason: FirstAttackerReason;
   /** Сколько раз пересдавали из-за отсутствия козырей (§3). */

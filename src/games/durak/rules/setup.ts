@@ -75,6 +75,7 @@ export function newGame(rng: RngState, series: SeriesContext = { previousResult:
       attacker: choice.seat,
       phase: 'attack',
       firstBout: true,
+      boutDefenderHand: d.hands[otherSeat(choice.seat)].length,
       knowledge: { knownInHand: known },
       firstAttackerReason: choice.reason,
       redeals,
