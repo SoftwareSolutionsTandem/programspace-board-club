@@ -374,5 +374,102 @@ function scene() {
 }
 files['scene-table.svg'] = svg('0 0 390 844', scene(), 390, 844);
 
+
+// ---------- сцена «компьютер»: Агата напротив игрока через стол ----------
+function desktopScene() {
+  const FX = 434, FY = 40, FK = 0.98; // положение фигуры Агаты в кадре
+  const fig = (inner) => `<g transform="translate(${FX} ${FY}) scale(${FK})">${inner}</g>`;
+  const sky = `<linearGradient id="dsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E4C7A"/><stop offset="0.65" stop-color="#C77F7A"/><stop offset="1" stop-color="#F0B26E"/></linearGradient>`;
+  const defs = `<defs>
+    <linearGradient id="dwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3DDB8"/><stop offset="1" stop-color="#E6C08C"/></linearGradient>
+    <radialGradient id="dglow" cx="0.5" cy="0.3" r="0.6"><stop offset="0" stop-color="#FFF1C9" stop-opacity="0.5"/><stop offset="1" stop-color="#FFF1C9" stop-opacity="0"/></radialGradient>
+    <radialGradient id="dpool" cx="0.5" cy="0.35" r="0.6"><stop offset="0" stop-color="#3E9488"/><stop offset="1" stop-color="#1E5450"/></radialGradient>
+    ${sky}
+  </defs>`;
+
+  // стена, панели, окно с занавесками
+  const wall = `<rect width="1280" height="720" fill="url(#dwall)"/>
+  <rect y="300" width="1280" height="130" fill="#B97E4B"/>
+  <path d="M0 300 H1280" ${ol(4)}/>
+  ${[40, 250, 460, 820, 1030].map((x) => `<rect x="${x}" y="318" width="190" height="80" rx="6" fill="none" stroke="#8C5A31" stroke-width="3"/>`).join('')}
+  <g>
+    <rect x="70" y="70" width="230" height="200" rx="8" fill="url(#dsky)" ${ol(5)}/>
+    <path d="M70 232 L110 214 L110 196 L140 196 L140 220 L182 204 L182 186 L214 186 L214 210 L252 196 L300 214 L300 270 L70 270 Z" fill="#2B3354" opacity="0.85"/>
+    <circle cx="246" cy="104" r="12" fill="#FFF3D1" opacity="0.9"/>
+    <path d="M185 70 V270 M70 170 H300" stroke="#8C5A31" stroke-width="7"/><path d="M185 70 V270 M70 170 H300" ${ol(2)} opacity="0.5"/>
+    <rect x="70" y="70" width="230" height="200" rx="8" fill="none" ${ol(5)}/>
+    <path d="M52 56 C64 120 86 200 74 276 L108 276 C104 210 94 120 96 56 Z" fill="#B8323F" ${ol(4)}/>
+    <path d="M318 56 C306 120 284 200 296 276 L262 276 C266 210 276 120 274 56 Z" fill="#B8323F" ${ol(4)}/>
+    <rect x="40" y="48" width="290" height="14" rx="7" fill="#8C5A31" ${ol(3.5)}/>
+  </g>`;
+
+  // правая стена: полка с коробками игр, растение, грифельная доска со счётом
+  const right = `<g>
+    <rect x="1010" y="60" width="200" height="108" rx="10" fill="#2E4038" ${ol(5)}/>
+    <rect x="1018" y="68" width="184" height="92" rx="6" fill="none" stroke="#8C5A31" stroke-width="5"/>
+    <rect x="1000" y="236" width="250" height="14" rx="4" fill="#8C5A31" ${ol(3.5)}/>
+    <rect x="1014" y="182" width="34" height="54" rx="4" fill="#C5333B" ${ol(3)}/>
+    <rect x="1050" y="196" width="56" height="40" rx="4" fill="#E8AB30" ${ol(3)}/>
+    <rect x="1108" y="174" width="26" height="62" rx="4" fill="#2F7A72" ${ol(3)}/>
+    <path d="M1060 210 h36 M1060 220 h24" stroke="#3B2418" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+    <path d="M1150 236 L1156 204 L1206 204 L1212 236 Z" fill="#C2774A" ${ol(3)}/>
+    <path d="M1181 204 C1170 170 1150 160 1140 166 C1156 176 1166 188 1176 204 M1181 204 C1186 166 1206 150 1220 154 C1206 168 1196 184 1186 204 M1181 204 C1180 176 1182 150 1192 138 C1194 160 1190 182 1184 204" fill="#5B9A4E" ${ol(2.6)}/>
+  </g>`;
+
+  // светильники над столом
+  const lamp = (x) => `<path d="M${x} 0 V44" ${ol(3)}/><path d="M${x - 44} 84 Q${x} 30 ${x + 44} 84 Z" fill="#C5333B" ${ol(4)}/><ellipse cx="${x}" cy="86" rx="16" ry="6" fill="#FFF1C9"/>`;
+  const glow = `<ellipse cx="350" cy="230" rx="300" ry="240" fill="url(#dglow)"/><ellipse cx="930" cy="230" rx="300" ry="240" fill="url(#dglow)"/>`;
+
+  // спинка стула за Агатой
+  const chair = fig(`<path d="M24 340 C24 196 396 196 396 340 L370 340 C370 236 50 236 50 340 Z" fill="#8C5A31" ${ol(4)}/>`);
+
+  // Агата: тело и голова (руки рисуются поверх стола)
+  const agataBack = fig(`${body('dk')}<g transform="translate(90 0)">${head(EXPR.sly, 'dkh')}</g>`);
+
+  // стол в перспективе: дальний край, сукно, пятно света
+  const table = `
+  <path d="M226 415 L1054 415 L1420 760 L-140 760 Z" fill="#A86B3C" ${ol(5)}/>
+  <path d="M238 423 L1042 423" stroke="#C88D58" stroke-width="3"/>
+  <path d="M276 429 L1004 429 L1330 760 L-50 760 Z" fill="url(#dpool)" ${ol(4)}/>
+  <path d="M290 441 L990 441" stroke="#5FA79C" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>`;
+
+  // предметы на столе (карты на столе чуть сжаты по вертикали — лежат)
+  const flat = (inner, x, y) => `<g transform="translate(${x} ${y}) scale(1 0.86) translate(${-x} ${-y})">${inner}</g>`;
+  const deck = flat(card(366, 506, 90, 'Q', 'h', 1.55) + cardBack(312, 500, -4, 1.55) + cardBack(315, 496, -4, 1.55) + cardBack(318, 492, -4, 1.55), 335, 500);
+  const pair = flat(card(560, 522, -8, '9', 'c', 1.7) + card(588, 538, 9, 'J', 'c', 1.7), 575, 527);
+  const discard = flat(cardBack(1016, 540, 16, 1.55) + cardBack(1010, 534, 6, 1.55) + cardBack(1022, 528, 28, 1.55), 1016, 535);
+  const teacup = `<g transform="translate(920 446)">
+    <ellipse cx="0" cy="10" rx="44" ry="11" fill="#FFFDF6" ${ol(3.5)}/>
+    <path d="M-26 -22 L26 -22 Q24 8 0 10 Q-24 8 -26 -22 Z" fill="#FFFDF6" ${ol(3.5)}/>
+    <path d="M24 -14 q16 0 14 10 q-2 8 -16 6" fill="none" ${ol(3.5)}/>
+    <ellipse cx="0" cy="-22" rx="26" ry="6" fill="#8C4F2A" ${ol(3)}/>
+    <path d="M-16 -4 h32" stroke="#C5333B" stroke-width="4"/>
+    <path d="M-8 -36 q-8 -12 2 -22 M8 -38 q-8 -12 2 -22" fill="none" stroke="#FFFDF6" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+  </g>`;
+
+  // руки Агаты: веер своих карт (рубашкой к игроку) и подкидывание девятки червей
+  const arms = fig(
+    tube('M132 256 Q96 318 150 338') + cuff(146, 334, 70) +
+    cardBack(116, 302, -34) + cardBack(132, 292, -17) + cardBack(150, 288, 0) + cardBack(168, 292, 17) + cardBack(184, 302, 34) +
+    hand(150, 342, 19, 10) +
+    tube('M288 256 Q356 318 334 400') + cuff(336, 384, 12) +
+    `<path d="M380 404 Q396 424 388 446 M394 396 Q414 426 404 456" fill="none" stroke="${C.outline}" stroke-width="3.5" stroke-linecap="round" opacity="0.6"/>` +
+    card(326, 466, 18, '9', 'h', 1.35) + hand(336, 408, 19, -70),
+  );
+
+  // рука игрока на переднем плане
+  const handCards = [['6', 'h'], ['8', 'c'], ['J', 'h'], ['Q', 'd'], ['K', 's'], ['A', 'c']];
+  let ph = '';
+  handCards.forEach(([r, s], i) => {
+    const t = i - 2.5;
+    const lift = i === 2 ? -40 : 0;
+    ph += card(640 + t * 96, 690 + Math.abs(t) * 12 + lift, t * 5, r, s, 2.1,
+      i === 2 ? `<rect x="-27" y="-37" width="54" height="74" rx="9" fill="none" stroke="${C.spark}" stroke-width="3.5"/>` : '');
+  });
+
+  return defs + wall + right + glow + lamp(350) + lamp(930) + chair + agataBack + table + deck + pair + discard + teacup + arms + ph;
+}
+files['scene-desktop.svg'] = svg('0 0 1280 720', desktopScene(), 1280, 720);
+
 for (const [name, body] of Object.entries(files)) writeFileSync(new URL(name, OUT), body);
 console.log(Object.keys(files).length, 'files');

@@ -2,10 +2,11 @@
 
 - Общение с владельцем — на русском. Код, идентификаторы и коммиты — на английском; комментарии в коде — на русском.
 - Перед работой прочитать `docs/PROGRESS.md` и `docs/ROADMAP.md`. После работы обновить `PROGRESS.md` и, если менялись решения, `DECISIONS.md`.
-- Документы: концепция `docs/CONCEPT.md`, архитектура `docs/ARCHITECTURE.md`, звук `docs/AUDIO.md`, стиль `docs/ART_STYLE.md`, персонажи `docs/CHARACTERS.md`, правила `docs/games/*.md`, платформа `docs/YANDEX.md`, монетизация `docs/MONETIZATION.md`.
+- Документы: концепция `docs/CONCEPT.md`, архитектура `docs/ARCHITECTURE.md`, звук `docs/AUDIO.md`, стиль `docs/ART_STYLE.md`, персонажи `docs/CHARACTERS.md`, правила `docs/games/*.md`, компоновки `docs/LAYOUT.md`, платформа `docs/YANDEX.md`, монетизация `docs/MONETIZATION.md`.
 
 ## Команды
-- `npm run dev`, `npm test`, `npm run typecheck`, `npm run build` (появятся на этапе 1).
+- `npm run dev`, `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; `npm run check` — всё сразу (как CI).
+- Перед коммитом — `npm run check`. Браузерная проверка — Playwright против `npm run preview`, без ошибок в консоли.
 
 ## Нерушимые правила
 - Персонажи говорят голосом. Текстовые облачка вместо речи запрещены. Заглушки и пустые файлы не выдавать за озвучку.
@@ -15,6 +16,7 @@
 - ИИ получает только `PlayerView`. Импорт полного состояния в `ai/` запрещён. Тесты неразличимости обязательны.
 - API Яндекс Игр — только в `src/platform/yandex.ts`.
 - Любое изменение формата сохранений → поднять версию и добавить миграцию с тестом.
+- Игра для телефона **и** компьютера. Правила, ИИ, состояние, контроллер и аудио не знают о размерах экрана. Геометрия — только из `computeLayout` (`docs/LAYOUT.md`).
 - Реклама — никогда во время партии.
 - Варианты правил не менять без записи в `docs/games/*.md` и `DECISIONS.md`.
 - Не называть этап завершённым без запуска тестов, typecheck и сборки. В отчёте отделять проверенное от непроверенного.
