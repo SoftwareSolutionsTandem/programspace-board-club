@@ -210,3 +210,39 @@ test('слишком маленькое окно — подсказка, пар�
   expect(after.screen).toBe('game');
   expect(after.session!.view.hand).toEqual(before.hand);
 });
+
+test.describe('высокая плотность пикселей (Pixel 7, 2.625)', () => {
+  test.use({ deviceScaleFactor: 2.625 });
+  test('сцена строится, рука и стол на экране, ход проходит', async ({ page }, info) => {
+    test.skip(info.project.name !== 'phone', 'профиль телефона');
+    const errors = collectErrors(page);
+    await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+    expect(await page.evaluate(() => devicePixelRatio)).toBeCloseTo(2.625);
+    await sitAtTable(page, 'Лёгкая');
+    const s = (await probe(page)).session!;
+    const vp = page.viewportSize()!;
+    for (const p of Object.values(s.positions.hand)) {
+      expect(p.x).toBeGreaterThanOrEqual(0);
+      expect(p.x).toBeLessThanOrEqual(vp.width);
+      expect(p.y).toBeLessThanOrEqual(vp.height);
+    }
+    // Один ход через интерфейс: «Беру» на защите или атака первой картой.
+    await expect.poll(async () => (await probe(page)).session!.legal.some((a) => a.type === 'attack' || a.type === 'take'), { timeout: 30_000 }).toBe(true);
+    const now = (await probe(page)).session!;
+    const attack = now.legal.find((a) => a.type === 'attack');
+    if (attack) {
+      const code = cardCode(attack.cards![0]!);
+      const p = now.positions.hand[code]!;
+      await page.touchscreen.tap(p.x, p.y);
+      await page.waitForTimeout(60);
+      const again = (await probe(page)).session!.positions.hand[code]!;
+      await page.touchscreen.tap(again.x, again.y);
+      await expect.poll(async () => (await probe(page)).session!.view.table.length, { timeout: 15_000 }).toBeGreaterThan(0);
+    } else {
+      const before = now.view.hand.length;
+      await pressButton(page, /Беру/, true);
+      await expect.poll(async () => (await probe(page)).session!.view.hand.length, { timeout: 20_000 }).toBeGreaterThan(before);
+    }
+    noErrors(errors);
+  });
+});
