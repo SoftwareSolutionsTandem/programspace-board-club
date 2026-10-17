@@ -42,6 +42,18 @@ tools/           конвейер аудио, проверка лицензий 
 tests/
 ```
 
+### 2.1 Фактическая структура (2026-10-17)
+```
+src/app/            App (экраны, ресайз, текстуры, пауза), GameSession (партия на экране), screens, dom
+src/games/durak/    rules/ (движок), view.ts, sim.ts, ai/, match.ts (контроллер), interaction.ts (касания → действия),
+                    reactions.ts (события → реакции), tutorial.ts (обучение), scene/ (Pixi: стол, карты, текстуры)
+src/characters/     types, director.ts, rig.ts (риг сидящего персонажа), agata/ (art.ts — векторная графика, lines.ts — реплики)
+src/audio/          engine.ts (Web Audio), voiceChannel.ts
+src/layout/         layout.ts — computeLayout, handSlots, pairSlot
+src/render/         tween.ts, svgTexture.ts
+src/storage/        settings.ts
+```
+
 ## 3. Поток данных в партии
 ```
 ввод (указатель, касание, клавиатура) → намерения игрока / ход ИИ
