@@ -145,7 +145,7 @@ export class GameSession {
     place(this.board, { x: b.x + BG_BOARD.x * b.scale, y: b.y + BG_BOARD.y * b.scale, w: BG_BOARD.w * b.scale, h: BG_BOARD.h * b.scale });
     this.board.style.fontSize = `${Math.max(10, 20 * b.scale)}px`;
     this.overlay.style.setProperty('--hand-top', `${spec.hand.bottom - spec.hand.cardH - spec.hand.lift}px`);
-    // Подсказки — над сукном, а не на лице Агаты; на больших экранах шрифты интерфейса крупнее.
+    // Подсказки — у края стола: не на лице Агаты и не на картах; на больших экранах шрифты интерфейса крупнее.
     this.overlay.style.setProperty('--play-top', `${spec.table.farY + 12}px`);
     this.overlay.style.setProperty('--ui-scale', String(Math.min(1.5, Math.max(1, Math.min(spec.width / 1280, spec.height / 720)))));
     this.overlay.dataset.layout = spec.kind;

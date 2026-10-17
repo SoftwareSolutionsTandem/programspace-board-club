@@ -98,7 +98,7 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .status__main { font-size: calc(15px * var(--ui-scale, 1)); }
 .status__trump { font-size: calc(13px * var(--ui-scale, 1)); opacity: 0.95; }
 .chalk { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; white-space: pre-line; color: var(--chalk); font-family: 'Comic Sans MS', 'Segoe Print', var(--font); font-weight: 700; pointer-events: none; opacity: 0.92; }
-.toast { position: absolute; left: 50%; top: var(--play-top, calc(72px + var(--safe-top))); transform: translate(-50%, -10px); max-width: min(520px, calc(100% - 32px)); background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 10px 14px; font-weight: 800; font-size: calc(15px * var(--ui-scale, 1)); text-align: center; opacity: 0; transition: opacity 0.18s, transform 0.18s; pointer-events: none; z-index: 6; }
+.toast { position: absolute; left: 50%; bottom: calc(100% - var(--play-top, 50%) + 4px); transform: translate(-50%, 10px); width: max-content; max-width: min(520px, calc(100vw - 32px)); box-sizing: border-box; background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 10px 14px; font-weight: 800; font-size: calc(15px * var(--ui-scale, 1)); text-align: center; opacity: 0; transition: opacity 0.18s, transform 0.18s; pointer-events: none; z-index: 7; }
 .toast--show { opacity: 1; transform: translate(-50%, 0); }
 .subtitle-line { position: absolute; left: 50%; top: calc(120px + var(--safe-top)); transform: translateX(-50%); max-width: min(560px, calc(100% - 32px)); color: var(--paper); background: rgba(40, 24, 16, 0.72); border-radius: 10px; padding: 6px 12px; font-weight: 800; text-align: center; pointer-events: none; z-index: 5; }
 .subtitle-line:empty { display: none; }
@@ -107,9 +107,12 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .coach__skip { position: absolute; top: 2px; right: 2px; width: 44px; height: 44px; border: 0; background: none; color: var(--ink); font: 900 26px var(--font); line-height: 1; cursor: pointer; border-radius: 12px; }
 .coach__skip:focus-visible { outline: 4px solid #2f7a72; }
 @media (max-height: 700px) { .coach { font-size: 14px; } }
-/* Подсказка обучения — над краем стола (поверх фигуры ниже лица), чтобы не закрывать карты на столе.
+/* Подсказка обучения и всплывающие подсказки — над краем стола (поверх фигуры ниже лица), чтобы не закрывать карты на столе.
    Телефон боком: над столом лицо, поэтому — над рукой игрока, как раньше. */
 [data-layout="landscape-compact"] .coach { bottom: calc(100% - var(--hand-top, 60%) + 8px); }
+/* Телефон боком: над столом мало места — подсказка справа от Агаты, на стене над колонкой кнопок. */
+[data-layout="landscape-compact"] .toast { left: auto; right: calc(16px + var(--safe-right, 0px)); bottom: auto; top: calc(72px + var(--safe-top)); max-width: min(300px, 34vw); transform: translateY(-10px); }
+[data-layout="landscape-compact"] .toast--show { transform: none; }
 .coach--show { display: flex; }
 .result { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: rgba(40, 24, 16, 0.4); z-index: 10; padding: 16px; }
 .result > .heading, .result > .subtitle { background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 10px 22px; }

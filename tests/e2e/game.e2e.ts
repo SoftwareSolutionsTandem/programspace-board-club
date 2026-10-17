@@ -217,13 +217,11 @@ test('одно касание (клик) по карте — карта на с�
     if (a) {
       const card = a.type === 'defend' ? a.card! : a.cards![0]!;
       const p = s.positions.hand[cardCode(card)]!;
-      const tableBefore = s.view.table.length;
       if (touch) await page.touchscreen.tap(p.x, p.y);
       else await page.mouse.click(p.x, p.y);
       // Ровно одно касание: карта ушла из руки на стол.
       await expect.poll(async () => (await probe(page)).session!.view.hand.some((c) => cardCode(c) === cardCode(card)), { timeout: 10_000 }).toBe(false);
-      // В атаке карта легла новой парой (в защите бой мог сразу уйти в «бито» — там достаточно, что карта сыграна).
-      if (a.type === 'attack') expect((await probe(page)).session!.view.table.length).toBeGreaterThan(tableBefore);
+      // Карта ушла из руки — значит, сыграна (стол к этому моменту мог уже опустеть: Агата взяла или «бито»).
       seen.add(a.type);
     } else if (!s.busy && s.legal.some((x) => x.type === 'pass')) await pressButton(page, /Бито/, touch);
     else if (!s.busy && s.legal.some((x) => x.type === 'doneThrowing')) await pressButton(page, /Готово/, touch);
