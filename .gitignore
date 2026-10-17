@@ -8,3 +8,5 @@ coverage/
 .env*
 # временные файлы генераторов
 assets-src/concept/*/out/
+playwright-report/
+test-results/
