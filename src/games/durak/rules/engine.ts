@@ -18,7 +18,7 @@ export type DurakEvent =
   | { readonly type: 'defended'; readonly seat: Seat; readonly attack: Card; readonly card: Card; readonly withTrump: boolean }
   | { readonly type: 'takeDeclared'; readonly seat: Seat }
   | { readonly type: 'took'; readonly seat: Seat; readonly cards: readonly Card[] }
-  | { readonly type: 'bito'; readonly cards: readonly Card[] }
+  | { readonly type: 'bito'; readonly attacker: Seat; readonly cards: readonly Card[] }
   | { readonly type: 'drew'; readonly seat: Seat; readonly cards: readonly Card[]; readonly trumpTaken: boolean }
   | { readonly type: 'deckEmpty' }
   | { readonly type: 'boutStarted'; readonly attacker: Seat; readonly limit: number }
@@ -201,7 +201,7 @@ function reduce(state: DurakState, action: DurakAction, events: DurakEvent[]): D
       return finishTake(state, events);
     case 'pass': {
       const cards = state.table.flatMap((p) => [p.attack, p.defense as Card]);
-      events.push({ type: 'bito', cards });
+      events.push({ type: 'bito', attacker: state.attacker, cards });
       return endBout({ ...state, table: [], discard: [...state.discard, ...cards] }, defender(state), events);
     }
   }

@@ -1,0 +1,29 @@
+// Общие типы персонажей: эмоции, позы и реплики (docs/ART_STYLE.md §4–5, docs/AUDIO.md §8).
+export const EMOTIONS = ['warm', 'sly', 'laugh', 'azart', 'surprise', 'think', 'annoyed', 'sad'] as const;
+export type Emotion = (typeof EMOTIONS)[number];
+
+/** Позы сидящего за столом персонажа. */
+export const POSES = ['idle', 'think', 'throw', 'took', 'victory'] as const;
+export type Pose = (typeof POSES)[number];
+
+/** Приоритеты голосового канала: результат > приветствие/прощание > реакция > фоновая реплика. */
+export type VoicePriority = 'result' | 'greeting' | 'reaction' | 'idle';
+export const PRIORITY_RANK: Readonly<Record<VoicePriority, number>> = { result: 3, greeting: 2, reaction: 1, idle: 0 };
+
+export type LineCategory =
+  | 'greetFirst' | 'greetAgain' | 'gameStart' | 'attack' | 'throwIn' | 'throwInAfterTake' | 'defended' | 'beatTrump'
+  | 'took' | 'playerTook' | 'playerTrump' | 'praise' | 'bito' | 'deckEmpty' | 'wait'
+  | 'win' | 'lose' | 'draw' | 'rematch' | 'rematchAfterLoss' | 'farewell'
+  | 'nvGiggle' | 'nvHmm' | 'nvSigh' | 'nvAh'
+  | 'tutIntro' | 'tutTrump' | 'tutAttack' | 'tutDefend' | 'tutThrow' | 'tutTake' | 'tutBito' | 'tutWrong' | 'tutDone';
+
+export interface VoiceLine {
+  /** Имя аудиофайла без расширения, например agata_win_01. */
+  readonly id: string;
+  readonly category: LineCategory;
+  readonly emotion: Emotion;
+  /** Текст реплики: сценарий для записи и субтитры (опция доступности, по умолчанию выключены). */
+  readonly text: string;
+  /** Режиссёрская пометка для исполнителя. */
+  readonly direction: string;
+}
