@@ -148,7 +148,8 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   // --- Карты на столе ---
   const playTop = farY + 14;
   const playBottom = (portraitish ? Math.min(status.y, actions.y) : handTop) - 8;
-  const deckSpace = portraitish ? 1.8 : 1.9;
+  // Место под колоду в ширинах карты: колода (0,75) + козырь поперёк, сдвинутый на 0,42 (+0,72) + зазор.
+  const deckSpace = 2.05;
   const tableLeft = Math.max(safe.x, table.farLeft + 8);
   const tableRight = Math.min(safe.x + safe.w, table.farRight - 8);
   // Пара занимает ширину карты + сдвиг бьющей карты; высота — карта + сдвиг.
@@ -173,7 +174,9 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   // кнопок и строки состояния.
   const discardRight = kind === 'landscape-compact' ? Math.min(tableRight, actions.x - 10) : tableRight;
   const discard: Point = portraitish ? { x: deck.x, y: Math.min(deck.y + Math.max(th * 1.5, (rows - 1) * pitchY), playBottom - th * 0.6) } : { x: discardRight - tw * 0.75, y: playTop + th * 0.62 };
-  const pairsLeft = portraitish ? clamp(cx - pairsW / 2, tableLeft + tw * 1.75, tableRight - pairsW) : cx - pairsW / 2;
+  // Пары не заходят на колоду с козырем (правый край козыря — 1,89 ширины карты от края стола).
+  const pairsMin = tableLeft + tw * 1.95 + 4;
+  const pairsLeft = portraitish ? clamp(cx - pairsW / 2, pairsMin, tableRight - pairsW) : Math.max(cx - pairsW / 2, pairsMin);
   const pairs = { x: pairsLeft + tw / 2, y: playTop + th / 2 + 2, cols, pitchX, pitchY };
 
   // --- Фон кафе: «cover» по высоте, центр — за персонажем, стол фона совпадает с дальним краем ---

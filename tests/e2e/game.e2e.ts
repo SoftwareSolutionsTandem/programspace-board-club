@@ -51,13 +51,7 @@ test('большая рука: карты нажимаются по видимо
       const attack = s.legal.find((a) => a.type === 'attack');
       const code = attack ? cardCode(attack.cards![0]!) : undefined;
       const p = code ? s.positions.hand[code] : undefined;
-      if (code && p) {
-        // Выбор и подтверждение — два касания одной карты.
-        await tap(p.x, p.y);
-        await page.waitForTimeout(60);
-        const again = (await probe(page)).session!.positions.hand[code];
-        if (again) await tap(again.x, again.y);
-      }
+      if (code && p) await tap(p.x, p.y);
     }
     await page.waitForTimeout(100);
   }
@@ -211,6 +205,34 @@ test('слишком маленькое окно — подсказка, пар�
   expect(after.session!.view.hand).toEqual(before.hand);
 });
 
+test('одно касание (клик) по карте — карта на столе: и в атаке, и в защите', async ({ page }, info) => {
+  const touch = touchOf(info.project.name);
+  await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+  await sitAtTable(page, 'Лёгкая');
+  const seen = new Set<string>();
+  for (let i = 0; i < 300 && seen.size < 2; i++) {
+    const s = (await probe(page)).session!;
+    if (s.over) break;
+    const a = !s.busy ? s.legal.find((x) => x.type === 'attack' || x.type === 'defend') : undefined;
+    if (a) {
+      const card = a.type === 'defend' ? a.card! : a.cards![0]!;
+      const p = s.positions.hand[cardCode(card)]!;
+      const tableBefore = s.view.table.length;
+      if (touch) await page.touchscreen.tap(p.x, p.y);
+      else await page.mouse.click(p.x, p.y);
+      // Ровно одно касание: карта ушла из руки на стол.
+      await expect.poll(async () => (await probe(page)).session!.view.hand.some((c) => cardCode(c) === cardCode(card)), { timeout: 10_000 }).toBe(false);
+      // В атаке карта легла новой парой (в защите бой мог сразу уйти в «бито» — там достаточно, что карта сыграна).
+      if (a.type === 'attack') expect((await probe(page)).session!.view.table.length).toBeGreaterThan(tableBefore);
+      seen.add(a.type);
+    } else if (!s.busy && s.legal.some((x) => x.type === 'pass')) await pressButton(page, /Бито/, touch);
+    else if (!s.busy && s.legal.some((x) => x.type === 'doneThrowing')) await pressButton(page, /Готово/, touch);
+    else if (!s.busy && s.legal.some((x) => x.type === 'take')) await pressButton(page, /Беру/, touch);
+    await page.waitForTimeout(120);
+  }
+  expect([...seen].sort()).toEqual(['attack', 'defend']);
+});
+
 test('Агата моргает: веко опускается и поднимается', async ({ page }) => {
   await seedSettings(page, { tutorialDone: true, metAgata: true });
   await sitAtTable(page, 'Лёгкая');
@@ -241,9 +263,6 @@ test.describe('высокая плотность пикселей (Pixel 7, 2.62
       const code = cardCode(attack.cards![0]!);
       const p = now.positions.hand[code]!;
       await page.touchscreen.tap(p.x, p.y);
-      await page.waitForTimeout(60);
-      const again = (await probe(page)).session!.positions.hand[code]!;
-      await page.touchscreen.tap(again.x, again.y);
       await expect.poll(async () => (await probe(page)).session!.view.table.length, { timeout: 15_000 }).toBeGreaterThan(0);
     } else {
       const before = now.view.hand.length;

@@ -411,7 +411,13 @@ export class GameSession {
 
   private showTutorialStep(step: TutorialStep): void {
     this.coachBox.replaceChildren(el('p', '', t(`tut.${step}`)));
-    if (step !== 'done') this.coachBox.append(button(t('tut.skip'), () => this.skipTutorial(), 'button button--light button--small'));
+    if (step !== 'done') {
+      // Компактная кнопка-крестик в углу: подсказка остаётся низкой и не закрывает лицо Агаты.
+      const skip = button('×', () => this.skipTutorial(), 'coach__skip');
+      skip.setAttribute('aria-label', t('tut.skip'));
+      skip.title = t('tut.skip');
+      this.coachBox.append(skip);
+    }
     this.coachBox.classList.add('coach--show');
     this.cueTutorial(STEP_LINE[step]);
     if (step === 'intro') this.soon(() => this.showCoach(), 3200);

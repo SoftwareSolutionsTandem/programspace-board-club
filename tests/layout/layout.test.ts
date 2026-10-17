@@ -22,7 +22,8 @@ function zones(s: LayoutSpec, handCount = 6) {
     const p = pairSlot(s, i);
     return { x: p.x - tw * 0.54, y: p.y - th * 0.54, w: tw * 1.08 + off.x, h: th * 1.08 + off.y };
   }));
-  const deck = { x: s.deck.x - th / 2, y: s.deck.y - th / 2, w: th, h: th };
+  // Колода с козырем: козырь лежит поперёк, сдвинут вправо на 0,42 ширины карты.
+  const deck = { x: s.deck.x - tw * 0.6, y: s.deck.y - th * 0.56, w: tw * 0.6 + tw * 0.42 + th / 2, h: th * 1.12 };
   const discard = { x: s.discard.x - tw * 0.75, y: s.discard.y - th * 0.6, w: tw * 1.5, h: th * 1.2 };
   const slots = handSlots(s, handCount);
   const hand = union(slots.map((p) => ({ x: p.x - s.hand.cardW * 0.55, y: p.y - s.hand.cardH / 2 - s.hand.lift, w: s.hand.cardW * 1.1, h: s.hand.cardH + s.hand.lift })));
