@@ -10,3 +10,6 @@ coverage/
 assets-src/concept/*/out/
 playwright-report/
 test-results/
+# окружение генератора голоса и временные отчёты генерации
+.venv-voice/
+assets-src/audio/**/_generate-report.json
