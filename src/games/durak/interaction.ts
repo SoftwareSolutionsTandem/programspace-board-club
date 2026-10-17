@@ -26,6 +26,18 @@ export function modeOf(view: PlayerView, legal: readonly DurakAction[]): Mode {
   return 'wait';
 }
 
+/**
+ * Какую из возможных карт бить при ходе одним касанием: сначала карту своей масти (козырь не тратится на то,
+ * что бьётся мастью), среди них — старшую (младшие проще отбить потом). Перетаскиванием цель выбирается вручную.
+ */
+export function autoTarget(view: PlayerView, card: Card, targets: readonly number[]): number {
+  const score = (i: number) => {
+    const a = view.table[i]!.attack;
+    return (a.suit === card.suit ? 100 : 0) + a.rank;
+  };
+  return [...targets].sort((x, y) => score(y) - score(x) || x - y)[0]!;
+}
+
 /** Пары, которые выбранная карта может побить. */
 export function targetsFor(view: PlayerView, code: string): number[] {
   const card = find(view, code);
@@ -41,26 +53,13 @@ export function tapCard(view: PlayerView, legal: readonly DurakAction[], selecte
   switch (mode) {
     case 'wait':
       return { selected: [], hint: 'notYourTurn' };
-    case 'attack': {
-      if (selected.includes(code)) {
-        const cards = selected.map((c) => find(view, c)).filter((c): c is Card => !!c);
-        return { selected: [], action: { type: 'attack', seat, cards } };
-      }
-      const first = selected[0] ? find(view, selected[0]) : undefined;
-      // Карты одного достоинства собираются в одну атаку; другое достоинство — новый выбор.
-      if (first && first.rank === card.rank) {
-        const limitOk = legal.some((a) => a.type === 'attack' && a.cards.length >= selected.length + 1);
-        if (!limitOk) return { selected, hint: 'limitExceeded' };
-        return { selected: [...selected, code] };
-      }
-      return { selected: [code] };
-    }
+    // Одно касание — один ход (D34): атака картой сразу; ещё карты того же достоинства подкидываются следом.
+    case 'attack':
+      return { selected: [], action: { type: 'attack', seat, cards: [card] } };
     case 'defend': {
       const targets = targetsFor(view, code);
       if (targets.length === 0) return { selected: [], hint: 'cannotBeatAny' };
-      if (targets.length === 1) return { selected: [], action: { type: 'defend', seat, attackIndex: targets[0]!, card } };
-      if (selected[0] === code) return { selected, hint: 'pickTarget' };
-      return { selected: [code], hint: 'pickTarget' };
+      return { selected: [], action: { type: 'defend', seat, attackIndex: autoTarget(view, card, targets), card } };
     }
     case 'throwIn': {
       const ok = legal.some((a) => a.type === 'throwIn' && cardCode(a.cards[0]!) === code);
@@ -100,10 +99,9 @@ export function drop(view: PlayerView, legal: readonly DurakAction[], code: stri
   const mode = modeOf(view, legal);
   if (mode === 'wait') return { selected: [], hint: 'notYourTurn' };
   if (mode === 'defend') {
+    // Брошена на конкретную карту — бьём её; просто на стол — как касание (цель выбирается сама).
     if (target.kind === 'pair') return tapPair(view, legal, [code], target.index);
-    const t = targetsFor(view, code);
-    if (t.length === 1) return tapPair(view, legal, [code], t[0]!);
-    return { selected: [code], hint: t.length ? 'pickTarget' : 'cannotBeatAny' };
+    return tapCard(view, legal, [], code);
   }
   if (mode === 'attack') return { selected: [], action: { type: 'attack', seat: view.seat, cards: [find(view, code)!] } };
   return tapCard(view, legal, [], code);

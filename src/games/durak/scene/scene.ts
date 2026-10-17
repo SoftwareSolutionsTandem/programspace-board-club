@@ -49,7 +49,10 @@ export class DurakScene {
   private readonly tableLayer = new Container();
   private readonly handLayer = new Container();
   private readonly flyLayer = new Container();
-  private readonly deckCount = new Text({ text: '', style: { fontFamily: 'Nunito, Trebuchet MS, sans-serif', fontSize: 16, fontWeight: '800', fill: 0xfff8ee, stroke: { color: 0x1c4a46, width: 4 } } });
+  // Число карт в колоде — плашкой на самой колоде (её не закрывает отбой и не путают с ним).
+  private readonly deckBadge = new Container();
+  private readonly deckBadgeBg = new Graphics();
+  private readonly deckCount = new Text({ text: '', style: { fontFamily: 'Nunito, Trebuchet MS, sans-serif', fontSize: 16, fontWeight: '800', fill: 0xfff8ee } });
   private bank: TextureBank | null = null;
   private layout: LayoutSpec | null = null;
   private view: PlayerView | null = null;
@@ -61,7 +64,8 @@ export class DurakScene {
   inputEnabled = false;
 
   constructor(private readonly tweens: Tweener, private readonly input: SceneInput) {
-    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.deckLayer, this.discardLayer, this.tableLayer, this.handLayer, this.flyLayer, this.deckCount);
+    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.deckLayer, this.deckBadge, this.discardLayer, this.tableLayer, this.handLayer, this.flyLayer);
+    this.deckBadge.addChild(this.deckBadgeBg, this.deckCount);
     this.table.eventMode = 'static';
     this.table.on('pointertap', () => {
       if (this.inputEnabled && !this.drag) this.input.onTableTap();
@@ -105,11 +109,14 @@ export class DurakScene {
     g.poly([t.farLeft - 12, t.farY - 8, t.farRight + 12, t.farY - 8, t.nearRight + 30, t.nearY, t.nearLeft - 30, t.nearY]).fill(0xa86b3c).stroke({ color: 0x3b2418, width: 5 });
     g.moveTo(t.farLeft, t.farY - 2).lineTo(t.farRight, t.farY - 2).stroke({ color: 0xc88d58, width: 3 });
     g.poly([t.farLeft + 8, t.farY + 4, t.farRight - 8, t.farY + 4, t.nearRight, t.nearY, t.nearLeft, t.nearY]).fill(0x2a6d66).stroke({ color: 0x3b2418, width: 4 });
-    // Пятно света от ламп над столом.
+    // Пятно света от ламп: по центру видимого сукна и целиком в его пределах (не залезает на бортик).
     const cx = (t.farLeft + t.farRight) / 2;
-    const lw = (t.farRight - t.farLeft) * 0.42;
-    g.ellipse(cx, t.farY + (s.height - t.farY) * 0.42, lw, (s.height - t.farY) * 0.5).fill({ color: 0x4aa293, alpha: 0.35 });
-    g.ellipse(cx, t.farY + (s.height - t.farY) * 0.38, lw * 0.6, (s.height - t.farY) * 0.3).fill({ color: 0x5fb3a3, alpha: 0.25 });
+    const felt = s.height - (t.farY + 4);
+    const cy = t.farY + 4 + felt / 2;
+    const lw = Math.min((t.farRight - t.farLeft) * 0.42, s.width * 0.46);
+    const lh = felt / 2 - Math.max(10, felt * 0.06);
+    g.ellipse(cx, cy, lw, lh).fill({ color: 0x4aa293, alpha: 0.35 });
+    g.ellipse(cx, cy, lw * 0.6, lh * 0.6).fill({ color: 0x5fb3a3, alpha: 0.25 });
     // Строчка по краю сукна.
     for (let x = t.farLeft + 20; x < t.farRight - 20; x += 14) g.circle(x, t.farY + 14, 1.4).fill({ color: 0x8fd0c3, alpha: 0.7 });
   }
@@ -264,8 +271,13 @@ export class DurakScene {
       this.deckLayer.addChild(b);
     }
     this.deckCount.text = view.deckCount > 0 ? String(view.deckCount) : '';
+    this.deckCount.style.fontSize = Math.round(Math.max(13, Math.min(20, w * 0.3)));
     this.deckCount.anchor.set(0.5);
-    this.deckCount.position.set(s.deck.x, s.deck.y + h * 0.62 + 10);
+    const bw = Math.max(this.deckCount.width + 14, this.deckCount.height + 4);
+    const bh = this.deckCount.height + 2;
+    this.deckBadgeBg.clear();
+    if (view.deckCount > 0) this.deckBadgeBg.roundRect(-bw / 2, -bh / 2, bw, bh, bh / 2).fill({ color: 0x1c2b28, alpha: 0.82 }).stroke({ color: 0xfff8ee, width: 1.5, alpha: 0.8 });
+    this.deckBadge.position.set(s.deckLabel.x, s.deckLabel.y);
   }
 
   private drawDiscard(s: LayoutSpec, count: number): void {

@@ -119,6 +119,7 @@ export class GameSession {
       positions: this.scene.debugPositions(),
       pose: this.scene.rig.currentPose,
       emotion: this.scene.rig.currentEmotion,
+      blinks: this.scene.rig.blinks,
       act: (i: number) => {
         const a = this.legal()[i];
         if (a && !this.busy) void this.perform(a);
@@ -144,6 +145,9 @@ export class GameSession {
     place(this.board, { x: b.x + BG_BOARD.x * b.scale, y: b.y + BG_BOARD.y * b.scale, w: BG_BOARD.w * b.scale, h: BG_BOARD.h * b.scale });
     this.board.style.fontSize = `${Math.max(10, 20 * b.scale)}px`;
     this.overlay.style.setProperty('--hand-top', `${spec.hand.bottom - spec.hand.cardH - spec.hand.lift}px`);
+    // Подсказки — у края стола: не на лице Агаты и не на картах; на больших экранах шрифты интерфейса крупнее.
+    this.overlay.style.setProperty('--play-top', `${spec.table.farY + 12}px`);
+    this.overlay.style.setProperty('--ui-scale', String(Math.min(1.5, Math.max(1, Math.min(spec.width / 1280, spec.height / 720)))));
     this.overlay.dataset.layout = spec.kind;
   }
 
@@ -303,7 +307,7 @@ export class GameSession {
     this.hintTimer = setTimeout(() => this.hint.classList.remove('toast--show'), 2600);
   }
 
-  /** Клавиатура: ← → выбор карты, Enter/Пробел — сыграть, 1–9 — карта по номеру, T — «Беру», B — «Бито»/«Готово», Esc — отмена или меню, M — звук. */
+  /** Клавиатура: ← → навести на карту, Enter/Пробел — сыграть её, 1–9 — сыграть карту по номеру, T — «Беру», B — «Бито»/«Готово», Esc — отмена или меню, M — звук. */
   onKey(e: KeyboardEvent): void {
     if (this.disposed) return;
     const k = e.key.toLowerCase();
@@ -339,17 +343,14 @@ export class GameSession {
     }
     if (k === 'enter' || k === ' ') {
       const code = this.selected[this.selected.length - 1];
-      if (code) {
-        const o = tapCard(this.view(), legal, modeOf(this.view(), legal) === 'attack' ? this.selected : [], code);
-        // В атаке повторное касание выбранной карты — ход; в защите и подкидывании — сразу действие.
-        this.handle(o.action || o.hint ? o : tapCard(this.view(), legal, o.selected, code), code);
-      }
+      // Стрелки только наводят на карту, Enter играет её — как одно касание.
+      if (code) this.handle(tapCard(this.view(), legal, [], code), code);
       e.preventDefault();
       return;
     }
     if (/^[1-9]$/.test(k)) {
       const code = hand[Number(k) - 1];
-      if (code) this.handle(tapCard(this.view(), legal, this.selected, code), code);
+      if (code) this.handle(tapCard(this.view(), legal, [], code), code);
     }
   }
 
@@ -410,7 +411,13 @@ export class GameSession {
 
   private showTutorialStep(step: TutorialStep): void {
     this.coachBox.replaceChildren(el('p', '', t(`tut.${step}`)));
-    if (step !== 'done') this.coachBox.append(button(t('tut.skip'), () => this.skipTutorial(), 'button button--light button--small'));
+    if (step !== 'done') {
+      // Компактная кнопка-крестик в углу: подсказка остаётся низкой и не закрывает лицо Агаты.
+      const skip = button('×', () => this.skipTutorial(), 'coach__skip');
+      skip.setAttribute('aria-label', t('tut.skip'));
+      skip.title = t('tut.skip');
+      this.coachBox.append(skip);
+    }
     this.coachBox.classList.add('coach--show');
     this.cueTutorial(STEP_LINE[step]);
     if (step === 'intro') this.soon(() => this.showCoach(), 3200);

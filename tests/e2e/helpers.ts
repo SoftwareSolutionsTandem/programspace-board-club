@@ -14,6 +14,7 @@ export interface Probe {
     series: { wins: [number, number]; draws: number };
     pose: string;
     emotion: string;
+    blinks: number;
   };
 }
 export interface Card { suit: string; rank: number }
@@ -81,18 +82,7 @@ export async function playThroughUi(page: Page, touch: boolean): Promise<number>
         continue;
       }
       await tap(pos.x, pos.y);
-      if (a.type === 'attack') {
-        // Второе касание той же карты подтверждает ход; карта приподнялась, берём её новую точку.
-        await page.waitForTimeout(60);
-        const again = (await probe(page)).session!.positions.hand[cardCode(card)];
-        if (again) await tap(again.x, again.y);
-      }
-      if (a.type === 'defend') {
-        await page.waitForTimeout(60);
-        const s2 = (await probe(page)).session!;
-        const target = s2.positions.table[a.attackIndex!];
-        if (!s2.busy && s2.legal.some((x) => x.type === 'defend') && target) await tap(target.x, target.y);
-      }
+      // Одно касание — один ход (D37): атака сразу, в защите цель выбирается сама.
     }
     actions++;
     await page.waitForTimeout(40);
