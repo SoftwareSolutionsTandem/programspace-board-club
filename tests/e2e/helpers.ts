@@ -63,7 +63,11 @@ export async function playThroughUi(page: Page, touch: boolean): Promise<number>
     const sig = JSON.stringify([s.view.hand, s.view.table, s.legal]);
     sameSig = sig === lastSig ? sameSig + 1 : 0;
     lastSig = sig;
-    if (sameSig >= 12) throw new Error(`интерфейс не продвигает партию: ${JSON.stringify({ legal: s.legal[0], hand: s.view.hand.length, positions: s.positions })}`);
+    if (sameSig >= 12) {
+      // Что лежит в точках касания: canvas или перекрывающий элемент интерфейса.
+      const hits = await page.evaluate((ps) => Object.fromEntries(Object.entries(ps).map(([k, p]) => [k, document.elementFromPoint(p.x, p.y)?.className || document.elementFromPoint(p.x, p.y)?.tagName || 'none'])), s.positions.hand);
+      throw new Error(`интерфейс не продвигает партию: ${JSON.stringify({ legal: s.legal[0], phase: s.view.phase, hand: s.view.hand.length, table: s.view.table, positions: s.positions, hits })}`);
+    }
     const a = s.legal[0]!;
     const press = (re: RegExp) => pressButton(page, re, touch);
     if (a.type === 'take') await press(/Беру/);

@@ -39,12 +39,26 @@ test('большая рука: карты нажимаются по видимо
   const touch = touchOf(info.project.name);
   await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
   await sitAtTable(page, 'Лёгкая');
-  // Набираем большую руку: на каждой защите — «Беру»; свои атаки — первой картой.
+  // Набираем большую руку: на каждой защите — «Беру»; свои атаки — первой допустимой картой, подкидывать не стараемся.
   for (let i = 0; i < 400; i++) {
     const s = (await probe(page)).session!;
     if (s.over || s.view.hand.length >= 12) break;
+    const tap = (x: number, y: number) => (touch ? page.touchscreen.tap(x, y) : page.mouse.click(x, y));
     if (!s.busy && s.legal.some((a) => a.type === 'take')) await pressButton(page, /Беру/, touch);
-    else if (!s.busy && s.legal.length) break;
+    else if (!s.busy && s.legal.some((a) => a.type === 'pass')) await pressButton(page, /Бито/, touch);
+    else if (!s.busy && s.legal.some((a) => a.type === 'doneThrowing')) await pressButton(page, /Готово/, touch);
+    else if (!s.busy) {
+      const attack = s.legal.find((a) => a.type === 'attack');
+      const code = attack ? cardCode(attack.cards![0]!) : undefined;
+      const p = code ? s.positions.hand[code] : undefined;
+      if (code && p) {
+        // Выбор и подтверждение — два касания одной карты.
+        await tap(p.x, p.y);
+        await page.waitForTimeout(60);
+        const again = (await probe(page)).session!.positions.hand[code];
+        if (again) await tap(again.x, again.y);
+      }
+    }
     await page.waitForTimeout(100);
   }
   const big = (await probe(page)).session!;
@@ -58,6 +72,9 @@ test('большая рука: карты нажимаются по видимо
     expect(p.x).toBeLessThanOrEqual(vp.width);
     expect(p.y).toBeLessThanOrEqual(vp.height);
   }
+  // Касание каждой карты попадает в сцену, а не в элементы интерфейса поверх неё.
+  const hits = await page.evaluate((ps) => ps.map((p) => document.elementFromPoint(p.x, p.y)?.tagName ?? 'none'), pts);
+  expect(hits.filter((t) => t !== 'CANVAS'), JSON.stringify({ pts, hits })).toEqual([]);
   await playThroughUi(page, touch);
   await expect(page.locator('.result--show')).toBeVisible({ timeout: 10_000 });
   noErrors(errors);
