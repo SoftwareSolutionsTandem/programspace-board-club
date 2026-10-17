@@ -46,3 +46,9 @@ export function lowestTrump(cards: readonly Card[], trumpSuit: Suit): Card | nul
   for (const c of cards) if (c.suit === trumpSuit && (best === null || c.rank < best.rank)) best = c;
   return best;
 }
+
+/** Бьёт ли карта defense карту attack при козырной масти trump (§4.2). */
+export function beats(attack: Card, defense: Card, trump: Suit): boolean {
+  if (defense.suit === attack.suit) return defense.rank > attack.rank;
+  return defense.suit === trump && attack.suit !== trump;
+}

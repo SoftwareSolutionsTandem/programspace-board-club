@@ -3,7 +3,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 // Код, который обязан быть чистым и детерминированным: без DOM и без Math.random().
-const PURE = ['src/core/**/*.ts', 'src/layout/**/*.ts', 'src/games/*/rules/**/*.ts', 'src/games/*/ai/**/*.ts', 'src/games/*/view.ts'];
+const PURE = ['src/core/**/*.ts', 'src/layout/**/*.ts', 'src/games/*/rules/**/*.ts', 'src/games/*/ai/**/*.ts', 'src/games/*/view.ts', 'src/games/*/sim.ts'];
 
 export default tseslint.config(
   { ignores: ['dist/', 'coverage/', 'node_modules/', 'assets-src/'] },

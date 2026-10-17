@@ -1,6 +1,6 @@
 // Движок правил подкидного дурака 1 на 1 (docs/games/durak.md §4–6).
 // Чистые функции: состояние + действие → новое состояние + доменные события. Без DOM, звука и таймеров.
-import { cardCode, otherSeat, sameCard, type Card, type Rank, type Seat, type Suit } from './cards';
+import { beats, cardCode, otherSeat, sameCard, type Card, type Rank, type Seat } from './cards';
 import { HAND_SIZE } from './setup';
 import type { DurakResult, DurakState, Pair } from './state';
 
@@ -46,11 +46,7 @@ export type ApplyResult =
 
 // ---------- вспомогательные функции правил ----------
 
-/** Бьёт ли карта defense карту attack при козырной масти trump (§4.2). */
-export function beats(attack: Card, defense: Card, trump: Suit): boolean {
-  if (defense.suit === attack.suit) return defense.rank > attack.rank;
-  return defense.suit === trump && attack.suit !== trump;
-}
+export { beats };
 
 export const boutCap = (state: Pick<DurakState, 'firstBout'>): number => (state.firstBout ? 5 : HAND_SIZE);
 
@@ -283,35 +279,52 @@ function subsets<T>(items: readonly T[], maxSize: number): T[][] {
   return out;
 }
 
+/** Всё, что нужно для перечисления действий одного места: только его рука и открытая часть стола. */
+export interface ActionContext {
+  readonly seat: Seat;
+  readonly hand: readonly Card[];
+  readonly table: readonly Pair[];
+  readonly phase: DurakState['phase'];
+  readonly attacker: Seat;
+  readonly trumpSuit: DurakState['trumpSuit'];
+  readonly firstBout: boolean;
+  readonly boutDefenderHand: number;
+}
+
 /**
  * Допустимые действия места. Атака — все наборы карт одного достоинства в пределах лимита;
  * подкидывание — по одной карте (несколько карт за раз тоже допустимы, их проверяет validate).
  */
 export function legalActions(state: DurakState, seat: Seat): DurakAction[] {
-  if (state.phase === 'gameOver') return [];
-  const hand = state.hands[seat];
+  return legalActionsFor({ ...state, seat, hand: state.hands[seat] });
+}
+
+export function legalActionsFor(ctx: ActionContext): DurakAction[] {
+  if (ctx.phase === 'gameOver') return [];
+  const { seat, hand } = ctx;
   const out: DurakAction[] = [];
-  if (state.phase === 'attack' && seat === state.attacker) {
+  const room = Math.max(0, boutLimit(ctx) - ctx.table.length);
+  if (ctx.phase === 'attack' && seat === ctx.attacker) {
     const byRank = new Map<Rank, Card[]>();
     for (const c of hand) byRank.set(c.rank, [...(byRank.get(c.rank) ?? []), c]);
-    for (const group of byRank.values()) for (const cards of subsets(group, boutLimit(state))) out.push({ type: 'attack', seat, cards });
+    for (const group of byRank.values()) for (const cards of subsets(group, boutLimit(ctx))) out.push({ type: 'attack', seat, cards });
     return out;
   }
-  if (seat === state.attacker && (state.phase === 'defend' || state.phase === 'throwInAfterTake')) {
-    if (throwInRoom(state) > 0) {
-      const ranks = ranksOnTable(state.table);
+  if (seat === ctx.attacker && (ctx.phase === 'defend' || ctx.phase === 'throwInAfterTake')) {
+    if (room > 0) {
+      const ranks = ranksOnTable(ctx.table);
       for (const c of hand) if (ranks.has(c.rank)) out.push({ type: 'throwIn', seat, cards: [c] });
     }
-    if (state.phase === 'defend' && unbeatenCount(state.table) === 0) out.push({ type: 'pass', seat });
-    if (state.phase === 'throwInAfterTake') out.push({ type: 'doneThrowing', seat });
+    if (ctx.phase === 'defend' && unbeatenCount(ctx.table) === 0) out.push({ type: 'pass', seat });
+    if (ctx.phase === 'throwInAfterTake') out.push({ type: 'doneThrowing', seat });
     return out;
   }
-  if (seat === defender(state) && state.phase === 'defend') {
-    state.table.forEach((p, attackIndex) => {
+  if (seat === otherSeat(ctx.attacker) && ctx.phase === 'defend') {
+    ctx.table.forEach((p, attackIndex) => {
       if (p.defense) return;
-      for (const card of hand) if (beats(p.attack, card, state.trumpSuit)) out.push({ type: 'defend', seat, attackIndex, card });
+      for (const card of hand) if (beats(p.attack, card, ctx.trumpSuit)) out.push({ type: 'defend', seat, attackIndex, card });
     });
-    if (unbeatenCount(state.table) > 0) out.push({ type: 'take', seat });
+    if (unbeatenCount(ctx.table) > 0) out.push({ type: 'take', seat });
   }
   return out;
 }

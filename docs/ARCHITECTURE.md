@@ -21,7 +21,8 @@ src/
   games/durak/
     rules/       состояние, isLegal, apply → события (чистые функции, без DOM)
     view.ts      projectView(state, seat) → PlayerView
-    ai/          decide(view, aiRng) — импорт DurakState запрещён правилом линтера
+    ai/          decide(view, level, personality, aiRng) — импорт rules/state и rules/engine запрещён линтером
+    sim.ts       миры для поиска ИИ, построенные только из PlayerView
     scene/       Pixi: стол, карты, анимации; слушает события правил
     controller.ts  связывает намерения игрока, правила, ИИ, сцену и персонажа (не знает о экране)
   characters/
