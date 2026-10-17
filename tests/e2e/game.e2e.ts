@@ -33,6 +33,36 @@ test('полная партия через интерфейс, результа�
   noErrors(errors);
 });
 
+test('большая рука: карты нажимаются по видимой части, партия доигрывается', async ({ page }, info) => {
+  test.setTimeout(480_000);
+  const errors = collectErrors(page);
+  const touch = touchOf(info.project.name);
+  await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+  await sitAtTable(page, 'Лёгкая');
+  // Набираем большую руку: на каждой защите — «Беру»; свои атаки — первой картой.
+  for (let i = 0; i < 400; i++) {
+    const s = (await probe(page)).session!;
+    if (s.over || s.view.hand.length >= 12) break;
+    if (!s.busy && s.legal.some((a) => a.type === 'take')) await pressButton(page, /Беру/, touch);
+    else if (!s.busy && s.legal.length) break;
+    await page.waitForTimeout(100);
+  }
+  const big = (await probe(page)).session!;
+  test.skip(big.over || big.view.hand.length < 10, 'раздача не дала большой руки');
+  // Точки касания разные, и все внутри экрана.
+  const pts = Object.values(big.positions.hand);
+  const vp = page.viewportSize()!;
+  expect(new Set(pts.map((p) => `${Math.round(p.x)}:${Math.round(p.y)}`)).size).toBe(pts.length);
+  for (const p of pts) {
+    expect(p.x).toBeGreaterThanOrEqual(0);
+    expect(p.x).toBeLessThanOrEqual(vp.width);
+    expect(p.y).toBeLessThanOrEqual(vp.height);
+  }
+  await playThroughUi(page, touch);
+  await expect(page.locator('.result--show')).toBeVisible({ timeout: 10_000 });
+  noErrors(errors);
+});
+
 test('поворот и изменение размера посреди партии не сбрасывают партию', async ({ page }) => {
   const errors = collectErrors(page);
   await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
