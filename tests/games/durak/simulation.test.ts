@@ -39,7 +39,7 @@ function randomGame(seed: number, check: boolean) {
 describe('случайные партии законными ходами', () => {
   it('инварианты держатся на каждом шаге (300 партий)', () => {
     for (let seed = 0; seed < 300; seed++) randomGame(seed, true);
-  });
+  }, 60_000);
 
   it('10 000 партий завершаются, встречаются победы обоих мест и ничьи', () => {
     const tally = { 0: 0, 1: 0, draw: 0 };

@@ -33,6 +33,53 @@ test('полная партия через интерфейс, результа�
   noErrors(errors);
 });
 
+test('большая рука: карты нажимаются по видимой части, партия доигрывается', async ({ page }, info) => {
+  test.setTimeout(480_000);
+  const errors = collectErrors(page);
+  const touch = touchOf(info.project.name);
+  await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+  await sitAtTable(page, 'Лёгкая');
+  // Набираем большую руку: на каждой защите — «Беру»; свои атаки — первой допустимой картой, подкидывать не стараемся.
+  for (let i = 0; i < 400; i++) {
+    const s = (await probe(page)).session!;
+    if (s.over || s.view.hand.length >= 12) break;
+    const tap = (x: number, y: number) => (touch ? page.touchscreen.tap(x, y) : page.mouse.click(x, y));
+    if (!s.busy && s.legal.some((a) => a.type === 'take')) await pressButton(page, /Беру/, touch);
+    else if (!s.busy && s.legal.some((a) => a.type === 'pass')) await pressButton(page, /Бито/, touch);
+    else if (!s.busy && s.legal.some((a) => a.type === 'doneThrowing')) await pressButton(page, /Готово/, touch);
+    else if (!s.busy) {
+      const attack = s.legal.find((a) => a.type === 'attack');
+      const code = attack ? cardCode(attack.cards![0]!) : undefined;
+      const p = code ? s.positions.hand[code] : undefined;
+      if (code && p) {
+        // Выбор и подтверждение — два касания одной карты.
+        await tap(p.x, p.y);
+        await page.waitForTimeout(60);
+        const again = (await probe(page)).session!.positions.hand[code];
+        if (again) await tap(again.x, again.y);
+      }
+    }
+    await page.waitForTimeout(100);
+  }
+  const big = (await probe(page)).session!;
+  test.skip(big.over || big.view.hand.length < 10, 'раздача не дала большой руки');
+  // Точки касания разные, и все внутри экрана.
+  const pts = Object.values(big.positions.hand);
+  const vp = page.viewportSize()!;
+  expect(new Set(pts.map((p) => `${Math.round(p.x)}:${Math.round(p.y)}`)).size).toBe(pts.length);
+  for (const p of pts) {
+    expect(p.x).toBeGreaterThanOrEqual(0);
+    expect(p.x).toBeLessThanOrEqual(vp.width);
+    expect(p.y).toBeLessThanOrEqual(vp.height);
+  }
+  // Касание каждой карты попадает в сцену, а не в элементы интерфейса поверх неё.
+  const hits = await page.evaluate((ps) => ps.map((p) => document.elementFromPoint(p.x, p.y)?.tagName ?? 'none'), pts);
+  expect(hits.filter((t) => t !== 'CANVAS'), JSON.stringify({ pts, hits })).toEqual([]);
+  await playThroughUi(page, touch);
+  await expect(page.locator('.result--show')).toBeVisible({ timeout: 10_000 });
+  noErrors(errors);
+});
+
 test('поворот и изменение размера посреди партии не сбрасывают партию', async ({ page }) => {
   const errors = collectErrors(page);
   await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
@@ -162,4 +209,40 @@ test('слишком маленькое окно — подсказка, пар�
   const after = await probe(page);
   expect(after.screen).toBe('game');
   expect(after.session!.view.hand).toEqual(before.hand);
+});
+
+test.describe('высокая плотность пикселей (Pixel 7, 2.625)', () => {
+  test.use({ deviceScaleFactor: 2.625 });
+  test('сцена строится, рука и стол на экране, ход проходит', async ({ page }, info) => {
+    test.skip(info.project.name !== 'phone', 'профиль телефона');
+    const errors = collectErrors(page);
+    await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+    expect(await page.evaluate(() => devicePixelRatio)).toBeCloseTo(2.625);
+    await sitAtTable(page, 'Лёгкая');
+    const s = (await probe(page)).session!;
+    const vp = page.viewportSize()!;
+    for (const p of Object.values(s.positions.hand)) {
+      expect(p.x).toBeGreaterThanOrEqual(0);
+      expect(p.x).toBeLessThanOrEqual(vp.width);
+      expect(p.y).toBeLessThanOrEqual(vp.height);
+    }
+    // Один ход через интерфейс: «Беру» на защите или атака первой картой.
+    await expect.poll(async () => (await probe(page)).session!.legal.some((a) => a.type === 'attack' || a.type === 'take'), { timeout: 30_000 }).toBe(true);
+    const now = (await probe(page)).session!;
+    const attack = now.legal.find((a) => a.type === 'attack');
+    if (attack) {
+      const code = cardCode(attack.cards![0]!);
+      const p = now.positions.hand[code]!;
+      await page.touchscreen.tap(p.x, p.y);
+      await page.waitForTimeout(60);
+      const again = (await probe(page)).session!.positions.hand[code]!;
+      await page.touchscreen.tap(again.x, again.y);
+      await expect.poll(async () => (await probe(page)).session!.view.table.length, { timeout: 15_000 }).toBeGreaterThan(0);
+    } else {
+      const before = now.view.hand.length;
+      await pressButton(page, /Беру/, true);
+      await expect.poll(async () => (await probe(page)).session!.view.hand.length, { timeout: 20_000 }).toBeGreaterThan(before);
+    }
+    noErrors(errors);
+  });
 });

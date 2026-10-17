@@ -50,12 +50,23 @@ export async function pressButton(page: Page, name: RegExp, touch: boolean): Pro
 export async function playThroughUi(page: Page, touch: boolean): Promise<number> {
   const tap = async (x: number, y: number) => (touch ? page.touchscreen.tap(x, y) : page.mouse.click(x, y));
   let actions = 0;
+  // Сторож зависания: одно и то же состояние после многих попыток — ошибка теста или интерфейса, падаем сразу с подробностями.
+  let lastSig = '';
+  let sameSig = 0;
   for (let step = 0; step < 900; step++) {
     const s = (await probe(page)).session!;
     if (s.over) return actions;
     if (s.busy || s.legal.length === 0) {
       await page.waitForTimeout(100);
       continue;
+    }
+    const sig = JSON.stringify([s.view.hand, s.view.table, s.legal]);
+    sameSig = sig === lastSig ? sameSig + 1 : 0;
+    lastSig = sig;
+    if (sameSig >= 12) {
+      // Что лежит в точках касания: canvas или перекрывающий элемент интерфейса.
+      const hits = await page.evaluate((ps) => Object.fromEntries(Object.entries(ps).map(([k, p]) => [k, document.elementFromPoint(p.x, p.y)?.className || document.elementFromPoint(p.x, p.y)?.tagName || 'none'])), s.positions.hand);
+      throw new Error(`интерфейс не продвигает партию: ${JSON.stringify({ legal: s.legal[0], phase: s.view.phase, hand: s.view.hand.length, table: s.view.table, positions: s.positions, hits })}`);
     }
     const a = s.legal[0]!;
     const press = (re: RegExp) => pressButton(page, re, touch);
@@ -71,8 +82,10 @@ export async function playThroughUi(page: Page, touch: boolean): Promise<number>
       }
       await tap(pos.x, pos.y);
       if (a.type === 'attack') {
+        // Второе касание той же карты подтверждает ход; карта приподнялась, берём её новую точку.
         await page.waitForTimeout(60);
-        await tap(pos.x, pos.y - 20);
+        const again = (await probe(page)).session!.positions.hand[cardCode(card)];
+        if (again) await tap(again.x, again.y);
       }
       if (a.type === 'defend') {
         await page.waitForTimeout(60);

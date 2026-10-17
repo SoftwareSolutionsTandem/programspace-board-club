@@ -404,12 +404,16 @@ export class DurakScene {
     for (const c of this.flyLayer.children) if (c instanceof CardSprite) c.sync();
   }
 
-  /** Отладка и e2e: экранные центры карт руки и атакующих карт стола. */
+  /**
+   * Отладка и e2e: экранные точки касания карт руки и центры атакующих карт стола.
+   * Точка карты руки — на её видимой части: в большой руке центр бывает закрыт соседними картами.
+   */
   debugPositions(): { hand: Record<string, { x: number; y: number }>; table: { x: number; y: number }[] } {
     const hand: Record<string, { x: number; y: number }> = {};
+    const order = this.handLayer.children.filter((c): c is CardSprite => c instanceof CardSprite);
     for (const c of this.view?.hand ?? []) {
       const sp = this.sprites.get(cardCode(c));
-      if (sp) hand[cardCode(c)] = { x: sp.x, y: sp.y };
+      if (sp) hand[cardCode(c)] = visiblePoint(sp, order.slice(order.indexOf(sp) + 1));
     }
     const s = this.layout;
     const n = this.view?.table.length ?? 0;
@@ -420,4 +424,26 @@ export class DurakScene {
   get discardShown(): number {
     return this.discardCount;
   }
+}
+
+// Точки-кандидаты в долях карты: центр, затем верх и левый край (в веере их перекрывают соседи справа и ряды ниже).
+const TAP_FRACTIONS: readonly (readonly [number, number])[] = [
+  [0, 0], [0, -0.3], [-0.3, 0], [-0.3, -0.3], [-0.4, -0.4], [0.3, -0.3], [-0.4, 0.3], [0, 0.35],
+];
+
+/** Первая точка карты, не закрытая картами `above` (те, что рисуются поверх); иначе — центр. */
+function visiblePoint(sp: CardSprite, above: readonly CardSprite[]): { x: number; y: number } {
+  const w = sp.cardW;
+  const h = sp.cardH;
+  const covered = (g: { x: number; y: number }) =>
+    above.some((o) => {
+      const l = o.toLocal(g);
+      return Math.abs(l.x) <= o.cardW / 2 && Math.abs(l.y) <= o.cardH / 2;
+    });
+  for (const [fx, fy] of TAP_FRACTIONS) {
+    const g = sp.toGlobal({ x: fx * w, y: fy * h });
+    if (!covered(g)) return { x: g.x, y: g.y };
+  }
+  const c = sp.toGlobal({ x: 0, y: 0 });
+  return { x: c.x, y: c.y };
 }
