@@ -102,12 +102,21 @@ test('клавиатура: выбрать карту стрелкой и схо
   await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
   await sitAtTable(page, 'Лёгкая');
   // Первым может ходить любой: при своём ходе — стрелка и Enter, при защите — T («Беру»).
-  await expect.poll(async () => (await probe(page)).session!.legal.some((a) => a.type === 'attack' || a.type === 'take'), { timeout: 30_000 }).toBe(true);
+  // Пока идёт анимация (busy), клавиши игнорируются — ждём и разрешённого хода, и свободной сцены.
+  await expect.poll(async () => {
+    const ss = (await probe(page)).session!;
+    return !ss.busy && ss.legal.some((a) => a.type === 'attack' || a.type === 'take');
+  }, { timeout: 30_000 }).toBe(true);
   const start = (await probe(page)).session!;
   if (start.legal.some((a) => a.type === 'attack')) {
+    const before = start.view.hand.map(cardCode);
     await page.keyboard.press('ArrowRight');
     await page.keyboard.press('Enter');
-    await expect.poll(async () => (await probe(page)).session!.view.table.length, { timeout: 10_000 }).toBeGreaterThan(0);
+    // Карта сыграна, если ушла из руки: это верно и когда Агата сразу её забрала и стол уже пуст.
+    await expect.poll(async () => {
+      const hand = new Set((await probe(page)).session!.view.hand.map(cardCode));
+      return before.some((c) => !hand.has(c));
+    }, { timeout: 10_000 }).toBe(true);
   } else {
     const handBefore = start.view.hand.length;
     await page.keyboard.press('t');
