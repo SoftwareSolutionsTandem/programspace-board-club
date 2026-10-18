@@ -1,0 +1,20 @@
+{
+  "id": "agata_defend_01",
+  "text": "Отбила́сь!",
+  "catalogText": "Отбилась!",
+  "stressStyle": "acute",
+  "seed": 99871,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
+  },
+  "reference": "65cb80cc938b25162aafda66a8741a1eb7bd950d8cb42b9e59316feb72f24fb8",
+  "sha256": "89274d90cbb9420b71975bc0f8c675d83426ecf26ce6b1ee7bd156cf9c4b2e77",
+  "sampleRate": 24000,
+  "durationSec": 1.36,
+  "generatedAt": "2026-10-18T02:15:37Z"
+}

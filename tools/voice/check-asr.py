@@ -38,6 +38,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("dir")
     ap.add_argument("--model", default="openai/whisper-large-v3-turbo")
+    ap.add_argument("--device", default="cpu", help="cpu или cuda:0")
     ap.add_argument("--max-wer", type=float, default=0.25, help="порог доли ошибочных слов для статуса «проверить»")
     args = ap.parse_args()
 
@@ -45,7 +46,7 @@ def main() -> int:
     import torch
     from transformers import pipeline
 
-    asr = pipeline("automatic-speech-recognition", model=args.model, device="cpu", torch_dtype=torch.float32)
+    asr = pipeline("automatic-speech-recognition", model=args.model, device=args.device, torch_dtype=torch.float16 if args.device.startswith("cuda") else torch.float32)
     d = Path(args.dir)
     rows = []
     for meta_path in sorted(d.glob("*.json")):

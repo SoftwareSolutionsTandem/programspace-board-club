@@ -39,7 +39,7 @@ STRESS_MARK = "́"
 
 def load_catalog() -> list[dict]:
     # Тексты — только из каталога игры (единый источник).
-    out = subprocess.run(["node", str(ROOT / "tools/voice/export-catalog.mjs")], check=True, capture_output=True, text=True)
+    out = subprocess.run(["node", str(ROOT / "tools/voice/export-catalog.mjs")], check=True, capture_output=True, text=True, encoding="utf-8")
     return json.loads(out.stdout)
 
 
@@ -125,9 +125,12 @@ def main() -> int:
     ap.add_argument("--redesign", action="store_true", help="заново создать эталонную фразу голоса")
     ap.add_argument("--seed-offset", type=int, default=0, help="другой дубль тех же реплик")
     ap.add_argument("--device", default=None, help="cuda:0 / cpu (по умолчанию — cuda, если есть)")
+    ap.add_argument("--clone-model", help="другие веса для озвучки реплик (идентификатор Hugging Face или папка), вместо models.clone")
     args = ap.parse_args()
 
     cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
+    if args.clone_model:
+        cfg["models"]["clone"] = args.clone_model
     catalog = {l["id"]: l for l in load_catalog()}
     out_dir = Path(args.out) if args.out else ROOT / "assets-src/audio" / cfg["lang"] / cfg["character"]
     out_dir.mkdir(parents=True, exist_ok=True)
