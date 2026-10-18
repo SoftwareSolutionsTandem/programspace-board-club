@@ -49,6 +49,8 @@ export class GameSession {
   readonly overlay = el('div', 'game');
   private readonly tweens = new Tweener();
   private readonly voice: VoiceChannel;
+  // Последние заявки на реплики — для отладки и e2e (только id и исход, без скрытой информации).
+  private readonly voiceLog: { id: string; outcome: string }[] = [];
   private readonly director: Director;
   private coach: TutorialCoach | null;
   private layout: LayoutSpec | null = null;
@@ -120,6 +122,8 @@ export class GameSession {
       pose: this.scene.rig.currentPose,
       emotion: this.scene.rig.currentEmotion,
       blinks: this.scene.rig.blinks,
+      speaking: this.voice.speaking,
+      voiceLog: [...this.voiceLog],
       act: (i: number) => {
         const a = this.legal()[i];
         if (a && !this.busy) void this.perform(a);
@@ -260,6 +264,8 @@ export class GameSession {
     if (trigger.priority !== 'result') this.emotionTimer = setTimeout(() => this.scene.rig.setEmotion('warm'), 4200);
     if (c.line) {
       const outcome = this.voice.request(c.line.id, c.line.priority);
+      this.voiceLog.push({ id: c.line.id, outcome });
+      if (this.voiceLog.length > 20) this.voiceLog.shift();
       if (outcome === 'played' && this.host.settings().subtitles) this.showSubtitle(c.line.text);
     }
   }

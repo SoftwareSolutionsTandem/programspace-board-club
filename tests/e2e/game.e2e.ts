@@ -177,6 +177,38 @@ test('без аудиофайлов и манифеста игра работа�
   expect(errors.filter((e) => e.startsWith('pageerror'))).toEqual([]);
 });
 
+test('голос Агаты: записи загружаются и звучат, без звука — молчит', async ({ page }) => {
+  const errors = collectErrors(page);
+  const voiceFiles: string[] = [];
+  // Голос — только заранее записанные файлы игры: никаких внешних запросов (синтеза речи во время игры нет).
+  const external = new Set<string>();
+  page.on('request', (r) => {
+    const u = new URL(r.url());
+    if (u.protocol.startsWith('http') && u.hostname !== 'localhost' && u.hostname !== '127.0.0.1') external.add(u.hostname);
+  });
+  page.on('response', (r) => {
+    if (/\/audio\/ru\/agata\/agata_[^/]+\.(opus|m4a)$/.test(r.url()) && r.ok()) voiceFiles.push(r.url());
+  });
+  await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+  await page.getByRole('button', { name: 'Настройки' }).click();
+  await expect(page.locator('.modal .note')).toContainText('записано реплик — 71 из 71');
+  await page.getByRole('button', { name: 'Закрыть' }).click();
+  await sitAtTable(page, 'Лёгкая');
+  // Приветствие при посадке за стол звучит настоящей записью.
+  await page.waitForFunction(() => (window as unknown as { __igroteka: () => { session: { voiceLog: { outcome: string }[] } | null } }).__igroteka().session?.voiceLog.some((v) => v.outcome === 'played'), null, { timeout: 15_000 });
+  expect(voiceFiles.length).toBeGreaterThan(0);
+  // Без звука новые реплики не запускаются, текущая останавливается.
+  await page.getByRole('button', { name: 'Звук', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Звук выключен' })).toBeVisible();
+  const before = (await probe(page)).session!.voiceLog.length;
+  await expect.poll(async () => (await probe(page)).session!.speaking).toBeNull();
+  await playThroughUi(page, false);
+  const after = (await probe(page)).session!.voiceLog.slice(before);
+  expect(after.every((v) => v.outcome !== 'played')).toBe(true);
+  expect([...external]).toEqual([]);
+  noErrors(errors);
+});
+
 test('первый запуск: обучение с подсказками, пропуск обучения', async ({ page }) => {
   const errors = collectErrors(page);
   await page.goto('/');
