@@ -17,7 +17,7 @@ from pathlib import Path
 
 
 def norm_words(text: str) -> list[str]:
-    t = text.lower().replace("ё", "е")
+    t = text.replace("\u0301", "").lower().replace("ё", "е")
     t = re.sub(r"[^a-zа-я0-9\s-]", " ", t)
     t = t.replace("-", " ")
     return [w for w in t.split() if w]

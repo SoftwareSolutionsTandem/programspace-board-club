@@ -1,0 +1,101 @@
+[
+  {
+    "file": "_audition_p0_s1307.flac",
+    "personaIndex": 0,
+    "seed": 1307,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian woman, about 75 years old, a kind grandmother playing cards. Clearly aged voice: lower pitch, soft and slightly husky timbre with a light rasp of old age, a little breathy. Warm, cheerful and a bit sly. Unhurried tempo, natural Russian intonation.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.72,
+    "medianF0Hz": 208.6,
+    "heard": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка."
+  },
+  {
+    "file": "_audition_p0_s1308.flac",
+    "personaIndex": 0,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian woman, about 75 years old, a kind grandmother playing cards. Clearly aged voice: lower pitch, soft and slightly husky timbre with a light rasp of old age, a little breathy. Warm, cheerful and a bit sly. Unhurried tempo, natural Russian intonation.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.48,
+    "medianF0Hz": 173.9,
+    "heard": "Ну, здравствуй, солнышко, садись, сыграем в дурачка."
+  },
+  {
+    "file": "_audition_p0_s1309.flac",
+    "personaIndex": 0,
+    "seed": 1309,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian woman, about 75 years old, a kind grandmother playing cards. Clearly aged voice: lower pitch, soft and slightly husky timbre with a light rasp of old age, a little breathy. Warm, cheerful and a bit sly. Unhurried tempo, natural Russian intonation.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.24,
+    "medianF0Hz": 180.5,
+    "heard": "Ну, здравствуй, солнышко, садись, сыграем в дурачка."
+  },
+  {
+    "file": "_audition_p1_s1307.flac",
+    "personaIndex": 1,
+    "seed": 1307,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "A Russian babushka in her late seventies. Mature, low female voice with natural old-age texture and a slight creak at the ends of phrases. Warm, motherly, playful and good-humored. Relaxed tempo, clear diction.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.32,
+    "medianF0Hz": 219.1,
+    "heard": "Ну, здравствуй, солнышко, садись, сыграем в дурачка."
+  },
+  {
+    "file": "_audition_p1_s1308.flac",
+    "personaIndex": 1,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "A Russian babushka in her late seventies. Mature, low female voice with natural old-age texture and a slight creak at the ends of phrases. Warm, motherly, playful and good-humored. Relaxed tempo, clear diction.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 4.56,
+    "medianF0Hz": 211.0,
+    "heard": "Ну, здравствуй, солнышко. Садись, сыграем в дурочка."
+  },
+  {
+    "file": "_audition_p1_s1309.flac",
+    "personaIndex": 1,
+    "seed": 1309,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "A Russian babushka in her late seventies. Mature, low female voice with natural old-age texture and a slight creak at the ends of phrases. Warm, motherly, playful and good-humored. Relaxed tempo, clear diction.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.24,
+    "medianF0Hz": 177.4,
+    "heard": "Ну, здравствуй, солнышко, садись, сыграем в дурачка."
+  },
+  {
+    "file": "_audition_p2_s1307.flac",
+    "personaIndex": 2,
+    "seed": 1307,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian grandmother, about 80 years old. Aged, slightly hoarse and gravelly voice, lower register, gentle and kind, with a mischievous smile in it. Speaks at a calm, measured pace.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.68,
+    "medianF0Hz": 100.1,
+    "heard": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка."
+  },
+  {
+    "file": "_audition_p2_s1308.flac",
+    "personaIndex": 2,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian grandmother, about 80 years old. Aged, slightly hoarse and gravelly voice, lower register, gentle and kind, with a mischievous smile in it. Speaks at a calm, measured pace.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 7.92,
+    "medianF0Hz": 82.1,
+    "heard": "А-а-а... Ну... Здравствуй, солнышко. Садись, сыграем в дурочка."
+  },
+  {
+    "file": "_audition_p2_s1309.flac",
+    "personaIndex": 2,
+    "seed": 1309,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian grandmother, about 80 years old. Aged, slightly hoarse and gravelly voice, lower register, gentle and kind, with a mischievous smile in it. Speaks at a calm, measured pace.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.76,
+    "medianF0Hz": 76.3,
+    "heard": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка."
+  }
+]
