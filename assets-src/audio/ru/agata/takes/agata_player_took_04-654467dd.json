@@ -1,0 +1,25 @@
+{
+  "id": "agata_player_took_04",
+  "text": "Вот так-то, со́лнышко.",
+  "catalogText": "Вот так-то, солнышко.",
+  "stressStyle": "acute",
+  "seed": 5085060,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "654467dda780d2675ef069c1ce3ccde5d305e7b4cbbbd283fbdc9133d6e3a996",
+  "sampleRate": 24000,
+  "durationSec": 2.4,
+  "generatedAt": "2026-10-18T08:45:03Z"
+}

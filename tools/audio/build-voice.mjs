@@ -4,6 +4,7 @@
 //   node tools/audio/build-voice.mjs                 # весь каталог Агаты в public/audio/ru/agata
 //   node tools/audio/build-voice.mjs --only agata_win_01
 //   node tools/audio/build-voice.mjs --src <папка> --out <папка> --no-manifest   # пробы для прослушивания
+//   node tools/audio/build-voice.mjs --src <папка> --out <папка> --no-manifest --report-dir <папка>   # предпрослушивание, отчёт вне репозитория
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -40,8 +41,9 @@ const probeDuration = (file) => Number(execFileSync('ffprobe', ['-v', 'error', '
 // Обрезка тишины по краям (порог −50 дБ), затем короткие поля, чтобы не съесть атаку и хвост.
 const TRIM = 'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.03,areverse,silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.06,areverse';
 
-function measure(file) {
-  const err = ffStderr(['-i', file, '-af', `${TRIM},loudnorm=I=${TARGET.lufs}:TP=${TARGET.truePeak}:LRA=${TARGET.lra}:print_format=json`, '-f', 'null', '-']);
+function measure(file, loops = 0) {
+  const input = loops ? ['-stream_loop', String(loops), '-i', file] : ['-i', file];
+  const err = ffStderr([...input, '-af', `${TRIM},loudnorm=I=${TARGET.lufs}:TP=${TARGET.truePeak}:LRA=${TARGET.lra}:print_format=json`, '-f', 'null', '-']);
   const json = err.slice(err.lastIndexOf('{'), err.lastIndexOf('}') + 1);
   return JSON.parse(json);
 }
@@ -56,8 +58,21 @@ function buildOne(id, flac, tmp) {
   const warnings = [];
   const m = measure(flac);
   const norm = join(tmp, `${id}.wav`);
+  const tail = 'aresample=48000,adelay=40:all=1,apad=pad_dur=0.12';
+  let gain;
+  if (Number.isFinite(Number(m.input_i))) {
+    gain = `loudnorm=I=${TARGET.lufs}:TP=${TARGET.truePeak}:LRA=${TARGET.lra}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`;
+  } else {
+    // Реплика короче окна измерения громкости (≈0,4 с после обрезки): меряем её, повторённую 5 раз, —
+    // громкость повтора равна громкости реплики. Усиление постоянное, с запасом по пику.
+    const r = measure(flac, 4);
+    const db = Math.min(TARGET.lufs - Number(r.input_i), TARGET.truePeak - Number(r.input_tp));
+    if (!Number.isFinite(db)) throw new Error('не удалось измерить громкость');
+    gain = `volume=${db.toFixed(2)}dB`;
+    warnings.push('короткая: громкость по повтору');
+  }
   // Второй проход: линейная нормализация по замеру, 48 кГц моно, поля 40 мс в начале и 120 мс в конце.
-  ff(['-i', flac, '-af', `${TRIM},loudnorm=I=${TARGET.lufs}:TP=${TARGET.truePeak}:LRA=${TARGET.lra}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true,aresample=48000,adelay=40:all=1,apad=pad_dur=0.12`, '-ac', '1', '-c:a', 'pcm_s16le', norm]);
+  ff(['-i', flac, '-af', `${TRIM},${gain},${tail}`, '-ac', '1', '-c:a', 'pcm_s16le', norm]);
   const opus = join(out, `${id}.opus`);
   const m4a = join(out, `${id}.m4a`);
   const common = ['-map_metadata', '-1', '-fflags', '+bitexact', '-ac', '1'];
@@ -131,7 +146,7 @@ if (writeManifest) {
 }
 
 // Отчёт: длительность, размеры, статус каждой реплики и чего не хватает в каталоге.
-const reportDir = join(root, 'tools/voice/report');
+const reportDir = arg('--report-dir', join(root, 'tools/voice/report'));
 mkdirSync(reportDir, { recursive: true });
 const built = new Map(results.map((r) => [r.id, r]));
 const missing = [...catalog.keys()].filter((id) => !existsSync(join(out, `${id}.opus`)));

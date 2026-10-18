@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import random
 import shutil
 import subprocess
@@ -98,8 +99,18 @@ def render_stress(marked: str, style: str) -> str:
     return "".join(out)
 
 
+def letters(text: str) -> str:
+    return re.sub(r"[^a-zа-яё]", "", text.replace(STRESS_MARK, "").lower())
+
+
 def spoken_text(cfg: dict, line_id: str, plain: str, style: str) -> str:
-    """Текст для синтеза: разметка ударений из конфига (если есть), обязана совпадать с текстом каталога."""
+    """Текст для синтеза: разметка ударений из конфига (если есть), обязана совпадать с текстом каталога.
+    overrides.<id>.spoken — другая запись тех же слов (слитно, без восклицаний): буквы обязаны совпадать с каталогом."""
+    spoken = cfg.get("overrides", {}).get(line_id, {}).get("spoken")
+    if spoken is not None:
+        if letters(spoken) != letters(plain):
+            raise ValueError(f"spoken меняет слова реплики: «{spoken}» ≠ «{plain}»")
+        return render_stress(spoken, style)
     marked = cfg.get("stress", {}).get(line_id)
     if marked is None:
         return plain
