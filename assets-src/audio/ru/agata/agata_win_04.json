@@ -1,9 +1,9 @@
 {
   "id": "agata_win_04",
-  "text": "Побе́да! Ох, ра́дость-то!",
+  "text": "Побе́да! Ох, ра́достьто!",
   "catalogText": "Победа! Ох, радость-то!",
   "stressStyle": "acute",
-  "seed": 28875,
+  "seed": 8028899,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "cec2b51f04e1abb6a938df1c6917898b9082f575949a8609e81ec9b2d069bbeb",
+  "sha256": "fc987d4fe9d904cf2162f290a7abf928a4ffd03bbc60a73c7fdb2d97cf9c7d6c",
   "sampleRate": 24000,
-  "durationSec": 2.48,
-  "generatedAt": "2026-10-18T07:18:20Z"
+  "durationSec": 3.2,
+  "generatedAt": "2026-10-18T09:06:01Z"
 }

@@ -3,7 +3,7 @@
   "text": "А я ещё подки́ну!",
   "catalogText": "А я ещё подкину!",
   "stressStyle": "acute",
-  "seed": 16104,
+  "seed": 8016128,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "575092ff64fde224421496996645d0a073ff8f85a1694e7e1151839dbdae95f4",
+  "sha256": "cd1e1542d13d44f454ea2dc97dd6943071caf5d9d7b6fe07277f7478b340ce45",
   "sampleRate": 24000,
-  "durationSec": 1.84,
-  "generatedAt": "2026-10-18T07:13:23Z"
+  "durationSec": 2.08,
+  "generatedAt": "2026-10-18T09:03:49Z"
 }

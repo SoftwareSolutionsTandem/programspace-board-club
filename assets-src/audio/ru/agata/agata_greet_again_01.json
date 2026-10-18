@@ -3,7 +3,7 @@
   "text": "А вот и ты! Сади́сь.",
   "catalogText": "А вот и ты! Садись.",
   "stressStyle": "acute",
-  "seed": 79991,
+  "seed": 7080012,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "899e32c13132dc8964e27c3c1db66be58a3783cf101be9e2dd7468dd6aeb5821",
+  "sha256": "37c1a6485462b76b27dc6634ab838d09d1c5e72a54bf15153784499ea101ea08",
   "sampleRate": 24000,
-  "durationSec": 5.6,
-  "generatedAt": "2026-10-18T07:11:33Z"
+  "durationSec": 2.64,
+  "generatedAt": "2026-10-18T08:55:48Z"
 }

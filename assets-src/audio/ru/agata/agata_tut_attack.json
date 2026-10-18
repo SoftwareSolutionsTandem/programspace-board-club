@@ -3,7 +3,7 @@
   "text": "Твой ход. Положи́ мла́дшую ка́рту.",
   "catalogText": "Твой ход. Положи младшую карту.",
   "stressStyle": "acute",
-  "seed": 76208,
+  "seed": 6076226,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "68d02e5f7d2c7493c9c9fb8f9e8ba5d3bb6187665b914e2633c11a1f2804e673",
+  "sha256": "9fc5c98efbfd92a4413d71f58cee04a941f0cab3726936b540037b4b7eb9fff0",
   "sampleRate": 24000,
-  "durationSec": 3.2,
-  "generatedAt": "2026-10-18T07:21:50Z"
+  "durationSec": 3.52,
+  "generatedAt": "2026-10-18T08:52:00Z"
 }

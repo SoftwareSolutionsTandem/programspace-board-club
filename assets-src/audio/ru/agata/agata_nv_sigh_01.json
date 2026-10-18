@@ -3,7 +3,7 @@
   "text": "Ох…",
   "catalogText": "Ох…",
   "stressStyle": "acute",
-  "seed": 30303,
+  "seed": 7030324,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "bf539c6f7fba6b961150ee0dc59684346b4d9eeb4982cb6acb8e64ac149cc1e8",
+  "sha256": "8735253efe779b9cdf3772e24cd9e357704c2dfa04635b75925fe56cc4889d16",
   "sampleRate": 24000,
-  "durationSec": 0.56,
-  "generatedAt": "2026-10-18T07:21:01Z"
+  "durationSec": 0.88,
+  "generatedAt": "2026-10-18T08:56:36Z"
 }

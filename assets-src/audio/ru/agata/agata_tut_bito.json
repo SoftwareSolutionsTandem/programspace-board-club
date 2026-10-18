@@ -3,7 +3,7 @@
   "text": "Всё поби́то — жми «Би́то».",
   "catalogText": "Всё побито — жми «Бито».",
   "stressStyle": "acute",
-  "seed": 44768,
+  "seed": 9044795,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "3493c8813cfaa93a0fe1598ee4225efe464cc0dbfef520e7bbe6c767aba0f48b",
+  "sha256": "7c2a8b5c3538e2ae832f8d8cca3941bb7e0d88f2cbf4dcdc2c9f0a55c19d44d8",
   "sampleRate": 24000,
-  "durationSec": 2.32,
-  "generatedAt": "2026-10-18T07:22:55Z"
+  "durationSec": 2.4,
+  "generatedAt": "2026-10-18T09:10:24Z"
 }

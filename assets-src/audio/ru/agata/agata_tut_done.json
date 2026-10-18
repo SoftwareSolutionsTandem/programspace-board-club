@@ -3,7 +3,7 @@
   "text": "Молоде́ц! Тепе́рь сыгра́ем по-настоя́щему.",
   "catalogText": "Молодец! Теперь сыграем по-настоящему.",
   "stressStyle": "acute",
-  "seed": 57831,
+  "seed": 6057849,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "da3f63d9147049c4678200e124d2fd490e35af7795febb20d2e97eec4590f507",
+  "sha256": "10a0314cbf16a31b61d87a2e4e8805831f3ff358e5c83eecd3ae18be7e0731a2",
   "sampleRate": 24000,
-  "durationSec": 4.16,
-  "generatedAt": "2026-10-18T07:23:33Z"
+  "durationSec": 3.52,
+  "generatedAt": "2026-10-18T08:52:32Z"
 }

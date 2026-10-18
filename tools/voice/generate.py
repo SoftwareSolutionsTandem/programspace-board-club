@@ -258,9 +258,22 @@ def main() -> int:
         seed = line_seed(cfg["seed"], i, args.seed_offset + int(ov.get("seedOffset", 0)))
         t0 = time.time()
         try:
-            text = spoken_text(cfg, i, plain, style)
-            seed_all(seed)
-            wavs, sr = clone.generate_voice_clone(text=text, language=language, voice_clone_prompt=prompt, **sampling)
+            parts = ov.get("parts")
+            if parts:
+                # Реплика по частям (например, вопрос отдельно — так интонация вопроса выразительнее), склейка с паузой
+                if letters("".join(parts)) != letters(plain):
+                    raise ValueError(f"parts меняют слова реплики: {parts} ≠ «{plain}»")
+                import numpy as np
+                chunks, sr = [], None
+                for k, part in enumerate(parts):
+                    seed_all(seed + k)
+                    w, sr = clone.generate_voice_clone(text=render_stress(part, style), language=language, voice_clone_prompt=prompt, **sampling)
+                    chunks += [w[0], np.zeros(int(sr * ov.get("gapMs", 250) / 1000), dtype=w[0].dtype)]
+                wavs, text = [np.concatenate(chunks[:-1])], " ".join(render_stress(x, style) for x in parts)
+            else:
+                text = spoken_text(cfg, i, plain, style)
+                seed_all(seed)
+                wavs, sr = clone.generate_voice_clone(text=text, language=language, voice_clone_prompt=prompt, **sampling)
             flac = out_dir / f"{i}.flac"
             write_flac(flac, wavs[0], sr)
             meta = {

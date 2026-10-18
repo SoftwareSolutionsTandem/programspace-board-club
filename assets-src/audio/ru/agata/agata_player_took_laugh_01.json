@@ -1,24 +1,25 @@
 {
   "id": "agata_player_took_laugh_01",
-  "text": "Ха-ха́! Бери́, зо́лотце!",
+  "text": "Ха-ха, бери́, зо́лотце.",
   "catalogText": "Ха-ха! Бери, золотце!",
   "stressStyle": "acute",
-  "seed": 3045297,
+  "seed": 11045321,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
   },
   "models": {
     "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
   },
   "sampling": {
     "temperature": 0.6,
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "0ace3a1029097e8df4dd7d52c0647989422f919e28bed92bf3c8200be6173377",
+  "sha256": "055b29e9439c9eecc6773cff02f06f1070f7b7966fa388f2743a2974b6e89957",
   "sampleRate": 24000,
-  "durationSec": 2.72,
-  "generatedAt": "2026-10-18T05:48:41Z"
+  "durationSec": 2.56,
+  "generatedAt": "2026-10-18T09:03:04Z"
 }
