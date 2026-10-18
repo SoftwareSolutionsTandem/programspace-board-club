@@ -1,0 +1,19 @@
+{
+  "id": "agata_lose_01",
+  "text": "Ох… Обыграли старушку. Молодец, честно. Но я отыграюсь!",
+  "catalogText": "Ох… Обыграли старушку. Молодец, честно. Но я отыграюсь!",
+  "mode": "clone",
+  "seed": 62023,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "sha256": "ea52a4d873f4baba4d8ca42615cf5006b0ffd1def5e2e29ec99763d36eda59c8",
+  "sampleRate": 24000,
+  "durationSec": 5.6,
+  "generatedAt": "2026-10-17T23:56:17Z"
+}

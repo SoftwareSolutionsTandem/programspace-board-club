@@ -1,0 +1,7 @@
+{
+  "text": "Ой, здравствуй, солнышко! Садись за мой столик, сейчас разложим карты. Только чур, не подглядывать — бабушка всё видит!",
+  "instruct": "Female, about 70 years old, a lively Russian grandmother playing cards with a friend. Warm, bright, smiling voice of medium-high pitch, quick tempo, playful and a little mischievous, kind at heart. Clear Russian diction, natural intonation. No tremble, no croaking, not a caricature.",
+  "seed": 1307,
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "1761065833bdcfc7f73f44882d72a9c8a8ee9af29b041e3efcad3692909bdaed"
+}

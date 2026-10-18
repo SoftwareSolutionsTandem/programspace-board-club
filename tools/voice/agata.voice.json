@@ -3,7 +3,10 @@
   "character": "agata",
   "lang": "ru",
   "language": "Russian",
-  "engine": { "package": "qwen-tts", "version": "0.1.1" },
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
   "models": {
     "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
     "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
@@ -26,7 +29,17 @@
     "agata_bito_01"
   ],
   "overrides": {
-    "agata_nv_giggle_01": { "text": "Хи-хи-хи!", "note": "в каталоге ремарка «(хихикает)»; синтезатор прочитал бы её вслух" },
-    "agata_nv_giggle_02": { "text": "Ха-ха-ха!", "note": "в каталоге ремарка «(смеётся)»" }
+    "agata_nv_giggle_01": {
+      "text": "Хи-хи-хи!",
+      "note": "в каталоге ремарка «(хихикает)»; синтезатор прочитал бы её вслух"
+    },
+    "agata_nv_giggle_02": {
+      "text": "Ха-ха-ха!",
+      "note": "в каталоге ремарка «(смеётся)»"
+    },
+    "agata_surprise_01": {
+      "seedOffset": 1,
+      "note": "дубль 0 — заикание «к-к-козырем», дубль 2 — ударение «козырём»; дубль 1 чистый (проверка распознаванием)"
+    }
   }
 }

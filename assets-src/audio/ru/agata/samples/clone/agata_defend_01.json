@@ -1,0 +1,19 @@
+{
+  "id": "agata_defend_01",
+  "text": "Отбилась! Не так-то просто бабушку провести.",
+  "catalogText": "Отбилась! Не так-то просто бабушку провести.",
+  "mode": "clone",
+  "seed": 99871,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "sha256": "f4662d129f5d15b3faa75ec09d6d0d41750524a93c55b011279533d2a2d39fc5",
+  "sampleRate": 24000,
+  "durationSec": 3.44,
+  "generatedAt": "2026-10-17T23:54:24Z"
+}
