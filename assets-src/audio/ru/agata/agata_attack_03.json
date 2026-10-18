@@ -3,7 +3,7 @@
   "text": "С э́той начну́.",
   "catalogText": "С этой начну.",
   "stressStyle": "acute",
-  "seed": 2022821,
+  "seed": 27022896,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,9 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "c06cc18a3d4c8b7aa3ba05f2251e6d28a5542d56c77f7c38536ae2bf78ba979c",
+  "referenceLine": "agata_attack_02",
+  "sha256": "dddfdd4b567ec3b6697ad508987a19217acc04c3adb0cec4e310764215a2c2a1",
   "sampleRate": 24000,
-  "durationSec": 1.36,
-  "generatedAt": "2026-10-18T07:39:27Z"
+  "durationSec": 1.52,
+  "generatedAt": "2026-10-18T14:10:01Z"
 }
