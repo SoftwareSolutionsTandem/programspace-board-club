@@ -1,0 +1,42 @@
+{
+ "a1371b72": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt4/b25",
+  "seed": 27022896
+ },
+ "745d7c22": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt4/b22",
+  "seed": 24022887
+ },
+ "e9854e42": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt4/r20",
+  "seed": 22022881
+ },
+ "dddfdd4b": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt4/r25",
+  "seed": 27022896
+ },
+ "42d27aed": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt4/b26",
+  "seed": 27093036
+ },
+ "a95b668b": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt4/b20",
+  "seed": 21093018
+ },
+ "6fee077a": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt4/r22",
+  "seed": 23093024
+ },
+ "3eab13a0": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt4/r24",
+  "seed": 25093030
+ }
+}
