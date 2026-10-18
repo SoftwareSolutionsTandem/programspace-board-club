@@ -109,5 +109,38 @@
     "durationSec": 5.28,
     "medianF0Hz": 154.0,
     "postprocess": "ffmpeg rubberband pitch=0.8909 (−2 полутона), formant=preserved"
+  },
+  {
+    "file": "_audition_p5_s1310_m4.flac",
+    "personaIndex": 5,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 136.3,
+    "postprocess": "ffmpeg rubberband pitch=0.7937 (−4 полутона), formant=preserved"
+  },
+  {
+    "file": "_audition_p5_s1310_m5.flac",
+    "personaIndex": 5,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 123.5,
+    "postprocess": "ffmpeg rubberband pitch=0.7492 (−5 полутона), formant=preserved"
+  },
+  {
+    "file": "_audition_p3_s1308_p3.flac",
+    "personaIndex": 3,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.12,
+    "medianF0Hz": 131.2,
+    "postprocess": "ffmpeg rubberband pitch=1.1892 (+3 полутона), formant=preserved"
   }
 ]
