@@ -1,0 +1,20 @@
+{
+  "id": "agata_took_annoyed_01",
+  "text": "Ох ты ж… Ла́дно, заберу́.",
+  "catalogText": "Ох ты ж… Ладно, заберу.",
+  "stressStyle": "acute",
+  "seed": 61431,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
+  },
+  "reference": "f070051874952f40df8c2f42b33dc74678ec101e79925fce7a4def3822597b57",
+  "sha256": "8cfbff1cb86645da91bf427a7d4e262d77bdcbea83d8cef62b1666aa4aeca269",
+  "sampleRate": 24000,
+  "durationSec": 3.12,
+  "generatedAt": "2026-10-18T02:41:04Z"
+}

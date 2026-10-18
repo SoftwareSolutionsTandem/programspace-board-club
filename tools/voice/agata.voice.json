@@ -14,7 +14,10 @@
   "personas": [
     "Elderly Russian woman, about 75 years old, a kind grandmother playing cards. Clearly aged voice: lower pitch, soft and slightly husky timbre with a light rasp of old age, a little breathy. Warm, cheerful and a bit sly. Unhurried tempo, natural Russian intonation.",
     "A Russian babushka in her late seventies. Mature, low female voice with natural old-age texture and a slight creak at the ends of phrases. Warm, motherly, playful and good-humored. Relaxed tempo, clear diction.",
-    "Old Russian grandmother, about 80 years old. Aged, slightly hoarse and gravelly voice, lower register, gentle and kind, with a mischievous smile in it. Speaks at a calm, measured pace."
+    "Old Russian grandmother, about 80 years old. Aged, slightly hoarse and gravelly voice, lower register, gentle and kind, with a mischievous smile in it. Speaks at a calm, measured pace.",
+    "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "Old Russian woman in her seventies with a low-pitched chest voice. Slow, languorous, sing-song delivery, as if savoring every word. Slightly hoarse, smoky timbre with a soft breathy rasp. Kind, cunning and amused.",
+    "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate."
   ],
   "reference": {
     "$comment": "Эталонная фраза: VoiceDesign создаёт по ней голос (описание personas[personaIndex]), базовая модель затем озвучивает этим голосом все реплики. Кандидатов голоса даёт --audition.",

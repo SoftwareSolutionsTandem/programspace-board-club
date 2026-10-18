@@ -125,6 +125,7 @@ def main() -> int:
     ap.add_argument("--redesign", action="store_true", help="заново создать эталонную фразу голоса")
     ap.add_argument("--seed-offset", type=int, default=0, help="другой дубль тех же реплик")
     ap.add_argument("--device", default=None, help="cuda:0 / cpu (по умолчанию — cuda, если есть)")
+    ap.add_argument("--persona", help="для --audition: номера описаний из personas через запятую (по умолчанию все)")
     ap.add_argument("--clone-model", help="другие веса для озвучки реплик (идентификатор Hugging Face или папка), вместо models.clone")
     args = ap.parse_args()
 
@@ -190,7 +191,10 @@ def main() -> int:
     if args.audition is not None:
         design = load("design")
         rows = []
+        chosen = {int(x) for x in args.persona.split(",")} if args.persona else None
         for p_idx, persona in enumerate(cfg["personas"]):
+            if chosen is not None and p_idx not in chosen:
+                continue
             for k in range(args.audition):
                 seed = ref_cfg["seed"] + k
                 seed_all(seed)
