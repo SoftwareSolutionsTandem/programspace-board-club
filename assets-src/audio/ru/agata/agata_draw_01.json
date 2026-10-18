@@ -1,0 +1,25 @@
+{
+  "id": "agata_draw_01",
+  "text": "Ничья́! На́до же.",
+  "catalogText": "Ничья! Надо же.",
+  "stressStyle": "acute",
+  "seed": 6739,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "e23ad3b718d3d5175b0dd8a40136aca76b1aefd7d619f7ad0a59cc9944c85e33",
+  "sampleRate": 24000,
+  "durationSec": 2.16,
+  "generatedAt": "2026-10-18T07:19:13Z"
+}

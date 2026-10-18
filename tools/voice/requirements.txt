@@ -1,0 +1,4 @@
+# Окружение генератора голоса (docs/AUDIO.md §14). В игру не входит.
+# python -m venv .venv-voice && .venv-voice/bin/pip install -r tools/voice/requirements.txt
+qwen-tts==0.1.1
+soundfile>=0.12

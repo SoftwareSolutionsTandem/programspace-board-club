@@ -1,0 +1,25 @@
+{
+  "id": "agata_praise_01",
+  "text": "Ло́вко!",
+  "catalogText": "Ловко!",
+  "stressStyle": "acute",
+  "seed": 24163,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "8309aaaafc64e21aaa38547dc6ede09764ac56cd8c98c7d967557414e905e8f5",
+  "sampleRate": 24000,
+  "durationSec": 0.96,
+  "generatedAt": "2026-10-18T07:16:34Z"
+}

@@ -1,4 +1,294 @@
 {
-  "note": "Настоящие записи голоса Агаты ещё не получены (docs/AUDIO.md §4–6). Реплика звучит, только если её файл указан здесь и записан в assets/audio/LICENSES.md.",
-  "lines": {}
+  "voice": {
+    "id": "agata-qwen3-ru-stress-c",
+    "synthetic": true,
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-18"
+  },
+  "lines": {
+    "agata_attack_02": {
+      "opus": "agata_attack_02.opus",
+      "m4a": "agata_attack_02.m4a"
+    },
+    "agata_attack_03": {
+      "opus": "agata_attack_03.opus",
+      "m4a": "agata_attack_03.m4a"
+    },
+    "agata_attack_04": {
+      "opus": "agata_attack_04.opus",
+      "m4a": "agata_attack_04.m4a"
+    },
+    "agata_attack_sly_01": {
+      "opus": "agata_attack_sly_01.opus",
+      "m4a": "agata_attack_sly_01.m4a"
+    },
+    "agata_bito_01": {
+      "opus": "agata_bito_01.opus",
+      "m4a": "agata_bito_01.m4a"
+    },
+    "agata_bito_02": {
+      "opus": "agata_bito_02.opus",
+      "m4a": "agata_bito_02.m4a"
+    },
+    "agata_bye_01": {
+      "opus": "agata_bye_01.opus",
+      "m4a": "agata_bye_01.m4a"
+    },
+    "agata_bye_02": {
+      "opus": "agata_bye_02.opus",
+      "m4a": "agata_bye_02.m4a"
+    },
+    "agata_deck_empty_01": {
+      "opus": "agata_deck_empty_01.opus",
+      "m4a": "agata_deck_empty_01.m4a"
+    },
+    "agata_deck_empty_02": {
+      "opus": "agata_deck_empty_02.opus",
+      "m4a": "agata_deck_empty_02.m4a"
+    },
+    "agata_defend_01": {
+      "opus": "agata_defend_01.opus",
+      "m4a": "agata_defend_01.m4a"
+    },
+    "agata_defend_02": {
+      "opus": "agata_defend_02.opus",
+      "m4a": "agata_defend_02.m4a"
+    },
+    "agata_defend_03": {
+      "opus": "agata_defend_03.opus",
+      "m4a": "agata_defend_03.m4a"
+    },
+    "agata_defend_04": {
+      "opus": "agata_defend_04.opus",
+      "m4a": "agata_defend_04.m4a"
+    },
+    "agata_draw_01": {
+      "opus": "agata_draw_01.opus",
+      "m4a": "agata_draw_01.m4a"
+    },
+    "agata_draw_02": {
+      "opus": "agata_draw_02.opus",
+      "m4a": "agata_draw_02.m4a"
+    },
+    "agata_greet_again_01": {
+      "opus": "agata_greet_again_01.opus",
+      "m4a": "agata_greet_again_01.m4a"
+    },
+    "agata_greet_again_02": {
+      "opus": "agata_greet_again_02.opus",
+      "m4a": "agata_greet_again_02.m4a"
+    },
+    "agata_greet_first_01": {
+      "opus": "agata_greet_first_01.opus",
+      "m4a": "agata_greet_first_01.m4a"
+    },
+    "agata_greet_first_02": {
+      "opus": "agata_greet_first_02.opus",
+      "m4a": "agata_greet_first_02.m4a"
+    },
+    "agata_lose_01": {
+      "opus": "agata_lose_01.opus",
+      "m4a": "agata_lose_01.m4a"
+    },
+    "agata_lose_02": {
+      "opus": "agata_lose_02.opus",
+      "m4a": "agata_lose_02.m4a"
+    },
+    "agata_lose_03": {
+      "opus": "agata_lose_03.opus",
+      "m4a": "agata_lose_03.m4a"
+    },
+    "agata_lose_04": {
+      "opus": "agata_lose_04.opus",
+      "m4a": "agata_lose_04.m4a"
+    },
+    "agata_nv_ah_01": {
+      "opus": "agata_nv_ah_01.opus",
+      "m4a": "agata_nv_ah_01.m4a"
+    },
+    "agata_nv_giggle_01": {
+      "opus": "agata_nv_giggle_01.opus",
+      "m4a": "agata_nv_giggle_01.m4a"
+    },
+    "agata_nv_giggle_02": {
+      "opus": "agata_nv_giggle_02.opus",
+      "m4a": "agata_nv_giggle_02.m4a"
+    },
+    "agata_nv_hmm_01": {
+      "opus": "agata_nv_hmm_01.opus",
+      "m4a": "agata_nv_hmm_01.m4a"
+    },
+    "agata_nv_hmm_02": {
+      "opus": "agata_nv_hmm_02.opus",
+      "m4a": "agata_nv_hmm_02.m4a"
+    },
+    "agata_nv_sigh_01": {
+      "opus": "agata_nv_sigh_01.opus",
+      "m4a": "agata_nv_sigh_01.m4a"
+    },
+    "agata_player_took_02": {
+      "opus": "agata_player_took_02.opus",
+      "m4a": "agata_player_took_02.m4a"
+    },
+    "agata_player_took_03": {
+      "opus": "agata_player_took_03.opus",
+      "m4a": "agata_player_took_03.m4a"
+    },
+    "agata_player_took_04": {
+      "opus": "agata_player_took_04.opus",
+      "m4a": "agata_player_took_04.m4a"
+    },
+    "agata_player_took_laugh_01": {
+      "opus": "agata_player_took_laugh_01.opus",
+      "m4a": "agata_player_took_laugh_01.m4a"
+    },
+    "agata_praise_01": {
+      "opus": "agata_praise_01.opus",
+      "m4a": "agata_praise_01.m4a"
+    },
+    "agata_praise_02": {
+      "opus": "agata_praise_02.opus",
+      "m4a": "agata_praise_02.m4a"
+    },
+    "agata_praise_03": {
+      "opus": "agata_praise_03.opus",
+      "m4a": "agata_praise_03.m4a"
+    },
+    "agata_rematch_01": {
+      "opus": "agata_rematch_01.opus",
+      "m4a": "agata_rematch_01.m4a"
+    },
+    "agata_rematch_02": {
+      "opus": "agata_rematch_02.opus",
+      "m4a": "agata_rematch_02.m4a"
+    },
+    "agata_rematch_loss_01": {
+      "opus": "agata_rematch_loss_01.opus",
+      "m4a": "agata_rematch_loss_01.m4a"
+    },
+    "agata_start_01": {
+      "opus": "agata_start_01.opus",
+      "m4a": "agata_start_01.m4a"
+    },
+    "agata_start_02": {
+      "opus": "agata_start_02.opus",
+      "m4a": "agata_start_02.m4a"
+    },
+    "agata_start_03": {
+      "opus": "agata_start_03.opus",
+      "m4a": "agata_start_03.m4a"
+    },
+    "agata_surprise_01": {
+      "opus": "agata_surprise_01.opus",
+      "m4a": "agata_surprise_01.m4a"
+    },
+    "agata_surprise_02": {
+      "opus": "agata_surprise_02.opus",
+      "m4a": "agata_surprise_02.m4a"
+    },
+    "agata_throw_01": {
+      "opus": "agata_throw_01.opus",
+      "m4a": "agata_throw_01.m4a"
+    },
+    "agata_throw_02": {
+      "opus": "agata_throw_02.opus",
+      "m4a": "agata_throw_02.m4a"
+    },
+    "agata_throw_after_take_01": {
+      "opus": "agata_throw_after_take_01.opus",
+      "m4a": "agata_throw_after_take_01.m4a"
+    },
+    "agata_throw_after_take_02": {
+      "opus": "agata_throw_after_take_02.opus",
+      "m4a": "agata_throw_after_take_02.m4a"
+    },
+    "agata_took_02": {
+      "opus": "agata_took_02.opus",
+      "m4a": "agata_took_02.m4a"
+    },
+    "agata_took_03": {
+      "opus": "agata_took_03.opus",
+      "m4a": "agata_took_03.m4a"
+    },
+    "agata_took_04": {
+      "opus": "agata_took_04.opus",
+      "m4a": "agata_took_04.m4a"
+    },
+    "agata_took_annoyed_01": {
+      "opus": "agata_took_annoyed_01.opus",
+      "m4a": "agata_took_annoyed_01.m4a"
+    },
+    "agata_trump_02": {
+      "opus": "agata_trump_02.opus",
+      "m4a": "agata_trump_02.m4a"
+    },
+    "agata_trump_03": {
+      "opus": "agata_trump_03.opus",
+      "m4a": "agata_trump_03.m4a"
+    },
+    "agata_trump_azart_01": {
+      "opus": "agata_trump_azart_01.opus",
+      "m4a": "agata_trump_azart_01.m4a"
+    },
+    "agata_tut_attack": {
+      "opus": "agata_tut_attack.opus",
+      "m4a": "agata_tut_attack.m4a"
+    },
+    "agata_tut_bito": {
+      "opus": "agata_tut_bito.opus",
+      "m4a": "agata_tut_bito.m4a"
+    },
+    "agata_tut_defend": {
+      "opus": "agata_tut_defend.opus",
+      "m4a": "agata_tut_defend.m4a"
+    },
+    "agata_tut_done": {
+      "opus": "agata_tut_done.opus",
+      "m4a": "agata_tut_done.m4a"
+    },
+    "agata_tut_intro": {
+      "opus": "agata_tut_intro.opus",
+      "m4a": "agata_tut_intro.m4a"
+    },
+    "agata_tut_take": {
+      "opus": "agata_tut_take.opus",
+      "m4a": "agata_tut_take.m4a"
+    },
+    "agata_tut_throw": {
+      "opus": "agata_tut_throw.opus",
+      "m4a": "agata_tut_throw.m4a"
+    },
+    "agata_tut_trump": {
+      "opus": "agata_tut_trump.opus",
+      "m4a": "agata_tut_trump.m4a"
+    },
+    "agata_tut_wrong": {
+      "opus": "agata_tut_wrong.opus",
+      "m4a": "agata_tut_wrong.m4a"
+    },
+    "agata_wait_01": {
+      "opus": "agata_wait_01.opus",
+      "m4a": "agata_wait_01.m4a"
+    },
+    "agata_wait_02": {
+      "opus": "agata_wait_02.opus",
+      "m4a": "agata_wait_02.m4a"
+    },
+    "agata_win_01": {
+      "opus": "agata_win_01.opus",
+      "m4a": "agata_win_01.m4a"
+    },
+    "agata_win_02": {
+      "opus": "agata_win_02.opus",
+      "m4a": "agata_win_02.m4a"
+    },
+    "agata_win_03": {
+      "opus": "agata_win_03.opus",
+      "m4a": "agata_win_03.m4a"
+    },
+    "agata_win_04": {
+      "opus": "agata_win_04.opus",
+      "m4a": "agata_win_04.m4a"
+    }
+  }
 }

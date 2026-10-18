@@ -1,0 +1,22 @@
+{
+  "id": "agata_player_took_laugh_01",
+  "text": "Ха-ха! Бери, золотце!",
+  "catalogText": "Ха-ха! Бери, золотце!",
+  "stressStyle": "plain",
+  "seed": 45288,
+  "engine": {
+    "package": "chatterbox-tts",
+    "version": "0.1.7"
+  },
+  "model": "ResembleAI/chatterbox t3_mtl23ls_v3.safetensors",
+  "params": {
+    "exaggeration": 0.6,
+    "cfgWeight": 0.4,
+    "temperature": 0.8
+  },
+  "reference": "_audition_p0_s1308.flac",
+  "sha256": "aa93179e4c74eabf14e3cc7a9f13292e3c0b0626dba2b5adcc2dc9c1237d1146",
+  "sampleRate": 24000,
+  "durationSec": 3.0,
+  "generatedAt": "2026-10-18T01:45:47Z"
+}

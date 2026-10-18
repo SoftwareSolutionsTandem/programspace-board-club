@@ -1,0 +1,20 @@
+{
+  "id": "agata_lose_01",
+  "text": "Ох… Обыгра́ли стару́шку!",
+  "catalogText": "Ох… Обыграли старушку!",
+  "stressStyle": "acute",
+  "seed": 62023,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
+  },
+  "reference": "65cb80cc938b25162aafda66a8741a1eb7bd950d8cb42b9e59316feb72f24fb8",
+  "sha256": "f7079ec4138013c33a5c15a45b8e561357ff2165d477a20597ea2b4d156056d7",
+  "sampleRate": 24000,
+  "durationSec": 3.12,
+  "generatedAt": "2026-10-18T02:16:37Z"
+}

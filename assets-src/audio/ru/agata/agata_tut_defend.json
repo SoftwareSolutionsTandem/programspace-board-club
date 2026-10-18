@@ -1,0 +1,25 @@
+{
+  "id": "agata_tut_defend",
+  "text": "Отбе́йся ста́ршей ка́ртой той же ма́сти или ко́зырем.",
+  "catalogText": "Отбейся старшей картой той же масти или козырем.",
+  "stressStyle": "acute",
+  "seed": 49277,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "3727489afffa08b48a3a2c6dc3fd5d966145d76807d3dc6528c19fe332234172",
+  "sampleRate": 24000,
+  "durationSec": 3.6,
+  "generatedAt": "2026-10-18T07:22:10Z"
+}

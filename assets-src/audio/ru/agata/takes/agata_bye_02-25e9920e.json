@@ -1,0 +1,25 @@
+{
+  "id": "agata_bye_02",
+  "text": "Уже́ ухо́дишь? До встре́чи!",
+  "catalogText": "Уже уходишь? До встречи!",
+  "stressStyle": "acute",
+  "seed": 9056612,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "25e9920ece291d04f177c9bf0aad27c5d20efdecba8ba55860a5f2e427cdc145",
+  "sampleRate": 24000,
+  "durationSec": 3.28,
+  "generatedAt": "2026-10-18T08:48:57Z"
+}

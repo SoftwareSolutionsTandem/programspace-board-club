@@ -1,0 +1,146 @@
+[
+  {
+    "file": "_audition_p3_s1307.flac",
+    "personaIndex": 3,
+    "seed": 1307,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.68,
+    "medianF0Hz": 94.0
+  },
+  {
+    "file": "_audition_p3_s1308.flac",
+    "personaIndex": 3,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.12,
+    "medianF0Hz": 106.1
+  },
+  {
+    "file": "_audition_p3_s1309.flac",
+    "personaIndex": 3,
+    "seed": 1309,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 8.56,
+    "medianF0Hz": 91.8
+  },
+  {
+    "file": "_audition_p3_s1310.flac",
+    "personaIndex": 3,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.4,
+    "medianF0Hz": 82.3
+  },
+  {
+    "file": "_audition_p4_s1307.flac",
+    "personaIndex": 4,
+    "seed": 1307,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian woman in her seventies with a low-pitched chest voice. Slow, languorous, sing-song delivery, as if savoring every word. Slightly hoarse, smoky timbre with a soft breathy rasp. Kind, cunning and amused.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 218.4
+  },
+  {
+    "file": "_audition_p4_s1308.flac",
+    "personaIndex": 4,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian woman in her seventies with a low-pitched chest voice. Slow, languorous, sing-song delivery, as if savoring every word. Slightly hoarse, smoky timbre with a soft breathy rasp. Kind, cunning and amused.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.76,
+    "medianF0Hz": 181.6
+  },
+  {
+    "file": "_audition_p4_s1309.flac",
+    "personaIndex": 4,
+    "seed": 1309,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian woman in her seventies with a low-pitched chest voice. Slow, languorous, sing-song delivery, as if savoring every word. Slightly hoarse, smoky timbre with a soft breathy rasp. Kind, cunning and amused.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.2,
+    "medianF0Hz": 239.6
+  },
+  {
+    "file": "_audition_p4_s1310.flac",
+    "personaIndex": 4,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Old Russian woman in her seventies with a low-pitched chest voice. Slow, languorous, sing-song delivery, as if savoring every word. Slightly hoarse, smoky timbre with a soft breathy rasp. Kind, cunning and amused.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.92,
+    "medianF0Hz": 209.8
+  },
+  {
+    "file": "_audition_p5_s1310.flac",
+    "personaIndex": 5,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 169.4
+  },
+  {
+    "file": "_audition_p5_s1312.flac",
+    "personaIndex": 5,
+    "seed": 1312,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 8.0,
+    "medianF0Hz": 170.4
+  },
+  {
+    "file": "_audition_p5_s1310_m2.flac",
+    "personaIndex": 5,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 154.0,
+    "postprocess": "ffmpeg rubberband pitch=0.8909 (−2 полутона), formant=preserved"
+  },
+  {
+    "file": "_audition_p5_s1310_m4.flac",
+    "personaIndex": 5,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 136.3,
+    "postprocess": "ffmpeg rubberband pitch=0.7937 (−4 полутона), formant=preserved"
+  },
+  {
+    "file": "_audition_p5_s1310_m5.flac",
+    "personaIndex": 5,
+    "seed": 1310,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.28,
+    "medianF0Hz": 123.5,
+    "postprocess": "ffmpeg rubberband pitch=0.7492 (−5 полутона), formant=preserved"
+  },
+  {
+    "file": "_audition_p3_s1308_p3.flac",
+    "personaIndex": 3,
+    "seed": 1308,
+    "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+    "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.12,
+    "medianF0Hz": 131.2,
+    "postprocess": "ffmpeg rubberband pitch=1.1892 (+3 полутона), formant=preserved"
+  }
+]

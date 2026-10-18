@@ -1,0 +1,25 @@
+{
+  "id": "agata_tut_throw",
+  "text": "Мо́жно подки́нуть ка́рту того́ же досто́инства.",
+  "catalogText": "Можно подкинуть карту того же достоинства.",
+  "stressStyle": "acute",
+  "seed": 17008434,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "9edcde21f09d569e171160a0e5cb9ebc4f54511c371b647e2fc79b817ca431fe",
+  "sampleRate": 24000,
+  "durationSec": 3.12,
+  "generatedAt": "2026-10-18T10:57:46Z"
+}

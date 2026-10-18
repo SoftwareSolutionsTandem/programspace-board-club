@@ -1,0 +1,19 @@
+{
+  "id": "agata_surprise_01",
+  "text": "Ах! Козырем?! Ну ты даёшь…",
+  "catalogText": "Ах! Козырем?! Ну ты даёшь…",
+  "mode": "design",
+  "seed": 1066259,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "sha256": "ab4604f9d87bda6cb43fbeb7445b3d3e6e17b5af0989bdc9d77cd6c2b75026cf",
+  "sampleRate": 24000,
+  "durationSec": 4.24,
+  "generatedAt": "2026-10-18T00:02:48Z"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "agata_win_01",
+  "text": "В дураках-то — ты!",
+  "catalogText": "В дураках-то — ты!",
+  "stressStyle": "plain",
+  "seed": 62488,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "reference": "65cb80cc938b25162aafda66a8741a1eb7bd950d8cb42b9e59316feb72f24fb8",
+  "sha256": "3d29dc870ac2ff231a85435b9eb10b836698bb095c698a50783af80cb53f3014",
+  "sampleRate": 24000,
+  "durationSec": 2.24,
+  "generatedAt": "2026-10-18T00:52:51Z"
+}

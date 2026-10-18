@@ -1,0 +1,20 @@
+{
+  "id": "agata_bito_01",
+  "text": "Би́то. Твой ход.",
+  "catalogText": "Бито. Твой ход.",
+  "stressStyle": "acute",
+  "seed": 45811,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
+  },
+  "reference": "db21eecfeddb18c618784bef8f092c447fb55f7de78a4f14352c3971d9b91d39",
+  "sha256": "1a059b57b9e33cc5f0f75dc2eb9157f0de97763f48bef9d2174c7074017ac5c9",
+  "sampleRate": 24000,
+  "durationSec": 1.92,
+  "generatedAt": "2026-10-18T05:06:43Z"
+}

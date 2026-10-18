@@ -1,0 +1,25 @@
+{
+  "id": "agata_draw_02",
+  "text": "Ни на́шим, ни ва́шим.",
+  "catalogText": "Ни нашим, ни вашим.",
+  "stressStyle": "acute",
+  "seed": 24925,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "cac7c8a1cd66d9bd8244ae8f49bf99739462ba5f926cba72d239208873471451",
+  "sampleRate": 24000,
+  "durationSec": 2.08,
+  "generatedAt": "2026-10-18T07:19:24Z"
+}

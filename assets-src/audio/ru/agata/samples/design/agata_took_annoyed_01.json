@@ -1,0 +1,19 @@
+{
+  "id": "agata_took_annoyed_01",
+  "text": "Ох ты ж… Ладно-ладно, заберу. Но я это запомню!",
+  "catalogText": "Ох ты ж… Ладно-ладно, заберу. Но я это запомню!",
+  "mode": "design",
+  "seed": 61431,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "sha256": "2769ed8bfa4d7bb92c8adbd2350a1005c4653a133b1dad152bf046e9bfec06de",
+  "sampleRate": 24000,
+  "durationSec": 5.28,
+  "generatedAt": "2026-10-18T00:03:17Z"
+}

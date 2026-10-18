@@ -1,0 +1,22 @@
+{
+  "id": "agata_lose_01",
+  "text": "Ох… Обыграли старушку!",
+  "catalogText": "Ох… Обыграли старушку!",
+  "stressStyle": "plain",
+  "seed": 62023,
+  "engine": {
+    "package": "chatterbox-tts",
+    "version": "0.1.7"
+  },
+  "model": "ResembleAI/chatterbox t3_mtl23ls_v3.safetensors",
+  "params": {
+    "exaggeration": 0.6,
+    "cfgWeight": 0.4,
+    "temperature": 0.8
+  },
+  "reference": "_audition_p0_s1308.flac",
+  "sha256": "86fdbbdbf18ad18d3149d017badc39381e71251b945e9d650aa4e50e98c4a3f1",
+  "sampleRate": 24000,
+  "durationSec": 3.44,
+  "generatedAt": "2026-10-18T01:46:46Z"
+}

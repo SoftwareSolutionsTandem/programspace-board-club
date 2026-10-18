@@ -1,0 +1,299 @@
+{
+  "$comment": "Голос Бабушки Агаты (docs/AUDIO.md §14). Тексты — из src/characters/agata/lines.ts; здесь только настройки синтеза и правки произношения.",
+  "character": "agata",
+  "lang": "ru",
+  "language": "Russian",
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "personas": [
+    "Elderly Russian woman, about 75 years old, a kind grandmother playing cards. Clearly aged voice: lower pitch, soft and slightly husky timbre with a light rasp of old age, a little breathy. Warm, cheerful and a bit sly. Unhurried tempo, natural Russian intonation.",
+    "A Russian babushka in her late seventies. Mature, low female voice with natural old-age texture and a slight creak at the ends of phrases. Warm, motherly, playful and good-humored. Relaxed tempo, clear diction.",
+    "Old Russian grandmother, about 80 years old. Aged, slightly hoarse and gravelly voice, lower register, gentle and kind, with a mischievous smile in it. Speaks at a calm, measured pace.",
+    "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
+    "Old Russian woman in her seventies with a low-pitched chest voice. Slow, languorous, sing-song delivery, as if savoring every word. Slightly hoarse, smoky timbre with a soft breathy rasp. Kind, cunning and amused.",
+    "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate."
+  ],
+  "reference": {
+    "$comment": "Эталонная фраза: VoiceDesign создаёт по ней голос (описание personas[personaIndex]), базовая модель затем озвучивает этим голосом все реплики. Кандидатов голоса даёт --audition.",
+    "text": "Ну, здра́вствуй, со́лнышко. Сади́сь, сыгра́ем в дура́чка.",
+    "personaIndex": 0,
+    "seed": 1307
+  },
+  "voice": {
+    "$comment": "Утверждённый голос (вариант C, 18.10.2026, docs/AUDIO.md §14.6): эталон — реплика agata_lose_01 голоса 2b, пониженная случайность модели.",
+    "referenceFile": "assets-src/audio/ru/agata/samples5/v2b/agata_lose_01.flac",
+    "referenceText": "Ох… Обыгра́ли стару́шку!",
+    "temperature": 0.6
+  },
+  "seed": 2026,
+  "samples": [
+    "agata_greet_first_01",
+    "agata_player_took_laugh_01",
+    "agata_defend_01",
+    "agata_surprise_01",
+    "agata_took_annoyed_01",
+    "agata_win_01",
+    "agata_lose_01",
+    "agata_bito_01"
+  ],
+  "overrides": {
+    "agata_nv_giggle_01": {
+      "text": "Хи-хи",
+      "note": "в каталоге ремарка; «Хи-хи» выбрано владельцем на слух (круг 3)",
+      "seedOffset": 13
+    },
+    "agata_nv_giggle_02": {
+      "text": "Ха-ха",
+      "note": "в каталоге ремарка; «Ха-ха» выбрано владельцем на слух (круг 3)",
+      "seedOffset": 13
+    },
+    "agata_player_took_laugh_01": {
+      "seedOffset": 11,
+      "note": "без восклицаний: смех звучал наигранно (замечание владельца) | дубль выбран владельцем на слух (круг 2, 18.10.2026)",
+      "spoken": "Ха-ха, бери́, зо́лотце."
+    },
+    "agata_attack_03": {
+      "seedOffset": 27,
+      "note": "дубль выбран владельцем на слух (круг 4)",
+      "referenceLine": "agata_attack_02"
+    },
+    "agata_bito_02": {
+      "seedOffset": 16,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_player_took_03": {
+      "seedOffset": 2,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_rematch_01": {
+      "seedOffset": 3,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_took_02": {
+      "seedOffset": 1,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_nv_ah_01": {
+      "seedOffset": 2,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_lose_03": {
+      "seedOffset": 27,
+      "note": "дубль выбран владельцем на слух (круг 4)"
+    },
+    "agata_bye_01": {
+      "seedOffset": 2,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_praise_03": {
+      "seedOffset": 1,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_attack_02": {
+      "seedOffset": 4,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_win_01": {
+      "seedOffset": 10,
+      "note": "слитно: на дефисе модель делала паузу «дураках | дубль выбран владельцем на слух (круг 2, 18.10.2026)",
+      "spoken": "В дурака́хто — ты!"
+    },
+    "agata_defend_03": {
+      "seedOffset": 2,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_rematch_02": {
+      "seedOffset": 10,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026) | дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_bye_02": {
+      "seedOffset": 11,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026) | дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_start_01": {
+      "seedOffset": 1,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_throw_after_take_02": {
+      "seedOffset": 2,
+      "note": "дубль выбран по распознаванию и близости тона к голосу (раунд каталога, 18.10.2026)"
+    },
+    "agata_win_04": {
+      "spoken": "Побе́да! Ох, ра́достьто!",
+      "note": "слитно: «радость | дубль выбран владельцем на слух (круг 2, 18.10.2026)",
+      "seedOffset": 8
+    },
+    "agata_defend_04": {
+      "seedOffset": 5,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_throw_01": {
+      "seedOffset": 8,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_tut_attack": {
+      "seedOffset": 6,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_tut_intro": {
+      "seedOffset": 6,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_tut_done": {
+      "seedOffset": 6,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_deck_empty_02": {
+      "seedOffset": 7,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_tut_bito": {
+      "seedOffset": 9,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_nv_sigh_01": {
+      "seedOffset": 7,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_player_took_04": {
+      "seedOffset": 5,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_greet_again_01": {
+      "seedOffset": 7,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_deck_empty_01": {
+      "seedOffset": 8,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_defend_01": {
+      "seedOffset": 6,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_attack_sly_01": {
+      "seedOffset": 9,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_defend_02": {
+      "seedOffset": 9,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_start_02": {
+      "seedOffset": 9,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_surprise_02": {
+      "seedOffset": 9,
+      "note": "дубль выбран владельцем на слух (круг 2, 18.10.2026)"
+    },
+    "agata_tut_take": {
+      "parts": [
+        "Не́чем отби́ться?",
+        "Бери́ ка́рты."
+      ],
+      "gapMs": 300,
+      "note": "по частям: вопрос отдельно — выразительнее; «Бери карты» обычным голосом (замечание владельца)",
+      "seedOffset": 17
+    },
+    "agata_attack_04": {
+      "seedOffset": 15
+    },
+    "agata_tut_throw": {
+      "seedOffset": 13
+    },
+    "agata_nv_hmm_02": {
+      "seedOffset": 17
+    }
+  },
+  "stressMark": "U+0301 после ударной гласной; без знаков текст обязан совпадать с каталогом",
+  "stress": {
+    "agata_greet_first_01": "Ой, кто пришёл! Сади́сь, со́лнышко!",
+    "agata_greet_first_02": "Но́вое лицо́! Сади́сь, сыгра́ем.",
+    "agata_greet_again_01": "А вот и ты! Сади́сь.",
+    "agata_greet_again_02": "Сно́ва ко мне? Пра́вильно!",
+    "agata_start_01": "Раздаю́. Не подгля́дывать!",
+    "agata_start_02": "Ну, погляди́м, кому́ повезёт.",
+    "agata_start_03": "Пое́хали, зо́лотце!",
+    "agata_attack_sly_01": "А ну́-ка, отбе́йся!",
+    "agata_attack_02": "Держи́-ка, со́лнышко.",
+    "agata_attack_03": "С э́той начну́.",
+    "agata_attack_04": "Мой ход!",
+    "agata_throw_01": "А я ещё подки́ну!",
+    "agata_throw_02": "И э́ту туда́ же.",
+    "agata_throw_after_take_01": "Бери́ с доба́вкой!",
+    "agata_throw_after_take_02": "Вот тебе́ ещё.",
+    "agata_defend_01": "Отби́лась!",
+    "agata_defend_02": "Э́то мы побьём.",
+    "agata_defend_03": "Ой, а у меня́ есть!",
+    "agata_defend_04": "А моя́-то ста́рше!",
+    "agata_trump_azart_01": "А ко́зырь-то я приберегла́!",
+    "agata_trump_02": "Ко́зырем тебя́!",
+    "agata_trump_03": "Ко́зыря не жа́лко.",
+    "agata_took_annoyed_01": "Ох ты ж… Ла́дно, заберу́.",
+    "agata_took_02": "Беру́, беру́.",
+    "agata_took_03": "Ну и ка́рта… Забира́ю.",
+    "agata_took_04": "В хозя́йстве пригоди́тся.",
+    "agata_player_took_laugh_01": "Ха-ха́! Бери́, зо́лотце!",
+    "agata_player_took_02": "Ой, ско́лько карт!",
+    "agata_player_took_03": "Берёшь? Ну, бери́.",
+    "agata_player_took_04": "Вот так-то, со́лнышко.",
+    "agata_surprise_01": "Ах! Ко́зырем?!",
+    "agata_surprise_02": "Ба́тюшки, ко́зырь!",
+    "agata_praise_01": "Ло́вко!",
+    "agata_praise_02": "Ишь ты! Уважа́ю.",
+    "agata_praise_03": "Хорошо́ игра́ешь!",
+    "agata_bito_01": "Би́то. Твой ход.",
+    "agata_bito_02": "Ла́дно, би́то.",
+    "agata_deck_empty_01": "Коло́да ко́нчилась!",
+    "agata_deck_empty_02": "Добира́ть не́чего. Держи́сь!",
+    "agata_wait_01": "Не торопи́сь, я подожду́.",
+    "agata_wait_02": "Ду́май, ду́май.",
+    "agata_win_01": "В дурака́х-то — ты!",
+    "agata_win_02": "Ой, вы́играла!",
+    "agata_win_03": "Моя́ взяла́!",
+    "agata_win_04": "Побе́да! Ох, ра́дость-то!",
+    "agata_lose_01": "Ох… Обыгра́ли стару́шку!",
+    "agata_lose_02": "Вот э́то да! Я в дурака́х.",
+    "agata_lose_03": "Твоя́ взяла́, со́лнышко.",
+    "agata_lose_04": "Эх, не помогли́ ко́зыри…",
+    "agata_draw_01": "Ничья́! На́до же.",
+    "agata_draw_02": "Ни на́шим, ни ва́шим.",
+    "agata_rematch_01": "Ещё парте́ечку?",
+    "agata_rematch_02": "Дава́й ещё одну́!",
+    "agata_rematch_loss_01": "Отыгра́ться не хо́чешь?",
+    "agata_bye_01": "Заходи́ ещё, со́лнышко!",
+    "agata_bye_02": "Уже́ ухо́дишь? До встре́чи!",
+    "agata_nv_hmm_02": "Та́к-та́к…",
+    "agata_tut_intro": "Дава́й покажу́, как игра́ть.",
+    "agata_tut_trump": "Ко́зырь бьёт любу́ю другу́ю масть.",
+    "agata_tut_attack": "Твой ход. Положи́ мла́дшую ка́рту.",
+    "agata_tut_defend": "Отбе́йся ста́ршей ка́ртой той же ма́сти или ко́зырем.",
+    "agata_tut_throw": "Мо́жно подки́нуть ка́рту того́ же досто́инства.",
+    "agata_tut_take": "Не́чем отби́ться? Бери́ ка́рты.",
+    "agata_tut_bito": "Всё поби́то — жми «Би́то».",
+    "agata_tut_wrong": "Так нельзя́. Посмотри́ подска́зку.",
+    "agata_tut_done": "Молоде́ц! Тепе́рь сыгра́ем по-настоя́щему."
+  },
+  "stressStyle": "acute",
+  "license": {
+    "$comment": "Строка в assets/audio/LICENSES.md для каждого файла голоса (build-voice.mjs). Голос синтетический: создан по текстовому описанию, реальный человек не клонировался.",
+    "source": "синтез: siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf (дообученная Qwen/Qwen3-TTS-12Hz-1.7B-Base); голос создан Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign по описанию персонажа",
+    "date": "2026-10-18",
+    "terms": "веса моделей — Apache-2.0 (копии карточек и лицензии: assets-src/audio/licenses/); записи созданы проектом",
+    "use": "в игре, включая коммерческое распространение; каждая реплика одобрена владельцем на слух",
+    "voice": {
+      "id": "agata-qwen3-ru-stress-c",
+      "synthetic": true,
+      "approvedBy": "owner",
+      "approvedAt": "2026-10-18"
+    }
+  }
+}

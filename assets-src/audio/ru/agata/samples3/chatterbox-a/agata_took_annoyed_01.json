@@ -1,0 +1,22 @@
+{
+  "id": "agata_took_annoyed_01",
+  "text": "Ох ты ж… Ладно, заберу.",
+  "catalogText": "Ох ты ж… Ладно, заберу.",
+  "stressStyle": "plain",
+  "seed": 61431,
+  "engine": {
+    "package": "chatterbox-tts",
+    "version": "0.1.7"
+  },
+  "model": "ResembleAI/chatterbox t3_mtl23ls_v3.safetensors",
+  "params": {
+    "exaggeration": 0.6,
+    "cfgWeight": 0.4,
+    "temperature": 0.8
+  },
+  "reference": "_audition_p0_s1308.flac",
+  "sha256": "bb6f2d6c94a1a15932a17c536c80355ab3484a42e49f077c8dbab316021f39ba",
+  "sampleRate": 24000,
+  "durationSec": 2.72,
+  "generatedAt": "2026-10-18T01:46:22Z"
+}

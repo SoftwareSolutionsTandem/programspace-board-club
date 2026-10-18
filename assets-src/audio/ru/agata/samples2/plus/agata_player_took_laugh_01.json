@@ -1,0 +1,20 @@
+{
+  "id": "agata_player_took_laugh_01",
+  "text": "Ха-х+а! Бер+и, з+олотце!",
+  "catalogText": "Ха-ха! Бери, золотце!",
+  "stressStyle": "plus",
+  "seed": 45288,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "reference": "65cb80cc938b25162aafda66a8741a1eb7bd950d8cb42b9e59316feb72f24fb8",
+  "sha256": "77cb3918f92b685f7ddc2f84fab2ea808aad163de8c8b66b7f48233d1ccea60a",
+  "sampleRate": 24000,
+  "durationSec": 4.96,
+  "generatedAt": "2026-10-18T00:59:11Z"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "agata_throw_after_take_02",
+  "text": "Вот тебе́ ещё.",
+  "catalogText": "Вот тебе ещё.",
+  "stressStyle": "acute",
+  "seed": 2036023,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "cd14329e70725dbdcae664a8df979d96a066f31e79c3cec6f2147219fff2ba40",
+  "sampleRate": 24000,
+  "durationSec": 1.92,
+  "generatedAt": "2026-10-18T07:42:13Z"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "agata_start_02",
+  "text": "Ну, погляди́м, кому́ повезёт.",
+  "catalogText": "Ну, поглядим, кому повезёт.",
+  "stressStyle": "acute",
+  "seed": 7070062,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "2470cde98601aa8bcd9dec3901f9589e7b4f30e0452ecffd2d7faf4a69d5b208",
+  "sampleRate": 24000,
+  "durationSec": 2.88,
+  "generatedAt": "2026-10-18T08:57:23Z"
+}

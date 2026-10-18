@@ -1,0 +1,132 @@
+{
+ "9ada6b6b": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt3/o14",
+  "seed": 16022863
+ },
+ "c521d2e8": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt3/o17",
+  "seed": 19022872
+ },
+ "1f7da91d": {
+  "id": "agata_attack_03",
+  "dir": "scratch:rt3/o12",
+  "seed": 14022857
+ },
+ "23b6accc": {
+  "id": "agata_attack_04",
+  "dir": "scratch:rt3/o15",
+  "seed": 15002541
+ },
+ "0e494960": {
+  "id": "agata_attack_04",
+  "dir": "scratch:rt3/o16",
+  "seed": 16002544
+ },
+ "9f806197": {
+  "id": "agata_bito_02",
+  "dir": "scratch:rt3/o13",
+  "seed": 15096458
+ },
+ "72bcd23b": {
+  "id": "agata_bito_02",
+  "dir": "scratch:rt3/o14",
+  "seed": 16096461
+ },
+ "00dab571": {
+  "id": "agata_bito_02",
+  "dir": "scratch:rt3/o17",
+  "seed": 19096470
+ },
+ "5562baf7": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt3/o14",
+  "seed": 15093000
+ },
+ "6f22fdd9": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt3/o17",
+  "seed": 18093009
+ },
+ "e0347cb2": {
+  "id": "agata_lose_03",
+  "dir": "scratch:rt3/o16",
+  "seed": 17093006
+ },
+ "fade278d": {
+  "id": "agata_nv_giggle_01",
+  "dir": "scratch:rt3/gB13",
+  "seed": 13080966
+ },
+ "d047e488": {
+  "id": "agata_nv_giggle_01",
+  "dir": "scratch:rt3/gA14",
+  "seed": 14080969
+ },
+ "0cfe13fd": {
+  "id": "agata_nv_giggle_01",
+  "dir": "scratch:rt3/gA12",
+  "seed": 12080963
+ },
+ "61c3e904": {
+  "id": "agata_nv_giggle_02",
+  "dir": "scratch:rt3/cuta",
+  "seed": -1
+ },
+ "439d6db7": {
+  "id": "agata_nv_giggle_02",
+  "dir": "scratch:rt3/gA13",
+  "seed": 13079168
+ },
+ "0d56ce73": {
+  "id": "agata_nv_giggle_02",
+  "dir": "scratch:rt3/gB13",
+  "seed": 13079168
+ },
+ "e435f865": {
+  "id": "agata_nv_hmm_02",
+  "dir": "scratch:rt3/o13",
+  "seed": 13054317
+ },
+ "70a7f27a": {
+  "id": "agata_nv_hmm_02",
+  "dir": "scratch:rt3/o17",
+  "seed": 17054329
+ },
+ "2cf3e107": {
+  "id": "agata_nv_hmm_02",
+  "dir": "scratch:rt3/o14",
+  "seed": 14054320
+ },
+ "3c2a58b5": {
+  "id": "agata_tut_throw",
+  "dir": "scratch:rt3/o13",
+  "seed": 13008422
+ },
+ "1223b7bf": {
+  "id": "agata_tut_throw",
+  "dir": "scratch:rt3/o15",
+  "seed": 15008428
+ },
+ "9edcde21": {
+  "id": "agata_tut_throw",
+  "dir": "scratch:rt3/o17",
+  "seed": 17008434
+ },
+ "efc5e63b": {
+  "id": "agata_tut_take",
+  "dir": "scratch:rt3/o17",
+  "seed": 17075786
+ },
+ "939a6cd8": {
+  "id": "agata_tut_take",
+  "dir": "scratch:rt3/o16",
+  "seed": 16075783
+ },
+ "20750b99": {
+  "id": "agata_tut_take",
+  "dir": "scratch:rt3/o14",
+  "seed": 14075777
+ }
+}

@@ -1,0 +1,9 @@
+{
+  "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
+  "from": "_audition_p0_s1308.flac",
+  "instruct": "Elderly Russian woman, about 75 years old, a kind grandmother playing cards. Clearly aged voice: lower pitch, soft and slightly husky timbre with a light rasp of old age, a little breathy. Warm, cheerful and a bit sly. Unhurried tempo, natural Russian intonation.",
+  "seed": 1308,
+  "medianF0Hz": 173.9,
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "sha256": "65cb80cc938b25162aafda66a8741a1eb7bd950d8cb42b9e59316feb72f24fb8"
+}

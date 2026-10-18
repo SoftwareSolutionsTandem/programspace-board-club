@@ -1,0 +1,25 @@
+{
+  "id": "agata_tut_take",
+  "text": "Не́чем отби́ться? Бери́ ка́рты.",
+  "catalogText": "Нечем отбиться? Бери карты.",
+  "stressStyle": "acute",
+  "seed": 16075783,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "939a6cd8049abf28f0ba354977929abcf3392b654cb8817c1f80a67a5fd90634",
+  "sampleRate": 24000,
+  "durationSec": 3.26,
+  "generatedAt": "2026-10-18T10:56:34Z"
+}

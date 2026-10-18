@@ -102,12 +102,21 @@ test('клавиатура: выбрать карту стрелкой и схо
   await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
   await sitAtTable(page, 'Лёгкая');
   // Первым может ходить любой: при своём ходе — стрелка и Enter, при защите — T («Беру»).
-  await expect.poll(async () => (await probe(page)).session!.legal.some((a) => a.type === 'attack' || a.type === 'take'), { timeout: 30_000 }).toBe(true);
+  // Пока идёт анимация (busy), клавиши игнорируются — ждём и разрешённого хода, и свободной сцены.
+  await expect.poll(async () => {
+    const ss = (await probe(page)).session!;
+    return !ss.busy && ss.legal.some((a) => a.type === 'attack' || a.type === 'take');
+  }, { timeout: 30_000 }).toBe(true);
   const start = (await probe(page)).session!;
   if (start.legal.some((a) => a.type === 'attack')) {
+    const before = start.view.hand.map(cardCode);
     await page.keyboard.press('ArrowRight');
     await page.keyboard.press('Enter');
-    await expect.poll(async () => (await probe(page)).session!.view.table.length, { timeout: 10_000 }).toBeGreaterThan(0);
+    // Карта сыграна, если ушла из руки: это верно и когда Агата сразу её забрала и стол уже пуст.
+    await expect.poll(async () => {
+      const hand = new Set((await probe(page)).session!.view.hand.map(cardCode));
+      return before.some((c) => !hand.has(c));
+    }, { timeout: 10_000 }).toBe(true);
   } else {
     const handBefore = start.view.hand.length;
     await page.keyboard.press('t');
@@ -175,6 +184,38 @@ test('без аудиофайлов и манифеста игра работа�
   expect(s.view.hand).toHaveLength(6);
   // Сетевая ошибка загрузки манифеста — ожидаемое предупреждение, но не ошибка страницы.
   expect(errors.filter((e) => e.startsWith('pageerror'))).toEqual([]);
+});
+
+test('голос Агаты: записи загружаются и звучат, без звука — молчит', async ({ page }) => {
+  const errors = collectErrors(page);
+  const voiceFiles: string[] = [];
+  // Голос — только заранее записанные файлы игры: никаких внешних запросов (синтеза речи во время игры нет).
+  const external = new Set<string>();
+  page.on('request', (r) => {
+    const u = new URL(r.url());
+    if (u.protocol.startsWith('http') && u.hostname !== 'localhost' && u.hostname !== '127.0.0.1') external.add(u.hostname);
+  });
+  page.on('response', (r) => {
+    if (/\/audio\/ru\/agata\/agata_[^/]+\.(opus|m4a)$/.test(r.url()) && r.ok()) voiceFiles.push(r.url());
+  });
+  await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+  await page.getByRole('button', { name: 'Настройки' }).click();
+  await expect(page.locator('.modal .note')).toContainText('записано реплик — 71 из 71');
+  await page.getByRole('button', { name: 'Закрыть' }).click();
+  await sitAtTable(page, 'Лёгкая');
+  // Приветствие при посадке за стол звучит настоящей записью.
+  await page.waitForFunction(() => (window as unknown as { __igroteka: () => { session: { voiceLog: { outcome: string }[] } | null } }).__igroteka().session?.voiceLog.some((v) => v.outcome === 'played'), null, { timeout: 15_000 });
+  expect(voiceFiles.length).toBeGreaterThan(0);
+  // Без звука новые реплики не запускаются, текущая останавливается.
+  await page.getByRole('button', { name: 'Звук', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Звук выключен' })).toBeVisible();
+  const before = (await probe(page)).session!.voiceLog.length;
+  await expect.poll(async () => (await probe(page)).session!.speaking).toBeNull();
+  await playThroughUi(page, false);
+  const after = (await probe(page)).session!.voiceLog.slice(before);
+  expect(after.every((v) => v.outcome !== 'played')).toBe(true);
+  expect([...external]).toEqual([]);
+  noErrors(errors);
 });
 
 test('первый запуск: обучение с подсказками, пропуск обучения', async ({ page }) => {

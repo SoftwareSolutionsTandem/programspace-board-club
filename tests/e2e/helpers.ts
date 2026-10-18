@@ -15,6 +15,8 @@ export interface Probe {
     pose: string;
     emotion: string;
     blinks: number;
+    speaking: string | null;
+    voiceLog: { id: string; outcome: string }[];
   };
 }
 export interface Card { suit: string; rank: number }
