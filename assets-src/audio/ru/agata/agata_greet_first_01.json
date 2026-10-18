@@ -1,0 +1,24 @@
+{
+  "id": "agata_greet_first_01",
+  "text": "Ой, кто пришёл! Сади́сь, со́лнышко!",
+  "catalogText": "Ой, кто пришёл! Садись, солнышко!",
+  "stressStyle": "acute",
+  "seed": 28366,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "d400b49ad10f12219277c6c2968b86d56bbdc9a9d636eaa19b85ce2862923ddc",
+  "sampleRate": 24000,
+  "durationSec": 3.12,
+  "generatedAt": "2026-10-18T05:48:26Z"
+}

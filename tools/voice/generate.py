@@ -134,6 +134,13 @@ def main() -> int:
     cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
     if args.clone_model:
         cfg["models"]["clone"] = args.clone_model
+    # Утверждённый голос: эталон и параметры из конфига, если не заданы в командной строке.
+    voice = cfg.get("voice", {})
+    if not args.reference_file and voice.get("referenceFile"):
+        args.reference_file = str(ROOT / voice["referenceFile"])
+        args.reference_text = args.reference_text or voice.get("referenceText")
+    if args.temperature is None:
+        args.temperature = voice.get("temperature")
     catalog = {l["id"]: l for l in load_catalog()}
     out_dir = Path(args.out) if args.out else ROOT / "assets-src/audio" / cfg["lang"] / cfg["character"]
     out_dir.mkdir(parents=True, exist_ok=True)

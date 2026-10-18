@@ -1,0 +1,25 @@
+{
+  "id": "agata_attack_04",
+  "text": "Мой ход!",
+  "catalogText": "Мой ход!",
+  "stressStyle": "acute",
+  "seed": 2496,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "8770fda413d76e0f5162993fabf61a2aef0ef11520bc3d1e9085d1944ba473ed",
+  "sampleRate": 24000,
+  "durationSec": 0.88,
+  "generatedAt": "2026-10-18T07:13:11Z"
+}

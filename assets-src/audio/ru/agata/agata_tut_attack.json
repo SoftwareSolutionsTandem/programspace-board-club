@@ -1,0 +1,25 @@
+{
+  "id": "agata_tut_attack",
+  "text": "Твой ход. Положи́ мла́дшую ка́рту.",
+  "catalogText": "Твой ход. Положи младшую карту.",
+  "stressStyle": "acute",
+  "seed": 76208,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "68d02e5f7d2c7493c9c9fb8f9e8ba5d3bb6187665b914e2633c11a1f2804e673",
+  "sampleRate": 24000,
+  "durationSec": 3.2,
+  "generatedAt": "2026-10-18T07:21:50Z"
+}

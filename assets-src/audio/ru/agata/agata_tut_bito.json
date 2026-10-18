@@ -1,0 +1,25 @@
+{
+  "id": "agata_tut_bito",
+  "text": "Всё поби́то — жми «Би́то».",
+  "catalogText": "Всё побито — жми «Бито».",
+  "stressStyle": "acute",
+  "seed": 44768,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "3493c8813cfaa93a0fe1598ee4225efe464cc0dbfef520e7bbe6c767aba0f48b",
+  "sampleRate": 24000,
+  "durationSec": 2.32,
+  "generatedAt": "2026-10-18T07:22:55Z"
+}

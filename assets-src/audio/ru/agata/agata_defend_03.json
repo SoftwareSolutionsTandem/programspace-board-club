@@ -1,0 +1,25 @@
+{
+  "id": "agata_defend_03",
+  "text": "Ой, а у меня́ есть!",
+  "catalogText": "Ой, а у меня есть!",
+  "stressStyle": "acute",
+  "seed": 2082057,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "38df9574640bcef9d24d0cb21f3df79af6f8ae06ed551661699bb6742e54d135",
+  "sampleRate": 24000,
+  "durationSec": 1.76,
+  "generatedAt": "2026-10-18T07:41:19Z"
+}
