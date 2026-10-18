@@ -1,0 +1,20 @@
+{
+  "id": "agata_defend_01",
+  "text": "ОтбилАсь!",
+  "catalogText": "Отбилась!",
+  "stressStyle": "upper",
+  "seed": 99871,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "Qwen/Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "reference": "65cb80cc938b25162aafda66a8741a1eb7bd950d8cb42b9e59316feb72f24fb8",
+  "sha256": "da3bd6dcb2055d11d9239aa30093faac25671dc0abee24c92d38283132a5499f",
+  "sampleRate": 24000,
+  "durationSec": 1.12,
+  "generatedAt": "2026-10-18T00:55:33Z"
+}
