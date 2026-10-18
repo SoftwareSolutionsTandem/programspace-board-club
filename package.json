@@ -9,14 +9,20 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:durak": "vite --mode durak",
     "build": "vite build",
+    "build:igroteka": "vite build",
+    "build:durak": "vite build --mode durak",
+    "build:all": "npm run build:igroteka && npm run build:durak",
     "preview": "vite preview",
+    "preview:durak": "vite preview --mode durak",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run lint && npm run typecheck && npm run check:assets && npm test && npm run build",
+    "check": "npm run lint && npm run typecheck && npm run check:assets && npm test && npm run build:all && npm run check:bundle",
     "check:assets": "node tools/check-audio-licenses.mjs",
+    "check:bundle": "node tools/check-bundle.mjs igroteka durak",
     "test:e2e": "playwright test"
   },
   "dependencies": {

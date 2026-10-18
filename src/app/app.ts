@@ -4,6 +4,7 @@ import { AudioEngine } from '../audio/engine';
 import { AGATA_LINES } from '../characters/agata/lines';
 import { buildTextures, destroyTextures, type TextureBank } from '../games/durak/scene/textures';
 import { i18n, t } from '../i18n';
+import { PRODUCT } from '../products/current';
 import { computeLayout, type LayoutSpec } from '../layout/layout';
 import { browserStore, loadSettings, saveSettings, type KeyValueStore, type Settings } from '../storage/settings';
 import { button, el } from './dom';
@@ -26,7 +27,7 @@ export class App {
   private resizeQueued = false;
 
   constructor(private readonly stageEl: HTMLElement, private readonly uiEl: HTMLElement) {
-    this.settingsState = loadSettings(this.store);
+    this.settingsState = loadSettings(this.store, PRODUCT.storageKey);
     this.smallNotice.append(el('h2', 'heading', t('small.title')), el('p', '', t('small.body')));
   }
 
@@ -62,7 +63,7 @@ export class App {
 
   updateSettings(patch: Partial<Settings>): void {
     this.settingsState = { ...this.settingsState, ...patch };
-    saveSettings(this.store, this.settingsState);
+    saveSettings(this.store, this.settingsState, PRODUCT.storageKey);
     this.applyAudioSettings();
     this.session?.settingsChanged(this.settingsState);
   }

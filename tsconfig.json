@@ -15,7 +15,8 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": { "@product": ["./src/products/igroteka.json"] }
   },
   "include": ["src", "tests", "vite.config.ts", "eslint.config.js", "playwright.config.ts"]
 }
