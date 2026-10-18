@@ -126,6 +126,8 @@ def main() -> int:
     ap.add_argument("--seed-offset", type=int, default=0, help="другой дубль тех же реплик")
     ap.add_argument("--device", default=None, help="cuda:0 / cpu (по умолчанию — cuda, если есть)")
     ap.add_argument("--persona", help="для --audition: номера описаний из personas через запятую (по умолчанию все)")
+    ap.add_argument("--reference-text", help="расшифровка эталона, если его нет в _audition.json (например, эталон — готовая реплика)")
+    ap.add_argument("--temperature", type=float, help="случайность модели (по умолчанию 0.9); ниже — ровнее голос между репликами")
     ap.add_argument("--clone-model", help="другие веса для озвучки реплик (идентификатор Hugging Face или папка), вместо models.clone")
     args = ap.parse_args()
 
@@ -215,7 +217,7 @@ def main() -> int:
         shutil.copyfile(src, ref_path)
         src_meta = src.with_suffix("").parent / "_audition.json"
         info = next((r for r in json.loads(src_meta.read_text(encoding="utf-8")) if r["file"] == src.name), {}) if src_meta.exists() else {}
-        ref_meta.write_text(json.dumps({"text": info.get("text", ref_spoken), "from": src.name, **{k: info[k] for k in ("instruct", "seed", "medianF0Hz") if k in info},
+        ref_meta.write_text(json.dumps({"text": args.reference_text or info.get("text", ref_spoken), "from": src.name, **{k: info[k] for k in ("instruct", "seed", "medianF0Hz") if k in info},
                                         "model": cfg["models"]["design"], "sha256": sha256(ref_path)}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     elif args.redesign or not ref_path.exists():
         design = load("design")
@@ -228,6 +230,7 @@ def main() -> int:
         del design
     ref_text = json.loads(ref_meta.read_text(encoding="utf-8"))["text"]
 
+    sampling = {"temperature": args.temperature, "subtalker_temperature": args.temperature} if args.temperature is not None else {}
     clone = load("clone")
     prompt = clone.create_voice_clone_prompt(ref_audio=str(ref_path), ref_text=ref_text)
     for i in plan:
@@ -239,12 +242,12 @@ def main() -> int:
         try:
             text = spoken_text(cfg, i, plain, style)
             seed_all(seed)
-            wavs, sr = clone.generate_voice_clone(text=text, language=language, voice_clone_prompt=prompt)
+            wavs, sr = clone.generate_voice_clone(text=text, language=language, voice_clone_prompt=prompt, **sampling)
             flac = out_dir / f"{i}.flac"
             write_flac(flac, wavs[0], sr)
             meta = {
                 "id": i, "text": text, "catalogText": line["text"], "stressStyle": style, "seed": seed,
-                "engine": cfg["engine"], "models": cfg["models"], "reference": json.loads(ref_meta.read_text(encoding="utf-8")).get("sha256"),
+                "engine": cfg["engine"], "models": cfg["models"], **({"sampling": sampling} if sampling else {}), "reference": json.loads(ref_meta.read_text(encoding="utf-8")).get("sha256"),
                 "sha256": sha256(flac), "sampleRate": sr, "durationSec": round(len(wavs[0]) / sr, 3),
                 "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             }
