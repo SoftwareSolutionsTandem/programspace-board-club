@@ -47,11 +47,11 @@
   {
     "id": "agata_surprise_01",
     "text": "Ах! Козырем?! Ну ты даёшь…",
-    "heard": "Ах, к-к-к-к-козырем? Ну ты даёшь?",
-    "wer": 0.8,
+    "heard": "Ах! Козырем? Ну ты даёшь!",
+    "wer": 0.0,
     "lastWordOk": true,
-    "durationSec": 3.84,
-    "status": "проверить"
+    "durationSec": 3.12,
+    "status": "ok"
   },
   {
     "id": "agata_took_annoyed_01",
