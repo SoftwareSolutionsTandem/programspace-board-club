@@ -1,9 +1,9 @@
 {
   "id": "agata_nv_giggle_01",
-  "text": "Хи-хи-хи!",
+  "text": "Хи-хи",
   "catalogText": "(хихикает)",
   "stressStyle": "acute",
-  "seed": 80927,
+  "seed": 13080966,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "8ce010a48bbde3be88f2576f99c49ac8030a25dfe9f3b82694384fb66277eeb7",
+  "sha256": "fade278d799576e496507851f53030f7b9b707ef76f4cbbf8e6d5087b40ff93f",
   "sampleRate": 24000,
-  "durationSec": 2.8,
-  "generatedAt": "2026-10-18T07:20:34Z"
+  "durationSec": 1.76,
+  "generatedAt": "2026-10-18T11:01:25Z"
 }

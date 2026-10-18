@@ -1,9 +1,9 @@
 {
   "id": "agata_nv_giggle_02",
-  "text": "Ха-ха-ха!",
+  "text": "Ха-ха",
   "catalogText": "(смеётся)",
   "stressStyle": "acute",
-  "seed": 79129,
+  "seed": 13079168,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "98e3612908311f1d3da8fea74532081e74c60e07c83c12b16b97fcb6c8896324",
+  "sha256": "0d56ce73a4bf63fbd80d3fbe32035d77c17e7bca7c7019a2388610df0727bf49",
   "sampleRate": 24000,
-  "durationSec": 1.2,
-  "generatedAt": "2026-10-18T07:20:40Z"
+  "durationSec": 0.88,
+  "generatedAt": "2026-10-18T11:01:32Z"
 }

@@ -3,7 +3,7 @@
   "text": "Не́чем отби́ться? Бери́ ка́рты.",
   "catalogText": "Нечем отбиться? Бери карты.",
   "stressStyle": "acute",
-  "seed": 75735,
+  "seed": 17075786,
   "engine": {
     "package": "qwen-tts",
     "version": "0.1.1"
@@ -18,8 +18,8 @@
     "subtalker_temperature": 0.6
   },
   "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "26a23754339826a06bf74785efaad40fbd6c5acd807423737ff9d1b64ce23be7",
+  "sha256": "efc5e63bcc1725da06516e725c69bc037f0319fedb44b668bbd7230ea8af878d",
   "sampleRate": 24000,
-  "durationSec": 3.28,
-  "generatedAt": "2026-10-18T07:22:43Z"
+  "durationSec": 3.1,
+  "generatedAt": "2026-10-18T10:58:16Z"
 }

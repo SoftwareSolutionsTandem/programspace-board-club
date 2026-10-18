@@ -250,7 +250,19 @@ def main() -> int:
 
     sampling = {"temperature": args.temperature, "subtalker_temperature": args.temperature} if args.temperature is not None else {}
     clone = load("clone")
-    prompt = clone.create_voice_clone_prompt(ref_audio=str(ref_path), ref_text=ref_text)
+    base_prompt = clone.create_voice_clone_prompt(ref_audio=str(ref_path), ref_text=ref_text)
+    line_prompts: dict[str, object] = {}
+
+    def prompt_for(ov: dict):
+        # overrides.<id>.referenceLine — эталоном служит уже одобренная реплика каталога с похожей интонацией
+        rid = ov.get("referenceLine")
+        if not rid:
+            return base_prompt
+        if rid not in line_prompts:
+            src = ROOT / "assets-src/audio" / cfg["lang"] / cfg["character"]
+            rmeta = json.loads((src / f"{rid}.json").read_text(encoding="utf-8"))
+            line_prompts[rid] = clone.create_voice_clone_prompt(ref_audio=str(src / f"{rid}.flac"), ref_text=rmeta["text"])
+        return line_prompts[rid]
     for i in plan:
         line = catalog[i]
         ov = cfg.get("overrides", {}).get(i, {})
@@ -267,18 +279,18 @@ def main() -> int:
                 chunks, sr = [], None
                 for k, part in enumerate(parts):
                     seed_all(seed + k)
-                    w, sr = clone.generate_voice_clone(text=render_stress(part, style), language=language, voice_clone_prompt=prompt, **sampling)
+                    w, sr = clone.generate_voice_clone(text=render_stress(part, style), language=language, voice_clone_prompt=prompt_for(ov), **sampling)
                     chunks += [w[0], np.zeros(int(sr * ov.get("gapMs", 250) / 1000), dtype=w[0].dtype)]
                 wavs, text = [np.concatenate(chunks[:-1])], " ".join(render_stress(x, style) for x in parts)
             else:
                 text = spoken_text(cfg, i, plain, style)
                 seed_all(seed)
-                wavs, sr = clone.generate_voice_clone(text=text, language=language, voice_clone_prompt=prompt, **sampling)
+                wavs, sr = clone.generate_voice_clone(text=text, language=language, voice_clone_prompt=prompt_for(ov), **sampling)
             flac = out_dir / f"{i}.flac"
             write_flac(flac, wavs[0], sr)
             meta = {
                 "id": i, "text": text, "catalogText": line["text"], "stressStyle": style, "seed": seed,
-                "engine": cfg["engine"], "models": cfg["models"], **({"sampling": sampling} if sampling else {}), "reference": json.loads(ref_meta.read_text(encoding="utf-8")).get("sha256"),
+                "engine": cfg["engine"], "models": cfg["models"], **({"sampling": sampling} if sampling else {}), "reference": json.loads(ref_meta.read_text(encoding="utf-8")).get("sha256"), **({"referenceLine": ov["referenceLine"]} if ov.get("referenceLine") else {}),
                 "sha256": sha256(flac), "sampleRate": sr, "durationSec": round(len(wavs[0]) / sr, 3),
                 "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             }
