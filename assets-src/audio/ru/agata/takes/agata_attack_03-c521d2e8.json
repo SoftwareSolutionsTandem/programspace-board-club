@@ -1,0 +1,25 @@
+{
+  "id": "agata_attack_03",
+  "text": "С э́той начну́.",
+  "catalogText": "С этой начну.",
+  "stressStyle": "acute",
+  "seed": 19022872,
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "sampling": {
+    "temperature": 0.6,
+    "subtalker_temperature": 0.6
+  },
+  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
+  "sha256": "c521d2e8bfc958d9ac1679ec38c40ce0e4874843bdac4abcb0374e78451be7f6",
+  "sampleRate": 24000,
+  "durationSec": 1.28,
+  "generatedAt": "2026-10-18T10:56:57Z"
+}
