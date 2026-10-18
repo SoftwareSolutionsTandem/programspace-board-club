@@ -1,0 +1,22 @@
+{
+  "id": "agata_defend_01",
+  "text": "Отбилась!",
+  "catalogText": "Отбилась!",
+  "stressStyle": "plain",
+  "seed": 99871,
+  "engine": {
+    "package": "chatterbox-tts",
+    "version": "0.1.7"
+  },
+  "model": "ResembleAI/chatterbox t3_mtl23ls_v3.safetensors",
+  "params": {
+    "exaggeration": 0.6,
+    "cfgWeight": 0.4,
+    "temperature": 0.8
+  },
+  "reference": "_audition_p0_s1308.flac",
+  "sha256": "6f6c20effe7f2c73d169b5f111641a4bafecf50edb102540058a4407b3945dfe",
+  "sampleRate": 24000,
+  "durationSec": 1.8,
+  "generatedAt": "2026-10-18T01:45:57Z"
+}
