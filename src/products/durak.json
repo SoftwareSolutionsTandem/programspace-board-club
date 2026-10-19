@@ -1,0 +1,14 @@
+{
+  "$comment": "Самостоятельный «Подкидной дурак» с Бабушкой Агатой. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8).",
+  "id": "durak",
+  "version": "0.1.0",
+  "strings": {
+    "app.title": "Подкидной дурак",
+    "start.subtitle": "Карточная игра с Бабушкой Агатой"
+  },
+  "storageKey": "durak.settings",
+  "games": ["durak"],
+  "characters": ["agata"],
+  "publicAssets": ["audio/ru/agata"],
+  "icon": { "file": "public/favicon.svg", "status": "temporary" }
+}

@@ -6,6 +6,7 @@
 
 ## Команды
 - `npm run dev`, `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`; `npm run check` — всё сразу (как CI).
+- Продукты (`docs/ARCHITECTURE.md` §8): `npm run build:durak`, `npm run build:all` → `dist/<id>/`; `npm run check:bundle` — состав сборок. Ключ настроек «Игротеки» `igroteka.settings` не менять.
 - Перед коммитом — `npm run check`. Браузерная проверка — Playwright против `npm run preview`, без ошибок в консоли.
 
 ## Нерушимые правила

@@ -25,9 +25,10 @@ export const probe = (page: Page): Promise<Probe> => page.evaluate(() => (window
 export const code = (c: Card) => ({ 11: 'J', 12: 'Q', 13: 'K', 14: 'A' } as Record<number, string>)[c.rank] ?? String(c.rank) + '';
 export const cardCode = (c: Card) => (({ 11: 'J', 12: 'Q', 13: 'K', 14: 'A' } as Record<number, string>)[c.rank] ?? String(c.rank)) + c.suit;
 
-export async function seedSettings(page: Page, settings: Record<string, unknown>): Promise<void> {
+/** key — ключ настроек продукта (src/products/<id>.json); по умолчанию — «Игротека». */
+export async function seedSettings(page: Page, settings: Record<string, unknown>, key = 'igroteka.settings'): Promise<void> {
   await page.goto('/');
-  await page.evaluate((s) => localStorage.setItem('igroteka.settings', JSON.stringify({ version: 1, ...s })), settings);
+  await page.evaluate(([s, k]) => localStorage.setItem(k, JSON.stringify({ version: 1, ...s })), [settings, key] as const);
   await page.reload();
 }
 

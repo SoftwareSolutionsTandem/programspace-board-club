@@ -73,18 +73,19 @@ export function parseSettings(raw: unknown): Settings {
   };
 }
 
-export function loadSettings(store: KeyValueStore): Settings {
+/** key — ключ продукта (src/products); по умолчанию — ключ «Игротеки». */
+export function loadSettings(store: KeyValueStore, key: string = SETTINGS_KEY): Settings {
   try {
-    const text = store.get(SETTINGS_KEY);
+    const text = store.get(key);
     return text === null ? DEFAULT_SETTINGS : parseSettings(JSON.parse(text));
   } catch {
     return DEFAULT_SETTINGS;
   }
 }
 
-export function saveSettings(store: KeyValueStore, settings: Settings): boolean {
+export function saveSettings(store: KeyValueStore, settings: Settings, key: string = SETTINGS_KEY): boolean {
   try {
-    store.set(SETTINGS_KEY, JSON.stringify(settings));
+    store.set(key, JSON.stringify(settings));
     return true;
   } catch {
     // Хранилище недоступно (приватный режим, квота) — игра продолжает работу с текущими настройками.
