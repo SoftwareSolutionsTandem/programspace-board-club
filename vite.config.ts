@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
-import { parseProduct, type ProductConfig } from './src/products/types';
+import { parseProduct, type ProductConfig } from './src/products/types.ts';
 
 // Продукт сборки: `vite build --mode durak`. Обычные режимы (production, development, test) — «Игротека».
 // Состав продуктов и проверка сборки — docs/ARCHITECTURE.md §8.

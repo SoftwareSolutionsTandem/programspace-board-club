@@ -59,12 +59,23 @@ export class Tweener {
   update(dtMs: number): void {
     const done: Item[] = [];
     for (const it of this.items) {
+      // Объект уже убран со сцены — анимация завершается сразу: ход партии не должен ждать её вечно.
+      if (gone(it.target)) {
+        done.push(it);
+        continue;
+      }
       it.elapsed += dtMs;
       const local = it.elapsed - it.delay;
       if (local < 0) continue;
       const p = Math.min(1, local / it.ms);
       const e = it.ease(p);
-      for (const k of Object.keys(it.to)) it.target[k] = (it.from[k] as number) + ((it.to[k] as number) - (it.from[k] as number)) * e;
+      try {
+        for (const k of Object.keys(it.to)) it.target[k] = (it.from[k] as number) + ((it.to[k] as number) - (it.from[k] as number)) * e;
+      } catch {
+        // Свойство больше нельзя менять (объект разрушен) — анимация закончена.
+        done.push(it);
+        continue;
+      }
       if (p >= 1) done.push(it);
     }
     if (done.length) {
@@ -75,7 +86,14 @@ export class Tweener {
 
   /** Мгновенно завершить всё (переход экрана, ресайз). */
   finishAll(): void {
-    for (const it of this.items) Object.assign(it.target, it.to);
+    for (const it of this.items) {
+      if (gone(it.target)) continue;
+      try {
+        Object.assign(it.target, it.to);
+      } catch {
+        /* объект разрушен — значение уже не нужно */
+      }
+    }
     const all = this.items;
     this.items = [];
     for (const it of all) it.resolve();
@@ -89,3 +107,7 @@ export class Tweener {
     });
   }
 }
+
+/** Разрушенный объект сцены (у Pixi — флаг destroyed). */
+const gone = (t: Target): boolean => t.destroyed === true;
+

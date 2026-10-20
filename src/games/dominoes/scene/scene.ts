@@ -87,13 +87,20 @@ export class DominoScene {
     this.root.on('pointerupoutside', (e: FederatedPointerEvent) => this.onDragEnd(e));
   }
 
+  /** Убрать кость со сцены: сначала её анимации, затем сам спрайт. */
+  private kill(sp: BoneSprite): void {
+    this.tweens.cancel(sp);
+    this.tweens.cancel(sp.scale);
+    sp.destroy();
+  }
+
   setTextures(bank: DominoTextureBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
     this.rig.setTextures(bank.character);
-    for (const s of this.sprites.values()) s.destroy();
+    for (const s of this.sprites.values()) this.kill(s);
     this.sprites.clear();
-    for (const s of this.oppBacks) s.destroy();
+    for (const s of this.oppBacks) this.kill(s);
     this.oppBacks = [];
     if (this.view && this.layout) void this.place(this.view, true);
   }
@@ -219,7 +226,7 @@ export class DominoScene {
     const revealed = view.opponentRevealed;
     const oppSlots = opponentBoneSlots(s, revealed ? revealed.length : view.opponentHandCount);
     if (revealed) {
-      for (const b of this.oppBacks) b.destroy();
+      for (const b of this.oppBacks) this.kill(b);
       this.oppBacks = [];
       revealed.forEach((b, i) => {
         const code = boneCode(b);
@@ -232,7 +239,7 @@ export class DominoScene {
         jobs.push(this.tweens.to(sp, { half: slot.half }, ms));
       });
     } else {
-      while (this.oppBacks.length > oppSlots.length) this.oppBacks.pop()!.destroy();
+      while (this.oppBacks.length > oppSlots.length) this.kill(this.oppBacks.pop()!);
       while (this.oppBacks.length < oppSlots.length) {
         const b = this.makeSprite(null);
         const last = oppSlots[this.oppBacks.length]!;
@@ -250,7 +257,7 @@ export class DominoScene {
     }
     for (const [code, sp] of [...this.sprites]) {
       if (seen.has(code) || sp.parent === this.flyLayer) continue;
-      sp.destroy();
+      this.kill(sp);
       this.sprites.delete(code);
     }
     this.drawBazaar(view, s);
@@ -329,9 +336,9 @@ export class DominoScene {
   /** Мгновенно показать проекцию (начало раздачи, ресайз). */
   reset(view: PlayerView): void {
     this.tweens.finishAll();
-    for (const s of this.sprites.values()) s.destroy();
+    for (const s of this.sprites.values()) this.kill(s);
     this.sprites.clear();
-    for (const s of this.oppBacks) s.destroy();
+    for (const s of this.oppBacks) this.kill(s);
     this.oppBacks = [];
     this.flyLayer.removeChildren().forEach((c) => c.destroy());
     this.origin = 0;
@@ -366,7 +373,8 @@ export class DominoScene {
       sp.flip = 0;
       this.sprites.set(code, sp);
       this.chainLayer.addChild(sp);
-      this.oppBacks.pop()?.destroy();
+      const back = this.oppBacks.pop();
+      if (back) this.kill(back);
     }
     // Добор игрока: кость появляется рубашкой у базара и переворачивается в руке.
     for (const b of view.hand) {

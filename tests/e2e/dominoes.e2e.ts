@@ -135,3 +135,27 @@ test('домино: выбор конца клавиатурой и пауза',
   await expect(page.getByRole('dialog', { name: 'Как играть в домино' })).toBeVisible();
   noErrors(errors);
 });
+
+test('домино: раздача с обычными анимациями доходит до итога (без «Меньше движения»)', async ({ page }) => {
+  test.setTimeout(300_000);
+  const errors = collectErrors(page);
+  await seedSettings(page, { dominoesTutorialDone: true, metMatvey: true, reducedMotion: false }, keyOf());
+  await sitAtDominoes(page);
+  // Матвей выкладывает кость, пока его ряд рубашек ещё анимируется, — раньше это обрывало ход и игра замирала.
+  let last = '';
+  let since = Date.now();
+  for (;;) {
+    const s = (await probe(page)).session!;
+    if (s.phase !== 'play') break;
+    const sig = `${s.view.hand.length}|${s.view.chain.length}|${s.view.turn}|${s.busy}`;
+    if (sig !== last) {
+      last = sig;
+      since = Date.now();
+    }
+    if (Date.now() - since > 20_000) throw new Error(`раздача замерла: ${sig}`);
+    if (!s.busy && s.view.turn === s.view.seat && s.legal.length > 0) await page.evaluate(() => (window as unknown as { __igroteka: () => { session: { act(i: number): void } } }).__igroteka().session.act(0));
+    await page.waitForTimeout(150);
+  }
+  await expect(page.locator('.result--show')).toBeVisible({ timeout: 10_000 });
+  noErrors(errors);
+});
