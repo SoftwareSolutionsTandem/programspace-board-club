@@ -9,7 +9,15 @@ const read = (id: string) => parseProduct(JSON.parse(readFileSync(join(DIR, `${i
 const ids = readdirSync(DIR).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
 
 describe('конфиги продуктов', () => {
-  it('первый этап: «Игротека» и «Дурак»', () => expect(ids.sort()).toEqual(['durak', 'igroteka']));
+  it('продукты: «Игротека», «Дурак», «Домино»', () => expect(ids.sort()).toEqual(['dominoes', 'durak', 'igroteka']));
+
+  it('список игровых модулей продукта (<id>.games.ts) совпадает с его конфигом', () => {
+    for (const p of ids.map(read)) {
+      const src = readFileSync(join(DIR, `${p.id}.games.ts`), 'utf8');
+      const imported = [...src.matchAll(/from '\.\.\/games\/([a-z-]+)\/module'/g)].map((m) => m[1]);
+      expect(imported.sort()).toEqual([...p.games].sort());
+    }
+  });
 
   it('каждый конфиг корректен, id совпадает с именем файла, ключи сохранений разные', () => {
     const all = ids.map(read);

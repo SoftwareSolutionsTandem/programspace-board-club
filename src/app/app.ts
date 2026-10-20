@@ -1,15 +1,14 @@
 // Приложение «Игротека»: экраны клуба, партия, настройки. Один Pixi-холст, HTML-интерфейс поверх.
+// Партию ведёт игровой модуль (src/app/game.ts); список игр задаёт продукт (src/products/<id>.games.ts).
 import { Application } from 'pixi.js';
 import { AudioEngine } from '../audio/engine';
-import { AGATA_LINES } from '../characters/agata/lines';
-import { buildTextures, destroyTextures, type TextureBank } from '../games/durak/scene/textures';
 import { i18n, t } from '../i18n';
-import { PRODUCT } from '../products/current';
-import { computeLayout, type LayoutSpec } from '../layout/layout';
+import { PRODUCT, PRODUCT_GAMES } from '../products/current';
+import type { LayoutSpec } from '../layout/layout';
 import { browserStore, loadSettings, saveSettings, type KeyValueStore, type Settings } from '../storage/settings';
 import { button, el } from './dom';
+import type { GameAssets, GameModule, GameSession } from './game';
 import { clubScreen, loadingScreen, modal, opponentScreen, rulesBody, settingsBody } from './screens';
-import { GameSession, tutorialSeed } from './session';
 
 export type ScreenName = 'club' | 'opponent' | 'loading' | 'game' | 'error';
 
@@ -17,9 +16,10 @@ export class App {
   private pixi: Application | null = null;
   private readonly store: KeyValueStore = browserStore();
   private settingsState: Settings;
-  readonly audio = new AudioEngine(`${import.meta.env.BASE_URL}audio/ru/agata/`);
-  private bank: TextureBank | null = null;
-  private bankRes = 0;
+  readonly audio = new AudioEngine(`${import.meta.env.BASE_URL}audio/ru/`);
+  /** Текстуры по играм: возврат к той же игре не перерисовывает их заново. */
+  private readonly assets = new Map<string, GameAssets>();
+  private game: GameModule = PRODUCT_GAMES[0]!;
   private session: GameSession | null = null;
   private layoutSpec: LayoutSpec | null = null;
   private screen: ScreenName = 'club';
@@ -35,7 +35,7 @@ export class App {
     document.title = t('app.title');
     i18n.setLanguage('ru');
     this.applyAudioSettings();
-    void this.audio.loadManifest();
+    for (const g of PRODUCT_GAMES) if (this.hasVoice(g)) void this.audio.loadVoice(g.character.id);
     // Звук разрешён браузером только после жеста пользователя: разблокируем по первому касанию.
     const unlock = () => {
       this.audio.unlock();
@@ -51,6 +51,11 @@ export class App {
     new ResizeObserver(() => this.queueResize()).observe(this.stageEl);
     window.addEventListener('keydown', (e) => this.session?.onKey(e));
     this.showClub();
+  }
+
+  /** Голос персонажа входит в продукт (publicAssets); иначе манифест не запрашивается вовсе. */
+  private hasVoice(g: GameModule): boolean {
+    return PRODUCT.publicAssets.includes(`audio/ru/${g.character.id}`);
   }
 
   get currentScreen(): ScreenName {
@@ -89,16 +94,23 @@ export class App {
     this.endSession();
     this.screen = 'club';
     this.stageEl.classList.add('stage--hidden');
-    this.setUi(clubScreen({
-      onDurak: () => (this.settingsState.tutorialDone ? this.showOpponents() : void this.startGame(true)),
-      onTutorial: () => void this.startGame(true),
+    this.setUi(clubScreen(PRODUCT_GAMES, {
+      onGame: (g) => {
+        this.game = g;
+        if (this.settingsState[g.tutorialKey]) this.showOpponents();
+        else void this.startGame(true);
+      },
+      onTutorial: (g) => {
+        this.game = g;
+        void this.startGame(true);
+      },
       onSettings: () => this.openSettings(),
     }));
   }
 
   showOpponents(): void {
     this.screen = 'opponent';
-    this.setUi(opponentScreen(this.settingsState.difficulty, {
+    this.setUi(opponentScreen(this.game, this.settingsState.difficulty, {
       onSit: (level) => {
         this.updateSettings({ difficulty: level });
         void this.startGame(false);
@@ -108,13 +120,14 @@ export class App {
   }
 
   openSettings(): void {
-    const total = AGATA_LINES.length;
-    const node: HTMLElement = modal(t('settings.title'), settingsBody(this.settingsState, { available: this.audio.availableCount(), total }, (s) => this.updateSettings(s), () => this.updateSettings({ tutorialDone: false })), () => node.remove());
+    const voices = PRODUCT_GAMES.map((g) => ({ name: t(g.character.genKey), available: this.audio.availableCount(g.character.lines.map((l) => l.id)), total: g.character.lines.length }));
+    const resetTutorials = () => this.updateSettings(Object.fromEntries(PRODUCT_GAMES.map((g) => [g.tutorialKey, false])) as Partial<Settings>);
+    const node: HTMLElement = modal(t('settings.title'), settingsBody(this.settingsState, voices, (s) => this.updateSettings(s), resetTutorials), () => node.remove());
     this.uiEl.append(node);
   }
 
   openRules(): void {
-    const node: HTMLElement = modal(t('rules.title'), rulesBody(), () => node.remove());
+    const node: HTMLElement = modal(t(this.game.rulesTitleKey), rulesBody(this.game.rulesKeys), () => node.remove());
     this.uiEl.append(node);
   }
 
@@ -142,36 +155,30 @@ export class App {
     return Math.min(window.devicePixelRatio || 1, 2);
   }
 
-  private resolutions(spec: LayoutSpec) {
-    const d = this.dpr();
-    return {
-      figure: Math.min(2.6, spec.character.scale * d),
-      card: Math.min(5, (Math.max(spec.hand.cardW, spec.tableCard.w) / 48) * d),
-      bg: Math.min(1, spec.background.scale * d),
-    };
-  }
-
   async startGame(tutorial: boolean): Promise<void> {
     this.endSession();
     this.screen = 'loading';
-    const loading = loadingScreen();
+    const game = this.game;
+    const loading = loadingScreen(t(game.loadingKey));
     this.setUi(loading.root);
     try {
       const app = await this.ensurePixi();
       const spec = this.computeSpec();
-      const res = this.resolutions(spec);
-      if (!this.bank || this.needsRebuild(res.figure)) {
-        const old = this.bank;
-        this.bank = await buildTextures(res.figure, res.card, res.bg, (d, n) => loading.progress(d / n));
-        this.bankRes = res.figure;
-        if (old) destroyTextures(old);
+      const res = game.resolutions(spec, this.dpr());
+      let assets = this.assets.get(game.id);
+      if (!assets || this.needsRebuild(assets, res.figure)) {
+        const fresh = await game.buildAssets(res, (d, n) => loading.progress(d / n));
+        assets?.destroy();
+        this.assets.set(game.id, fresh);
+        assets = fresh;
       }
-      await this.audio.preload(AGATA_LINES.map((l) => l.id));
+      if (this.hasVoice(game)) await this.audio.loadVoice(game.character.id);
+      await this.audio.preload(game.character.lines.map((l) => l.id));
       const seed = (Date.now() >>> 0) % 1_000_000;
-      const session = new GameSession(this, { level: this.settingsState.difficulty, tutorial, seed: tutorial ? tutorialSeed(seed) : seed });
-      session.setTextures(this.bank);
+      const session = game.createSession(this, { level: this.settingsState.difficulty, tutorial, seed: tutorial ? game.tutorialSeed(seed) : seed });
+      session.setAssets(assets);
       session.setLayout(spec);
-      app.stage.addChild(session.scene.root);
+      app.stage.addChild(session.root);
       this.session = session;
       this.layoutSpec = spec;
       this.screen = 'game';
@@ -186,8 +193,8 @@ export class App {
     }
   }
 
-  private needsRebuild(figureRes: number): boolean {
-    const r = figureRes / this.bankRes;
+  private needsRebuild(assets: GameAssets, figureRes: number): boolean {
+    const r = figureRes / assets.figureRes;
     return r > 1.35 || r < 0.6;
   }
 
@@ -207,7 +214,7 @@ export class App {
     probe.remove();
     const rect = this.stageEl.getBoundingClientRect();
     const pointer = window.matchMedia?.('(pointer: coarse)').matches ? 'coarse' : 'fine';
-    const spec = computeLayout({ width: rect.width || window.innerWidth, height: rect.height || window.innerHeight, safe, pointer });
+    const spec = this.game.layout({ width: rect.width || window.innerWidth, height: rect.height || window.innerHeight, safe, pointer });
     this.smallNotice.classList.toggle('small-notice--show', spec.tooSmall);
     return spec;
   }
@@ -223,8 +230,9 @@ export class App {
       this.pixi?.resize();
       this.layoutSpec = spec;
       this.session.setLayout(spec);
-      const res = this.resolutions(spec);
-      if (this.bank && this.needsRebuild(res.figure)) void this.rebuildTextures(spec);
+      const res = this.game.resolutions(spec, this.dpr());
+      const assets = this.assets.get(this.game.id);
+      if (assets && this.needsRebuild(assets, res.figure)) void this.rebuildTextures(spec);
     });
   }
 
@@ -234,14 +242,13 @@ export class App {
     if (this.rebuilding) return;
     this.rebuilding = true;
     try {
-      const res = this.resolutions(spec);
-      const bank = await buildTextures(res.figure, res.card, res.bg);
-      const old = this.bank;
-      this.bank = bank;
-      this.bankRes = res.figure;
-      this.session?.setTextures(bank);
+      const game = this.game;
+      const fresh = await game.buildAssets(game.resolutions(spec, this.dpr()));
+      const old = this.assets.get(game.id);
+      this.assets.set(game.id, fresh);
+      this.session?.setAssets(fresh);
       if (this.layoutSpec) this.session?.setLayout(this.layoutSpec);
-      if (old) destroyTextures(old);
+      old?.destroy();
     } finally {
       this.rebuilding = false;
     }
@@ -249,6 +256,6 @@ export class App {
 
   /** Отладка и e2e: только то, что видит игрок (без скрытых карт соперника). */
   debug() {
-    return { screen: this.screen, layout: this.layoutSpec, settings: this.settingsState, session: this.session?.debug() ?? null };
+    return { screen: this.screen, game: this.game.id, layout: this.layoutSpec, settings: this.settingsState, session: this.session?.debug() ?? null };
   }
 }

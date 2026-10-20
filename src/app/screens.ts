@@ -1,29 +1,41 @@
 // HTML-экраны вне партии: клуб, выбор соперника, настройки, загрузка, правила.
-import { headSvg } from '../characters/agata/art';
 import { t } from '../i18n';
 import type { Difficulty, Settings } from '../storage/settings';
 import { button, el } from './dom';
+import type { GameModule } from './game';
 
-export function clubScreen(h: { onDurak(): void; onTutorial(): void; onSettings(): void }): HTMLElement {
+/** Клуб: карточка на каждую игру продукта; у каждой — «Как играть» (обучающая партия). */
+export function clubScreen(games: readonly GameModule[], h: { onGame(g: GameModule): void; onTutorial(g: GameModule): void; onSettings(): void }): HTMLElement {
   const s = el('div', 'screen screen--club');
-  const card = el('section', 'game-card');
-  const durak = button('', h.onDurak, 'game-card__main');
-  durak.append(el('span', 'game-card__title', t('club.durak')), el('span', 'game-card__desc', t('club.durak.desc')));
-  card.append(durak);
+  const list = el('div', 'game-list');
+  for (const g of games) {
+    const card = el('section', 'game-card');
+    card.dataset.game = g.id;
+    const main = button('', () => h.onGame(g), 'game-card__main');
+    const title = el('span', 'game-card__title', t(g.titleKey));
+    title.id = `game-title-${g.id}`;
+    main.append(title, el('span', 'game-card__desc', t(g.descKey)));
+    // Имя кнопки — «Как играть», к какой игре она относится — из описания (заголовок карточки).
+    const tut = button(t('club.tutorial'), () => h.onTutorial(g), 'button button--light button--small game-card__tutorial');
+    tut.setAttribute('aria-describedby', title.id);
+    card.append(main, tut);
+    list.append(card);
+  }
   const row = el('div', 'row');
-  row.append(button(t('club.tutorial'), h.onTutorial, 'button button--light'), button(t('club.settings'), h.onSettings, 'button button--light'));
-  s.append(el('h1', 'title', t('app.title')), el('p', 'subtitle', t('start.subtitle')), el('h2', 'heading', t('club.choose')), card, row);
+  row.append(button(t('club.settings'), h.onSettings, 'button button--light'));
+  s.append(el('h1', 'title', t('app.title')), el('p', 'subtitle', t('start.subtitle')), el('h2', 'heading', t(games.length > 1 ? 'club.choose' : 'club.chooseOne')), list, row);
   return s;
 }
 
-export function opponentScreen(current: Difficulty, h: { onSit(level: Difficulty): void; onBack(): void }): HTMLElement {
+export function opponentScreen(game: GameModule, current: Difficulty, h: { onSit(level: Difficulty): void; onBack(): void }): HTMLElement {
+  const ch = game.character;
   const s = el('div', 'screen screen--opponent');
   const card = el('section', 'opponent');
   const portrait = el('img', 'opponent__portrait');
-  portrait.alt = t('opp.agata');
-  portrait.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(headSvg('warm'))}`;
+  portrait.alt = t(ch.nameKey);
+  portrait.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(ch.art.portraitSvg('warm'))}`;
   const info = el('div', 'opponent__info');
-  info.append(el('h2', 'heading', t('opp.agata')), el('p', 'opponent__desc', t('opp.agata.desc')));
+  info.append(el('h2', 'heading', t(ch.nameKey)), el('p', 'opponent__desc', t(ch.descKey)));
   const group = el('div', 'segmented');
   group.setAttribute('role', 'radiogroup');
   group.setAttribute('aria-label', t('opp.level'));
@@ -48,9 +60,9 @@ export function opponentScreen(current: Difficulty, h: { onSit(level: Difficulty
   return s;
 }
 
-export function loadingScreen(): { root: HTMLElement; progress(p: number): void; error(onRetry: () => void): void } {
+export function loadingScreen(text: string): { root: HTMLElement; progress(p: number): void; error(onRetry: () => void): void } {
   const root = el('div', 'screen screen--loading');
-  const title = el('p', 'subtitle', t('loading.title'));
+  const title = el('p', 'subtitle', text);
   const bar = el('div', 'progress');
   const fill = el('div', 'progress__fill');
   bar.append(fill);
@@ -83,13 +95,19 @@ export function modal(title: string, body: HTMLElement[], onClose: () => void): 
   return back;
 }
 
-export function rulesBody(): HTMLElement[] {
+export function rulesBody(keys: readonly string[]): HTMLElement[] {
   const list = el('ol', 'rules');
-  for (const k of ['rules.1', 'rules.2', 'rules.3', 'rules.4', 'rules.5']) list.append(el('li', '', t(k)));
+  for (const k of keys) list.append(el('li', '', t(k)));
   return [list];
 }
 
-export function settingsBody(s: Settings, voice: { available: number; total: number }, onChange: (next: Settings) => void, onResetTutorial: () => void): HTMLElement[] {
+export interface VoiceStatus {
+  readonly name: string;
+  readonly available: number;
+  readonly total: number;
+}
+
+export function settingsBody(s: Settings, voices: readonly VoiceStatus[], onChange: (next: Settings) => void, onResetTutorial: () => void): HTMLElement[] {
   let cur = s;
   const set = (patch: Partial<Settings>) => {
     cur = { ...cur, ...patch };
@@ -115,7 +133,7 @@ export function settingsBody(s: Settings, voice: { available: number; total: num
     wrap.append(input, el('span', '', label));
     return wrap;
   };
-  const status = el('p', 'note', voice.available > 0 ? t('settings.voiceStatus', { n: voice.available, total: voice.total }) : t('settings.voiceMissing'));
+  const status = voices.map((v) => el('p', 'note', v.available > 0 ? t('settings.voiceStatus', { name: v.name, n: v.available, total: v.total }) : t('settings.voiceMissing', { name: v.name })));
   return [
     slider(t('settings.master'), 'masterVolume'),
     slider(t('settings.voice'), 'voiceVolume'),
@@ -123,7 +141,7 @@ export function settingsBody(s: Settings, voice: { available: number; total: num
     toggle(t('settings.muted'), 'muted'),
     toggle(t('settings.subtitles'), 'subtitles'),
     toggle(t('settings.reducedMotion'), 'reducedMotion'),
-    status,
+    ...status,
     button(t('settings.resetTutorial'), onResetTutorial, 'button button--light button--small'),
   ];
 }

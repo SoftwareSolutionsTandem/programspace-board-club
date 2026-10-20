@@ -1,0 +1,62 @@
+// Связь событий матча с реакциями Деда Матвея: эмоция, поза и категория реплики (docs/games/dominoes.md §11).
+// Из пачки событий одного действия выбирается одна главная реакция. Только открытые данные: события и проекция игрока.
+import type { Trigger } from '../../characters/director';
+import { isDouble, type Seat } from './rules/bones';
+import type { DominoEvent } from './rules/engine';
+import type { PlayerView } from './view';
+
+const WEIGHT = { result: 100, hand: 60, last: 45, block: 40, drewMany: 35, knock: 30, double: 20, drew: 15, play: 10 } as const;
+
+/** view — проекция игрока после действия (что известно обоим, в том числе выводы о руках). */
+export function reactionFor(events: readonly DominoEvent[], characterSeat: Seat, view: PlayerView): Trigger | null {
+  let best: { w: number; t: Trigger } | null = null;
+  const offer = (w: number, t: Trigger) => {
+    if (!best || w > best.w) best = { w, t };
+  };
+  for (const e of events) {
+    switch (e.type) {
+      case 'firstMove':
+        if (e.seat === characterSeat && e.reason === 'lowestDouble') offer(WEIGHT.double, { category: 'openDouble', emotion: 'warm', pose: 'throw', priority: 'reaction', chance: 0.6 });
+        break;
+      case 'played': {
+        const mine = e.seat === characterSeat;
+        if (mine && e.left === 1) offer(WEIGHT.last, { category: 'lastBone', emotion: 'sly', pose: 'throw', priority: 'reaction', chance: 0.7 });
+        else if (!mine && e.left === 1) offer(WEIGHT.last, { category: 'playerLastBone', emotion: 'surprise', priority: 'reaction', chance: 0.6 });
+        // «Закрыл число»: на обоих концах числа, которых у игрока, по открытым выводам, нет.
+        else if (mine && e.ends.every((n) => view.myMissing.includes(n))) offer(WEIGHT.block, { category: 'block', emotion: 'sly', pose: 'throw', priority: 'reaction', chance: 0.6 });
+        else if (mine && isDouble(e.bone)) offer(WEIGHT.double, { category: 'playDouble', emotion: 'azart', pose: 'throw', priority: 'reaction', chance: 0.35 });
+        else if (mine) offer(WEIGHT.play, { category: 'play', emotion: 'warm', pose: 'throw', priority: 'reaction', chance: 0.18 });
+        break;
+      }
+      case 'drew':
+        if (e.seat === characterSeat) {
+          if (e.drawnThisTurn === 3) offer(WEIGHT.drewMany, { category: 'drewMany', emotion: 'annoyed', pose: 'took', priority: 'reaction', chance: 0.8 });
+          else if (e.drawnThisTurn === 1) offer(WEIGHT.drew, { category: 'drew', emotion: 'think', pose: 'took', priority: 'reaction', chance: 0.35 });
+        } else if (e.drawnThisTurn === 1) offer(WEIGHT.drew, { category: 'playerDrew', emotion: 'laugh', priority: 'reaction', chance: 0.35 });
+        break;
+      case 'knocked':
+        offer(WEIGHT.knock, e.seat === characterSeat
+          ? { category: 'knock', emotion: 'annoyed', priority: 'reaction', chance: 0.7 }
+          : { category: 'playerKnock', emotion: 'sly', priority: 'reaction', chance: 0.6 });
+        break;
+      case 'domino':
+        offer(WEIGHT.hand, e.winner === characterSeat
+          ? { category: 'handWin', emotion: 'laugh', pose: 'victory', priority: 'reaction', chance: 0.9 }
+          : { category: 'handLose', emotion: 'sad', priority: 'reaction', chance: 0.9 });
+        break;
+      case 'fish':
+        offer(WEIGHT.hand, e.winner === null
+          ? { category: 'fishDraw', emotion: 'surprise', priority: 'reaction', chance: 1 }
+          : { category: 'fish', emotion: 'azart', pose: 'throw', priority: 'reaction', chance: 1 });
+        break;
+      case 'matchOver':
+        offer(WEIGHT.result, e.winner === characterSeat
+          ? { category: 'win', emotion: 'laugh', pose: 'victory', priority: 'result', chance: 1 }
+          : { category: 'lose', emotion: 'sad', priority: 'result', chance: 1 });
+        break;
+      default:
+        break;
+    }
+  }
+  return (best as { w: number; t: Trigger } | null)?.t ?? null;
+}

@@ -24,7 +24,15 @@ describe('настройки', () => {
     expect(s.difficulty).toBe('normal');
   });
   it('миграция с версии 0 (без поля version) сохраняет известные значения', () => {
-    expect(parseSettings({ muted: true, subtitles: true })).toMatchObject({ version: 1, muted: true, subtitles: true });
+    expect(parseSettings({ muted: true, subtitles: true })).toMatchObject({ version: 2, muted: true, subtitles: true });
+  });
+  it('миграция с версии 1: прогресс дурака сохраняется, домино начинается с обучения', () => {
+    const v1 = { version: 1, masterVolume: 0.5, voiceVolume: 0.7, sfxVolume: 0.2, muted: false, subtitles: true, difficulty: 'hard', reducedMotion: true, tutorialDone: true, metAgata: true };
+    expect(parseSettings(v1)).toEqual({ ...v1, version: 2, dominoesTutorialDone: false, metMatvey: false });
+    // Сохранённое после миграции читается без изменений.
+    const s = memStore();
+    saveSettings(s, parseSettings(v1));
+    expect(loadSettings(s)).toEqual(parseSettings(v1));
   });
   it('версия из будущего — значения по умолчанию', () => expect(parseSettings({ version: 99, muted: true })).toEqual(DEFAULT_SETTINGS));
   it('недоступное хранилище не роняет игру', () => {

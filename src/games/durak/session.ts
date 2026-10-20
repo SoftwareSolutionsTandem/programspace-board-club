@@ -1,41 +1,29 @@
 // Игровой сеанс: партия против Агаты на экране. Связывает контроллер партии, сцену, реакции, голос и HTML-интерфейс.
 // Все действия идут через DurakMatch (правила в ядре); сцена и кнопки лишь отражают состояние.
-import { AGATA_LINES } from '../characters/agata/lines';
-import { Director, type Cue, type Trigger } from '../characters/director';
-import type { AudioEngine, SfxName } from '../audio/engine';
-import { VoiceChannel } from '../audio/voiceChannel';
-import { createRng, nextInt, type RngState } from '../core/rng';
-import { highlights, modeOf, tapCard, tapPair, tapTable, drop, type HintCode } from '../games/durak/interaction';
-import { DurakMatch, HUMAN, OPPONENT } from '../games/durak/match';
-import { reactionFor } from '../games/durak/reactions';
-import { cardCode } from '../games/durak/rules/cards';
-import type { DurakEvent } from '../games/durak/rules/engine';
-import { DurakScene, sortHand } from '../games/durak/scene/scene';
-import type { TextureBank } from '../games/durak/scene/textures';
-import { STEP_LINE, TutorialCoach, type TutorialStep } from '../games/durak/tutorial';
-import type { DurakAction, PlayerView } from '../games/durak/view';
-import { t } from '../i18n';
-import type { LayoutSpec } from '../layout/layout';
-import { BG_BOARD } from '../characters/agata/art';
-import { Tweener } from '../render/tween';
-import type { Difficulty, Settings } from '../storage/settings';
-import { button, el, iconButton, ICONS } from './dom';
+import type { Container } from 'pixi.js';
+import { button, el, iconButton, ICONS } from '../../app/dom';
+import type { GameAssets, GameSession as GameSessionApi, SessionHost, SessionOptions } from '../../app/game';
+import type { SfxName } from '../../audio/engine';
+import { VoiceChannel } from '../../audio/voiceChannel';
+import { AGATA_LINES } from '../../characters/agata/lines';
+import { Director, type Cue, type Trigger } from '../../characters/director';
+import { createRng, nextInt, type RngState } from '../../core/rng';
+import { t } from '../../i18n';
+import type { LayoutSpec } from '../../layout/layout';
+import { BG_BOARD } from '../../render/cafe';
+import { Tweener } from '../../render/tween';
+import type { Settings } from '../../storage/settings';
+import { highlights, modeOf, tapCard, tapPair, tapTable, drop, type HintCode } from './interaction';
+import { DurakMatch, HUMAN, OPPONENT } from './match';
+import { reactionFor } from './reactions';
+import { cardCode } from './rules/cards';
+import type { DurakEvent } from './rules/engine';
+import { DurakScene, sortHand } from './scene/scene';
+import type { TextureBank } from './scene/textures';
+import { STEP_LINE, TutorialCoach, type TutorialStep } from './tutorial';
+import type { DurakAction, PlayerView } from './view';
 
-export interface SessionHost {
-  readonly audio: AudioEngine;
-  settings(): Settings;
-  updateSettings(patch: Partial<Settings>): void;
-  openSettings(): void;
-  openRules(): void;
-  exitToClub(): void;
-  now(): number;
-}
-
-export interface SessionOptions {
-  readonly level: Difficulty;
-  readonly tutorial: boolean;
-  readonly seed: number;
-}
+export type { SessionHost, SessionOptions };
 
 /** Первый seed (от заданного), где в обучении первым ходит игрок. */
 export function tutorialSeed(from: number): number {
@@ -43,7 +31,7 @@ export function tutorialSeed(from: number): number {
   return from;
 }
 
-export class GameSession {
+export class GameSession implements GameSessionApi {
   readonly scene: DurakScene;
   readonly match: DurakMatch;
   readonly overlay = el('div', 'game');
@@ -133,8 +121,16 @@ export class GameSession {
 
   // ---------- запуск ----------
 
+  get root(): Container {
+    return this.scene.root;
+  }
+
   setTextures(bank: TextureBank): void {
     this.scene.setTextures(bank);
+  }
+
+  setAssets(assets: GameAssets): void {
+    this.setTextures((assets as GameAssets & { bank: TextureBank }).bank);
   }
 
   setLayout(spec: LayoutSpec): void {

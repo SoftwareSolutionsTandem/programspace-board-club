@@ -172,7 +172,7 @@ test('настройки сохраняются после перезапуск�
   await page.getByRole('button', { name: 'Настройки' }).click();
   await expect(page.getByLabel('Без звука')).toBeChecked();
   // Честный статус озвучки: записей пока нет.
-  await expect(page.locator('.modal .note')).toContainText(/Голос Агаты|Записи голоса/);
+  await expect(page.locator('.modal .note').first()).toContainText(/Голос Агаты|Записи голоса/);
 });
 
 test('без аудиофайлов и манифеста игра работает', async ({ page }) => {

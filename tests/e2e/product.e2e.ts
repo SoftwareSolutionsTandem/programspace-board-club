@@ -3,12 +3,13 @@ import { collectErrors, noErrors, playThroughUi, probe, seedSettings, sitAtTable
 
 // Паспорт продукта (src/products/<id>.json) на настоящей сборке: название, подзаголовок, свой ключ настроек, голос.
 const PASSPORT = {
-  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings' },
-  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings' },
+  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voice: 'Голос Агаты: записано реплик — 71 из 71' },
+  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voice: 'Голос Агаты: записано реплик — 71 из 71' },
+  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voice: /Деда Матвея/ },
 } as const;
 const productOf = () => test.info().project.metadata.product as keyof typeof PASSPORT;
 
-test('паспорт продукта: название, подзаголовок, свой ключ настроек, голос Агаты', async ({ page }) => {
+test('паспорт продукта: название, подзаголовок, свой ключ настроек, голос персонажа', async ({ page }) => {
   const p = PASSPORT[productOf()];
   const errors = collectErrors(page);
   await page.goto('/');
@@ -17,7 +18,7 @@ test('паспорт продукта: название, подзаголово�
   await expect(page.locator('.subtitle').first()).toHaveText(p.subtitle);
   await page.getByRole('button', { name: 'Настройки' }).click();
   await page.getByLabel('Без звука').check();
-  await expect(page.locator('.modal .note')).toContainText('записано реплик — 71 из 71');
+  await expect(page.locator('.modal .note').first()).toContainText(p.voice);
   await page.getByRole('button', { name: 'Закрыть' }).click();
   const keys = await page.evaluate(() => Object.keys(localStorage));
   expect(keys).toContain(p.key);
@@ -26,7 +27,7 @@ test('паспорт продукта: название, подзаголово�
 });
 
 test('самостоятельный продукт: партия от начала до результата', async ({ page }, info) => {
-  test.skip(productOf() === 'igroteka', 'для «Игротеки» полная партия — в game.e2e.ts');
+  test.skip(productOf() !== 'durak', 'для «Игротеки» полная партия — в game.e2e.ts, для «Домино» — в dominoes.e2e.ts');
   test.setTimeout(480_000);
   const p = PASSPORT[productOf()];
   const errors = collectErrors(page);

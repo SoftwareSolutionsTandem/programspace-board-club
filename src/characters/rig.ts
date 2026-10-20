@@ -1,14 +1,12 @@
 // Риг сидящего персонажа (docs/ART_STYLE.md §5): слои тела, головы, рта, век и рук, веер своих карт.
 // Анимации — дыхание, моргание, смена эмоции и позы, рот по уровню голоса. Состояние игры от рига не зависит.
+// Рисунок приходит из контракта персонажа (src/characters/art.ts): риг не знает, кто сидит за столом.
 import { Container, Sprite, type Texture } from 'pixi.js';
-import { EXPR, emotionMouth, FAN_ANCHOR, FIGURE_BOX, HEAD_BOX, LID_TOP, MOUTH_BOX, poseHoldsFan, type MouthShape } from './agata/art';
+import type { CharacterBank } from './textures';
+import type { Emotion, Pose } from './types';
 
 // Моргание: веко опускается, держится и поднимается (мс).
 const BLINK_CLOSE = 70, BLINK_HOLD = 50, BLINK_OPEN = 80;
-// Глаза, которые не моргают: уже закрытые от смеха, «звёздочки» азарта, широко раскрытые от удивления.
-const NO_BLINK_EYES = new Set(['happy', 'star', 'wide']);
-import type { Emotion, Pose } from './types';
-import type { TextureBank } from '../games/durak/scene/textures';
 
 const place = (s: Sprite, box: { x: number; y: number; w: number; h: number }) => {
   s.position.set(box.x, box.y);
@@ -31,7 +29,7 @@ export class CharacterRig {
   private readonly armsOld = new Sprite();
   private readonly fanHand = new Sprite();
   readonly fan = new Container();
-  private bank: TextureBank | null = null;
+  private bank: CharacterBank | null = null;
   private emotion: Emotion = 'warm';
   private pose: Pose = 'idle';
   private poseUntil = 0;
@@ -50,30 +48,33 @@ export class CharacterRig {
 
   constructor() {
     this.back.addChild(this.body, this.headPivot);
-    // Голова качается вокруг шеи (точка в единицах рига).
-    this.headPivot.pivot.set(210, 225);
-    this.headPivot.position.set(210, 225);
     this.headPivot.addChild(this.headOld, this.head, this.mouth, this.blink);
     // Порядок: руки (предплечья) → веер карт → кисть, держащая веер.
     this.front.addChild(this.armsOld, this.arms, this.fan, this.fanHand);
-    this.fan.position.set(FAN_ANCHOR.x, FAN_ANCHOR.y);
   }
 
-  setTextures(bank: TextureBank): void {
+  /** Текстуры персонажа и рубашка карт для веера (null — веера нет). */
+  setTextures(bank: CharacterBank, fanBack: Texture | null = null): void {
     this.bank = bank;
+    const art = bank.art;
+    // Голова качается вокруг шеи (точка в единицах рига).
+    this.headPivot.pivot.set(art.headPivot.x, art.headPivot.y);
+    this.headPivot.position.set(art.headPivot.x, art.headPivot.y);
     this.body.texture = bank.body;
-    place(this.body, FIGURE_BOX);
-    for (const s of [this.head, this.headOld]) place(s, HEAD_BOX);
+    place(this.body, art.figureBox);
+    for (const s of [this.head, this.headOld]) place(s, art.headBox);
     this.blink.texture = bank.blink;
-    place(this.blink, HEAD_BOX);
+    this.blink.scale.set(1);
+    place(this.blink, art.headBox);
     // Точка опоры — верхний край век: масштаб по вертикали опускает веко сверху вниз.
     this.blinkScaleY = this.blink.scale.y;
-    this.blink.anchor.set(0, (LID_TOP - HEAD_BOX.y) / HEAD_BOX.h);
-    this.blink.y = LID_TOP;
+    this.blink.anchor.set(0, (art.lidTop - art.headBox.y) / art.headBox.h);
+    this.blink.y = art.lidTop;
     this.blink.visible = false;
-    for (const s of [this.arms, this.armsOld, this.fanHand]) place(s, FIGURE_BOX);
-    this.fanHand.texture = bank.fanHand;
-    this.fanBack = bank.back;
+    for (const s of [this.arms, this.armsOld, this.fanHand]) place(s, art.figureBox);
+    if (art.fan) this.fan.position.set(art.fan.anchor.x, art.fan.anchor.y);
+    if (bank.fanHand) this.fanHand.texture = bank.fanHand;
+    this.fanBack = art.fan ? fanBack : null;
     this.applyEmotion(true);
     this.applyPose(true);
     this.rebuildFan();
@@ -122,7 +123,13 @@ export class CharacterRig {
 
   /** Точка веера в координатах родителя (куда «улетают» и откуда «прилетают» её карты). */
   fanPoint(): { x: number; y: number } {
-    return this.front.toGlobal({ x: FAN_ANCHOR.x, y: FAN_ANCHOR.y - 20 });
+    const a = this.bank?.art.fan?.anchor ?? { x: 210, y: 380 };
+    return this.front.toGlobal({ x: a.x, y: a.y - 20 });
+  }
+
+  /** Точка рига в координатах сцены (например, рука, тянущаяся к базару). */
+  pointToGlobal(x: number, y: number): { x: number; y: number } {
+    return this.front.toGlobal({ x, y });
   }
 
   private applyEmotion(instant: boolean): void {
@@ -138,7 +145,8 @@ export class CharacterRig {
     this.armsOld.texture = this.arms.texture;
     this.arms.texture = this.bank.arms[this.pose];
     this.crossArms = instant || this.reducedMotion ? 1 : 0;
-    this.fan.visible = poseHoldsFan(this.pose);
+    const fan = this.bank.art.fan;
+    this.fan.visible = !!fan && fan.holds(this.pose);
     this.fanHand.visible = this.fan.visible;
   }
 
@@ -161,18 +169,24 @@ export class CharacterRig {
     }
   }
 
-  private mouthShape(): MouthShape {
+  private mouthShape(): string {
+    const art = this.bank!.art;
     if (this.speaking > 0.08) {
-      const shapes: MouthShape[] = ['vB', 'vC', 'vE', 'vD'];
-      return shapes[Math.min(shapes.length - 1, Math.floor(this.speaking * shapes.length))] as MouthShape;
+      const shapes = art.speechMouths;
+      return shapes[Math.min(shapes.length - 1, Math.floor(this.speaking * shapes.length))]!;
     }
-    return emotionMouth(this.emotion);
+    return art.emotionMouth(this.emotion);
   }
 
   private updateMouth(): void {
     if (!this.bank) return;
-    this.mouth.texture = this.bank.mouths[this.mouthShape()];
-    place(this.mouth, MOUTH_BOX);
+    const tex = this.bank.mouths[this.mouthShape()];
+    if (tex) this.mouth.texture = tex;
+    place(this.mouth, this.bank.art.mouthBox);
+  }
+
+  private canBlink(): boolean {
+    return this.bank ? this.bank.art.blinks(this.emotion) : false;
   }
 
   update(dtMs: number): void {
@@ -193,16 +207,16 @@ export class CharacterRig {
     // Моргание каждые 2–6 с (детерминированно по времени, без Math.random).
     if (this.time >= this.nextBlink) {
       this.blinkStart = this.time;
-      if (!NO_BLINK_EYES.has(EXPR[this.emotion].eyes)) this.blinks++;
+      if (this.canBlink()) this.blinks++;
       this.nextBlink = this.time + 2000 + ((this.time * 7919) % 4000);
     }
-    const lid = NO_BLINK_EYES.has(EXPR[this.emotion].eyes) ? 0 : blinkAmount(this.time - this.blinkStart, this.reducedMotion);
+    const lid = this.canBlink() ? blinkAmount(this.time - this.blinkStart, this.reducedMotion) : 0;
     this.blink.visible = lid > 0;
     this.blink.scale.y = this.blinkScaleY * Math.max(lid, 0.001);
     if (!this.reducedMotion) {
       const breath = Math.sin(this.time / 900) * 0.008;
       this.headPivot.rotation = Math.sin(this.time / 1700) * 0.02;
-      this.headPivot.y = 225 + breath * 300;
+      this.headPivot.y = (this.bank?.art.headPivot.y ?? 225) + breath * 300;
     }
     this.updateMouth();
   }

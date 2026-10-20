@@ -28,7 +28,7 @@ export const cardCode = (c: Card) => (({ 11: 'J', 12: 'Q', 13: 'K', 14: 'A' } as
 /** key — ключ настроек продукта (src/products/<id>.json); по умолчанию — «Игротека». */
 export async function seedSettings(page: Page, settings: Record<string, unknown>, key = 'igroteka.settings'): Promise<void> {
   await page.goto('/');
-  await page.evaluate(([s, k]) => localStorage.setItem(k, JSON.stringify({ version: 1, ...s })), [settings, key] as const);
+  await page.evaluate(([s, k]) => localStorage.setItem(k, JSON.stringify({ version: 2, ...s })), [settings, key] as const);
   await page.reload();
 }
 

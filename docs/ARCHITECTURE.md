@@ -42,15 +42,18 @@ tools/           конвейер аудио, проверка лицензий 
 tests/
 ```
 
-### 2.1 Фактическая структура (2026-10-17)
+### 2.1 Фактическая структура (2026-10-20)
 ```
-src/app/            App (экраны, ресайз, текстуры, пауза), GameSession (партия на экране), screens, dom
-src/games/durak/    rules/ (движок), view.ts, sim.ts, ai/, match.ts (контроллер), interaction.ts (касания → действия),
-                    reactions.ts (события → реакции), tutorial.ts (обучение), scene/ (Pixi: стол, карты, текстуры)
-src/characters/     types, director.ts, rig.ts (риг сидящего персонажа), agata/ (art.ts — векторная графика, lines.ts — реплики)
-src/audio/          engine.ts (Web Audio), voiceChannel.ts
-src/layout/         layout.ts — computeLayout, handSlots, pairSlot
-src/render/         tween.ts, svgTexture.ts
+src/app/            App (клуб, загрузка, ресайз, текстуры, пауза), game.ts (интерфейс игрового модуля), screens, dom
+src/games/<игра>/   rules/ (движок), view.ts, sim.ts, ai/, match.ts (контроллер), interaction.ts (касания → действия),
+                    reactions.ts (события → реакции), tutorial.ts (обучение), scene/ (Pixi), session.ts (партия на экране),
+                    module.ts (игра как модуль приложения); игры: durak, dominoes
+src/characters/     types, art.ts (контракт рисунка), textures.ts, director.ts, rig.ts (риг сидящего персонажа),
+                    agata/, matvey/ (art.ts — векторная графика, lines.ts — реплики)
+src/audio/          engine.ts (Web Audio, голоса нескольких персонажей), voiceChannel.ts
+src/layout/         layout.ts — computeLayout, handSlots, pairSlot; dominoes.ts — стол домино и цепочка-«змейка»
+src/render/         tween.ts, svgTexture.ts, cafe.ts (фон клуба), table.ts (общий стол)
+src/products/       <id>.json (паспорт продукта), <id>.games.ts (игры продукта), current.ts
 src/storage/        settings.ts
 ```
 
@@ -130,9 +133,12 @@ interface VoiceRequest { lineId: string; priority: 'result'|'greeting'|'reaction
 | `publicAssets` | пути внутри `public/`, которые копируются в сборку |
 | `icon` | иконка и её статус: `current` — действующая, `temporary` — временная до утверждения, `final` — утверждённая |
 
-Сейчас продуктов два, оба содержат дурака и Агату:
-- `igroteka`: поведение прежнее, словарь без замен;
-- `durak`: своё название и подзаголовок, ключ `durak.settings`, **временная** иконка — та же, что у «Игротеки».
+Сейчас продуктов три:
+- `igroteka`: дурак с Агатой и домино с Дедом Матвеем; словарь без замен, ключ настроек прежний;
+- `durak`: своё название и подзаголовок, ключ `durak.settings`, **временная** иконка — та же, что у «Игротеки»;
+- `dominoes`: своё название и подзаголовок, ключ `dominoes.settings`, **временная** иконка. Голос Матвея войдёт в `publicAssets` после одобрения владельцем.
+
+Игровые модули продукта перечислены в `src/products/<id>.games.ts` (псевдоним `@product-games`): в бандл попадают только они. Тест сверяет этот список с полем `games` конфига.
 
 ### 8.2 Как устроена сборка
 - `vite build --mode <id>` выбирает продукт. Обычные режимы (`production`, `development`, `test`) — это «Игротека».
@@ -154,12 +160,12 @@ interface VoiceRequest { lineId: string; priority: 'result'|'greeting'|'reaction
 ### 8.4 Команды
 | Команда | Что делает |
 |---|---|
-| `npm run dev`, `npm run dev:durak` | разработка «Игротеки» / «Дурака» |
-| `npm run build` (= `build:igroteka`), `npm run build:durak`, `npm run build:all` | сборка в `dist/<id>/` |
-| `npm run preview`, `npm run preview:durak` | запуск собранного продукта |
-| `npm run check:bundle` | проверка состава обеих сборок |
+| `npm run dev`, `npm run dev:durak`, `npm run dev:dominoes` | разработка «Игротеки» / «Дурака» / «Домино» |
+| `npm run build` (= `build:igroteka`), `npm run build:durak`, `npm run build:dominoes`, `npm run build:all` | сборка в `dist/<id>/` |
+| `npm run preview`, `npm run preview:durak`, `npm run preview:dominoes` | запуск собранного продукта |
+| `npm run check:bundle` | проверка состава всех сборок |
 | `npm run check` | всё сразу, как CI |
-| `npm run test:e2e` | собирает и запускает оба продукта (порты 4173 и 4174). «Игротека» — весь набор; «Дурак» — `tests/e2e/product.e2e.ts`: паспорт, голос, полная партия |
+| `npm run test:e2e` | собирает и запускает продукты (порты 4173, 4174, 4175). «Игротека» — весь набор; «Дурак» — `product.e2e.ts`: паспорт, голос, полная партия; «Домино» — `product.e2e.ts` и `dominoes.e2e.ts`: паспорт, матч до 101, обучение, клавиатура |
 
 Архив для консоли Яндекс Игр — содержимое `dist/<id>/`.
 
@@ -170,3 +176,14 @@ interface VoiceRequest { lineId: string; priority: 'result'|'greeting'|'reaction
 3. Конфиг `src/products/<игра>.json` с собственным ключом настроек; в `igroteka.json` игра добавляется в `games`, персонаж — в `characters`.
 4. Скрипты `dev:`, `build:`, `preview:` для нового продукта; добавить его в `build:all` и `check:bundle`; добавить проекты и сервер в `playwright.config.ts`.
 5. Проверка состава автоматически не пустит игру в чужие сборки.
+
+### 8.6 Игровой модуль (`src/app/game.ts`, 2026-10-20)
+Приложение ведёт клуб, выбор соперника, загрузку, настройки и ресайз; партию целиком ведёт модуль игры. Модуль отдаёт:
+- персонажа: рисунок по контракту `CharacterArt` (`src/characters/art.ts`), каталог реплик, ключи имени и описания, флаг знакомства в настройках;
+- компоновку `layout(viewport)` и разрешения текстур под неё;
+- сборку текстур `buildAssets` (приложение хранит их по играм и освобождает через `destroy`);
+- сеанс партии `createSession(host, options)` с методами `setAssets`, `setLayout`, `start`, `update`, `onKey`, `setPaused`, `dispose`, `debug`;
+- ключи строк клуба, загрузки и правил, ключ «обучение пройдено» и seed обучающей раздачи.
+
+Риг (`src/characters/rig.ts`) и текстуры персонажа (`src/characters/textures.ts`) работают только через `CharacterArt` и не импортируют ни одного персонажа. Фон клуба (`src/render/cafe.ts`) и стол (`src/render/table.ts`) общие для всех игр. Голоса всех персонажей продукта загружаются одним `AudioEngine` из `audio/ru/<персонаж>/manifest.json`.
+

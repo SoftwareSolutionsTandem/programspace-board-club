@@ -1,0 +1,41 @@
+{
+  "$comment": "Голос Деда Матвея (docs/AUDIO.md §2, §15). Тексты — из src/characters/matvey/lines.ts; здесь только настройки синтеза и правки произношения.",
+  "character": "matvey",
+  "lang": "ru",
+  "language": "Russian",
+  "engine": {
+    "package": "qwen-tts",
+    "version": "0.1.1"
+  },
+  "models": {
+    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
+    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
+  },
+  "personas": [
+    "Elderly Russian man, about 75 years old, a grumpy but kind grandfather playing dominoes. Low, deep, hoarse voice with a gravelly rasp. Slow, unhurried speech with pauses, a little grumbling. Natural Russian intonation.",
+    "Old Russian man in his late seventies. Low bass-baritone, husky and smoky timbre, slightly creaky at the ends of phrases. Calm, measured, slow tempo; dry humor, warm underneath.",
+    "Russian grandfather, about 80 years old. Deep, rough, raspy voice, low pitch, speaking slowly and deliberately, gruff but good-natured, with a hint of a chuckle.",
+    "Tall thin elderly Russian man, about 72, with a low, slightly nasal and hoarse voice. Unhurried, drawling, thoughtful manner, softly grumbling, kind at heart."
+  ],
+  "reference": {
+    "$comment": "Эталонная фраза для кандидатов голоса (--audition).",
+    "text": "Ну, здра́вствуй. Сади́сь, забьём козла́. Костя́шки ждут.",
+    "personaIndex": 0,
+    "seed": 4101
+  },
+  "seed": 3101,
+  "stressStyle": "acute",
+  "samples": [
+    "matvey_greet_first_01",
+    "matvey_play_double_01",
+    "matvey_fish_01",
+    "matvey_drew_many_01",
+    "matvey_player_drew_01",
+    "matvey_win_01",
+    "matvey_lose_01",
+    "matvey_wait_01"
+  ],
+  "stress": {},
+  "overrides": {}
+}

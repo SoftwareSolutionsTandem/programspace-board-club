@@ -117,6 +117,17 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .result { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: rgba(40, 24, 16, 0.4); z-index: 10; padding: 16px; }
 .result > .heading, .result > .subtitle { background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 10px 22px; }
 .result--show { display: flex; }
+/* Итог раздачи домино — у нижнего края, над рукой: открытые кости Матвея и цепочка остаются видны. */
+.result--hand { justify-content: flex-end; gap: 10px; background: rgba(40, 24, 16, 0.18); padding-bottom: calc(20px + var(--safe-bottom, 0px)); }
+.hand-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 10px 16px; width: min(860px, 100%); box-sizing: border-box; box-shadow: 0 5px 0 var(--ink); }
+.hand-card__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: center; font-weight: 800; font-size: calc(15px * var(--ui-scale, 1)); }
+.hand-card__text p { margin: 0; }
+.hand-card__text .heading { margin: 0; font-size: calc(26px * var(--ui-scale, 1)); }
+/* Клуб: карточки игр в ряд или столбиком. */
+.game-list { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; width: min(720px, 100%); }
+.game-list > .game-card { flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px; }
+.game-list > .game-card > .game-card__main { flex: 1; }
+.game-card__tutorial { align-self: center; }
 /* Низкий экран (телефон боком): панель результата у нижнего края, чтобы лицо Агаты оставалось видно. */
 @media (max-height: 500px) {
   .result { justify-content: flex-end; gap: 10px; padding-bottom: 20px; }

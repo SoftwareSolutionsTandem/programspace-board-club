@@ -4,8 +4,19 @@
   "version": "0.1.0",
   "strings": {},
   "storageKey": "igroteka.settings",
-  "games": ["durak"],
-  "characters": ["agata"],
-  "publicAssets": ["audio/ru/agata"],
-  "icon": { "file": "public/favicon.svg", "status": "current" }
+  "games": [
+    "durak",
+    "dominoes"
+  ],
+  "characters": [
+    "agata",
+    "matvey"
+  ],
+  "publicAssets": [
+    "audio/ru/agata"
+  ],
+  "icon": {
+    "file": "public/favicon.svg",
+    "status": "current"
+  }
 }

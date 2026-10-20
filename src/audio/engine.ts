@@ -14,7 +14,7 @@ export interface Volumes {
   muted: boolean;
 }
 
-export type SfxName = 'deal' | 'place' | 'slap' | 'take' | 'bito' | 'click' | 'win' | 'lose';
+export type SfxName = 'deal' | 'place' | 'slap' | 'take' | 'bito' | 'click' | 'win' | 'lose' | 'knock' | 'clack' | 'shuffle';
 
 export class AudioEngine implements VoicePlayer {
   private ctx: AudioContext | null = null;
@@ -23,13 +23,16 @@ export class AudioEngine implements VoicePlayer {
   private sfxBus: GainNode | null = null;
   private analyser: AnalyserNode | null = null;
   private readonly buffers = new Map<string, AudioBuffer | null>();
+  /** Реплики всех загруженных персонажей: id → файлы с путём от корня голосов (<персонаж>/<файл>). */
   private manifest: VoiceManifest = { lines: {} };
+  private readonly loadedVoices = new Set<string>();
   private volumes: Volumes = { master: 1, voice: 1, sfx: 1, muted: false };
   private format: 'opus' | 'm4a' = 'opus';
   private userPaused = false;
   private readonly levelData = new Uint8Array(256);
   lastError: string | null = null;
 
+  /** baseUrl — корень голосов (audio/ru/); голос персонажа — в <baseUrl><id>/manifest.json. */
   constructor(private readonly baseUrl: string) {}
 
   /** Создаётся по первому жесту пользователя (кнопка «Играть»). */
@@ -89,15 +92,21 @@ export class AudioEngine implements VoicePlayer {
     else void this.ctx.resume();
   }
 
-  async loadManifest(): Promise<void> {
+  /** Манифест голоса персонажа. Повторная загрузка того же персонажа ничего не делает. */
+  async loadVoice(character: string): Promise<void> {
+    if (this.loadedVoices.has(character)) return;
+    this.loadedVoices.add(character);
     try {
-      const res = await fetch(`${this.baseUrl}manifest.json`, { cache: 'no-cache' });
+      const res = await fetch(`${this.baseUrl}${character}/manifest.json`, { cache: 'no-cache' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      this.manifest = (await res.json()) as VoiceManifest;
+      const m = (await res.json()) as VoiceManifest;
+      const lines = { ...this.manifest.lines };
+      const prefixed = (f?: string) => (f ? `${character}/${f}` : undefined);
+      for (const [id, e] of Object.entries(m.lines)) lines[id] = { ...(e.opus ? { opus: prefixed(e.opus) } : {}), ...(e.m4a ? { m4a: prefixed(e.m4a) } : {}) };
+      this.manifest = { lines };
     } catch (err) {
       this.lastError = 'manifest-failed';
-      console.warn('Манифест реплик не загружен', err);
-      this.manifest = { lines: {} };
+      console.warn(`Манифест реплик ${character} не загружен`, err);
     }
   }
 
@@ -107,8 +116,9 @@ export class AudioEngine implements VoicePlayer {
     return !!e && !!(e.opus || e.m4a) && this.buffers.get(id) !== null;
   }
 
-  availableCount(): number {
-    return Object.keys(this.manifest.lines).filter((id) => this.hasLine(id)).length;
+  /** Сколько реплик из списка есть в голосе. */
+  availableCount(ids: readonly string[]): number {
+    return ids.filter((id) => this.hasLine(id)).length;
   }
 
   /** Предзагрузка реплик выбранного персонажа; повреждённые файлы помечаются недоступными. */
@@ -217,6 +227,10 @@ export class AudioEngine implements VoicePlayer {
       case 'click': return tone(880, 0.05, 0.08);
       case 'win': [523, 659, 784].forEach((f, i) => tone(f, 0.3, 0.16, i * 0.12)); return;
       case 'lose': [392, 330].forEach((f, i) => tone(f, 0.35, 0.14, i * 0.16)); return;
+      // Домино: стук костяшкой о стол, сухой щелчок кости о кость, перемешивание базара.
+      case 'knock': noise(0.09, 420, 1.4, 1); return tone(140, 0.12, 0.22);
+      case 'clack': noise(0.05, 3200, 2.2, 0.8); return tone(1900, 0.04, 0.06);
+      case 'shuffle': for (let i = 0; i < 5; i++) noise(0.05, 2600 + i * 120, 1.6, 0.35); return;
     }
   }
 }

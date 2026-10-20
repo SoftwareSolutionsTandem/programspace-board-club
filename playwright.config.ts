@@ -21,7 +21,7 @@ export default defineConfig({
   reporter: [['list']],
   use: { trace: 'retain-on-failure' },
   // Каждый продукт собирается и запускается отдельно (docs/ARCHITECTURE.md §8).
-  webServer: [server('igroteka', 4173), server('durak', 4174)],
+  webServer: [server('igroteka', 4173), server('durak', 4174), server('dominoes', 4175)],
   projects: [
     // «Игротека» — весь набор проверок; product.e2e.ts — паспорт продукта.
     { name: 'desktop', metadata: { product: 'igroteka' }, use: { ...DESKTOP, baseURL: url(4173) } },
@@ -29,5 +29,8 @@ export default defineConfig({
     // Самостоятельный «Дурак»: паспорт, голос и полная партия.
     { name: 'durak-desktop', metadata: { product: 'durak' }, testMatch: '**/product.e2e.ts', use: { ...DESKTOP, baseURL: url(4174) } },
     { name: 'durak-phone', metadata: { product: 'durak' }, testMatch: '**/product.e2e.ts', use: { ...PHONE, baseURL: url(4174) } },
+    // Самостоятельное «Домино»: паспорт и полный матч.
+    { name: 'dominoes-desktop', metadata: { product: 'dominoes' }, testMatch: ['**/product.e2e.ts', '**/dominoes.e2e.ts'], use: { ...DESKTOP, baseURL: url(4175) } },
+    { name: 'dominoes-phone', metadata: { product: 'dominoes' }, testMatch: ['**/product.e2e.ts', '**/dominoes.e2e.ts'], use: { ...PHONE, baseURL: url(4175) } },
   ],
 });

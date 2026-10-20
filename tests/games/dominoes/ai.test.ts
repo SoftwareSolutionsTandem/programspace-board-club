@@ -30,9 +30,12 @@ describe('PlayerView: честность (§10)', () => {
       for (const seat of [0, 1] as const) {
         const v = projectView(s, seat);
         const visible = new Set([...v.hand, ...v.chain.map((p) => p.bone)].map(boneCode));
-        for (const x of [...s.hands[otherSeat(seat)], ...s.bazaar]) expect(visible.has(boneCode(x))).toBe(false);
+        if (s.phase === 'play') for (const x of [...s.hands[otherSeat(seat)], ...s.bazaar]) expect(visible.has(boneCode(x))).toBe(false);
         for (const k of ['hands', 'bazaar', 'rng', 'drawBase', 'knowledge']) expect(Object.keys(v)).not.toContain(k);
         expect(v.opponentHandCount).toBe(s.hands[otherSeat(seat)].length);
+        // Кости соперника открываются только после конца раздачи.
+        if (s.phase === 'play') expect(v.opponentRevealed).toBeNull();
+        else expect(v.opponentRevealed?.map(boneCode)).toEqual(s.hands[otherSeat(seat)].map(boneCode));
         expect(v.bazaarCount).toBe(s.bazaar.length);
         expect(unseenBones(v).length).toBe(s.hands[otherSeat(seat)].length + s.bazaar.length);
       }
@@ -65,6 +68,8 @@ describe('PlayerView: честность (§10)', () => {
   it('гипотетический мир согласован с проекцией и выводами', () => {
     for (let seed = 0; seed < 200; seed++) {
       const s = midHand(seed, seed % 30);
+      // Миры нужны ИИ только во время раздачи.
+      if (s.phase !== 'play') continue;
       const seat = (seed % 2) as Seat;
       const v = projectView(s, seat);
       const [w] = sampleWorld(v, createRng(seed));

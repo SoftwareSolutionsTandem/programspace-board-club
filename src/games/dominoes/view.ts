@@ -27,6 +27,8 @@ export interface PlayerView {
   readonly handNumber: number;
   readonly handResult: HandResult | null;
   readonly matchWinner: Seat | null;
+  /** Кости соперника открываются только после конца раздачи — для подсчёта очков (§6, §11). Во время раздачи — null. */
+  readonly opponentRevealed: readonly Bone[] | null;
 }
 
 const copyBone = (b: Bone): Bone => ({ hi: b.hi, lo: b.lo });
@@ -53,6 +55,7 @@ export function projectView(state: DominoState, seat: Seat): PlayerView {
     handNumber: state.handNumber,
     handResult: state.handResult,
     matchWinner: state.matchWinner,
+    opponentRevealed: state.phase === 'play' ? null : state.hands[opp].map(copyBone),
   };
 }
 

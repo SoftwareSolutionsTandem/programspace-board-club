@@ -2,7 +2,7 @@
 export type Difficulty = 'easy' | 'normal' | 'hard';
 
 export interface Settings {
-  readonly version: 1;
+  readonly version: 2;
   readonly masterVolume: number;
   readonly voiceVolume: number;
   readonly sfxVolume: number;
@@ -11,16 +11,21 @@ export interface Settings {
   readonly subtitles: boolean;
   readonly difficulty: Difficulty;
   readonly reducedMotion: boolean;
+  /** Обучение подкидному пройдено. */
   readonly tutorialDone: boolean;
   /** Знакомились ли уже с Агатой: первое или повторное приветствие. */
   readonly metAgata: boolean;
+  /** Обучение домино пройдено (с версии 2). */
+  readonly dominoesTutorialDone: boolean;
+  /** Знакомились ли уже с Дедом Матвеем (с версии 2). */
+  readonly metMatvey: boolean;
 }
 
-export const SETTINGS_VERSION = 1;
+export const SETTINGS_VERSION = 2;
 export const SETTINGS_KEY = 'igroteka.settings';
 
 export const DEFAULT_SETTINGS: Settings = {
-  version: 1,
+  version: 2,
   masterVolume: 0.9,
   voiceVolume: 1,
   sfxVolume: 0.8,
@@ -30,6 +35,8 @@ export const DEFAULT_SETTINGS: Settings = {
   reducedMotion: false,
   tutorialDone: false,
   metAgata: false,
+  dominoesTutorialDone: false,
+  metMatvey: false,
 };
 
 export interface KeyValueStore {
@@ -41,9 +48,11 @@ const vol = (x: unknown, d: number): number => (typeof x === 'number' && Number.
 const bool = (x: unknown, d: boolean): boolean => (typeof x === 'boolean' ? x : d);
 const diff = (x: unknown, d: Difficulty): Difficulty => (x === 'easy' || x === 'normal' || x === 'hard' ? x : d);
 
-/** Миграции по версиям: vN → vN+1. Пока версия одна; новые версии добавляются сюда с тестом. */
+/** Миграции по версиям: vN → vN+1; каждая — с тестом. */
 const MIGRATIONS: Record<number, (raw: Record<string, unknown>) => Record<string, unknown>> = {
   0: (raw) => ({ ...raw, version: 1 }),
+  // v2: домино и Дед Матвей — обучение не пройдено, знакомства не было; остальное без изменений.
+  1: (raw) => ({ ...raw, version: 2, dominoesTutorialDone: false, metMatvey: false }),
 };
 
 /** Разбор сохранённых данных; повреждённые и неизвестные поля заменяются значениями по умолчанию. */
@@ -60,7 +69,7 @@ export function parseSettings(raw: unknown): Settings {
   }
   const d = DEFAULT_SETTINGS;
   return {
-    version: 1,
+    version: 2,
     masterVolume: vol(obj.masterVolume, d.masterVolume),
     voiceVolume: vol(obj.voiceVolume, d.voiceVolume),
     sfxVolume: vol(obj.sfxVolume, d.sfxVolume),
@@ -70,6 +79,8 @@ export function parseSettings(raw: unknown): Settings {
     reducedMotion: bool(obj.reducedMotion, d.reducedMotion),
     tutorialDone: bool(obj.tutorialDone, d.tutorialDone),
     metAgata: bool(obj.metAgata, d.metAgata),
+    dominoesTutorialDone: bool(obj.dominoesTutorialDone, d.dominoesTutorialDone),
+    metMatvey: bool(obj.metMatvey, d.metMatvey),
   };
 }
 
