@@ -1,7 +1,7 @@
 // Риг-марионетка: собирает персонажа из частей рисунка и каждый кадр расставляет их по значениям каналов «мозга».
 // Рукава рисуются заново каждый кадр той же «трубкой», что в рисунке (контур, заливка, круглые концы), — изгиб без швов.
 // Внешний интерфейс совместим со старым ригом (src/characters/rig.ts) плюс throwCard() для броска, привязанного к карте.
-import { Container, Graphics, Sprite, type Texture } from 'pixi.js';
+import { Container, Graphics, RenderLayer, Sprite, type Texture } from 'pixi.js';
 import type { Emotion, Pose as RigPose } from '../characters/types';
 import type { PartSpec, Point, PuppetArt } from './art';
 import { PuppetBrain } from './brain';
@@ -12,11 +12,13 @@ import type { MotionStyle } from './types';
 const DEG = Math.PI / 180;
 const CARD_W = 46, CARD_H = 66;
 
-/** Где и как повернута карта в руке в момент броска (координаты родителя сцены). */
+/** Где и как повернута карта в руке в момент броска (глобальные координаты) и её размер на экране. */
 export interface Release {
   readonly x: number;
   readonly y: number;
   readonly rotation: number;
+  readonly w: number;
+  readonly h: number;
 }
 
 const placeSprite = (s: Sprite, box: { x: number; y: number; w: number; h: number }) => {
@@ -30,6 +32,10 @@ export class PuppetRig {
   readonly back = new Container();
   /** Слой над краем стола: руки, веер, карта в руке. */
   readonly front = new Container();
+  /** Порядок отрисовки карты, только что выпущенной из руки: над рукавом, под пальцами — как карта в руке.
+   * Сцена прикрепляет сюда спрайт своей карты на время вылета (attach/detach), сам спрайт остаётся в её слое. */
+  readonly releaseLayer = new RenderLayer();
+  private heldGrace = false;
   readonly brain: PuppetBrain;
   private bank: PuppetBank | null = null;
   private art: PuppetArt | null = null;
@@ -79,6 +85,8 @@ export class PuppetRig {
 
   constructor(private readonly style: MotionStyle, seed = 1) {
     this.brain = new PuppetBrain(style, seed);
+    // Персонаж — только картинка: руки над картами стола не перехватывают касания карт.
+    this.back.eventMode = this.front.eventMode = 'none';
     this.lookX = new Spring(0, { f: 5, zeta: 0.9 });
     this.lookY = new Spring(2, { f: 5, zeta: 0.9 });
     this.torsoC.addChild(this.torso);
@@ -87,7 +95,7 @@ export class PuppetRig {
     this.head.addChild(this.bunC, this.hair, ...this.earC, this.face, this.blush, this.details, this.mouth, this.eyesPrev, this.eyes, ...this.pupils, this.lids, this.glasses, this.brows, this.bangs);
     this.back.addChild(this.torsoC, this.head);
     // Левая рука держит веер (кисть поверх карт); правая — поверх всего: тянется к вееру за картой.
-    this.front.addChild(this.armL, this.cuffL, this.fan, this.handL, this.armR, this.cuffR, this.held, this.handR, this.joints);
+    this.front.addChild(this.armL, this.cuffL, this.fan, this.handL, this.armR, this.cuffR, this.held, this.releaseLayer, this.handR, this.joints);
     for (const s of [...this.pupils, this.handL, this.handR, this.cuffL, this.cuffR, this.held]) s.anchor.set(0.5);
   }
 
@@ -213,7 +221,7 @@ export class PuppetRig {
     return new Promise((resolve) => {
       if (!this.art) {
         const p = this.fanPoint();
-        resolve({ x: p.x, y: p.y, rotation: 0 });
+        resolve({ x: p.x, y: p.y, rotation: 0, w: 0, h: 0 });
         return;
       }
       const t = this.front.toLocal(target);
@@ -229,13 +237,17 @@ export class PuppetRig {
   private flushRelease(): void {
     this.releaseNow = false;
     if (!this.pendingRelease.length) return;
+    // Карта остаётся в руке ещё на этот кадр: спрайт сцены появится после ожидания промиса, уже после отрисовки,
+    // и без этого на кадр карта пропадает совсем. Со следующим update её место займёт карта сцены.
+    this.heldGrace = true;
     this.layout();
     const g = this.held.getGlobalPosition();
     const rot = this.held.rotation + this.front.rotation;
     const all = this.pendingRelease;
     this.pendingRelease = [];
-    this.held.visible = false;
-    for (const r of all) r({ x: g.x, y: g.y, rotation: rot });
+    const m = this.front.worldTransform;
+    const k = Math.hypot(m.a, m.b);
+    for (const r of all) r({ x: g.x, y: g.y, rotation: rot, w: this.held.width * k, h: this.held.height * k });
   }
 
   private rebuildFan(): void {
@@ -258,6 +270,7 @@ export class PuppetRig {
 
   update(dtMs: number): void {
     const dt = dtMs * this.timeScale;
+    this.heldGrace = false;
     this.inUpdate = true;
     this.brain.step(dt);
     this.inUpdate = false;
@@ -354,7 +367,7 @@ export class PuppetRig {
     // Карта в правой кисти.
     const rr = (v.rHandRot - rest.rHandRot) * DEG;
     const hc = art.heldCard;
-    this.held.visible = b.holdCard && !!this.fanBack;
+    this.held.visible = (b.holdCard || this.heldGrace) && !!this.fanBack;
     this.held.position.set(this.handR.x + hc.x * Math.cos(rr) - hc.y * Math.sin(rr), this.handR.y + hc.x * Math.sin(rr) + hc.y * Math.cos(rr));
     this.held.rotation = rr + hc.rot * DEG;
     this.drawJoints();

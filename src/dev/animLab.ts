@@ -56,7 +56,8 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
   const anchorY = c.crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
   for (const r of [rig, old]) r.setTransform(c.x - FIGURE.centerX * c.scale, c.y - anchorY * c.scale, c.scale);
   const cards = new Container();
-  root.addChild(bg, rig.back, old.back, table, rig.front, old.front, cards);
+  // Как в сцене дурака: карты на сукне — под руками Агаты.
+  root.addChild(bg, rig.back, old.back, table, cards, rig.front, old.front);
   const tweens = new Tweener();
   let showOld = false;
   const syncWhich = () => {
@@ -87,26 +88,32 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
       old.setEmotion('sly');
       old.setPose('throw', 1400);
       const f = old.fanPoint();
-      launch(code, { x: f.x, y: f.y, rotation: 0 }, target);
+      launch(code, { x: f.x, y: f.y, rotation: 0, w: 0 }, target);
       return;
     }
     rig.setEmotion('sly');
     const rel = await rig.throwCard(target);
-    launch(code, rel, target);
+    const sp = launch(code, rel, target);
+    // Как в сцене дурака: на вылете — между рукавом и пальцами, легла — под руки.
+    rig.releaseLayer.attach(sp);
+    void tweens.wait(300 / rig.timeScale).then(() => sp.parentRenderLayer === rig.releaseLayer && rig.releaseLayer.detach(sp));
     setTimeout(() => rig.setEmotion(mode === 'think' ? 'think' : 'warm'), 2200 / rig.timeScale);
   };
-  const launch = (code: string, from: { x: number; y: number; rotation: number }, to: { x: number; y: number }) => {
+  const launch = (code: string, from: { x: number; y: number; rotation: number; w: number }, to: { x: number; y: number }) => {
     const sp = new CardSprite(code, tex.get(`card:${code}`)!, back);
     const local = root.toLocal(from);
     sp.position.set(local.x, local.y);
     sp.rotation = from.rotation;
     sp.flip = 0;
-    sp.setCardSize(spec.tableCard.w * 0.82, spec.tableCard.h * 0.82);
+    // Как в сцене дурака: вылетает размером карты в руке и в полёте вырастает до карты стола.
+    sp.setCardSize(spec.tableCard.w, spec.tableCard.h);
+    sp.scale.set(from.w > 0 ? from.w / spec.tableCard.w : 0.82);
     cards.addChild(sp);
     const dest = root.toLocal(to);
     // Полёт и переворот — как у карты на столе в игре (DurakScene.place: 280 мс).
     void tweens.to(sp, { x: dest.x, y: dest.y, rotation: ((i++ % 3) - 1) * 0.08, flip: 1 }, 300 / rig.timeScale, { ease: easeInOutQuad });
-    void tweens.to(sp.scale, { x: spec.tableCard.w / (spec.tableCard.w * 0.82), y: spec.tableCard.h / (spec.tableCard.h * 0.82) }, 300 / rig.timeScale);
+    void tweens.to(sp.scale, { x: 1, y: 1 }, 300 / rig.timeScale, { ease: easeInOutQuad });
+    return sp;
   };
   let i = 0;
 
