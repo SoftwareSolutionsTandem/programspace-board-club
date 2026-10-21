@@ -242,7 +242,18 @@ const hand = (x: number, y: number, r = 18, rot = 0): string => `<g transform="t
   </g>`;
 const cuff = (x: number, y: number, rot = 0): string => `<ellipse cx="${x}" cy="${y}" rx="17" ry="8" transform="rotate(${rot} ${x} ${y})" fill="${C.shawl}" ${ol(3)}/>`;
 
-function shawlDecor(): string {
+/** Бахрома шали: пряди вдоль нижних краёв — начало и вектор пряди (единицы рига). */
+function fringeStrands(): { x: number; y: number; dx: number; dy: number }[] {
+  const out: { x: number; y: number; dx: number; dy: number }[] = [];
+  const fr = (x0: number, y0: number, x1: number, y1: number, dir: number): void => {
+    for (let t = 0.04; t < 0.98; t += 0.06) out.push({ x: x0 + (x1 - x0) * t, y: y0 + (y1 - y0) * t, dx: dir * 4, dy: 11 });
+  };
+  fr(116, 268, 210, 396, -1);
+  fr(304, 268, 210, 396, 1);
+  return out;
+}
+
+function shawlDecor(withFringe = true): string {
   let s = '';
   const edge = (x0: number, y0: number, x1: number, y1: number): void => {
     for (let t = 0.12; t < 0.95; t += 0.135) {
@@ -252,19 +263,13 @@ function shawlDecor(): string {
   };
   edge(128, 262, 210, 374);
   edge(292, 262, 210, 374);
-  let f = '';
-  const fr = (x0: number, y0: number, x1: number, y1: number, dir: number): void => {
-    for (let t = 0.04; t < 0.98; t += 0.06) {
-      const x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t;
-      f += `M${x} ${y} l${dir * 4} 11 `;
-    }
-  };
-  fr(116, 268, 210, 396, -1);
-  fr(304, 268, 210, 396, 1);
+  if (!withFringe) return s;
+  const f = fringeStrands().map((p) => `M${p.x} ${p.y} l${p.dx} ${p.dy} `).join('');
   return `<path d="${f}" stroke="${C.shawlSh}" stroke-width="3.2" stroke-linecap="round"/>` + s;
 }
 
-function body(id: string): string {
+/** Тело; без бахромы — для марионетки: пряди она рисует сама и качает их. */
+function body(id: string, withFringe = true): string {
   return `
   <ellipse cx="168" cy="536" rx="30" ry="14" fill="${C.shoe}" ${ol(3.6)}/>
   <ellipse cx="252" cy="536" rx="30" ry="14" fill="${C.shoe}" ${ol(3.6)}/>
@@ -283,7 +288,7 @@ function body(id: string): string {
   <clipPath id="${id}-shawl"><path d="${SHAWL}"/></clipPath>
   <path d="${SHAWL}" fill="${C.shawlSh}"/>
   <g clip-path="url(#${id}-shawl)"><ellipse cx="196" cy="260" rx="112" ry="120" fill="${C.shawl}"/></g>
-  ${shawlDecor()}
+  ${shawlDecor(withFringe)}
   <path d="${SHAWL}" fill="none" ${ol()}/>
   <path d="M168 240 Q176 290 198 330 M252 240 Q244 290 222 330" fill="none" stroke="${C.shawlSh}" stroke-width="3.4" stroke-linecap="round"/>`;
 }
@@ -370,17 +375,15 @@ export const AGATA_ART: CharacterArt = {
 // Координаты головы — локальные (лицо по центру x = 120), фигуры — единицы рига.
 
 /** Белки обоих глаз для стиля глаз (без зрачков и век; дуги смеха — целиком). */
-function eyeWhites(style: 'ball' | 'wide' | 'star' | 'happy' | 'closed'): string {
-  const one = ([cx, cy]: [number, number]): string => {
-    switch (style) {
-      case 'happy': return `<path d="M${cx - 13} ${cy + 5} Q${cx} ${cy - 11} ${cx + 13} ${cy + 5}" fill="none" ${ol(4.2)}/>`;
-      case 'closed': return `<path d="M${cx - 13} ${cy + 1} Q${cx} ${cy + 9} ${cx + 13} ${cy + 1}" fill="none" ${ol(4.2)}/>`;
-      case 'wide': return `<ellipse cx="${cx}" cy="${cy}" rx="17" ry="20" fill="${C.white}" ${ol(3)}/>`;
-      case 'star': return `<ellipse cx="${cx}" cy="${cy}" rx="15" ry="17" fill="${C.white}" ${ol(3)}/>`;
-      default: return `<ellipse cx="${cx}" cy="${cy}" rx="14" ry="16" fill="${C.white}" ${ol(3)}/>`;
-    }
-  };
-  return one(EYE_L) + one(EYE_R);
+/** Белок одного глаза с центром в начале координат (без зрачка и век; дуга смеха — целиком). Глаза симметричны. */
+function eyeWhite(style: 'ball' | 'wide' | 'star' | 'happy' | 'closed'): string {
+  switch (style) {
+    case 'happy': return `<path d="M-13 5 Q0 -11 13 5" fill="none" ${ol(4.2)}/>`;
+    case 'closed': return `<path d="M-13 1 Q0 9 13 1" fill="none" ${ol(4.2)}/>`;
+    case 'wide': return `<ellipse cx="0" cy="0" rx="17" ry="20" fill="${C.white}" ${ol(3)}/>`;
+    case 'star': return `<ellipse cx="0" cy="0" rx="15" ry="17" fill="${C.white}" ${ol(3)}/>`;
+    default: return `<ellipse cx="0" cy="0" rx="14" ry="16" fill="${C.white}" ${ol(3)}/>`;
+  }
 }
 
 /** Зрачок с бликом в начале координат (радиус r; звёздочка — для азарта). */
@@ -405,12 +408,22 @@ export const AGATA_PIECES = {
   glasses,
   bangs,
   mouth,
-  eyeWhites,
+  eyeWhite,
   pupil,
   /** Капли и искры эмоции (координаты головы). */
   extras: (emotion: Emotion): string => (EXPR[emotion].extras ?? []).join(''),
-  /** Тело без рук и головы (единицы рига). */
-  torso: () => body('pt'),
+  /** Тело без рук, головы и бахромы шали (единицы рига). */
+  torso: () => body('pt', false),
+  /** Бахрома шали и нижние края шали, по которым её контур рисуется поверх прядей. */
+  fringe: {
+    strands: fringeStrands(),
+    width: 3.2,
+    color: C.shawlSh,
+    outline: C.outline,
+    outlineWidth: 4,
+    // Нижние края шали (SHAWL): от правого угла к острию и к левому углу — кубические кривые.
+    edge: [[304, 266], [272, 304, 240, 352, 210, 394], [180, 352, 148, 304, 116, 266]] as const,
+  },
   /** Кисть в начале координат, без поворота. */
   hand: (r = 19): string => hand(0, 0, r, 0),
   /** Манжета в начале координат, длинная ось — по x. */

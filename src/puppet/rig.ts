@@ -6,6 +6,7 @@ import type { Emotion, Pose as RigPose } from '../characters/types';
 import type { PartSpec, Point, PuppetArt } from './art';
 import { PuppetBrain } from './brain';
 import { clamp, lerp, Spring } from './motion';
+import { SpeechMouth } from './speech';
 import type { PuppetBank } from './textures';
 import type { MotionStyle } from './types';
 
@@ -42,6 +43,9 @@ export class PuppetRig {
   // Корпус и голова.
   private readonly torsoC = new Container();
   private readonly torso = new Sprite();
+  /** Бахрома шали — рисуется каждый кадр, качается на пружине. */
+  private readonly fringe = new Graphics();
+  private fringeDrawn = NaN;
   private readonly head = new Container();
   private readonly bunC = new Container();
   private readonly bun = new Sprite();
@@ -52,12 +56,12 @@ export class PuppetRig {
   private readonly blush = new Sprite();
   private readonly details = new Sprite();
   private readonly mouth = new Sprite();
-  private readonly eyesPrev = new Sprite();
-  private readonly eyes = new Sprite();
+  private readonly eyeS: [Sprite, Sprite] = [new Sprite(), new Sprite()];
   private readonly pupils: [Sprite, Sprite] = [new Sprite(), new Sprite()];
   private readonly lids = new Graphics();
   private readonly glasses = new Sprite();
   private readonly brows = new Graphics();
+  private readonly bangsC = new Container();
   private readonly bangs = new Sprite();
   private readonly extras = new Map<Emotion, Sprite>();
   // Руки.
@@ -73,6 +77,7 @@ export class PuppetRig {
   private fanCount = 6;
   private fanBack: Texture | null = null;
   private speechLevel = 0;
+  private speech: SpeechMouth | null = null;
   private readonly lookX: Spring;
   private readonly lookY: Spring;
   private pendingRelease: ((r: Release) => void)[] = [];
@@ -89,14 +94,15 @@ export class PuppetRig {
     this.back.eventMode = this.front.eventMode = 'none';
     this.lookX = new Spring(0, { f: 5, zeta: 0.9 });
     this.lookY = new Spring(2, { f: 5, zeta: 0.9 });
-    this.torsoC.addChild(this.torso);
+    this.torsoC.addChild(this.torso, this.fringe);
     this.bunC.addChild(this.bun);
+    this.bangsC.addChild(this.bangs);
     this.earC.forEach((c, i) => c.addChild(this.ears[i]!));
-    this.head.addChild(this.bunC, this.hair, ...this.earC, this.face, this.blush, this.details, this.mouth, this.eyesPrev, this.eyes, ...this.pupils, this.lids, this.glasses, this.brows, this.bangs);
+    this.head.addChild(this.bunC, this.hair, ...this.earC, this.face, this.blush, this.details, this.mouth, ...this.eyeS, ...this.pupils, this.lids, this.glasses, this.brows, this.bangsC);
     this.back.addChild(this.torsoC, this.head);
     // Левая рука держит веер (кисть поверх карт); правая — поверх всего: тянется к вееру за картой.
     this.front.addChild(this.armL, this.cuffL, this.fan, this.handL, this.armR, this.cuffR, this.held, this.releaseLayer, this.handR, this.joints);
-    for (const s of [...this.pupils, this.handL, this.handR, this.cuffL, this.cuffR, this.held]) s.anchor.set(0.5);
+    for (const s of [...this.pupils, ...this.eyeS, this.handL, this.handR, this.cuffL, this.cuffR, this.held]) s.anchor.set(0.5);
   }
 
   set reducedMotion(v: boolean) {
@@ -122,10 +128,16 @@ export class PuppetRig {
     this.torsoC.pivot.set(art.hip.x, art.hip.y);
     this.head.pivot.set(art.headPivot.x, art.headPivot.y);
     // Части головы — в своих областях (координаты головы).
-    for (const [s, p] of [[this.hair, h.back], [this.face, h.face], [this.blush, h.blush], [this.details, h.details], [this.glasses, h.glasses], [this.bangs, h.bangs]] as const) {
+    for (const [s, p] of [[this.hair, h.back], [this.face, h.face], [this.blush, h.blush], [this.details, h.details], [this.glasses, h.glasses]] as const) {
       s.texture = tex(p);
       placeSprite(s, p.box);
     }
+    // Чёлка — вокруг своей точки на макушке.
+    this.bangs.texture = tex(h.bangs);
+    placeSprite(this.bangs, { ...h.bangs.box, x: h.bangs.box.x - h.bangsPivot.x, y: h.bangs.box.y - h.bangsPivot.y });
+    this.bangsC.position.set(h.bangsPivot.x, h.bangsPivot.y);
+    this.speech = new SpeechMouth(art.speech);
+    this.fringeDrawn = NaN;
     // Пучок и серьги вращаются вокруг своих точек.
     const pivoted = (c: Container, s: Sprite, p: typeof h.bun) => {
       s.texture = tex(p);
@@ -134,8 +146,7 @@ export class PuppetRig {
     };
     pivoted(this.bunC, this.bun, h.bun);
     h.earrings.forEach((p, i) => pivoted(this.earC[i]!, this.ears[i]!, p));
-    placeSprite(this.eyes, h.eyes.ball.box);
-    placeSprite(this.eyesPrev, h.eyes.ball.box);
+    art.eyesAt.forEach((e, i) => this.eyeS[i]!.position.set(e.x, e.y));
     for (const s of this.pupils) {
       s.texture = tex(h.pupil);
       s.width = h.pupil.box.w;
@@ -234,6 +245,22 @@ export class PuppetRig {
     });
   }
 
+  /**
+   * Сгрести карты со стола (точка сцены) в свой веер. Промис разрешается, когда кисть коснулась карт:
+   * сцена запускает их полёт в веер — карты уходят вместе с рукой.
+   */
+  takeCards(target: { x: number; y: number }): Promise<void> {
+    return new Promise((resolve) => {
+      if (!this.art) {
+        resolve();
+        return;
+      }
+      this.brain.play(this.style.takeCards(this.front.toLocal(target)), (name) => {
+        if (name === 'grab') resolve();
+      });
+    });
+  }
+
   private flushRelease(): void {
     this.releaseNow = false;
     if (!this.pendingRelease.length) return;
@@ -306,28 +333,30 @@ export class PuppetRig {
     this.head.position.set(neck.x + v.headX, neck.y + v.headY);
     this.head.rotation = (v.torsoRot + v.headRot) * DEG;
     this.bunC.rotation = b.bun * DEG;
+    this.bangsC.rotation = b.bangsRot * DEG;
+    this.bangsC.y = art.head.bangsPivot.y + b.bangsY;
+    this.drawFringe(b.fringe);
     this.earC[0].rotation = clamp(b.earL, -40, 40) * DEG;
     this.earC[1].rotation = clamp(b.earR, -40, 40) * DEG;
     this.blush.alpha = clamp(v.blush, 0, 1);
-    // Рот: речь по уровню голоса, иначе — форма эмоции.
-    const shapes = art.speechMouths;
-    const m = this.speechLevel > 0.08 ? shapes[Math.min(shapes.length - 1, Math.floor(this.speechLevel * shapes.length))]! : art.emotionMouth(b.currentEmotion);
+    // Рот: при речи — по уровню голоса (форма держится, между слогами губы смыкаются), иначе — форма эмоции.
+    const face = this.style.faces[b.currentEmotion];
+    const m = this.speech?.step(this.speechLevel, dtMs, face.speechMax) ?? art.emotionMouth(b.currentEmotion);
     const mt = bank.mouths.get(m);
     if (mt && this.mouth.texture !== mt) this.mouth.texture = mt;
     placeSprite(this.mouth, art.head.mouthBox);
-    // Глаза: стиль со смешиванием; зрачки — по взгляду и смещению эмоции.
-    const eyeTex = (s: typeof b.eyes) => bank.parts.get(art.head.eyes[s].key)!;
-    this.eyes.texture = eyeTex(b.eyes);
-    this.eyes.alpha = b.eyesMix;
-    this.eyesPrev.visible = b.eyesMix < 1;
-    this.eyesPrev.texture = eyeTex(b.eyesPrev);
-    this.eyesPrev.alpha = 1 - b.eyesMix;
-    const face = this.style.faces[b.currentEmotion];
+    // Глаза: форма раскрывается вокруг центра каждого глаза; зрачки — по взгляду и смещению эмоции.
+    const eyePart = art.head.eyes[b.eyes];
+    const eyeTex = bank.parts.get(eyePart.key)!;
+    for (const s of this.eyeS) {
+      if (s.texture !== eyeTex) s.texture = eyeTex;
+      s.width = eyePart.box.w * b.eyeScaleX;
+      s.height = eyePart.box.h * b.eyeScaleY;
+    }
     const dt = dtMs / 1000;
     const lx = dt > 0 ? this.lookX.step(face.look[0], dt) : this.lookX.y;
     const ly = dt > 0 ? this.lookY.step(face.look[1], dt) : this.lookY.y;
-    const hasPupils = (s: typeof b.eyes) => s === 'ball' || s === 'wide' || s === 'star';
-    const pupilAlpha = (hasPupils(b.eyes) ? b.eyesMix : 0) + (hasPupils(b.eyesPrev) ? 1 - b.eyesMix : 0);
+    const hasPupils = b.eyes === 'ball' || b.eyes === 'wide' || b.eyes === 'star';
     const starTex = bank.parts.get(art.head.pupilStar.key)!;
     const pupilTex = bank.parts.get(art.head.pupil.key)!;
     art.eyesAt.forEach((e, i) => {
@@ -340,12 +369,11 @@ export class PuppetRig {
         ox /= k;
         oy /= k;
       }
-      s.position.set(e.x + ox, e.y + oy);
+      s.position.set(e.x + ox * b.eyeScaleX, e.y + oy * b.eyeScaleY);
       s.texture = b.eyes === 'star' ? starTex : pupilTex;
-      s.width = art.head.pupil.box.w * v.pupil;
-      s.height = art.head.pupil.box.h * v.pupil;
-      s.alpha = pupilAlpha;
-      s.visible = pupilAlpha > 0.01;
+      s.width = art.head.pupil.box.w * v.pupil * b.eyeScaleY;
+      s.height = art.head.pupil.box.h * v.pupil * b.eyeScaleY;
+      s.visible = hasPupils;
     });
     this.drawLids();
     this.drawBrows();
@@ -371,6 +399,28 @@ export class PuppetRig {
     this.held.position.set(this.handR.x + hc.x * Math.cos(rr) - hc.y * Math.sin(rr), this.handR.y + hc.x * Math.sin(rr) + hc.y * Math.cos(rr));
     this.held.rotation = rr + hc.rot * DEG;
     this.drawJoints();
+  }
+
+  /** Бахрома шали: пряди поворачиваются вокруг начала, сильнее к острию шали; контур нижних краёв — поверх прядей. */
+  private drawFringe(angle: number): void {
+    if (Math.abs(angle - this.fringeDrawn) < 0.05) return;
+    this.fringeDrawn = angle;
+    const f = this.art!.fringe;
+    const g = this.fringe;
+    g.clear();
+    const half = f.strands.length / 2;
+    f.strands.forEach((p, i) => {
+      // Пряди у острия (середина каждого края по порядку — ближе к концу) длиннее качаются; правый край зеркален.
+      const k = 0.55 + 0.9 * ((i % half) / half);
+      const a = angle * k * DEG;
+      const dx = p.dx * Math.cos(a) - p.dy * Math.sin(a), dy = p.dx * Math.sin(a) + p.dy * Math.cos(a);
+      g.moveTo(p.x, p.y).lineTo(p.x + dx, p.y + dy);
+    });
+    g.stroke({ width: f.width, color: f.color, cap: 'round' });
+    const [start, ...curves] = f.edge;
+    g.moveTo(start![0]!, start![1]!);
+    for (const c of curves) g.bezierCurveTo(c[0]!, c[1]!, c[2]!, c[3]!, c[4]!, c[5]!);
+    g.stroke({ width: f.outlineWidth, color: f.outline, cap: 'round', join: 'round' });
   }
 
   /** Рукав от плеча через изгиб к запястью (квадратичная кривая, как tube() в рисунке), манжета и кисть. */

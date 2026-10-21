@@ -27,7 +27,7 @@ const brows = (l: Brow, r: Brow = l): Pose => ({ browLI: l[0], browLO: l[1], bro
 const lids = (i: number, o: number): Pose => ({ lidLI: i, lidLO: o, lidRI: i, lidRO: o });
 const OPEN = lids(-18, -18);
 
-const face = (eyes: Face['eyes'], pose: Pose, look: readonly [number, number] = [0, 2], extras = false): Face => ({ eyes, pose: { ...OPEN, pupil: 1, blush: 0.55, ...pose }, look, extras });
+const face = (eyes: Face['eyes'], pose: Pose, look: readonly [number, number] = [0, 2], extras = false, speechMax?: number): Face => ({ eyes, pose: { ...OPEN, pupil: 1, blush: 0.55, ...pose }, look, extras, speechMax });
 
 const FACES: MotionStyle['faces'] = {
   warm: face('ball', brows(BROW.neutral!)),
@@ -36,8 +36,9 @@ const FACES: MotionStyle['faces'] = {
   azart: face('star', { ...brows(BROW.raised!), blush: 0.75, pupil: 8 / 7.5 }, [0, 2], true),
   surprise: face('wide', { ...brows(BROW.raised!), pupil: 5.5 / 7.5 }),
   think: face('ball', brows(BROW.neutral!, BROW.slyUp!), [5, -6]),
-  annoyed: face('ball', { ...brows(BROW.annoyed!), ...lids(-4, -4), pupil: 7 / 7.5 }, [0, 2], true),
-  sad: face('ball', { ...brows(BROW.sad!), ...lids(-9, -1), pupil: 7 / 7.5, blush: 0.35 }, [-1, 6], true),
+  // В досаде и грусти рот при речи не раскрывается до смеющегося.
+  annoyed: face('ball', { ...brows(BROW.annoyed!), ...lids(-4, -4), pupil: 7 / 7.5 }, [0, 2], true, 1),
+  sad: face('ball', { ...brows(BROW.sad!), ...lids(-9, -1), pupil: 7 / 7.5, blush: 0.35 }, [-1, 6], true, 1),
 };
 
 // ---------- мелкие действия ----------
@@ -139,31 +140,85 @@ const THINK: StateDef = {
   wander: 0.6,
 };
 
-// Взятие и победа — пока простые позы исходного рисунка (переход — движением, а не растворением).
+// Взяла: плечи опустились, голова поникла, веер (теперь толще) держит пониже и поглядывает в него.
+/** Вздох: плечи поднимаются и тяжело опускаются, голова качается «эх». */
+const sigh: GestureDef = {
+  id: 'sigh',
+  duration: 1600,
+  keys: [
+    { at: 0, pose: { torsoY: -2.5, headY: -2, headRot: 1.5 }, spring: { body: { f: 1.6, zeta: 0.85 } } },
+    { at: 600, pose: { torsoY: 5, headY: 5, headRot: -3.5 }, spring: { body: { f: 1.2, zeta: 0.9 }, head: { f: 1.6, zeta: 0.8 } } },
+    { at: 1050, pose: { headRot: 2.5 } },
+    { at: 1300, pose: { headRot: -1.5 } },
+  ],
+};
+
 const TOOK: StateDef = {
-  pose: {
-    lHandX: 180, lHandY: 392, lCtrlX: 104, lCtrlY: 350, lDX: 8, lDY: 6, lHandRot: 30,
-    rHandX: 240, rHandY: 392, rCtrlX: 316, rCtrlY: 350, rDX: -8, rDY: 6, rHandRot: 150,
-    fanAlpha: 0, torsoY: 3, headY: 3,
-  },
-  looks: [{ x: 0, y: 0.85, weight: 1 }],
-  saccade: [1500, 3000],
-  fidgets: [],
-  fidgetEvery: [5000, 9000],
+  pose: { torsoY: 3, headY: 3.5, headRot: -2, lHandY: 346, lHandRot: 6, fanRot: -5, rHandX: 300, rHandY: 396, rCtrlX: 326, rCtrlY: 334, rHandRot: -55 },
+  looks: [
+    { x: -0.6, y: 0.75, weight: 3 },
+    { x: 0, y: 0.15, weight: 2 },
+  ],
+  saccade: [1300, 2600],
+  fidgets: [sigh],
+  fidgetEvery: [400, 900],
   wander: 0.4,
 };
 
+// Победа: руки вверх. Вход — с замахом: присела, сжалась и выстрелила руками вверх с перелётом.
+const ARMS_UP: Pose = {
+  lHandX: 96, lHandY: 108, lCtrlX: 74, lCtrlY: 190, lDX: 0, lDY: -8, lHandRot: 160,
+  rHandX: 324, rHandY: 108, rCtrlX: 346, rCtrlY: 190, rDX: 0, rDY: -8, rHandRot: 20,
+};
+const victoryBurst: GestureDef = {
+  id: 'victoryBurst',
+  duration: 1200,
+  keys: [
+    { at: 0, pose: { lHandX: 176, lHandY: 356, lCtrlX: 112, lCtrlY: 330, lHandRot: 30, rHandX: 246, rHandY: 356, rCtrlX: 310, rCtrlY: 330, rHandRot: 150, torsoY: 6, headY: 5, headRot: 0, gazeX: 0, gazeY: 0.3 }, spring: { arm: { f: 4.6, zeta: 0.8 }, body: { f: 3.4, zeta: 0.75 }, head: { f: 3.4, zeta: 0.7 } } },
+    { at: 260, pose: { ...ARMS_UP, torsoY: -7, headY: -8, headRot: -2, gazeY: -0.1 }, spring: { arm: { f: 4.2, zeta: 0.36 }, body: { f: 3.2, zeta: 0.42 }, head: { f: 3.6, zeta: 0.45 } } },
+    { at: 760, pose: { torsoY: -2, headY: -3, headRot: 2 } },
+  ],
+};
+/** Ликует: руки вверх-вниз с подскоком. */
+const cheer: GestureDef = {
+  id: 'cheer',
+  duration: 900,
+  keys: [
+    { at: 0, pose: { lHandY: 146, rHandY: 146, lCtrlY: 214, rCtrlY: 214, torsoY: 2, headY: 1 }, spring: { arm: { f: 6, zeta: 0.6 }, body: { f: 4, zeta: 0.6 } } },
+    { at: 200, pose: { lHandY: 100, rHandY: 100, lCtrlY: 186, rCtrlY: 186, torsoY: -4, headY: -5 }, spring: { arm: { f: 5.5, zeta: 0.4 }, body: { f: 4, zeta: 0.45 } } },
+    { at: 520, pose: { torsoY: -1, headY: -2 } },
+  ],
+};
+/** Пританцовывает: корпус качается из стороны в сторону, руки — за ним. */
+const victorySway: GestureDef = {
+  id: 'victorySway',
+  duration: 1700,
+  keys: [
+    { at: 0, pose: { torsoRot: -3.5, headRot: 4, lHandX: 84, rHandX: 312 }, spring: { body: { f: 2.2, zeta: 0.6 } } },
+    { at: 560, pose: { torsoRot: 3.5, headRot: -4, lHandX: 108, rHandX: 336 } },
+    { at: 1120, pose: { torsoRot: 0, headRot: 1, lHandX: 96, rHandX: 324 } },
+  ],
+};
+/** Трясёт кулаками по очереди: то левая выше, то правая (руки — по бокам головы, лицо не закрывают). */
+const fistPump: GestureDef = {
+  id: 'fistPump',
+  duration: 1300,
+  keys: [
+    { at: 0, pose: { lHandY: 86, lCtrlY: 176, rHandY: 140, rCtrlY: 206, headRot: -2.5, torsoRot: -1.2 }, spring: { arm: { f: 6, zeta: 0.5 } } },
+    { at: 300, pose: { lHandY: 140, lCtrlY: 206, rHandY: 86, rCtrlY: 176, headRot: 2.5, torsoRot: 1.2 } },
+    { at: 600, pose: { lHandY: 92, lCtrlY: 180, rHandY: 132, rCtrlY: 200, headRot: -1.5, torsoRot: -0.6 } },
+    { at: 860, pose: { ...ARMS_UP, headRot: 0, torsoRot: 0 }, spring: { arm: { f: 4, zeta: 0.55 } } },
+  ],
+};
+
 const VICTORY: StateDef = {
-  pose: {
-    lHandX: 96, lHandY: 108, lCtrlX: 74, lCtrlY: 190, lDX: 0, lDY: -8, lHandRot: 160,
-    rHandX: 324, rHandY: 108, rCtrlX: 346, rCtrlY: 190, rDX: 0, rDY: -8, rHandRot: 20,
-    fanAlpha: 0, headY: -3,
-  },
-  looks: [{ x: 0, y: 0, weight: 1 }],
-  saccade: [1200, 2400],
-  fidgets: [],
-  fidgetEvery: [5000, 9000],
+  pose: { ...ARMS_UP, fanAlpha: 0, headY: -3, torsoY: -1 },
+  looks: [{ x: 0, y: 0, weight: 3 }, { x: 0.3, y: -0.3, weight: 1 }, { x: -0.3, y: -0.3, weight: 1 }],
+  saccade: [900, 1800],
+  fidgets: [cheer, victorySway, fistPump],
+  fidgetEvery: [700, 1500],
   wander: 0.5,
+  enter: victoryBurst,
 };
 
 /**
@@ -191,6 +246,27 @@ function throwCard(target: { x: number; y: number }): GestureDef {
   };
 }
 
+/**
+ * Сгребает карты со стола в веер: наклон, взгляд на карты → правая кисть тянется к картам (grab — коснулась) →
+ * подгребает к себе и вкладывает в веер, левая рука подставляет веер → подравнивает → возврат.
+ */
+function takeCards(target: { x: number; y: number }): GestureDef {
+  const tx = clamp(210 + (target.x - 210) * 0.6, 186, 360);
+  const gx = clamp((target.x - 210) / 260, -0.9, 0.9);
+  return {
+    id: 'takeCards',
+    duration: 1350,
+    keys: [
+      { at: 0, pose: { rHandX: tx + 26, rHandY: 404, rCtrlX: tx + 70, rCtrlY: 326, rDX: -4, rDY: 6, rHandRot: -62, torsoY: 4, torsoRot: -1.5, headY: 4, headRot: -2, gazeX: gx, gazeY: 0.95, lHandY: 350, fanRot: -6 }, spring: { arm: { f: 4.2, zeta: 0.72 }, body: { f: 2.6, zeta: 0.7 } } },
+      { at: 300, pose: { rHandX: tx, rHandY: 412, rHandRot: -92 }, spring: { arm: { f: 6, zeta: 0.7 } } },
+      { at: 380, pose: { rHandX: 198, rHandY: 330, rCtrlX: 262, rCtrlY: 374, rDX: -8, rDY: -4, rHandRot: -122, lHandY: 334, fanRot: 5, gazeX: -0.55, gazeY: 0.7, torsoY: 1, headY: 2 }, spring: { arm: { f: 3.4, zeta: 0.72 } } },
+      { at: 800, pose: { rHandY: 322, fanRot: 0 }, spring: { arm: { f: 8, zeta: 0.6 } } },
+      { at: 950, pose: { ...pick(REST, 'rHandX', 'rHandY', 'rCtrlX', 'rCtrlY', 'rDX', 'rDY', 'rHandRot', 'lHandY'), torsoY: 0, torsoRot: 0, headY: 0, headRot: 0, gazeX: 0, gazeY: 0.2 }, spring: { arm: { f: 2.6, zeta: 0.8 } } },
+    ],
+    markers: [{ at: 330, name: 'grab' }],
+  };
+}
+
 export const AGATA_MOTION: MotionStyle = {
   springs: {
     body: { f: 1.8, zeta: 0.75 },
@@ -205,7 +281,14 @@ export const AGATA_MOTION: MotionStyle = {
   breath: { period: [3.2, 4.4], depth: 0.012 },
   wander: { headRot: 1.6, headX: 1.8, headY: 1.2, torsoRot: 1.4, torsoX: 3, shiftEvery: [4500, 9500] },
   blink: { every: [1800, 5200], double: 0.18, ms: 170 },
-  secondary: { bun: { f: 2.2, zeta: 0.32 }, earrings: { f: 1.6, zeta: 0.18 }, bunGain: 1.4, earGain: 0.6 },
+  secondary: {
+    bun: { f: 2.2, zeta: 0.32 }, earrings: { f: 1.6, zeta: 0.18 }, bunGain: 1.4, earGain: 0.6,
+    // Чёлка короткая и плотная: качается чуть-чуть. Бахрома — лёгкая, с заметным перелётом.
+    bangs: { f: 3.2, zeta: 0.4 }, bangsGain: 0.5, bangsMax: 1.6, bangsLift: 0.35,
+    fringe: { f: 2.4, zeta: 0.22 }, fringeGain: 2.6, fringeMax: 16,
+  },
+  eyeSwap: { close: 70, open: 90, pop: { f: 5, zeta: 0.45 }, size: { ball: [14, 16], wide: [17, 20], star: [15, 17], happy: [13, 8], closed: [13, 5] } },
   gazeHead: { rot: 3, y: 3 },
   throwCard,
+  takeCards,
 };

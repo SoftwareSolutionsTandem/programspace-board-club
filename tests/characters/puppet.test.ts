@@ -3,6 +3,8 @@ import { AGATA_MOTION } from '../../src/characters/agata/motions';
 import { PuppetBrain } from '../../src/puppet/brain';
 import { Spring } from '../../src/puppet/motion';
 import { CHANNELS } from '../../src/puppet/types';
+import { SpeechMouth } from '../../src/puppet/speech';
+import { AGATA_PUPPET } from '../../src/characters/agata/puppet';
 import { EMOTIONS } from '../../src/characters/types';
 
 const run = (b: PuppetBrain, ms: number, dt = 16) => {
@@ -156,5 +158,152 @@ describe('мозг марионетки Агаты', () => {
       expect(Math.abs(b.values.gazeX)).toBeLessThanOrEqual(1);
       expect(Math.abs(b.values.gazeY)).toBeLessThanOrEqual(1);
     }
+  });
+});
+
+describe('ANIM-2: взяла, победа, смена глаз, шаль и чёлка', () => {
+  it('«взяла»: кисть тянется к картам (grab — один раз, у стола), затем к вееру и в покой', () => {
+    const b = new PuppetBrain(AGATA_MOTION, 12);
+    const got: [string, number][] = [];
+    let t = 0;
+    b.play(AGATA_MOTION.takeCards({ x: 240, y: 520 }), (n) => got.push([n, t]));
+    let atGrab = 0;
+    for (; t < 1400; t += 16) {
+      b.step(16);
+      if (got.length && !atGrab) atGrab = b.values.rHandY;
+    }
+    expect(got.map((g) => g[0])).toEqual(['grab']);
+    // В момент касания кисть у карт на столе — ниже края стола.
+    expect(atGrab).toBeGreaterThan(395);
+    run(b, 2500);
+    expect(b.gestureId).toBeNull();
+    expect(Math.abs(b.values.rHandY - AGATA_MOTION.rest.rHandY)).toBeLessThan(4);
+  });
+
+  it('победа: вход со всплеском, руки вверх; во время броска всплеск ждёт, бросок отпускает карту в свой срок', () => {
+    const b = new PuppetBrain(AGATA_MOTION, 13);
+    b.setState('victory');
+    expect(b.gestureId).toBe('victoryBurst');
+    run(b, 2000);
+    expect(b.values.lHandY).toBeLessThan(160);
+    expect(b.values.rHandY).toBeLessThan(160);
+    // Бросок начат, затем наступила победа: событие броска — не раньше обычного, всплеск — после броска.
+    const c = new PuppetBrain(AGATA_MOTION, 14);
+    let t = 0, released = -1;
+    c.play(AGATA_MOTION.throwCard({ x: 260, y: 520 }), (n) => {
+      if (n === 'release') released = t;
+    });
+    c.setState('victory');
+    const seen: string[] = [];
+    for (; t < 3000; t += 16) {
+      c.step(16);
+      if (c.gestureId && seen.at(-1) !== c.gestureId) seen.push(c.gestureId);
+    }
+    expect(released).toBeGreaterThanOrEqual(520);
+    expect(seen.slice(0, 2)).toEqual(['throwCard', 'victoryBurst']);
+    // Бросок во время всплеска: всплеск доигрывается после броска.
+    const d = new PuppetBrain(AGATA_MOTION, 15);
+    d.setState('victory');
+    run(d, 200);
+    d.play(AGATA_MOTION.throwCard({ x: 260, y: 520 }));
+    const seenD: string[] = [];
+    for (let k = 0; k < 200; k++) {
+      d.step(16);
+      if (d.gestureId && seenD.at(-1) !== d.gestureId) seenD.push(d.gestureId);
+    }
+    expect(seenD.slice(0, 2)).toEqual(['throwCard', 'victoryBurst']);
+  });
+
+  it('смена формы глаз: глаза прикрываются, форма меняется закрытыми, новая раскрывается; без движения — сразу', () => {
+    const b = new PuppetBrain(AGATA_MOTION, 16);
+    run(b, 300);
+    b.setEmotion('surprise');
+    expect(b.eyes).toBe('ball');
+    let maxClose = 0, swappedAt = -1;
+    for (let t = 0; t < 600; t += 10) {
+      b.step(10);
+      maxClose = Math.max(maxClose, b.eyeClose);
+      if (swappedAt < 0 && b.eyes === 'wide') swappedAt = t;
+    }
+    expect(maxClose).toBeCloseTo(1, 5);
+    expect(swappedAt).toBeGreaterThanOrEqual(60);
+    expect(swappedAt).toBeLessThanOrEqual(80);
+    run(b, 1500);
+    expect(b.eyeClose).toBe(0);
+    expect(b.eyeScaleX).toBeCloseTo(1, 2);
+    expect(b.eyeScaleY).toBeCloseTo(1, 2);
+    // В дуги смеха: дуга раскрывается из сплющенной.
+    b.setEmotion('laugh');
+    let minSY = 1;
+    for (let t = 0; t < 400; t += 10) {
+      b.step(10);
+      if (b.eyes === 'happy') minSY = Math.min(minSY, b.eyeScaleY);
+    }
+    expect(minSY).toBeLessThan(0.5);
+    const r = new PuppetBrain(AGATA_MOTION, 17);
+    r.reduced = true;
+    r.setEmotion('laugh');
+    r.step(16);
+    expect(r.eyes).toBe('happy');
+    expect(r.eyeClose).toBe(0);
+  });
+
+  it('шаль и чёлка: качаются от движения корпуса и головы, но в пределах; без движения — на месте', () => {
+    const b = new PuppetBrain(AGATA_MOTION, 18);
+    let maxF = 0, maxB = 0;
+    b.play(AGATA_MOTION.throwCard({ x: 300, y: 520 }));
+    for (let t = 0; t < 2000; t += 16) {
+      b.step(16);
+      maxF = Math.max(maxF, Math.abs(b.fringe));
+      maxB = Math.max(maxB, Math.abs(b.bangsRot));
+    }
+    expect(maxF).toBeGreaterThan(3);
+    expect(maxF).toBeLessThanOrEqual(AGATA_MOTION.secondary.fringeMax);
+    expect(maxB).toBeGreaterThan(0.2);
+    expect(maxB).toBeLessThanOrEqual(AGATA_MOTION.secondary.bangsMax);
+    const r = new PuppetBrain(AGATA_MOTION, 19);
+    r.reduced = true;
+    r.play(AGATA_MOTION.throwCard({ x: 300, y: 520 }));
+    run(r, 500);
+    expect(r.fringe).toBe(0);
+    expect(r.bangsRot).toBe(0);
+    expect(r.bangsY).toBe(0);
+  });
+});
+
+describe('рот при речи', () => {
+  const shapes = AGATA_PUPPET.speech;
+  it('форма держится не меньше 70 мс, между слогами губы смыкаются, в долгой паузе — рот эмоции', () => {
+    const m = new SpeechMouth(shapes);
+    const out: (string | null)[] = [];
+    // Уровень «пилой» каждые 16 мс: без удержания рот мерцал бы каждый кадр.
+    for (let i = 0; i < 40; i++) out.push(m.step(i % 2 ? 0.9 : 0.35, 16));
+    let changes = 0;
+    for (let i = 1; i < out.length; i++) if (out[i] !== out[i - 1]) changes++;
+    expect(changes).toBeLessThanOrEqual(Math.ceil((40 * 16) / 70));
+    expect(m.step(0, 16)).not.toBeNull();
+    for (let i = 0; i < 6; i++) m.step(0, 16);
+    expect(m.step(0, 16)).toBe(shapes.closed);
+    for (let i = 0; i < 20; i++) m.step(0, 16);
+    expect(m.step(0, 16)).toBeNull();
+  });
+
+  it('громче — шире; в досаде рот не раскрывается до смеющегося', () => {
+    const open = (lvl: number, max?: number) => {
+      const m = new SpeechMouth(shapes);
+      let s: string | null = null;
+      for (let i = 0; i < 20; i++) s = m.step(lvl, 16, max);
+      return s;
+    };
+    expect(shapes.levels[0]).toContain(open(0.2));
+    expect(shapes.levels[2]).toContain(open(0.95));
+    expect(shapes.levels[1]).toContain(open(0.95, 1));
+  });
+
+  it('уровень у границы ступени не перебрасывает форму туда-сюда', () => {
+    const m = new SpeechMouth(shapes);
+    const seen = new Set<string | null>();
+    for (let i = 0; i < 200; i++) seen.add(m.step(0.38 + (i % 2 ? 0.02 : -0.02), 16));
+    expect(seen.size).toBe(1);
   });
 });

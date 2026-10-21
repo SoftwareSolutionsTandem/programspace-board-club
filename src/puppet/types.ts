@@ -38,6 +38,8 @@ export interface Face {
   /** Смещение зрачков эмоции (единицы головы), к нему добавляется взгляд. */
   readonly look: readonly [number, number];
   readonly extras: boolean;
+  /** Наибольшая ступень раскрытия рта при речи (по умолчанию — все): в досаде рот не смеётся. */
+  readonly speechMax?: number;
 }
 
 /** Точка, на которую можно посмотреть: направление взгляда gazeX, gazeY в [-1, 1]. */
@@ -76,6 +78,8 @@ export interface StateDef {
   readonly fidgetEvery: readonly [number, number];
   /** Насколько состояние «живёт» сам: амплитуда блуждания головы и корпуса (0…1). */
   readonly wander: number;
+  /** Жест входа в состояние (например, всплеск победы); играет после текущего жеста, не прерывая его. */
+  readonly enter?: GestureDef;
 }
 
 export type BaseState = 'idle' | 'think' | 'took' | 'victory';
@@ -98,9 +102,17 @@ export interface MotionStyle {
   readonly wander: { readonly headRot: number; readonly headX: number; readonly headY: number; readonly torsoRot: number; readonly torsoX: number; readonly shiftEvery: readonly [number, number] };
   /** Моргание: интервал, мс; доля двойных. */
   readonly blink: { readonly every: readonly [number, number]; readonly double: number; readonly ms: number };
-  /** Инерционные детали: пучок, серьги. */
-  readonly secondary: { readonly bun: SpringParams; readonly earrings: SpringParams; readonly bunGain: number; readonly earGain: number };
+  /** Инерционные детали: пучок, серьги, чёлка (поворот и сдвиг, ограничены), бахрома шали (угол прядей, ограничен). */
+  readonly secondary: {
+    readonly bun: SpringParams; readonly earrings: SpringParams; readonly bunGain: number; readonly earGain: number;
+    readonly bangs: SpringParams; readonly bangsGain: number; readonly bangsMax: number; readonly bangsLift: number;
+    readonly fringe: SpringParams; readonly fringeGain: number; readonly fringeMax: number;
+  };
+  /** Смена формы глаз: закрыть (мс), открыть (мс), пружина «раскрытия» новой формы. */
+  readonly eyeSwap: { readonly close: number; readonly open: number; readonly pop: SpringParams; readonly size: Record<EyeStyle, readonly [number, number]> };
   /** Голова следует за взглядом. */
   readonly gazeHead: { readonly rot: number; readonly y: number };
   readonly throwCard: (target: ThrowTarget) => GestureDef;
+  /** Сгрести карты со стола (точка в единицах рига) в веер: маркер grab — кисть коснулась карт. */
+  readonly takeCards: (target: ThrowTarget) => GestureDef;
 }

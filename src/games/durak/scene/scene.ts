@@ -329,7 +329,7 @@ export class DurakScene {
     const prevTable = tableCodes(prev);
     const prevHand = new Set(prev.hand.map(cardCode));
     const newHand = new Set(view.hand.map(cardCode));
-    const fan = this.root.toLocal(this.rig.fanPoint());
+    let fan = this.root.toLocal(this.rig.fanPoint());
     const jobs: Promise<void>[] = [];
     // Карты, впервые появившиеся на столе не из руки игрока, — от Агаты. Она берёт карту из веера, замахивается
     // и бросает: полёт настоящей карты начинается из её руки в момент броска (PuppetRig.throwCard).
@@ -361,6 +361,17 @@ export class DurakScene {
     // Карты, ушедшие со стола: в отбой или Агате.
     const gone = [...prevTable].filter((c) => !tableCodes(view).has(c) && !newHand.has(c));
     const tookByOpp = events.some((e) => e.type === 'took' && e.seat !== view.seat);
+    // Агата взяла: тянется к картам и сгребает их — карты летят в веер, когда кисть их коснулась.
+    if (tookByOpp && gone.length) {
+      const pile = gone.map((c) => this.sprites.get(c)).filter((sp): sp is CardSprite => !!sp);
+      if (pile.length) {
+        const cx = pile.reduce((a, sp) => a + sp.x, 0) / pile.length;
+        const cy = pile.reduce((a, sp) => a + sp.y, 0) / pile.length;
+        await this.rig.takeCards(this.root.toGlobal({ x: cx, y: cy }));
+        if (!this.layout || this.view !== prev) return;
+        fan = this.root.toLocal(this.rig.fanPoint());
+      }
+    }
     for (const code of gone) {
       const sp = this.sprites.get(code);
       if (!sp) continue;

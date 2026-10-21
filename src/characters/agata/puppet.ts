@@ -12,8 +12,8 @@ const pivotPart = (key: string, box: { x: number; y: number; w: number; h: numbe
 const hex = (c: string): number => parseInt(c.slice(1), 16);
 
 const HEAD_FULL = { x: -10, y: -30, w: 260, h: 270 };
-const EYES_BOX = { x: 66, y: 114, w: 108, h: 52 };
-const eyes = (style: EyeStyle) => part(`eyes:${style}`, EYES_BOX, () => P.eyeWhites(style));
+const EYE_BOX = { x: -22, y: -26, w: 44, h: 52 };
+const eyes = (style: EyeStyle) => part(`eye:${style}`, EYE_BOX, () => P.eyeWhite(style));
 const extras = (e: Emotion) => part(`extras:${e}`, HEAD_FULL, () => P.extras(e));
 
 export const AGATA_PUPPET: PuppetArt = {
@@ -34,6 +34,7 @@ export const AGATA_PUPPET: PuppetArt = {
     details: part('details', { x: 42, y: 120, w: 156, h: 74 }, P.faceDetails),
     glasses: part('glasses', { x: 40, y: 106, w: 160, h: 68 }, P.glasses),
     bangs: part('bangs', { x: 24, y: 14, w: 192, h: 132 }, P.bangs),
+    bangsPivot: { x: 120, y: 28 },
     eyes: { ball: eyes('ball'), wide: eyes('wide'), star: eyes('star'), happy: eyes('happy'), closed: eyes('closed') },
     pupil: part('pupil', { x: -10, y: -10, w: 20, h: 20 }, () => P.pupil(7.5, false)),
     pupilStar: part('pupilStar', { x: -10, y: -10, w: 20, h: 20 }, () => P.pupil(7.5, true)),
@@ -54,6 +55,8 @@ export const AGATA_PUPPET: PuppetArt = {
   cuff: part('cuff', { x: -20, y: -11, w: 40, h: 22 }, P.cuff),
   fanOffset: { x: -4, y: -46 },
   heldCard: { x: -4, y: -18, rot: -12 },
-  speechMouths: ['vB', 'vC', 'vE', 'vD'],
+  fringe: { ...P.fringe, color: hex(P.fringe.color), outline: hex(P.fringe.outline) },
+  // vA — губы сомкнуты; дальше по раскрытию: чуть, средне (или «о»), широко (как в смехе).
+  speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };

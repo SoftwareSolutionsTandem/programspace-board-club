@@ -1,5 +1,6 @@
 // Демо-страница анимаций персонажа (только режим разработки: npm run dev → /?anim). В сборки продуктов не попадает.
-// Агата за столом кафе: ожидание, раздумье, бросок карты на стол; замедление, шарниры, сравнение со старым ригом.
+// Агата за столом кафе: ожидание, раздумье, бросок карты, «взяла», победа, смена эмоций и речь настоящей репликой;
+// замедление, шарниры, сравнение со старым ригом.
 // ?anim&manual — время идёт только по window.animLab.step(ms): запись видео покадрово, независимо от скорости машины.
 import { Application, Container, Graphics, Sprite } from 'pixi.js';
 import { AGATA_ART } from '../characters/agata/art';
@@ -9,7 +10,7 @@ import { PuppetRig } from '../puppet/rig';
 import { puppetBank, puppetJobs } from '../puppet/textures';
 import { CharacterRig } from '../characters/rig';
 import { characterBank, characterJobs, renderJobs, type TextureJob } from '../characters/textures';
-import type { Emotion } from '../characters/types';
+import { EMOTIONS, type Emotion } from '../characters/types';
 import { CARD_BOX, cardBackSvg, cardFaceSvg } from '../games/durak/scene/cardArt';
 import { CardSprite } from '../games/durak/scene/cardSprite';
 import { BG_DESIGN, computeLayout, FIGURE, pairSlot } from '../layout/layout';
@@ -56,8 +57,9 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
   const anchorY = c.crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
   for (const r of [rig, old]) r.setTransform(c.x - FIGURE.centerX * c.scale, c.y - anchorY * c.scale, c.scale);
   const cards = new Container();
-  // Как в сцене дурака: карты на сукне — под руками Агаты.
-  root.addChild(bg, rig.back, old.back, table, cards, rig.front, old.front);
+  const toFan = new Container();
+  // Как в сцене дурака: карты на сукне и летящие в веер — под руками Агаты.
+  root.addChild(bg, rig.back, old.back, table, cards, toFan, rig.front, old.front);
   const tweens = new Tweener();
   let showOld = false;
   const syncWhich = () => {
@@ -68,9 +70,11 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
 
   // ---------- действия ----------
   let mode: Mode = 'idle';
+  let stateLabel = 'idle';
   let slot = 0;
   const setMode = (m: Mode) => {
     mode = m;
+    stateLabel = m;
     const emotion: Emotion = m === 'think' ? 'think' : 'warm';
     for (const r of [rig, old]) {
       r.setEmotion(emotion);
@@ -117,6 +121,76 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
   };
   let i = 0;
 
+  // «Взяла»: карты на столе, Агата сгребает их в веер (как DurakScene.show при взятии).
+  const took = async () => {
+    stateLabel = 'took';
+    if (!cards.children.length) for (let k = 0; k < 3; k++) launch(k % 2 ? '7S' : 'QH', { ...root.toGlobal(pairSlot(spec, k, 3)), rotation: 0, w: 0 }, root.toGlobal(pairSlot(spec, k, 3)));
+    tweens.finishAll();
+    rig.setEmotion('annoyed');
+    rig.setPose('took', 1400);
+    const pile = cards.children.filter((x): x is CardSprite => x instanceof CardSprite);
+    const cx = pile.reduce((a, sp) => a + sp.x, 0) / pile.length, cy = pile.reduce((a, sp) => a + sp.y, 0) / pile.length;
+    await rig.takeCards(root.toGlobal({ x: cx, y: cy }));
+    const fan = root.toLocal(rig.fanPoint());
+    for (const sp of pile) {
+      toFan.addChild(sp);
+      void tweens.to(sp, { x: fan.x, y: fan.y, flip: 0, rotation: sp.rotation + 0.6, alpha: 0.2 }, 380 / rig.timeScale, { ease: easeInOutQuad }).then(() => sp.destroy());
+    }
+    fanCount = Math.min(12, fanCount + pile.length);
+    rig.setFanCount(fanCount);
+    setTimeout(() => rig.setEmotion('warm'), 3000 / rig.timeScale);
+  };
+  let fanCount = 6;
+  const victory = () => {
+    stateLabel = 'victory';
+    fanCount = 0;
+    rig.setFanCount(0);
+    rig.setEmotion('laugh');
+    rig.setPose('victory');
+  };
+  const reset = () => {
+    fanCount = 6;
+    rig.setFanCount(6);
+    rig.setEmotion('warm');
+    setMode('idle');
+  };
+  let emoIndex = 0;
+  const nextEmotion = (): Emotion => {
+    emoIndex = (emoIndex + 1) % EMOTIONS.length;
+    rig.setEmotion(EMOTIONS[emoIndex]!);
+    return EMOTIONS[emoIndex]!;
+  };
+
+  // Речь: настоящая реплика Агаты; уровень голоса — как AudioEngine.voiceLevel (СКЗ окна 512 отсчётов × 4).
+  let speech: { pcm: Float32Array; rate: number; t: number } | null = null;
+  const speak = async (line = 'agata_greet_first_01'): Promise<number> => {
+    const buf = await (await fetch(`audio/ru/agata/${line}.opus`)).arrayBuffer();
+    const ctx = new AudioContext();
+    const audio = await ctx.decodeAudioData(buf);
+    // В покадровом режиме звук не играет: запись видео сводит его с картинкой отдельно (tools/anim/record.mjs).
+    if (!manual) {
+      const src = ctx.createBufferSource();
+      src.buffer = audio;
+      src.connect(ctx.destination);
+      src.start();
+    } else void ctx.close();
+    speech = { pcm: audio.getChannelData(0), rate: audio.sampleRate, t: 0 };
+    return audio.duration;
+  };
+  const speechLevel = (ms: number): number => {
+    if (!speech) return 0;
+    speech.t += ms;
+    const at = Math.floor((speech.t / 1000) * speech.rate);
+    if (at >= speech.pcm.length) {
+      speech = null;
+      return 0;
+    }
+    let sum = 0;
+    const from = Math.max(0, at - 512);
+    for (let k = from; k < at; k++) sum += speech.pcm[k]! ** 2;
+    return Math.min(1, Math.sqrt(sum / Math.max(1, at - from)) * 4);
+  };
+
   // Подпись для видеозаписи.
   const caption = document.createElement('div');
   caption.style.cssText = 'position:absolute;left:50%;bottom:18px;transform:translateX(-50%);padding:8px 16px;border-radius:12px;background:rgba(40,24,16,.78);color:#fff8ec;font:700 22px system-ui,sans-serif;z-index:6;display:none';
@@ -124,6 +198,7 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
   const perf = { frames: 0, ms: 0, max: 0 };
   const step = (ms: number) => {
     const t0 = performance.now();
+    rig.setSpeaking(speechLevel(ms * rig.timeScale));
     rig.update(ms);
     const spent = performance.now() - t0;
     perf.frames++;
@@ -131,7 +206,7 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
     perf.max = Math.max(perf.max, spent);
     old.update(ms * rig.timeScale);
     tweens.update(ms);
-    for (const x of cards.children) if (x instanceof CardSprite) x.sync();
+    for (const layer of [cards, toFan]) for (const x of layer.children) if (x instanceof CardSprite) x.sync();
   };
   const render = () => app.render();
   if (manual) app.ticker.stop();
@@ -152,6 +227,11 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
   btn('Ожидание', () => setMode('idle'), 'lab-idle');
   btn('Раздумье', () => setMode('think'), 'lab-think');
   btn('Бросок карты', () => void throwCard(), 'lab-throw');
+  btn('Взяла', () => void took(), 'lab-took');
+  btn('Победа', victory, 'lab-victory');
+  btn('Сброс', reset, 'lab-reset');
+  const emo = btn('Эмоция: warm', () => (emo.textContent = `Эмоция: ${nextEmotion()}`), 'lab-emotion');
+  btn('Речь (реплика)', () => void speak(), 'lab-speak');
   const speed = btn('Скорость 1×', () => {
     rig.timeScale = rig.timeScale === 1 ? 0.5 : rig.timeScale === 0.5 ? 0.25 : 1;
     speed.textContent = `Скорость ${rig.timeScale}×`;
@@ -178,6 +258,11 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
       },
       setMode,
       throwCard,
+      took,
+      victory,
+      reset,
+      nextEmotion,
+      speak,
       setSpeed: (k: number) => (rig.timeScale = k),
       setJoints: (v: boolean) => (rig.showJoints = v),
       showOld: (v: boolean) => {
@@ -197,7 +282,7 @@ export async function startAnimLab(stageEl: HTMLElement, uiEl: HTMLElement): Pro
         render();
       },
       characterBox: () => ({ x: c.x - FIGURE.centerX * c.scale, y: c.y - (anchorY - FIGURE.headTop) * c.scale - 20 * c.scale, w: FIGURE.width * c.scale, h: (anchorY - FIGURE.headTop + 60) * c.scale }),
-      state: () => ({ mode, pose: rig.currentPose, emotion: rig.currentEmotion, blinks: rig.blinks, cards: cards.children.length }),
+      state: () => ({ mode, label: stateLabel, speaking: !!speech, pose: rig.currentPose, emotion: rig.currentEmotion, blinks: rig.blinks, cards: cards.children.length }),
       caption: (text: string) => {
         caption.textContent = text;
         caption.style.display = text ? 'block' : 'none';

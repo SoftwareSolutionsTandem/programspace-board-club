@@ -40,6 +40,9 @@ export interface PuppetArt {
     /** Слои над глазами. */
     readonly glasses: PartSpec;
     readonly bangs: PartSpec;
+    /** Точка, вокруг которой чёлка чуть запаздывает за головой (координаты головы). */
+    readonly bangsPivot: Point;
+    /** Белок одного глаза по форме, с центром в начале координат: ставится в eyesAt и масштабируется вокруг центра. */
     readonly eyes: Record<EyeStyle, PartSpec>;
     readonly pupil: PartSpec;
     readonly pupilStar: PartSpec;
@@ -67,7 +70,17 @@ export interface PuppetArt {
   readonly fanOffset: Point;
   /** Карта в правой руке: смещение от центра кисти и поворот, градусы. */
   readonly heldCard: Point & { readonly rot: number };
-  /** Формы рта при речи по уровню голоса, от тихого к громкому. */
-  readonly speechMouths: readonly string[];
+  /** Бахрома (пряди: начало и вектор, координаты фигуры) и нижние края, по которым контур рисуется поверх прядей. */
+  readonly fringe: {
+    readonly strands: readonly { readonly x: number; readonly y: number; readonly dx: number; readonly dy: number }[];
+    readonly width: number;
+    readonly color: number;
+    readonly outline: number;
+    readonly outlineWidth: number;
+    /** Начальная точка и кубические кривые [c1x, c1y, c2x, c2y, x, y]. */
+    readonly edge: readonly (readonly number[])[];
+  };
+  /** Формы рта при речи: сомкнутые губы между слогами и ступени раскрытия (в ступени — варианты). */
+  readonly speech: { readonly closed: string; readonly levels: readonly (readonly string[])[] };
   emotionMouth(e: Emotion): string;
 }

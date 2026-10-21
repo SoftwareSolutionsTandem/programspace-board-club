@@ -12,6 +12,8 @@ interface ActiveGesture {
   t: number;
   fired: Set<string>;
   readonly onMarker?: (name: string) => void;
+  /** Жест входа в состояние: прерванный другим жестом, он доигрывается после него. */
+  readonly enter?: boolean;
 }
 
 export class PuppetBrain {
@@ -58,16 +60,36 @@ export class PuppetBrain {
   // Инерционные детали (углы в градусах относительно головы).
   private readonly bunSpring: Spring;
   private readonly earSprings: [Spring, Spring];
+  private readonly bangsSpring: Spring;
+  private readonly bangsYSpring: Spring;
+  private readonly fringeSpring: Spring;
   private prevTotal = 0;
   private prevHeadX = 0;
   bun = 0;
   earL = 0;
   earR = 0;
-  // Стиль глаз со смешиванием (дуги смеха ↔ белки).
+  /** Чёлка: поворот (градусы) и сдвиг по вертикали относительно головы — запаздывает за движением головы. */
+  bangsRot = 0;
+  bangsY = 0;
+  /** Бахрома шали: отклонение прядей, градусы (корпус качнулся — пряди догоняют). */
+  fringe = 0;
+  // Форма глаз меняется не подменой картинки: глаза прикрываются (или дуги сплющиваются), форма меняется,
+  // новая раскрывается с лёгким перелётом.
+  /** Показанная форма глаз. */
   eyes: EyeStyle = 'ball';
-  eyesPrev: EyeStyle = 'ball';
-  eyesMix = 1;
+  private eyesTarget: EyeStyle = 'ball';
+  private eyePhase: 'none' | 'close' | 'open' = 'none';
+  private eyeT = 0;
+  private readonly eyeSX: Spring;
+  private readonly eyeSY: Spring;
+  /** Дополнительное прикрытие век при смене формы (0…1), складывается с морганием. */
+  eyeClose = 0;
+  /** Масштаб глаз при смене формы (1 — как на рисунке). */
+  eyeScaleX = 1;
+  eyeScaleY = 1;
   holdCard = false;
+  /** Жест входа в состояние ждёт конца текущего жеста. */
+  private pendingEnter: GestureDef | null = null;
 
   constructor(private readonly style: MotionStyle, seed: number) {
     this.rng = new MotionRng(createRng(seed));
@@ -83,6 +105,11 @@ export class PuppetBrain {
     this.wHeadY = new Wander(this.rng, 2.1);
     this.bunSpring = new Spring(0, style.secondary.bun);
     this.earSprings = [new Spring(0, style.secondary.earrings), new Spring(0, style.secondary.earrings)];
+    this.bangsSpring = new Spring(0, style.secondary.bangs);
+    this.bangsYSpring = new Spring(0, style.secondary.bangs);
+    this.fringeSpring = new Spring(0, style.secondary.fringe);
+    this.eyeSX = new Spring(1, style.eyeSwap.pop);
+    this.eyeSY = new Spring(1, style.eyeSwap.pop);
     this.applyFace(true);
     this.breathPeriod = this.rng.range(style.breath.period[0], style.breath.period[1]);
   }
@@ -106,6 +133,11 @@ export class PuppetBrain {
     this.state = s;
     this.lookTimer = 0;
     this.fidgetTimer = this.rng.range(...this.style.states[s].fidgetEvery);
+    const enter = this.style.states[s].enter;
+    // Жест входа не обрывает идущий жест (бросок должен отпустить карту в свой момент) — ждёт его конца.
+    if (!enter) this.pendingEnter = null;
+    else if (this.gesture && this.gesture.def.markers?.length) this.pendingEnter = enter;
+    else this.play(enter);
   }
 
   setEmotion(e: Emotion): void {
@@ -124,12 +156,14 @@ export class PuppetBrain {
    * чтобы зависящий от них ход (полёт карты) не ждал вечно; пружины продолжают движение с текущей скорости.
    */
   play(def: GestureDef, onMarker?: (name: string) => void): void {
+    const cur = this.gesture;
+    if (cur?.enter && def !== cur.def && this.style.states[this.state].enter === cur.def) this.pendingEnter = cur.def;
     this.flushGesture();
     if (this.reduced) {
       for (const m of def.markers ?? []) onMarker?.(m.name);
       return;
     }
-    this.gesture = { def, t: 0, fired: new Set(), onMarker };
+    this.gesture = { def, t: 0, fired: new Set(), onMarker, enter: def === this.style.states[this.state].enter };
   }
 
   private flushGesture(): void {
@@ -147,11 +181,65 @@ export class PuppetBrain {
 
   private applyFace(instant: boolean): void {
     const f = this.style.faces[this.emotion];
-    if (f.eyes !== this.eyes) {
-      this.eyesPrev = this.eyes;
+    this.eyesTarget = f.eyes;
+    if (instant || this.reduced) {
       this.eyes = f.eyes;
-      this.eyesMix = instant || this.reduced ? 1 : 0;
+      this.eyePhase = 'none';
+      this.eyeClose = 0;
+      return;
     }
+    // Во время раскрытия новой формы пришла ещё одна — снова прикрыть, начиная с текущего положения век.
+    if (f.eyes !== this.eyes && this.eyePhase !== 'close') {
+      this.eyePhase = 'close';
+      this.eyeT = this.eyeClose * this.style.eyeSwap.close;
+    }
+  }
+
+  /** Есть ли у формы веки (белки со зрачками) или это нарисованные дуги. */
+  private static lidded(e: EyeStyle): boolean {
+    return e === 'ball' || e === 'wide' || e === 'star';
+  }
+
+  private stepEyes(dtMs: number): void {
+    const sw = this.style.eyeSwap;
+    const dt = dtMs / 1000;
+    if (this.reduced) {
+      this.eyes = this.eyesTarget;
+      this.eyePhase = 'none';
+      this.eyeClose = 0;
+      this.eyeSX.snap(1);
+      this.eyeSY.snap(1);
+    }
+    if (this.eyePhase === 'close') {
+      this.eyeT += dtMs;
+      const u = Math.min(1, this.eyeT / sw.close);
+      if (PuppetBrain.lidded(this.eyes)) this.eyeClose = u;
+      else this.eyeSY.snap(1 - 0.8 * u);
+      if (u >= 1) {
+        const from = this.eyes;
+        this.eyes = this.eyesTarget;
+        this.eyePhase = 'open';
+        this.eyeT = 0;
+        // Новая форма раскрывается от размера прежней (белки) или из сплющенной дуги.
+        const a = sw.size[from], b = sw.size[this.eyes];
+        if (PuppetBrain.lidded(this.eyes)) {
+          this.eyeClose = 1;
+          this.eyeSX.snap(PuppetBrain.lidded(from) ? a[0] / b[0] : 0.9);
+          this.eyeSY.snap(PuppetBrain.lidded(from) ? a[1] / b[1] : 0.85);
+        } else {
+          this.eyeClose = 0;
+          this.eyeSX.snap(0.9);
+          this.eyeSY.snap(0.25);
+        }
+      }
+    } else if (this.eyePhase === 'open') {
+      this.eyeT += dtMs;
+      this.eyeClose = PuppetBrain.lidded(this.eyes) ? Math.max(0, 1 - this.eyeT / sw.open) : 0;
+      if (this.eyeT >= sw.open * 3) this.eyePhase = 'none';
+    }
+    this.eyeScaleX = this.eyePhase === 'close' ? this.eyeSX.y : this.eyeSX.step(1, dt);
+    this.eyeScaleY = this.eyePhase === 'close' ? this.eyeSY.y : this.eyeSY.step(1, dt);
+    if (this.eyePhase === 'none') this.eyeClose = 0;
   }
 
   // ---------- шаг ----------
@@ -166,7 +254,7 @@ export class PuppetBrain {
     const st = this.style.states[this.state];
     const face = this.style.faces[this.emotion];
     const live = !this.reduced;
-    if (this.eyesMix < 1) this.eyesMix = Math.min(1, this.eyesMix + dtMs / 110);
+    this.stepEyes(dtMs);
 
     // Цели: нейтральная поза → состояние → лицо.
     const target = { ...this.style.rest } as Record<Channel, number>;
@@ -240,6 +328,12 @@ export class PuppetBrain {
     const browLift = Math.max(0, -target.gazeY) * 3 + this.speech * 2;
     for (const c of ['browLI', 'browLO', 'browLM', 'browRI', 'browRO', 'browRM'] as const) target[c] -= browLift;
 
+    // Отложенный жест входа в состояние — как только закончился текущий.
+    if (!this.gesture && this.pendingEnter) {
+      const e = this.pendingEnter;
+      this.pendingEnter = null;
+      if (e === st.enter) this.play(e);
+    }
     // Мелкие действия — только в своём состоянии и без другого жеста.
     if (live && !this.gesture && st.fidgets.length) {
       this.fidgetTimer -= dtMs;
@@ -330,10 +424,16 @@ export class PuppetBrain {
     const dX = this.values.headX + this.values.torsoX - this.prevHeadX;
     this.prevTotal = total;
     this.prevHeadX = this.values.headX + this.values.torsoX;
+    const fringeIn = this.values.torsoRot + this.values.torsoX * 0.6;
+    const headLift = this.values.headY + this.values.torsoY;
     if (!live) {
       this.bun = 0;
       this.earL = -total;
       this.earR = -total;
+      this.bangsRot = this.bangsY = this.fringe = 0;
+      this.bangsSpring.snap(total);
+      this.bangsYSpring.snap(headLift);
+      this.fringeSpring.snap(fringeIn);
       return;
     }
     const sec = this.style.secondary;
@@ -347,10 +447,15 @@ export class PuppetBrain {
     }
     this.earL = ears[0]!.y - total;
     this.earR = ears[1]!.y - total;
+    // Чёлка лёгкая и короткая: запаздывает чуть-чуть, сильно не болтается.
+    this.bangsRot = clamp((this.bangsSpring.step(total, dt) - total) * sec.bangsGain, -sec.bangsMax, sec.bangsMax);
+    this.bangsY = clamp((this.bangsYSpring.step(headLift, dt) - headLift) * sec.bangsLift, -1.5, 1.5);
+    // Бахрома шали — на мягкой пружине с перелётом: корпус качнулся — пряди догоняют и покачиваются.
+    this.fringe = clamp((this.fringeSpring.step(fringeIn, dt) - fringeIn) * sec.fringeGain, -sec.fringeMax, sec.fringeMax);
   }
 
   /** Доля закрытия век с учётом моргания для веки: lerp(цель, закрыто, blink). */
   lid(value: number, closed: number): number {
-    return lerp(value, closed, this.blink);
+    return lerp(value, closed, Math.max(this.blink, this.eyeClose));
   }
 }
