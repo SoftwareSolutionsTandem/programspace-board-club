@@ -71,6 +71,7 @@ export class GameSession implements GameSessionApi {
       onPairTap: (i) => this.handle(tapPair(this.view(), this.legal(), this.selected, i)),
       onTableTap: () => this.handle(tapTable(this.view(), this.legal(), this.selected)),
       onDrop: (code, target) => this.handle(drop(this.view(), this.legal(), code, target), code),
+      onOpponentCardLanded: (slap) => this.host.audio.sfx(slap ? 'slap' : 'place'),
     });
     this.voice = new VoiceChannel(host.audio, () => host.now());
     this.director = new Director({ lines: AGATA_LINES, minGapMs: 7000, lineCooldownMs: 90_000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 17));
@@ -240,8 +241,12 @@ export class GameSession implements GameSessionApi {
   private sfxFor(events: readonly DurakEvent[]): void {
     const play = (n: SfxName) => this.host.audio.sfx(n);
     for (const e of events) {
-      if (e.type === 'attacked' || e.type === 'thrownIn') play(e.seat === OPPONENT ? 'slap' : 'place');
-      else if (e.type === 'defended') play(e.withTrump ? 'slap' : 'place');
+      // Карта Агаты звучит, когда долетает до стола (сцена: onOpponentCardLanded), — после её броска.
+      if (e.type === 'attacked' || e.type === 'thrownIn') {
+        if (e.seat !== OPPONENT) play('place');
+      } else if (e.type === 'defended') {
+        if (e.seat !== OPPONENT) play(e.withTrump ? 'slap' : 'place');
+      }
       else if (e.type === 'bito') play('bito');
       else if (e.type === 'took') play('take');
       else if (e.type === 'drew') play('deal');

@@ -1,7 +1,8 @@
 // Сцена партии: кафе, общий стол, Агата напротив, карты. Рисует PlayerView и анимирует переходы по событиям.
 // Правила здесь не проверяются: сцена только показывает состояние и сообщает о касаниях.
 import { Container, Graphics, Sprite, Text, type FederatedPointerEvent } from 'pixi.js';
-import { CharacterRig } from '../../../characters/rig';
+import { AGATA_MOTION } from '../../../characters/agata/motions';
+import { PuppetRig } from '../../../puppet/rig';
 import { FIGURE, defenseOffset, handSlots, pairSlot, type LayoutSpec, BG_DESIGN } from '../../../layout/layout';
 import { drawCafeTable } from '../../../render/table';
 import { easeInOutQuad, easeOutBack, Tweener } from '../../../render/tween';
@@ -18,6 +19,8 @@ export interface SceneInput {
   onPairTap(index: number): void;
   onTableTap(): void;
   onDrop(code: string, target: DropTarget): void;
+  /** Карта Агаты легла на стол (для звука удара в этот момент, а не в начале жеста). */
+  onOpponentCardLanded?(slap: boolean): void;
 }
 
 export interface Highlights {
@@ -42,7 +45,7 @@ export function sortHand(cards: readonly Card[], trump: Card['suit']): Card[] {
 
 export class DurakScene {
   readonly root = new Container();
-  readonly rig = new CharacterRig();
+  readonly rig = new PuppetRig(AGATA_MOTION, 11);
   private readonly bg = new Sprite();
   private readonly table = new Graphics();
   private readonly deckLayer = new Container();
@@ -80,7 +83,7 @@ export class DurakScene {
   setTextures(bank: TextureBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
-    this.rig.setTextures(bank.character, bank.back);
+    this.rig.setTextures(bank.puppet, bank.back);
     // Пересоздать спрайты с новыми текстурами.
     for (const s of this.sprites.values()) s.destroy();
     this.sprites.clear();
@@ -323,15 +326,24 @@ export class DurakScene {
     const newHand = new Set(view.hand.map(cardCode));
     const fan = this.root.toLocal(this.rig.fanPoint());
     const jobs: Promise<void>[] = [];
-    // Карты, впервые появившиеся на столе не из руки игрока, — от Агаты: вылетают из её веера рубашкой и переворачиваются.
-    for (const code of tableCodes(view)) {
-      if (prevTable.has(code) || prevHand.has(code) || this.sprites.has(code)) continue;
-      const sp = this.makeSprite(code);
-      sp.setCardSize(s.tableCard.w * 0.7, s.tableCard.h * 0.7);
-      sp.position.set(fan.x, fan.y);
-      sp.flip = 0;
-      this.sprites.set(code, sp);
-      this.tableLayer.addChild(sp);
+    // Карты, впервые появившиеся на столе не из руки игрока, — от Агаты. Она берёт карту из веера, замахивается
+    // и бросает: полёт настоящей карты начинается из её руки в момент броска (PuppetRig.throwCard).
+    const fromOpponent = [...tableCodes(view)].filter((code) => !prevTable.has(code) && !prevHand.has(code) && !this.sprites.has(code));
+    if (fromOpponent.length) {
+      const idx = view.table.findIndex((p) => [p.attack, p.defense].some((c) => c && fromOpponent.includes(cardCode(c))));
+      const slot = pairSlot(s, Math.max(0, idx), view.table.length);
+      const rel = await this.rig.throwCard(this.root.toGlobal(slot));
+      if (!this.layout || this.view !== prev) return;
+      const from = this.root.toLocal({ x: rel.x, y: rel.y });
+      for (const code of fromOpponent) {
+        const sp = this.makeSprite(code);
+        sp.setCardSize(s.tableCard.w * 0.7, s.tableCard.h * 0.7);
+        sp.position.set(from.x, from.y);
+        sp.rotation = rel.rotation;
+        sp.flip = 0;
+        this.sprites.set(code, sp);
+        this.tableLayer.addChild(sp);
+      }
     }
     // Карты, ушедшие со стола: в отбой или Агате.
     const gone = [...prevTable].filter((c) => !tableCodes(view).has(c) && !newHand.has(c));
@@ -370,8 +382,9 @@ export class DurakScene {
     }
     this.view = view;
     jobs.push(this.place(view, false));
-    // Удар картой о стол: короткое «прыжок» масштаба у новой карты Агаты.
-    if (events.some((e) => (e.type === 'attacked' || e.type === 'thrownIn' || e.type === 'defended') && e.seat !== view.seat)) {
+    // Удар картой о стол: короткий «прыжок» масштаба у новой карты Агаты и звук — когда карта долетела.
+    const oppPlay = events.find((e) => (e.type === 'attacked' || e.type === 'thrownIn' || e.type === 'defended') && e.seat !== view.seat);
+    if (oppPlay) {
       const last = view.table.at(-1);
       const code = last ? cardCode(last.defense ?? last.attack) : null;
       const sp = code ? this.sprites.get(code) : undefined;
@@ -379,6 +392,8 @@ export class DurakScene {
         sp.scale.set(1.12);
         jobs.push(this.tweens.to(sp.scale, { x: 1, y: 1 }, 260, { delay: 220, ease: easeOutBack }));
       }
+      const slap = oppPlay.type !== 'defended' || oppPlay.withTrump;
+      jobs.push(this.tweens.wait(250).then(() => this.input.onOpponentCardLanded?.(slap)));
     }
     await Promise.all(jobs);
   }

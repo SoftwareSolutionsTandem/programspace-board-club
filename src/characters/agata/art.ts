@@ -121,7 +121,8 @@ export function mouth(st: string): string {
 const drop = (x: number, y: number, k = 1): string => `<path d="M0 -13 C7 -3 9 4 0 9 C-9 4 -7 -3 0 -13 Z" transform="translate(${x} ${y}) scale(${k})" fill="${C.drop}" ${ol(2.4)}/><path d="M-2.5 -2 Q-3 2 0 4" transform="translate(${x} ${y}) scale(${k})" fill="none" stroke="${C.white}" stroke-width="2" stroke-linecap="round"/>`;
 const spark = (x: number, y: number, k = 1): string => `<path d="M0 -12 C1.5 -3 3 -1.5 12 0 C3 1.5 1.5 3 0 12 C-1.5 3 -3 1.5 -12 0 C-3 -1.5 -1.5 -3 0 -12 Z" transform="translate(${x} ${y}) scale(${k})" fill="${C.spark}" ${ol(2)}/>`;
 
-function hairBack(): string {
+/** Пучок с заколкой-червой (рисуется под основной массой волос). */
+function bun(): string {
   return `
   <circle cx="120" cy="16" r="31" fill="${C.hair}" ${ol()}/>
   <path d="M100 8 Q112 -6 132 2" fill="none" stroke="${C.hairSh}" stroke-width="3" stroke-linecap="round"/>
@@ -131,7 +132,12 @@ function hairBack(): string {
     ${'' /* заколка-сердце */}
     <path d="${HEART}" transform="scale(0.95)" fill="${C.red}" ${ol(2.6)}/>
     <path d="M-6 -9 Q-8 -5 -5 -2" fill="none" stroke="${C.white}" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
-  </g>
+  </g>`;
+}
+
+/** Основная масса волос и кудри по бокам (без пучка). */
+function hairMass(): string {
+  return `
   <path d="M38 150 C14 120 20 60 64 36 C88 20 152 20 176 36 C220 60 226 120 202 150 Z" fill="${C.hair}" ${ol()}/>
   <circle cx="40" cy="132" r="15" fill="${C.hair}" ${ol()}/>
   <circle cx="200" cy="132" r="15" fill="${C.hair}" ${ol()}/>
@@ -142,41 +148,37 @@ function hairBack(): string {
   <path d="M28 152 Q34 146 42 150" fill="none" stroke="${C.hairSh}" stroke-width="3" stroke-linecap="round"/>
   <path d="M198 150 Q206 146 212 152" fill="none" stroke="${C.hairSh}" stroke-width="3" stroke-linecap="round"/>`;
 }
-function earrings(): string {
-  const one = (x: number): string => `<path d="M${x} 188 Q${x + 3} 196 ${x - 3} 204 M${x} 188 Q${x + 6} 196 ${x + 7} 203" fill="none" stroke="${C.leaf}" stroke-width="2.2" stroke-linecap="round"/>
+const hairBack = (): string => bun() + hairMass();
+const earring = (x: number): string => `<path d="M${x} 188 Q${x + 3} 196 ${x - 3} 204 M${x} 188 Q${x + 6} 196 ${x + 7} 203" fill="none" stroke="${C.leaf}" stroke-width="2.2" stroke-linecap="round"/>
   <circle cx="${x - 4}" cy="207" r="5.5" fill="${C.red}" ${ol(2.2)}/><circle cx="${x + 8}" cy="206" r="5.5" fill="${C.red}" ${ol(2.2)}/>
   <circle cx="${x - 5.5}" cy="205" r="1.6" fill="${C.white}"/><circle cx="${x + 6.5}" cy="204" r="1.6" fill="${C.white}"/>`;
-  return one(42) + one(194);
-}
+const earrings = (): string => earring(42) + earring(194);
 const FACE = 'M44 138 C44 50 196 50 196 138 C196 194 162 224 120 224 C78 224 44 194 44 138 Z';
 const BANGS = 'M36 142 C26 60 70 20 120 20 C170 20 214 60 204 142 C198 122 190 108 180 102 C176 86 160 80 148 86 C140 74 124 72 116 82 C106 72 88 74 82 86 C70 80 56 88 58 102 C48 108 40 122 36 142 Z';
 
-export function head(e: Expr, id = 'h', withMouth = true): string {
-  const look = e.look ?? [0, 2];
-  const blush = e.blush ?? 0.55;
-  return `<g>
-  ${hairBack()}
-  ${earrings()}
-  <clipPath id="${id}-face"><path d="${FACE}"/></clipPath>
+/** Лицо: кожа с тенью от чёлки, контур, нос, морщинки (без румянца, глаз, очков и бровей). */
+function faceBase(id: string): string {
+  return `<clipPath id="${id}-face"><path d="${FACE}"/></clipPath>
   <path d="${FACE}" fill="${C.skinSh}"/>
   <g clip-path="url(#${id}-face)">
     <ellipse cx="111" cy="128" rx="82" ry="90" fill="${C.skin}"/>
     <path d="${BANGS}" transform="translate(0 7)" fill="${C.skinSh}"/>
   </g>
-  <path d="${FACE}" fill="none" ${ol()}/>
-  <ellipse cx="68" cy="176" rx="17" ry="10" fill="${C.blush}" opacity="${blush}"/>
-  <ellipse cx="172" cy="176" rx="17" ry="10" fill="${C.blush}" opacity="${blush}"/>
-  <path d="M56 130 l-8 -3 M56 138 l-9 0 M56 146 l-8 3" ${ol(2)} opacity="0.6"/>
+  <path d="${FACE}" fill="none" ${ol()}/>`;
+}
+const blushSvg = (opacity: number): string => `<ellipse cx="68" cy="176" rx="17" ry="10" fill="${C.blush}" opacity="${opacity}"/>
+  <ellipse cx="172" cy="176" rx="17" ry="10" fill="${C.blush}" opacity="${opacity}"/>`;
+/** Морщинки у глаз, складки у рта, нос (поверх румянца). */
+const faceDetails = (): string => `<path d="M56 130 l-8 -3 M56 138 l-9 0 M56 146 l-8 3" ${ol(2)} opacity="0.6"/>
   <path d="M184 130 l8 -3 M184 138 l9 0 M184 146 l8 3" ${ol(2)} opacity="0.6"/>
   <path d="M95 172 Q90 182 94 190" fill="none" ${ol(2.2)} opacity="0.45"/>
   <path d="M145 172 Q150 182 146 190" fill="none" ${ol(2.2)} opacity="0.45"/>
   <ellipse cx="120" cy="164" rx="12" ry="10" fill="${C.skinSh}" ${ol(3)}/>
-  <ellipse cx="116" cy="160" rx="4" ry="3" fill="${C.white}" opacity="0.8"/>
-  ${withMouth ? mouth(e.mouth) : ''}
-  <path d="M112 216 Q120 220 128 216" fill="none" ${ol(2)} opacity="0.4"/>
-  ${eye(EYE_L, -1, e.eyes, look)}
-  ${eye(EYE_R, 1, e.eyes, look)}
-  <circle cx="${EYE_L[0]}" cy="${EYE_L[1]}" r="27" fill="${C.lens}" opacity="0.28"/>
+  <ellipse cx="116" cy="160" rx="4" ry="3" fill="${C.white}" opacity="0.8"/>`;
+const chinLine = (): string => `<path d="M112 216 Q120 220 128 216" fill="none" ${ol(2)} opacity="0.4"/>`;
+/** Очки: тон линз, дужки, переносица, оправа, блики. */
+function glasses(): string {
+  return `<circle cx="${EYE_L[0]}" cy="${EYE_L[1]}" r="27" fill="${C.lens}" opacity="0.28"/>
   <circle cx="${EYE_R[0]}" cy="${EYE_R[1]}" r="27" fill="${C.lens}" opacity="0.28"/>
   <path d="M63 136 L46 128 M177 136 L194 128" ${ol(8)}/><path d="M63 136 L46 128 M177 136 L194 128" stroke="${C.frame}" stroke-width="4" stroke-linecap="round"/>
   <path d="M116 137 Q120 131 124 137" fill="none" ${ol(8)}/><path d="M116 137 Q120 131 124 137" fill="none" stroke="${C.frame}" stroke-width="4" stroke-linecap="round"/>
@@ -185,12 +187,31 @@ export function head(e: Expr, id = 'h', withMouth = true): string {
   <circle cx="${EYE_L[0]}" cy="${EYE_L[1]}" r="27" fill="none" stroke="${C.frame}" stroke-width="5.5"/>
   <circle cx="${EYE_R[0]}" cy="${EYE_R[1]}" r="27" fill="none" stroke="${C.frame}" stroke-width="5.5"/>
   <path d="M72 130 Q75 120 84 117" fill="none" stroke="${C.white}" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
-  <path d="M132 130 Q135 120 144 117" fill="none" stroke="${C.white}" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+  <path d="M132 130 Q135 120 144 117" fill="none" stroke="${C.white}" stroke-width="3" stroke-linecap="round" opacity="0.85"/>`;
+}
+/** Чёлка поверх бровей, блики и пряди. */
+const bangs = (): string => `<path d="${BANGS}" fill="${C.hair}" ${ol()}/>
+  <path d="M70 52 Q96 32 128 34" fill="none" stroke="${C.hairHi}" stroke-width="5" stroke-linecap="round"/>
+  <path d="M60 78 Q66 64 80 60 M96 60 Q106 50 120 52 M140 56 Q156 52 166 62 M174 72 Q184 80 188 94" fill="none" stroke="${C.hairSh}" stroke-width="3" stroke-linecap="round"/>`;
+
+/** Голова целиком — сборка тех же частей, что и у марионетки (src/characters/agata/puppet.ts). */
+export function head(e: Expr, id = 'h', withMouth = true): string {
+  const look = e.look ?? [0, 2];
+  const blush = e.blush ?? 0.55;
+  return `<g>
+  ${hairBack()}
+  ${earrings()}
+  ${faceBase(id)}
+  ${blushSvg(blush)}
+  ${faceDetails()}
+  ${withMouth ? mouth(e.mouth) : ''}
+  ${chinLine()}
+  ${eye(EYE_L, -1, e.eyes, look)}
+  ${eye(EYE_R, 1, e.eyes, look)}
+  ${glasses()}
   ${brow(EYE_L, -1, e.browL ?? e.brows ?? 'neutral')}
   ${brow(EYE_R, 1, e.browR ?? e.brows ?? 'neutral')}
-  <path d="${BANGS}" fill="${C.hair}" ${ol()}/>
-  <path d="M70 52 Q96 32 128 34" fill="none" stroke="${C.hairHi}" stroke-width="5" stroke-linecap="round"/>
-  <path d="M60 78 Q66 64 80 60 M96 60 Q106 50 120 52 M140 56 Q156 52 166 62 M174 72 Q184 80 188 94" fill="none" stroke="${C.hairSh}" stroke-width="3" stroke-linecap="round"/>
+  ${bangs()}
   ${(e.extras ?? []).join('')}
   </g>`;
 }
@@ -342,4 +363,58 @@ export const AGATA_ART: CharacterArt = {
   blinks: (emotion) => !['happy', 'star', 'wide'].includes(EXPR[emotion].eyes),
   armsSvg,
   fan: { anchor: FAN_ANCHOR, handSvg: fanHandSvg, holds: poseHoldsFan },
+};
+
+// ---------- части марионетки (src/characters/agata/puppet.ts) ----------
+// Те же функции рисунка, что собирают голову и фигуру выше: части не перерисованы, а разрезаны по слоям.
+// Координаты головы — локальные (лицо по центру x = 120), фигуры — единицы рига.
+
+/** Белки обоих глаз для стиля глаз (без зрачков и век; дуги смеха — целиком). */
+function eyeWhites(style: 'ball' | 'wide' | 'star' | 'happy' | 'closed'): string {
+  const one = ([cx, cy]: [number, number]): string => {
+    switch (style) {
+      case 'happy': return `<path d="M${cx - 13} ${cy + 5} Q${cx} ${cy - 11} ${cx + 13} ${cy + 5}" fill="none" ${ol(4.2)}/>`;
+      case 'closed': return `<path d="M${cx - 13} ${cy + 1} Q${cx} ${cy + 9} ${cx + 13} ${cy + 1}" fill="none" ${ol(4.2)}/>`;
+      case 'wide': return `<ellipse cx="${cx}" cy="${cy}" rx="17" ry="20" fill="${C.white}" ${ol(3)}/>`;
+      case 'star': return `<ellipse cx="${cx}" cy="${cy}" rx="15" ry="17" fill="${C.white}" ${ol(3)}/>`;
+      default: return `<ellipse cx="${cx}" cy="${cy}" rx="14" ry="16" fill="${C.white}" ${ol(3)}/>`;
+    }
+  };
+  return one(EYE_L) + one(EYE_R);
+}
+
+/** Зрачок с бликом в начале координат (радиус r; звёздочка — для азарта). */
+function pupil(r: number, star: boolean): string {
+  return `<circle r="${r}" fill="${C.pupil}"/>${star
+    ? `<path d="M-2.5 -3 l1.6 -4 1.6 4 4 1.6 -4 1.6 -1.6 4 -1.6 -4 -4 -1.6 Z" fill="${C.white}"/>`
+    : `<circle cx="-2.6" cy="-3" r="2.7" fill="${C.white}"/>`}`;
+}
+
+/** Части рисунка для марионетки. */
+export const AGATA_PIECES = {
+  colors: C,
+  eyeL: EYE_L,
+  eyeR: EYE_R,
+  bun,
+  hairMass,
+  earring,
+  faceBase: () => faceBase('pf'),
+  blush: () => blushSvg(1),
+  faceDetails,
+  chinLine,
+  glasses,
+  bangs,
+  mouth,
+  eyeWhites,
+  pupil,
+  /** Капли и искры эмоции (координаты головы). */
+  extras: (emotion: Emotion): string => (EXPR[emotion].extras ?? []).join(''),
+  /** Тело без рук и головы (единицы рига). */
+  torso: () => body('pt'),
+  /** Кисть в начале координат, без поворота. */
+  hand: (r = 19): string => hand(0, 0, r, 0),
+  /** Манжета в начале координат, длинная ось — по x. */
+  cuff: (): string => cuff(0, 0, 0),
+  /** Труба рукава: ширина заливки и цвет — как у tube(). */
+  sleeve: { width: 30, outline: 8, fill: C.dress, line: C.outline },
 };
