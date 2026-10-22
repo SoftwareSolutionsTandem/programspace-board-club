@@ -39,7 +39,8 @@ const ffStderr = (args) => {
 const probeDuration = (file) => Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]).toString().trim());
 
 // Обрезка тишины по краям (порог −50 дБ), затем короткие поля, чтобы не съесть атаку и хвост.
-const TRIM = 'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.03,areverse,silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.06,areverse';
+// Края — с плавным входом 5 мс и выходом 8 мс: живая запись, нарезанная вплотную к звуку, иначе щёлкает.
+const TRIM = 'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.03,areverse,silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.06,afade=t=in:d=0.008,areverse,afade=t=in:d=0.005';
 
 function measure(file, loops = 0) {
   const input = loops ? ['-stream_loop', String(loops), '-i', file] : ['-i', file];
