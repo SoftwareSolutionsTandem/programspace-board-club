@@ -17,11 +17,11 @@ const EYE_STYLES: readonly EyeStyle[] = ['ball', 'wide', 'star', 'happy', 'close
 export function puppetParts(art: PuppetArt): PartSpec[] {
   const h = art.head;
   return [
-    art.torso, h.bun, h.back, ...h.earrings, h.face, h.blush, h.details, h.glasses, h.bangs,
+    art.torso, h.bun, h.back, ...(h.earrings ?? []), h.face, h.blush, h.details, h.glasses, h.bangs,
     ...EYE_STYLES.map((s) => h.eyes[s]), h.pupil, h.pupilStar,
     ...(Object.values(h.extras) as PartSpec[]),
-    art.hand, art.cuff,
-  ];
+    art.hand, art.handFist, art.cuff,
+  ].filter((p): p is PartSpec => !!p);
 }
 
 /** Задания на текстуры: res — пикселей экрана на единицу рига. */

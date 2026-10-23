@@ -5,7 +5,7 @@ import { clamp } from '../../puppet/motion';
 import type { Face, GestureDef, MotionStyle, Pose, StateDef } from '../../puppet/types';
 
 // Нейтральная поза — ровно утверждённый рисунок «ожидание»: рукава и кисти как в art.ts (POSE_ARMS.idle).
-const REST: Required<Pose> = {
+const REST = {
   torsoRot: 0, torsoX: 0, torsoY: 0,
   headRot: 0, headX: 0, headY: 0,
   gazeX: 0, gazeY: 0, pupil: 1,
@@ -15,7 +15,7 @@ const REST: Required<Pose> = {
   lHandX: 150, lHandY: 338, lCtrlX: 96, lCtrlY: 318, lDX: 0, lDY: 4, lHandRot: 10,
   rHandX: 316, rHandY: 392, rCtrlX: 332, rCtrlY: 330, rDX: 0, rDY: 6, rHandRot: -40,
   fanRot: 0, fanAlpha: 1,
-};
+} satisfies Pose;
 
 // Брови исходного рисунка: [внутренний конец, внешний, середина] (art.ts, brow()).
 type Brow = readonly [number, number, number];
@@ -103,7 +103,7 @@ const hmmNod: GestureDef = {
   ],
 };
 
-function pick(p: Required<Pose>, ...keys: (keyof Pose)[]): Pose {
+function pick(p: Pose, ...keys: (keyof Pose)[]): Pose {
   const out: Pose = {};
   for (const k of keys) out[k] = p[k];
   return out;

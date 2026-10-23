@@ -19,6 +19,7 @@ export type LineCategory =
   // Домино (docs/games/dominoes.md §11).
   | 'openDouble' | 'play' | 'playDouble' | 'block' | 'drew' | 'drewMany' | 'playerDrew' | 'knock' | 'playerKnock'
   | 'lastBone' | 'playerLastBone' | 'fish' | 'fishDraw' | 'handWin' | 'handLose' | 'nearTarget' | 'nvGrumble'
+  | 'playerPlay' | 'playerDrewMany' | 'bazaarEmpty' | 'handStart' | 'fishLose' | 'bigDouble'
   | 'tutMatch' | 'tutEnds' | 'tutBazaar' | 'tutKnock' | 'tutGoal';
 
 export interface VoiceLine {

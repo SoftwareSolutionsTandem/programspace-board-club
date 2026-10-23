@@ -30,15 +30,19 @@ export interface PuppetArt {
   readonly neck: Point;
   readonly headPivot: Point;
   readonly head: {
-    /** Слои головы снизу вверх до глаз. */
-    readonly bun: PivotPart;
+    /** Слои головы снизу вверх до глаз. Необязательные части — у каждого персонажа свой набор. */
+    /** Верхняя деталь с инерцией (у Агаты — пучок). */
+    readonly bun?: PivotPart;
+    /** Всё, что за лицом: волосы, уши. */
     readonly back: PartSpec;
-    readonly earrings: readonly [PivotPart, PivotPart];
+    /** Пара подвесок-маятников (у Агаты — серьги). */
+    readonly earrings?: readonly [PivotPart, PivotPart];
     readonly face: PartSpec;
     readonly blush: PartSpec;
     readonly details: PartSpec;
-    /** Слои над глазами. */
-    readonly glasses: PartSpec;
+    /** Слой над глазами и под ртом (у Агаты — очки, у Матвея — нос). */
+    readonly glasses?: PartSpec;
+    /** Передняя деталь головы поверх бровей (у Агаты — чёлка, у Матвея — кепка); двигается каналами hat*. */
     readonly bangs: PartSpec;
     /** Точка, вокруг которой чёлка чуть запаздывает за головой (координаты головы). */
     readonly bangsPivot: Point;
@@ -54,24 +58,39 @@ export interface PuppetArt {
   /** Центры глаз (координаты головы) и сдвиг зрачка при взгляде ±1. */
   readonly eyesAt: readonly [Point, Point];
   readonly pupilRange: Point;
-  /** Веко: полуширина, верх кожи над центром глаза, толщина линии; цвет кожи и контура. */
-  readonly lid: { readonly halfW: number; readonly top: number; readonly line: number; readonly skin: number; readonly outline: number };
-  /** Бровь: подъём над центром глаза, полуширина, толщина и цвет, линия контура. */
-  readonly brow: { readonly dy: number; readonly halfW: number; readonly width: number; readonly color: number; readonly line: number; readonly lineAlpha: number; readonly outline: number };
+  /** Веко: полуширина, верх кожи над центром глаза, толщина линии; цвет кожи и контура.
+   * closed — положение края века, когда глаз закрыт (обычный и широко раскрытый); hiddenAt — выше этого веко не видно. */
+  readonly lid: {
+    readonly halfW: number; readonly top: number; readonly line: number; readonly skin: number; readonly outline: number;
+    readonly closed?: { readonly ball: number; readonly wide: number }; readonly hiddenAt?: number;
+    /** Насколько середина века ниже края (по умолчанию 2). */
+    readonly bulge?: number;
+  };
+  /** Бровь: подъём над центром глаза, полуширина (halfOut — к виску, если не та же), толщина и цвет, линия контура.
+   * under — толщина контура под бровью (брови-щётки); tufts — штрихи-волоски вдоль брови. */
+  readonly brow: {
+    readonly dy: number; readonly halfW: number; readonly halfOut?: number; readonly width: number; readonly color: number;
+    readonly line: number; readonly lineAlpha: number; readonly outline: number;
+    readonly under?: number;
+    readonly tufts?: { readonly count: number; readonly dx: number; readonly dy: number; readonly width: number; readonly color: number };
+  };
+  /** Предел смещения зрачка внутри белка (полуоси эллипса). */
+  readonly pupilClamp?: Point;
   /** Плечи (координаты фигуры, движутся с корпусом). */
   readonly shoulders: readonly [Point, Point];
   /** Рукав-«трубка»: ширина заливки, добавка контура, цвета. */
   readonly sleeve: { readonly width: number; readonly outline: number; readonly fill: number; readonly line: number };
-  /** Кисть (нарисована с радиусом handR) и манжета; обе — с центром в начале координат. */
+  /** Кисть (нарисована с радиусом handR) и манжета; обе — с центром в начале координат. Кулак — по желанию. */
   readonly hand: PartSpec;
+  readonly handFist?: PartSpec;
   readonly handR: number;
   readonly cuff: PartSpec;
-  /** Веер своих карт: смещение от центра левой кисти. */
-  readonly fanOffset: Point;
-  /** Карта в правой руке: смещение от центра кисти и поворот, градусы. */
-  readonly heldCard: Point & { readonly rot: number };
-  /** Бахрома (пряди: начало и вектор, координаты фигуры) и нижние края, по которым контур рисуется поверх прядей. */
-  readonly fringe: {
+  /** Веер своих карт: смещение от центра левой кисти; null — веера нет (свои кости лежат на столе). */
+  readonly fanOffset: Point | null;
+  /** Предмет в руке (карта, кость): смещение от центра кисти, поворот (градусы) и размер в единицах рига. */
+  readonly heldCard: Point & { readonly rot: number; readonly w?: number; readonly h?: number };
+  /** Бахрома (пряди: начало и вектор, координаты фигуры) и нижние края, по которым контур рисуется поверх прядей. Нет — нет. */
+  readonly fringe?: {
     readonly strands: readonly { readonly x: number; readonly y: number; readonly dx: number; readonly dy: number }[];
     readonly width: number;
     readonly color: number;

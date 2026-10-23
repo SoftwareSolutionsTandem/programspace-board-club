@@ -14,6 +14,8 @@ interface ActiveGesture {
   readonly onMarker?: (name: string) => void;
   /** Жест входа в состояние: прерванный другим жестом, он доигрывается после него. */
   readonly enter?: boolean;
+  /** Мелкое действие (его можно прервать в любой момент). */
+  readonly fidget?: boolean;
 }
 
 export class PuppetBrain {
@@ -21,6 +23,8 @@ export class PuppetBrain {
   private readonly springs = new Map<Channel, Spring>();
   private readonly springParams = new Map<Channel, SpringParams>();
   readonly values = {} as Record<Channel, number>;
+  /** Нейтральная поза по всем каналам (недостающие в стиле — ноль). */
+  readonly rest = {} as Record<Channel, number>;
   /** Без движения: пружины и блуждание выключены, жесты сразу отдают свои события. */
   reduced = false;
   private state: BaseState = 'idle';
@@ -88,13 +92,17 @@ export class PuppetBrain {
   eyeScaleX = 1;
   eyeScaleY = 1;
   holdCard = false;
+  /** В какой руке предмет. */
+  holdHand: 'l' | 'r' = 'r';
+  /** Какая рука над предметами на столе (ключ жеста front). */
+  armsFront: 'l' | 'r' | null = null;
   /** Жест входа в состояние ждёт конца текущего жеста. */
   private pendingEnter: GestureDef | null = null;
 
   constructor(private readonly style: MotionStyle, seed: number) {
     this.rng = new MotionRng(createRng(seed));
     for (const c of CHANNELS) {
-      const v = style.rest[c];
+      const v = (this.rest[c] = style.rest[c] ?? 0);
       this.values[c] = v;
       const p = style.springs[groupOf(c)];
       this.springs.set(c, new Spring(v, p));
@@ -124,6 +132,11 @@ export class PuppetBrain {
 
   get gestureId(): string | null {
     return this.gesture?.def.id ?? null;
+  }
+
+  /** Идёт жест, который не стоит прерывать (не мелкое действие): ход, реакция, вход в состояние. */
+  get busy(): boolean {
+    return !!this.gesture && !this.gesture.fidget;
   }
 
   /** Базовое состояние на holdMs (0 — до следующей смены); по истечении — ожидание. */
@@ -170,6 +183,7 @@ export class PuppetBrain {
     const g = this.gesture;
     this.gesture = null;
     this.holdCard = false;
+    this.armsFront = null;
     if (!g) return;
     for (const m of g.def.markers ?? []) {
       if (!g.fired.has(m.name)) {
@@ -257,7 +271,7 @@ export class PuppetBrain {
     this.stepEyes(dtMs);
 
     // Цели: нейтральная поза → состояние → лицо.
-    const target = { ...this.style.rest } as Record<Channel, number>;
+    const target = { ...this.rest };
     Object.assign(target, st.pose, face.pose);
 
     // Взгляд: переводы взгляда по точкам интереса состояния и мелкие подрагивания.
@@ -287,14 +301,18 @@ export class PuppetBrain {
     const springOverride: Partial<Record<string, SpringParams>> = {};
     if (g) {
       g.t += dtMs;
-      let hold = false;
+      let hold = false, hand: 'l' | 'r' = 'r', front: 'l' | 'r' | false = false;
       for (const k of g.def.keys) {
         if (k.at > g.t) break;
         Object.assign(gesturePose, k.pose);
         if (k.spring) Object.assign(springOverride, k.spring);
         hold = k.holdCard ?? hold;
+        hand = k.holdHand ?? hand;
+        front = k.front ?? front;
       }
       this.holdCard = hold;
+      this.holdHand = hand;
+      this.armsFront = front || null;
       for (const m of g.def.markers ?? []) {
         if (m.at <= g.t && !g.fired.has(m.name)) {
           g.fired.add(m.name);
@@ -341,7 +359,7 @@ export class PuppetBrain {
         const choices = st.fidgets.length > 1 ? st.fidgets.filter((f) => f.id !== this.lastFidget) : st.fidgets;
         const f = this.rng.pick(choices);
         this.lastFidget = f.id;
-        this.gesture = { def: f, t: 0, fired: new Set() };
+        this.gesture = { def: f, t: 0, fired: new Set(), fidget: true };
         this.fidgetTimer = this.rng.range(st.fidgetEvery[0], st.fidgetEvery[1]);
       }
     }

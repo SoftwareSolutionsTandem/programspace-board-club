@@ -50,7 +50,7 @@ describe('мозг марионетки Агаты', () => {
     const b = new PuppetBrain(AGATA_MOTION, 1);
     b.reduced = true;
     run(b, 200);
-    for (const c of CHANNELS) expect(b.values[c], c).toBeCloseTo(AGATA_MOTION.rest[c], 6);
+    for (const c of CHANNELS) expect(b.values[c], c).toBeCloseTo(AGATA_MOTION.rest[c] ?? 0, 6);
     expect(b.breath).toBe(0);
   });
 
@@ -78,12 +78,12 @@ describe('мозг марионетки Агаты', () => {
       minY = Math.min(minY, b2.values.rHandY);
       maxY = Math.max(maxY, b2.values.rHandY);
     }
-    expect(minY).toBeLessThan(AGATA_MOTION.rest.rHandY - 100);
+    expect(minY).toBeLessThan(AGATA_MOTION.rest.rHandY! - 100);
     expect(maxY).toBeGreaterThan(395);
     run(b, 3000);
     expect(b.gestureId).toBeNull();
-    expect(Math.abs(b.values.rHandX - AGATA_MOTION.rest.rHandX)).toBeLessThan(4);
-    expect(Math.abs(b.values.rHandY - AGATA_MOTION.rest.rHandY)).toBeLessThan(4);
+    expect(Math.abs(b.values.rHandX - AGATA_MOTION.rest.rHandX!)).toBeLessThan(4);
+    expect(Math.abs(b.values.rHandY - AGATA_MOTION.rest.rHandY!)).toBeLessThan(4);
   });
 
   it('прерванный бросок всё равно отдаёт событие броска — ход не ждёт вечно', () => {
@@ -177,7 +177,7 @@ describe('ANIM-2: взяла, победа, смена глаз, шаль и ч�
     expect(atGrab).toBeGreaterThan(395);
     run(b, 2500);
     expect(b.gestureId).toBeNull();
-    expect(Math.abs(b.values.rHandY - AGATA_MOTION.rest.rHandY)).toBeLessThan(4);
+    expect(Math.abs(b.values.rHandY - AGATA_MOTION.rest.rHandY!)).toBeLessThan(4);
   });
 
   it('победа: вход со всплеском, руки вверх; во время броска всплеск ждёт, бросок отпускает карту в свой срок', () => {

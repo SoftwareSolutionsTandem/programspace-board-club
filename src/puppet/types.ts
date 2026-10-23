@@ -14,6 +14,10 @@ export const CHANNELS = [
   'lHandX', 'lHandY', 'lCtrlX', 'lCtrlY', 'lDX', 'lDY', 'lHandRot',
   'rHandX', 'rHandY', 'rCtrlX', 'rCtrlY', 'rDX', 'rDY', 'rHandRot',
   'fanRot', 'fanAlpha',
+  // Кулак (больше 0,5 — кисть сжата, если у рисунка есть кулак).
+  'lFist', 'rFist',
+  // Передняя деталь головы (у Матвея — кепка): поворот и сдвиг относительно головы, для жестов вроде «приподнять кепку».
+  'hatRot', 'hatX', 'hatY',
 ] as const;
 export type Channel = (typeof CHANNELS)[number];
 export type Pose = Partial<Record<Channel, number>>;
@@ -24,7 +28,7 @@ export function groupOf(c: Channel): Group {
   if (c.startsWith('torso')) return 'body';
   if (c.startsWith('head')) return 'head';
   if (c.startsWith('gaze')) return 'gaze';
-  if (/^(lHand|lCtrl|lD[XY]|rHand|rCtrl|rD[XY]|fan)/.test(c)) return 'arm';
+  if (/^(lHand|lCtrl|lD[XY]|lFist|rHand|rCtrl|rD[XY]|rFist|fan)/.test(c)) return 'arm';
   return 'face';
 }
 
@@ -54,8 +58,12 @@ export interface GestureKey {
   readonly at: number;
   readonly pose: Pose;
   readonly spring?: Partial<Record<Group, SpringParams>>;
-  /** Карта в правой руке (бросок). */
+  /** Предмет в руке (карта, кость). */
   readonly holdCard?: boolean;
+  /** В какой руке предмет: r (по умолчанию) или l. */
+  readonly holdHand?: 'l' | 'r';
+  /** Рука над предметами на столе (тянется через свои кости к цепочке): l, r или нет (false). Сцена поднимает её слой. */
+  readonly front?: 'l' | 'r' | false;
 }
 
 export interface GestureDef {
@@ -92,8 +100,8 @@ export interface ThrowTarget {
 
 export interface MotionStyle {
   readonly springs: Record<Group, SpringParams>;
-  /** Нейтральная поза — точно как утверждённый рисунок. */
-  readonly rest: Required<Pose>;
+  /** Нейтральная поза — точно как утверждённый рисунок. Каналы, которых нет, — ноль. */
+  readonly rest: Pose;
   readonly states: Record<BaseState, StateDef>;
   readonly faces: Record<Emotion, Face>;
   /** Дыхание: период, с; амплитуда (доля роста корпуса). */
@@ -115,4 +123,6 @@ export interface MotionStyle {
   readonly throwCard: (target: ThrowTarget) => GestureDef;
   /** Сгрести карты со стола (точка в единицах рига) в веер: маркер grab — кисть коснулась карт. */
   readonly takeCards: (target: ThrowTarget) => GestureDef;
+  /** Прочие жесты персонажа по имени (стук по столу, приподнять кепку…); target — точка в единицах рига. */
+  readonly gestures?: Readonly<Record<string, (target?: ThrowTarget) => GestureDef>>;
 }

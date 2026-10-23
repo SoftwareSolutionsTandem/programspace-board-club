@@ -1,11 +1,12 @@
 // Сцена домино: кафе, общий стол, Дед Матвей напротив, его кости рубашкой к игроку, базар, цепочка-«змейка», рука.
 // Рисует PlayerView и анимирует переходы по событиям. Правила здесь не проверяются: сцена показывает и сообщает о касаниях.
 import { Container, Graphics, Sprite, Text, type FederatedPointerEvent } from 'pixi.js';
-import { CharacterRig } from '../../../characters/rig';
+import { MATVEY_MOTION } from '../../../characters/matvey/motions';
 import { dominoHandSlots, endAt, fitChain, opponentBoneSlots, type ChainPlan, type DominoLayout } from '../../../layout/dominoes';
 import { BG_DESIGN, FIGURE } from '../../../layout/layout';
 import { drawCafeTable } from '../../../render/table';
-import { easeInOutQuad, easeOutBack, Tweener } from '../../../render/tween';
+import { easeOutBack, Tweener } from '../../../render/tween';
+import { PuppetRig } from '../../../puppet/rig';
 import { sortBones } from '../interaction';
 import { boneCode, type Bone } from '../rules/bones';
 import type { DominoEvent } from '../rules/engine';
@@ -46,7 +47,8 @@ const nearAngle = (from: number, to: number) => {
 
 export class DominoScene {
   readonly root = new Container();
-  readonly rig = new CharacterRig();
+  readonly rig = new PuppetRig(MATVEY_MOTION, 23);
+
   private readonly bg = new Sprite();
   private readonly table = new Graphics();
   private readonly oppLayer = new Container();
@@ -73,8 +75,9 @@ export class DominoScene {
   inputEnabled = false;
 
   constructor(private readonly tweens: Tweener, private readonly input: DominoSceneInput) {
-    // Кости Матвея стоят перед его руками; рука игрока и летящие кости — поверх всего.
-    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.oppLayer, this.bazaarLayer, this.bazaarBadge, this.chainLayer, this.markerLayer, this.handLayer, this.flyLayer);
+    // Глубина: кости Матвея стоят на ребре перед его руками — в покое кисти за ними. Рука, которая тянется через его кости
+    // к цепочке или к базару, рисуется в rig.overLayer — над всем, что на столе (syncArmsLayer). Рука игрока и летящие кости — сверху.
+    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.oppLayer, this.bazaarLayer, this.bazaarBadge, this.chainLayer, this.markerLayer, this.rig.overLayer, this.handLayer, this.flyLayer);
     this.bazaarBadge.addChild(this.bazaarBadgeBg, this.bazaarCount);
     this.bazaarLayer.eventMode = 'static';
     this.bazaarLayer.cursor = 'pointer';
@@ -97,7 +100,7 @@ export class DominoScene {
   setTextures(bank: DominoTextureBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
-    this.rig.setTextures(bank.character);
+    this.rig.setTextures(bank.character, null, bank.back);
     for (const s of this.sprites.values()) this.kill(s);
     this.sprites.clear();
     for (const s of this.oppBacks) this.kill(s);
@@ -360,21 +363,48 @@ export class DominoScene {
     // Первая кость стоит в центре; каждая кость слева сдвигает начало цепочки в массиве.
     if (prev.chain.length === 0) this.origin = 0;
     else for (const e of events) if (e.type === 'played' && e.end === 'left') this.origin++;
-    // Кость Матвея: вылетает из его ряда рубашкой и переворачивается на столе.
-    const oppSlots = opponentBoneSlots(s, prev.opponentHandCount);
-    for (const p of view.chain) {
+    // Кость Матвея: он берёт её из своего ряда, тянется к цепочке и кладёт — настоящая кость сцены вылетает из его руки
+    // рубашкой вверх в момент, когда кисть её отпускает (PuppetRig.throwCard), и переворачивается на столе.
+    const released: BoneSprite[] = [];
+    const newOpp = view.chain.findIndex((p) => {
       const code = boneCode(p.bone);
-      if (prevChain.has(code) || prevHand.has(code) || this.sprites.has(code)) continue;
-      const from = oppSlots[oppSlots.length - 1] ?? { x: s.domino.opponent.cx, y: s.domino.opponent.y, half: s.domino.opponent.half };
+      return !prevChain.has(code) && !prevHand.has(code) && !this.sprites.has(code);
+    });
+    if (newOpp >= 0) {
+      const code = boneCode(view.chain[newOpp]!.bone);
+      const plan = fitChain(view.chain.map((p) => ({ hi: p.bone.hi, lo: p.bone.lo, left: p.left, right: p.right })), Math.min(this.origin, Math.max(0, view.chain.length - 1)), s);
+      const pose = plan.poses[newOpp]!;
+      const rel = await this.rig.throwCard(this.root.toGlobal(pose), () => {
+        const back = this.oppBacks.pop();
+        if (back) this.kill(back);
+      });
+      if (!this.layout || this.view !== prev) return;
+      const m = this.root.worldTransform;
+      const k = Math.hypot(m.a, m.b);
+      const from = this.root.toLocal({ x: rel.x, y: rel.y });
       const sp = this.makeSprite(code);
       sp.position.set(from.x, from.y);
-      sp.rotation = UPRIGHT;
-      sp.setHalf(from.half);
+      sp.rotation = rel.rotation;
+      sp.setHalf(rel.w > 0 ? rel.w / k / 2 : plan.half);
       sp.flip = 0;
       this.sprites.set(code, sp);
       this.chainLayer.addChild(sp);
-      const back = this.oppBacks.pop();
-      if (back) this.kill(back);
+      // На вылете кость рисуется там же, где была в руке (над рукавом, под пальцами), а легла — со всеми костями стола.
+      sp.zIndex = 3;
+      (this.rig.armOver ? this.rig.overLayer : this.rig.releaseLayer).attach(sp);
+      released.push(sp);
+    }
+    // Добор Матвея: тянется к базару, берёт кость и ставит в свой ряд (ряд растёт, когда кость встала).
+    for (const e of events) {
+      if (e.type !== 'drew' || e.seat === view.seat) continue;
+      await this.rig.gesture('draw', this.root.toGlobal({ x: s.domino.bazaar.x, y: s.domino.bazaar.y }), 'release');
+      if (!this.layout || this.view !== prev) return;
+    }
+    // Стук: Матвей стучит костяшками по столу — ряд вздрагивает в момент удара.
+    const oppKnock = events.some((e) => e.type === 'knocked' && e.seat !== view.seat);
+    if (oppKnock) {
+      await this.rig.gesture('knock', undefined, 'tap');
+      if (!this.layout || this.view !== prev) return;
     }
     // Добор игрока: кость появляется рубашкой у базара и переворачивается в руке.
     for (const b of view.hand) {
@@ -388,20 +418,9 @@ export class DominoScene {
       this.sprites.set(code, sp);
       this.handLayer.addChild(sp);
     }
-    // Добор Матвея: рубашка летит из базара в его ряд.
-    for (const e of events) {
-      if (e.type !== 'drew' || e.seat === view.seat) continue;
-      const b = this.makeSprite(null);
-      b.setHalf(s.domino.bazaar.half);
-      b.position.set(s.domino.bazaar.x, s.domino.bazaar.y);
-      b.rotation = UPRIGHT;
-      b.sync();
-      this.flyLayer.addChild(b);
-      const to = opponentBoneSlots(s, view.opponentHandCount).at(-1) ?? { x: s.domino.opponent.cx, y: s.domino.opponent.y };
-      jobs.push(this.tweens.to(b, { x: to.x, y: to.y }, 320, { ease: easeInOutQuad }).then(() => b.destroy()));
-    }
     this.view = view;
     jobs.push(this.place(view, false));
+    if (released.length) jobs.push(this.tweens.wait(300).then(() => released.forEach((sp) => sp.parentRenderLayer?.detach(sp))));
     // Удар костью о стол: короткий «прыжок» масштаба у новой кости Матвея.
     const played = events.find((e) => e.type === 'played');
     if (played && played.type === 'played' && played.seat !== view.seat) {
@@ -423,6 +442,33 @@ export class DominoScene {
     await Promise.all(jobs);
   }
 
+  /**
+   * Рука, которая тянется через свои кости (PuppetRig.armsFront), — над костями стола (rig.overLayer), остальное — за ними.
+   * Переключение — только когда кисть этой руки не перекрывает кости Матвея: иначе кость «прыгнула» бы с одной стороны
+   * руки на другую. Вторая, лежащая рука не мешает: она остаётся за костями.
+   */
+  private syncArmsLayer(): void {
+    const want = this.rig.armsFront;
+    const cur = this.rig.armOver;
+    if (want === cur) return;
+    const clear = (side: 'l' | 'r') => {
+      if (!this.oppLayer.children.length) return true;
+      const row = this.oppLayer.getBounds();
+      return !this.rig.handBounds(side).some((h) => h.x < row.x + row.width && h.x + h.width > row.x && h.y < row.y + row.height && h.y + h.height > row.y);
+    };
+    if (cur && !clear(cur)) return;
+    if (want && !clear(want)) {
+      if (cur) this.rig.setArmOver(null);
+      return;
+    }
+    this.rig.setArmOver(want);
+  }
+
+  /** Отладка и e2e: руки Матвея над костями стола или за своими костями, и чего хочет текущий жест. */
+  armsLayer(): { over: 'l' | 'r' | null; want: 'l' | 'r' | null } {
+    return { over: this.rig.armOver, want: this.rig.armsFront };
+  }
+
   /** Встряхнуть кость (не подходит). */
   shake(code: string): void {
     const sp = this.sprites.get(code);
@@ -434,6 +480,7 @@ export class DominoScene {
   update(dtMs: number): void {
     this.tweens.update(dtMs);
     this.rig.update(dtMs);
+    this.syncArmsLayer();
     for (const sp of this.sprites.values()) sp.sync();
     for (const c of [...this.oppLayer.children, ...this.flyLayer.children]) if (c instanceof BoneSprite) c.sync();
     // Метки концов мягко пульсируют.

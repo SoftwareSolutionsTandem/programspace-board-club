@@ -1,14 +1,15 @@
-// Набор текстур стола домино: Дед Матвей (общий контракт персонажа), 28 костей и рубашка, фон кафе.
+// Набор текстур стола домино: Дед Матвей (части марионетки), 28 костей и рубашка, фон кафе.
 import type { Texture } from 'pixi.js';
-import { characterBank, characterJobs, characterTextures, renderJobs, takeTexture, type CharacterBank, type TextureJob } from '../../../characters/textures';
-import { MATVEY_ART } from '../../../characters/matvey/art';
+import { renderJobs, takeTexture, type TextureJob } from '../../../characters/textures';
+import { MATVEY_PUPPET } from '../../../characters/matvey/puppet';
+import { puppetBank, puppetJobs, puppetTextures, type PuppetBank } from '../../../puppet/textures';
 import { BG_DESIGN } from '../../../layout/layout';
 import { cafeBackgroundSvg } from '../../../render/cafe';
 import { boneCode, createSet } from '../rules/bones';
 import { BONE_BOX, boneBackSvg, boneFaceSvg } from './boneArt';
 
 export interface DominoTextureBank {
-  readonly character: CharacterBank;
+  readonly character: PuppetBank;
   readonly bones: Map<string, Texture>;
   readonly back: Texture;
   readonly background: Texture;
@@ -17,7 +18,7 @@ export interface DominoTextureBank {
 
 /** boneRes — пикселей на единицу рисунка кости (96 × 48). */
 export async function buildDominoTextures(figureRes: number, boneRes: number, bgRes: number, onProgress?: (done: number, total: number) => void): Promise<DominoTextureBank> {
-  const jobs: TextureJob[] = characterJobs(MATVEY_ART, figureRes);
+  const jobs: TextureJob[] = puppetJobs(MATVEY_PUPPET, figureRes);
   const add = (key: string, svg: string, box: { w: number; h: number }, res: number) => jobs.push({ key, svg, w: box.w * res, h: box.h * res });
   for (const b of createSet()) add(`bone:${boneCode(b)}`, boneFaceSvg(b.hi, b.lo), BONE_BOX, boneRes);
   add('back', boneBackSvg(), BONE_BOX, boneRes);
@@ -25,9 +26,9 @@ export async function buildDominoTextures(figureRes: number, boneRes: number, bg
   const out = await renderJobs(jobs, onProgress);
   const bones = new Map<string, Texture>();
   for (const b of createSet()) bones.set(boneCode(b), takeTexture(out, `bone:${boneCode(b)}`));
-  return { character: characterBank(MATVEY_ART, out), bones, back: takeTexture(out, 'back'), background: takeTexture(out, 'bg'), figureRes };
+  return { character: puppetBank(MATVEY_PUPPET, figureRes, out), bones, back: takeTexture(out, 'back'), background: takeTexture(out, 'bg'), figureRes };
 }
 
 export function destroyDominoTextures(bank: DominoTextureBank): void {
-  for (const t of [bank.back, bank.background, ...characterTextures(bank.character), ...bank.bones.values()]) t.destroy(true);
+  for (const t of [bank.back, bank.background, ...puppetTextures(bank.character), ...bank.bones.values()]) t.destroy(true);
 }

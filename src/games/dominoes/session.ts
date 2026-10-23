@@ -118,6 +118,8 @@ export class DominoSession implements GameSession {
       pose: this.scene.rig.currentPose,
       emotion: this.scene.rig.currentEmotion,
       blinks: this.scene.rig.blinks,
+      gesture: this.scene.rig.brain.gestureId,
+      arms: this.scene.armsLayer(),
       speaking: this.voice.speaking,
       voiceLog: [...this.voiceLog],
       act: (i: number) => {
@@ -237,8 +239,12 @@ export class DominoSession implements GameSession {
   private async afterAction(events: readonly DominoEvent[]): Promise<void> {
     this.sfxFor(events);
     const trig = reactionFor(events, OPPONENT, this.view());
-    if (trig) this.cue(trig);
+    // Жест реакции — после жеста хода (Матвей сначала кладёт, берёт или стучит, потом реагирует); эмоция и реплика — сразу.
+    const gesture = trig ? this.cue(trig, true) : undefined;
     await this.scene.show(this.view(), events);
+    if (gesture) void this.scene.rig.whenFree().then(() => {
+      if (!this.disposed) void this.scene.rig.gesture(gesture);
+    });
     const over = events.find((e) => e.type === 'handOver');
     if (over && over.type === 'handOver') this.finishHand(over.result, events.some((e) => e.type === 'matchOver'));
   }
@@ -255,10 +261,12 @@ export class DominoSession implements GameSession {
 
   // ---------- реакции Матвея ----------
 
-  private cue(trigger: Trigger): void {
+  /** Реакция: эмоция, поза, реплика; жест — сразу или (deferGesture) возвращается вызывающему. */
+  private cue(trigger: Trigger, deferGesture = false): string | undefined {
     const c: Cue = this.director.react(trigger, this.host.now());
     this.scene.rig.setEmotion(c.emotion);
     if (c.pose) this.scene.rig.setPose(c.pose, c.pose === 'victory' ? 0 : 1400);
+    if (c.gesture && !deferGesture) void this.scene.rig.gesture(c.gesture);
     if (this.emotionTimer) clearTimeout(this.emotionTimer);
     if (trigger.priority !== 'result') this.emotionTimer = setTimeout(() => this.scene.rig.setEmotion('warm'), 4500);
     if (c.line) {
@@ -267,6 +275,7 @@ export class DominoSession implements GameSession {
       if (this.voiceLog.length > 20) this.voiceLog.shift();
       if (outcome === 'played' && this.host.settings().subtitles) this.showSubtitle(c.line.text);
     }
+    return deferGesture ? c.gesture : undefined;
   }
 
   private showSubtitle(text: string): void {
@@ -496,6 +505,7 @@ export class DominoSession implements GameSession {
     // Счёт близок к 101 — Матвей прикидывает перед раздачей.
     const v = this.view();
     if (Math.max(...v.score) >= v.target - 25) this.soon(() => this.cue({ category: 'nearTarget', emotion: 'think', priority: 'reaction', chance: 0.6 }), 900);
+    else this.soon(() => this.cue({ category: 'handStart', emotion: 'think', priority: 'reaction', chance: 0.35 }), 900);
     this.busy = false;
     this.advance();
   }

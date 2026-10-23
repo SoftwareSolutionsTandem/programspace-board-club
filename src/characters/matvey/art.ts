@@ -31,6 +31,9 @@ const EYE_L: readonly [number, number] = [97, 128];
 const EYE_R: readonly [number, number] = [143, 128];
 
 /** Глаза у Матвея маленькие и глубоко посаженные: эмоцию несут брови и веки. */
+/** Мешки под глазами — возраст (у марионетки — в слое деталей лица). */
+const bagUnder = ([cx, cy]: readonly [number, number]): string => `<path d="M${cx - 9} ${cy + 13} Q${cx} ${cy + 18} ${cx + 9} ${cy + 13}" fill="none" ${ol(2)} opacity="0.45"/>`;
+
 function eye([cx, cy]: readonly [number, number], side: number, st: string, look: readonly [number, number]): string {
   const [lx, ly] = look;
   const inner = cx - side * 11, outer = cx + side * 11;
@@ -48,7 +51,7 @@ function eye([cx, cy]: readonly [number, number], side: number, st: string, look
       ? `<path d="M${cx + lx - 1.5} ${cy + ly - 2.2} l1.2 -3 1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 Z" fill="${C.white}"/>`
       : `<circle cx="${cx + lx - 1.8}" cy="${cy + ly - 2.2}" r="1.9" fill="${C.white}"/>`}`;
   // Мешки под глазами — возраст.
-  const bag = `<path d="M${cx - 9} ${cy + 13} Q${cx} ${cy + 18} ${cx + 9} ${cy + 13}" fill="none" ${ol(2)} opacity="0.45"/>`;
+  const bag = bagUnder([cx, cy]);
   switch (st) {
     case 'happy':
       return `<path d="M${cx - 10} ${cy + 3} Q${cx} ${cy - 8} ${cx + 10} ${cy + 3}" fill="none" ${ol(3.8)}/>` + bag;
@@ -186,12 +189,9 @@ function cap(tilt = 0): string {
   </g>`;
 }
 
-export function head(e: Expr, id = 'm', withMouth = true, capTilt = -4): string {
-  const look = e.look ?? [0, 1];
-  const blush = e.blush ?? 0.35;
-  return `<g>
-  ${ears()}
-  <clipPath id="${id}-face"><path d="${FACE}"/></clipPath>
+/** Лицо: кожа с тенью, контур, седые вихры, складки щёк (без румянца, глаз, носа, рта, бровей). */
+function faceBase(id: string): string {
+  return `<clipPath id="${id}-face"><path d="${FACE}"/></clipPath>
   <path d="${FACE}" fill="${C.skinSh}"/>
   <g clip-path="url(#${id}-face)">
     <ellipse cx="113" cy="124" rx="62" ry="96" fill="${C.skin}"/>
@@ -200,16 +200,29 @@ export function head(e: Expr, id = 'm', withMouth = true, capTilt = -4): string 
   ${sideHair()}
   <path d="M78 186 Q86 206 104 214" fill="none" ${ol(2.2)} opacity="0.4"/>
   <path d="M162 186 Q154 206 136 214" fill="none" ${ol(2.2)} opacity="0.4"/>
-  <path d="M74 150 Q78 168 86 176 M166 150 Q162 168 154 176" fill="none" ${ol(2)} opacity="0.35"/>
-  <ellipse cx="80" cy="160" rx="11" ry="7" fill="${C.blush}" opacity="${blush}"/>
-  <ellipse cx="160" cy="160" rx="11" ry="7" fill="${C.blush}" opacity="${blush}"/>
-  <path d="M112 216 Q120 219 128 216" fill="none" ${ol(2)} opacity="0.4"/>
+  <path d="M74 150 Q78 168 86 176 M166 150 Q162 168 154 176" fill="none" ${ol(2)} opacity="0.35"/>`;
+}
+const blushSvg = (opacity: number): string => `<ellipse cx="80" cy="160" rx="11" ry="7" fill="${C.blush}" opacity="${opacity}"/>
+  <ellipse cx="160" cy="160" rx="11" ry="7" fill="${C.blush}" opacity="${opacity}"/>`;
+const chinLine = (): string => `<path d="M112 216 Q120 219 128 216" fill="none" ${ol(2)} opacity="0.4"/>`;
+/** Нос картошкой с бликом (лежит поверх глаз). */
+const nose = (): string => `<path d="M112 128 C108 146 104 152 108 160 C112 166 128 166 132 160 C136 152 132 146 128 128" fill="${C.nose}" ${ol(3.4)}/>
+  <ellipse cx="114" cy="152" rx="4" ry="3" fill="${C.white}" opacity="0.7"/>`;
+const foreheadLines = (): string => `<path d="M88 96 Q104 92 116 96 M124 96 Q138 92 152 96" fill="none" ${ol(2)} opacity="0.35"/>`;
+
+export function head(e: Expr, id = 'm', withMouth = true, capTilt = -4): string {
+  const look = e.look ?? [0, 1];
+  const blush = e.blush ?? 0.35;
+  return `<g>
+  ${ears()}
+  ${faceBase(id)}
+  ${blushSvg(blush)}
+  ${chinLine()}
   ${eye(EYE_L, -1, e.eyes, look)}
   ${eye(EYE_R, 1, e.eyes, look)}
-  <path d="M112 128 C108 146 104 152 108 160 C112 166 128 166 132 160 C136 152 132 146 128 128" fill="${C.nose}" ${ol(3.4)}/>
-  <ellipse cx="114" cy="152" rx="4" ry="3" fill="${C.white}" opacity="0.7"/>
+  ${nose()}
   ${withMouth ? mouth(e.mouth) : ''}
-  <path d="M88 96 Q104 92 116 96 M124 96 Q138 92 152 96" fill="none" ${ol(2)} opacity="0.35"/>
+  ${foreheadLines()}
   ${brow(EYE_L, -1, e.browL ?? e.brows ?? 'neutral')}
   ${brow(EYE_R, 1, e.browR ?? e.brows ?? 'neutral')}
   ${cap(capTilt)}
@@ -360,4 +373,53 @@ export const MATVEY_ART: CharacterArt = {
   blinks: (emotion) => !NO_BLINK_EYES.has(EXPR[emotion].eyes),
   armsSvg,
   fan: null,
+};
+
+// ---------- части марионетки (src/characters/matvey/puppet.ts) ----------
+// Те же функции рисунка, что собирают голову и фигуру выше: части не перерисованы, а разрезаны по слоям.
+// Координаты головы — локальные (лицо по центру x = 120), фигуры — единицы рига.
+
+/** Белок одного глаза с центром в начале координат (без зрачка, век и мешков; дуга смеха — целиком). */
+function eyeWhite(style: 'ball' | 'wide' | 'star' | 'happy' | 'closed'): string {
+  switch (style) {
+    case 'happy': return `<path d="M-10 3 Q0 -8 10 3" fill="none" ${ol(3.8)}/>`;
+    case 'closed': return `<path d="M-10 1 Q0 7 10 1" fill="none" ${ol(3.8)}/>`;
+    case 'wide': return `<ellipse cx="0" cy="0" rx="11" ry="13" fill="${C.white}" ${ol(2.8)}/>`;
+    case 'star': return `<ellipse cx="0" cy="0" rx="10.5" ry="12" fill="${C.white}" ${ol(2.8)}/>`;
+    default: return `<ellipse cx="0" cy="0" rx="9.5" ry="11" fill="${C.white}" ${ol(2.8)}/>`;
+  }
+}
+
+/** Зрачок с бликом в начале координат (радиус r; звёздочка — для азарта). */
+function pupil(r: number, star: boolean): string {
+  return `<circle r="${r}" fill="${C.pupil}"/>${star
+    ? `<path d="M-1.5 -2.2 l1.2 -3 1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 Z" fill="${C.white}"/>`
+    : `<circle cx="-1.8" cy="-2.2" r="1.9" fill="${C.white}"/>`}`;
+}
+
+/** Части рисунка для марионетки. */
+export const MATVEY_PIECES = {
+  colors: C,
+  eyeL: EYE_L,
+  eyeR: EYE_R,
+  ears,
+  faceBase: () => faceBase('pm'),
+  blush: () => blushSvg(1),
+  /** Подбородок, морщины лба, мешки под глазами — под глазами и ртом. */
+  faceDetails: () => chinLine() + foreheadLines() + bagUnder(EYE_L) + bagUnder(EYE_R),
+  nose,
+  mouth,
+  eyeWhite,
+  pupil,
+  /** Кепка с наклоном рисунка. */
+  cap: () => cap(-4),
+  /** Пар, капли, искры, лучики эмоции (координаты головы). */
+  extras: (emotion: Emotion): string => (EXPR[emotion].extras ?? []).join(''),
+  /** Тело с шеей, без рук и головы (единицы рига). */
+  torso: () => body('pm'),
+  hand: (): string => hand(0, 0, 0, false),
+  fist: (): string => hand(0, 0, 0, true),
+  cuff: (): string => cuff(0, 0, 0),
+  /** Рукав пиджака: ширина заливки и цвет — как у tube(). */
+  sleeve: { width: 26, outline: 8, fill: C.jacket, line: C.outline },
 };

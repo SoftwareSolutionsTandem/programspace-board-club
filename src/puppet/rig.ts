@@ -3,7 +3,7 @@
 // Внешний интерфейс совместим со старым ригом (src/characters/rig.ts) плюс throwCard() для броска, привязанного к карте.
 import { Container, Graphics, RenderLayer, Sprite, type Texture } from 'pixi.js';
 import type { Emotion, Pose as RigPose } from '../characters/types';
-import type { PartSpec, Point, PuppetArt } from './art';
+import type { PartSpec, PivotPart, Point, PuppetArt } from './art';
 import { PuppetBrain } from './brain';
 import { clamp, lerp, Spring } from './motion';
 import { SpeechMouth } from './speech';
@@ -36,7 +36,14 @@ export class PuppetRig {
   /** Порядок отрисовки карты, только что выпущенной из руки: над рукавом, под пальцами — как карта в руке.
    * Сцена прикрепляет сюда спрайт своей карты на время вылета (attach/detach), сам спрайт остаётся в её слое. */
   readonly releaseLayer = new RenderLayer();
+  /**
+   * Слой руки, тянущейся над столом: сцена ставит его над предметами на столе (у Агаты не используется).
+   * Порядок внутри: рукав, манжета, предмет в руке, выпущенный предмет (zIndex 3), кисть.
+   */
+  readonly overLayer = new RenderLayer({ sortableChildren: true });
+  private over: 'l' | 'r' | null = null;
   private heldGrace = false;
+  private freeWaiters: (() => void)[] = [];
   readonly brain: PuppetBrain;
   private bank: PuppetBank | null = null;
   private art: PuppetArt | null = null;
@@ -76,6 +83,7 @@ export class PuppetRig {
   private readonly joints = new Graphics();
   private fanCount = 6;
   private fanBack: Texture | null = null;
+  private heldTex: Texture | null = null;
   private speechLevel = 0;
   private speech: SpeechMouth | null = null;
   private readonly lookX: Spring;
@@ -98,11 +106,16 @@ export class PuppetRig {
     this.bunC.addChild(this.bun);
     this.bangsC.addChild(this.bangs);
     this.earC.forEach((c, i) => c.addChild(this.ears[i]!));
-    this.head.addChild(this.bunC, this.hair, ...this.earC, this.face, this.blush, this.details, this.mouth, ...this.eyeS, ...this.pupils, this.lids, this.glasses, this.brows, this.bangsC);
+    // Рот — над слоем «над глазами»: у Матвея усы лежат поверх носа; у Агаты очки и рот не пересекаются.
+    this.head.addChild(this.bunC, this.hair, ...this.earC, this.face, this.blush, this.details, ...this.eyeS, ...this.pupils, this.lids, this.glasses, this.mouth, this.brows, this.bangsC);
     this.back.addChild(this.torsoC, this.head);
     // Левая рука держит веер (кисть поверх карт); правая — поверх всего: тянется к вееру за картой.
     this.front.addChild(this.armL, this.cuffL, this.fan, this.handL, this.armR, this.cuffR, this.held, this.releaseLayer, this.handR, this.joints);
     for (const s of [...this.pupils, ...this.eyeS, this.handL, this.handR, this.cuffL, this.cuffR, this.held]) s.anchor.set(0.5);
+    this.armL.zIndex = this.armR.zIndex = 0;
+    this.cuffL.zIndex = this.cuffR.zIndex = 1;
+    this.held.zIndex = 2;
+    this.handL.zIndex = this.handR.zIndex = 4;
   }
 
   set reducedMotion(v: boolean) {
@@ -117,7 +130,8 @@ export class PuppetRig {
     return this.brain.blinks;
   }
 
-  setTextures(bank: PuppetBank, fanBack: Texture | null = null): void {
+  /** fanBack — рубашка карт веера; held — предмет в руке (по умолчанию та же рубашка). */
+  setTextures(bank: PuppetBank, fanBack: Texture | null = null, held: Texture | null = fanBack): void {
     this.bank = bank;
     const art = bank.art;
     this.art = art;
@@ -128,9 +142,14 @@ export class PuppetRig {
     this.torsoC.pivot.set(art.hip.x, art.hip.y);
     this.head.pivot.set(art.headPivot.x, art.headPivot.y);
     // Части головы — в своих областях (координаты головы).
-    for (const [s, p] of [[this.hair, h.back], [this.face, h.face], [this.blush, h.blush], [this.details, h.details], [this.glasses, h.glasses]] as const) {
+    for (const [s, p] of [[this.hair, h.back], [this.face, h.face], [this.blush, h.blush], [this.details, h.details]] as const) {
       s.texture = tex(p);
       placeSprite(s, p.box);
+    }
+    this.glasses.visible = !!h.glasses;
+    if (h.glasses) {
+      this.glasses.texture = tex(h.glasses);
+      placeSprite(this.glasses, h.glasses.box);
     }
     // Чёлка — вокруг своей точки на макушке.
     this.bangs.texture = tex(h.bangs);
@@ -139,13 +158,15 @@ export class PuppetRig {
     this.speech = new SpeechMouth(art.speech);
     this.fringeDrawn = NaN;
     // Пучок и серьги вращаются вокруг своих точек.
-    const pivoted = (c: Container, s: Sprite, p: typeof h.bun) => {
+    const pivoted = (c: Container, s: Sprite, p: PivotPart | undefined) => {
+      c.visible = !!p;
+      if (!p) return;
       s.texture = tex(p);
       placeSprite(s, { ...p.box, x: p.box.x - p.pivot.x, y: p.box.y - p.pivot.y });
       c.position.set(p.pivot.x, p.pivot.y);
     };
     pivoted(this.bunC, this.bun, h.bun);
-    h.earrings.forEach((p, i) => pivoted(this.earC[i]!, this.ears[i]!, p));
+    this.earC.forEach((c, i) => pivoted(c, this.ears[i]!, h.earrings?.[i]));
     art.eyesAt.forEach((e, i) => this.eyeS[i]!.position.set(e.x, e.y));
     for (const s of this.pupils) {
       s.texture = tex(h.pupil);
@@ -171,11 +192,12 @@ export class PuppetRig {
       s.width = art.cuff.box.w;
       s.height = art.cuff.box.h;
     }
-    this.fanBack = fanBack;
-    if (fanBack) {
-      this.held.texture = fanBack;
-      this.held.width = CARD_W * 0.82;
-      this.held.height = CARD_H * 0.82;
+    this.fanBack = art.fanOffset ? fanBack : null;
+    this.heldTex = held;
+    if (held) {
+      this.held.texture = held;
+      this.held.width = art.heldCard.w ?? CARD_W * 0.82;
+      this.held.height = art.heldCard.h ?? CARD_H * 0.82;
     }
     this.held.visible = false;
     this.rebuildFan();
@@ -228,16 +250,18 @@ export class PuppetRig {
    * Бросок карты к точке сцены. Промис разрешается в момент, когда кисть отпускает карту:
    * сцена запускает полёт настоящей карты из положения карты в руке — рука и карта двигаются как одно целое.
    */
-  throwCard(target: { x: number; y: number }): Promise<Release> {
+  throwCard(target: { x: number; y: number }, onPick?: () => void): Promise<Release> {
     return new Promise((resolve) => {
       if (!this.art) {
         const p = this.fanPoint();
+        onPick?.();
         resolve({ x: p.x, y: p.y, rotation: 0, w: 0, h: 0 });
         return;
       }
       const t = this.front.toLocal(target);
       this.pendingRelease.push(resolve);
       this.brain.play(this.style.throwCard(t), (name) => {
+        if (name === 'pick') onPick?.();
         if (name === 'release') this.releaseNow = true;
       });
       // Без движения (или прерванный жест) событие приходит сразу — отдаём текущее положение руки.
@@ -259,6 +283,75 @@ export class PuppetRig {
         if (name === 'grab') resolve();
       });
     });
+  }
+
+  /**
+   * Жест персонажа по имени (MotionStyle.gestures): target — точка сцены. Промис разрешается на событии marker
+   * (например, release — предмет лёг на место) или по окончании жеста; без движения и без такого жеста — сразу.
+   */
+  gesture(id: string, target?: { x: number; y: number }, marker?: string): Promise<void> {
+    return new Promise((resolve) => {
+      const make = this.style.gestures?.[id];
+      if (!make || !this.art) {
+        resolve();
+        return;
+      }
+      const def = make(target ? this.front.toLocal(target) : undefined);
+      const wait = marker ?? 'end';
+      const markers = marker ? def.markers : [...(def.markers ?? []), { at: def.duration, name: 'end' }];
+      this.brain.play({ ...def, markers }, (name) => {
+        if (name !== wait) return;
+        // Предмет из руки занимает место в сцене после этого кадра — он остаётся в руке ещё на кадр.
+        if (name === 'release') this.heldGrace = true;
+        resolve();
+      });
+    });
+  }
+
+  /** Дождаться конца текущего жеста (мелкие действия не ждут): реакция начнётся, когда рука вернулась. */
+  whenFree(): Promise<void> {
+    if (!this.brain.busy || !this.art) return Promise.resolve();
+    return new Promise((resolve) => this.freeWaiters.push(resolve));
+  }
+
+  /** Какая рука тянется над предметами на столе (жест), или null. */
+  get armsFront(): 'l' | 'r' | null {
+    return this.brain.armsFront;
+  }
+
+  /** Какая рука сейчас рисуется в overLayer. */
+  get armOver(): 'l' | 'r' | null {
+    return this.over;
+  }
+
+  private armParts(side: 'l' | 'r'): Container[] {
+    return side === 'l' ? [this.armL, this.cuffL, this.handL] : [this.armR, this.cuffR, this.handR];
+  }
+
+  /**
+   * Перенести руку (рукав, манжету, кисть и предмет в ней) в overLayer — над тем, что лежит на столе, — или вернуть.
+   * Когда переключать, решает сцена: только когда кисть не перекрывает предметы на столе.
+   */
+  setArmOver(side: 'l' | 'r' | null): void {
+    if (side === this.over) return;
+    if (this.over) for (const p of this.armParts(this.over)) this.overLayer.detach(p);
+    this.over = side;
+    if (side) this.overLayer.attach(...this.armParts(side));
+    this.syncHeldOver();
+  }
+
+  private syncHeldOver(): void {
+    const want = !!this.over && this.brain.holdHand === this.over;
+    const has = this.held.parentRenderLayer === this.overLayer;
+    if (want && !has) this.overLayer.attach(this.held);
+    else if (!want && has) this.overLayer.detach(this.held);
+  }
+
+  /** Глобальные рамки кисти, манжеты и предмета в этой руке — сцена проверяет, не перекрывают ли они кости. */
+  handBounds(side: 'l' | 'r'): { x: number; y: number; width: number; height: number }[] {
+    const parts: Sprite[] = side === 'l' ? [this.handL, this.cuffL] : [this.handR, this.cuffR];
+    if (this.held.visible && this.brain.holdHand === side) parts.push(this.held);
+    return parts.map((s) => s.getBounds());
   }
 
   private flushRelease(): void {
@@ -303,6 +396,11 @@ export class PuppetRig {
     this.inUpdate = false;
     this.layout(dt);
     if (this.releaseNow) this.flushRelease();
+    if (this.freeWaiters.length && !this.brain.busy) {
+      const w = this.freeWaiters;
+      this.freeWaiters = [];
+      for (const f of w) f();
+    }
   }
 
   // ---------- расстановка частей ----------
@@ -323,7 +421,7 @@ export class PuppetRig {
     if (!art || !bank) return;
     const b = this.brain;
     const v = b.values;
-    const rest = this.style.rest;
+    const rest = b.rest;
     // Корпус.
     this.torsoC.position.set(art.hip.x + v.torsoX, art.hip.y + v.torsoY);
     this.torsoC.rotation = v.torsoRot * DEG;
@@ -333,8 +431,10 @@ export class PuppetRig {
     this.head.position.set(neck.x + v.headX, neck.y + v.headY);
     this.head.rotation = (v.torsoRot + v.headRot) * DEG;
     this.bunC.rotation = b.bun * DEG;
-    this.bangsC.rotation = b.bangsRot * DEG;
-    this.bangsC.y = art.head.bangsPivot.y + b.bangsY;
+    // Передняя деталь: инерция (чёлка) и жесты (кепку приподнять, сдвинуть набок).
+    this.bangsC.rotation = (b.bangsRot + v.hatRot) * DEG;
+    this.bangsC.x = art.head.bangsPivot.x + v.hatX;
+    this.bangsC.y = art.head.bangsPivot.y + b.bangsY + v.hatY;
     this.drawFringe(b.fringe);
     this.earC[0].rotation = clamp(b.earL, -40, 40) * DEG;
     this.earC[1].rotation = clamp(b.earR, -40, 40) * DEG;
@@ -364,7 +464,8 @@ export class PuppetRig {
       // Зрачок остаётся внутри белка: смещение ограничено эллипсом.
       let ox = lx + v.gazeX * art.pupilRange.x;
       let oy = ly + v.gazeY * art.pupilRange.y;
-      const k = Math.hypot(ox / 6.5, oy / 8);
+      const pc = art.pupilClamp ?? { x: 6.5, y: 8 };
+      const k = Math.hypot(ox / pc.x, oy / pc.y);
       if (k > 1) {
         ox /= k;
         oy /= k;
@@ -385,19 +486,38 @@ export class PuppetRig {
     // Руки.
     this.drawArm(this.armL, this.cuffL, this.handL, art.shoulders[0], v.lHandX, v.lHandY, v.lCtrlX, v.lCtrlY, v.lDX, v.lDY, v.lHandRot);
     this.drawArm(this.armR, this.cuffR, this.handR, art.shoulders[1], v.rHandX, v.rHandY, v.rCtrlX, v.rCtrlY, v.rDX, v.rDY, v.rHandRot);
+    // Кулак — своя кисть, если она есть в рисунке.
+    const handTex = bank.parts.get(art.hand.key)!;
+    const fistTex = art.handFist ? bank.parts.get(art.handFist.key)! : handTex;
+    this.handL.texture = v.lFist > 0.5 ? fistTex : handTex;
+    this.handR.texture = v.rFist > 0.5 ? fistTex : handTex;
     // Веер — в левой кисти, поворачивается вместе с ней.
     const lr = (v.lHandRot - rest.lHandRot) * DEG;
     const fo = art.fanOffset;
-    this.fan.position.set(this.handL.x + fo.x * Math.cos(lr) - fo.y * Math.sin(lr), this.handL.y + fo.x * Math.sin(lr) + fo.y * Math.cos(lr));
-    this.fan.rotation = lr + v.fanRot * DEG;
-    this.fan.alpha = clamp(v.fanAlpha, 0, 1);
-    this.fan.visible = this.fan.alpha > 0.01;
-    // Карта в правой кисти.
-    const rr = (v.rHandRot - rest.rHandRot) * DEG;
+    if (fo) {
+      this.fan.position.set(this.handL.x + fo.x * Math.cos(lr) - fo.y * Math.sin(lr), this.handL.y + fo.x * Math.sin(lr) + fo.y * Math.cos(lr));
+      this.fan.rotation = lr + v.fanRot * DEG;
+      this.fan.alpha = clamp(v.fanAlpha, 0, 1);
+    }
+    this.fan.visible = !!fo && this.fan.alpha > 0.01;
+    // Предмет в кисти (карта, кость): правой по умолчанию; у левой — зеркально по x.
+    const left = b.holdHand === 'l';
+    const hk = left ? this.handL : this.handR;
+    const hr = left ? (v.lHandRot - rest.lHandRot) * DEG : (v.rHandRot - rest.rHandRot) * DEG;
     const hc = art.heldCard;
-    this.held.visible = (b.holdCard || this.heldGrace) && !!this.fanBack;
-    this.held.position.set(this.handR.x + hc.x * Math.cos(rr) - hc.y * Math.sin(rr), this.handR.y + hc.x * Math.sin(rr) + hc.y * Math.cos(rr));
-    this.held.rotation = rr + hc.rot * DEG;
+    const hx = left ? -hc.x : hc.x;
+    this.held.visible = (b.holdCard || this.heldGrace) && !!this.heldTex;
+    this.held.position.set(hk.x + hx * Math.cos(hr) - hc.y * Math.sin(hr), hk.y + hx * Math.sin(hr) + hc.y * Math.cos(hr));
+    this.held.rotation = hr + (left ? -hc.rot : hc.rot) * DEG;
+    // Предмет — в слое той руки, что держит: над рукавом, под пальцами.
+    const slot = left ? this.handL : this.handR;
+    if (this.front.getChildIndex(this.held) !== this.front.getChildIndex(slot) - 2) {
+      this.front.removeChild(this.held, this.releaseLayer);
+      const at = this.front.getChildIndex(slot);
+      this.front.addChildAt(this.releaseLayer, at);
+      this.front.addChildAt(this.held, at);
+    }
+    this.syncHeldOver();
     this.drawJoints();
   }
 
@@ -407,6 +527,10 @@ export class PuppetRig {
     this.fringeDrawn = angle;
     const f = this.art!.fringe;
     const g = this.fringe;
+    if (!f) {
+      g.clear();
+      return;
+    }
     g.clear();
     const half = f.strands.length / 2;
     f.strands.forEach((p, i) => {
@@ -451,15 +575,16 @@ export class PuppetRig {
     g.clear();
     if (b.eyes === 'happy' || b.eyes === 'closed') return;
     const L = art.lid;
-    const closed = b.eyes === 'wide' ? 18 : 14;
+    const closed = b.eyes === 'wide' ? (L.closed?.wide ?? 18) : (L.closed?.ball ?? 14);
+    const hidden = L.hiddenAt ?? -16.5;
     const params: [number, number][] = [[b.lid(v.lidLI, closed), b.lid(v.lidLO, closed)], [b.lid(v.lidRI, closed), b.lid(v.lidRO, closed)]];
     art.eyesAt.forEach((e, i) => {
       const [iy, oy] = params[i]!;
-      if (iy <= -16.5 && oy <= -16.5) return;
+      if (iy <= hidden && oy <= hidden) return;
       const side = i === 0 ? -1 : 1;
       const inner = e.x - side * L.halfW, outer = e.x + side * L.halfW;
       const top = e.y - L.top;
-      const mid = e.y + Math.min(iy, oy) - 2;
+      const mid = e.y + Math.min(iy, oy) - (L.bulge ?? 2);
       g.moveTo(inner, e.y + iy).quadraticCurveTo(e.x, mid, outer, e.y + oy).lineTo(outer, top).lineTo(inner, top).closePath().fill(L.skin);
       g.moveTo(inner, e.y + iy).quadraticCurveTo(e.x, mid, outer, e.y + oy).stroke({ width: L.line, color: L.outline, cap: 'round', join: 'round' });
     });
@@ -477,9 +602,22 @@ export class PuppetRig {
       const [iy, oy, my] = sides[i]!;
       const side = i === 0 ? -1 : 1;
       const cy = e.y + B.dy;
-      const inner = e.x - side * B.halfW, outer = e.x + side * B.halfW;
-      g.moveTo(outer, cy + oy).quadraticCurveTo(e.x, cy + my, inner, cy + iy).stroke({ width: B.width, color: B.color, cap: 'round' });
-      g.moveTo(outer, cy + oy).quadraticCurveTo(e.x, cy + my, inner, cy + iy).stroke({ width: B.line, color: B.outline, alpha: B.lineAlpha, cap: 'round' });
+      const inner = e.x - side * B.halfW, outer = e.x + side * (B.halfOut ?? B.halfW);
+      const curve = () => g.moveTo(outer, cy + oy).quadraticCurveTo(e.x, cy + my, inner, cy + iy);
+      // Брови-щётки: толстый контур снизу, поверх — сама бровь и волоски.
+      if (B.under) curve().stroke({ width: B.under, color: B.outline, cap: 'round' });
+      curve().stroke({ width: B.width, color: B.color, cap: 'round' });
+      if (B.tufts) {
+        const T = B.tufts;
+        for (let k = 0; k <= T.count; k++) {
+          const t = k / T.count;
+          const x = outer + (inner - outer) * t;
+          const y = (1 - t) * (1 - t) * (cy + oy) + 2 * t * (1 - t) * (cy + my) + t * t * (cy + iy);
+          g.moveTo(x, y - 3).lineTo(x - side * T.dx, y - 3 + T.dy);
+        }
+        g.stroke({ width: T.width, color: T.color, cap: 'round' });
+      }
+      if (B.line > 0) curve().stroke({ width: B.line, color: B.outline, alpha: B.lineAlpha, cap: 'round' });
     });
   }
 
@@ -505,6 +643,6 @@ export class PuppetRig {
     for (const p of [{ x: v.lCtrlX, y: v.lCtrlY }, { x: v.rCtrlX, y: v.rCtrlY }]) dot(p, 0xf4c542);
     for (const p of [this.handL, this.handR]) dot(p, 0xc8263a);
     const hg = (p: Point) => this.front.toLocal(this.head.toGlobal(p));
-    for (const p of [art.head.bun.pivot, ...art.head.earrings.map((e) => e.pivot)]) dot(hg(p), 0x8e2236);
+    for (const p of [art.head.bun, ...(art.head.earrings ?? [])]) if (p) dot(hg(p.pivot), 0x8e2236);
   }
 }

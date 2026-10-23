@@ -97,7 +97,11 @@ describe('реакции Матвея', () => {
   it('рыба, домино, итог матча, стук, последняя кость', () => {
     const fish = makeState({ hands: ['1:1', '3:5 2:2'], chain: '6:3', turn: 1 });
     const r = mustApply(fish, { type: 'play', seat: 1, bone: b('5:3'), end: 'right' });
-    expect(reactionFor(r.events, OPPONENT, projectView(r.state, HUMAN))?.category).toBe('fish');
+    // У игрока меньше очков на руке — «рыба» не в пользу Матвея: ворчит.
+    expect(reactionFor(r.events, OPPONENT, projectView(r.state, HUMAN))).toMatchObject({ category: 'fishLose', gesture: 'grumble' });
+    const fishWin = makeState({ hands: ['1:1', '3:5 0:0'], chain: '6:3', turn: 1 });
+    const fw = mustApply(fishWin, { type: 'play', seat: 1, bone: b('5:3'), end: 'right' });
+    expect(reactionFor(fw.events, OPPONENT, projectView(fw.state, HUMAN))).toMatchObject({ category: 'fish', gesture: 'slap' });
     const dom = makeState({ hands: ['6:6', '2:1'], chain: '6:2', turn: 1 });
     const d = mustApply(dom, { type: 'play', seat: 1, bone: b('2:1'), end: 'right' });
     expect(reactionFor(d.events, OPPONENT, projectView(d.state, HUMAN))?.category).toBe('handWin');
@@ -110,6 +114,20 @@ describe('реакции Матвея', () => {
     const last = makeState({ hands: ['6:6', '2:1 3:3'], chain: '6:2', turn: 1 });
     const l = mustApply(last, { type: 'play', seat: 1, bone: b('2:1'), end: 'right' });
     expect(reactionFor(l.events, OPPONENT, projectView(l.state, HUMAN))?.category).toBe('lastBone');
+  });
+
+  it('ход соперника, проигрыш матча, «шесть-шесть», проигранная рука — свои жесты', () => {
+    const p = makeState({ hands: ['6:1 4:4 0:1', '5:2 3:3'], chain: '6:5', turn: 0 });
+    const pp = mustApply(p, { type: 'play', seat: 0, bone: b('6:1'), end: 'left' });
+    expect(reactionFor(pp.events, OPPONENT, projectView(pp.state, HUMAN))).toMatchObject({ category: 'playerPlay', gesture: 'watchPlay' });
+    const lose = { ...makeState({ hands: ['2:1', '6:6 3:3'], chain: '6:2', turn: 0 }), score: [100, 0] as [number, number] };
+    const lo = mustApply(lose, { type: 'play', seat: 0, bone: b('2:1'), end: 'right' });
+    expect(reactionFor(lo.events, OPPONENT, projectView(lo.state, HUMAN))).toMatchObject({ category: 'lose', gesture: 'capTip', priority: 'result' });
+    const hl = mustApply(makeState({ hands: ['2:1', '6:6 3:3'], chain: '6:2', turn: 0 }), { type: 'play', seat: 0, bone: b('2:1'), end: 'right' });
+    expect(reactionFor(hl.events, OPPONENT, projectView(hl.state, HUMAN))).toMatchObject({ category: 'handLose', gesture: 'handLose' });
+    const big = makeState({ hands: ['5:1 2:2', '6:6 3:3 0:0'], chain: '6:5', turn: 1 });
+    const bg = mustApply(big, { type: 'play', seat: 1, bone: b('6:6'), end: 'left' });
+    expect(reactionFor(bg.events, OPPONENT, projectView(bg.state, HUMAN))?.category).toBe('bigDouble');
   });
 
   it('«закрыл число» — только по открытым выводам о руке игрока', () => {
