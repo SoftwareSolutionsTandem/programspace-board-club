@@ -195,7 +195,11 @@ export class DominoSession implements GameSession {
       // Матвей «долго думает» — это пауза сцены, а не другой алгоритм (§12). Добор — быстрее.
       const drawing = v.drawnThisTurn > 0;
       const think = drawing ? 420 : 900 + r + (v.chain.length === 0 ? 300 : 0) + (v.bazaarCount === 0 ? 400 : 0);
-      if (think > 1300) this.scene.rig.setPose('think', think);
+      if (think > 1300) {
+        this.scene.rig.setPose('think', think);
+        // Изредка вслух: «Хм-м…» — пока думает над ходом.
+        this.cue({ category: 'nvHmm', emotion: 'think', priority: 'idle', chance: 0.2 });
+      }
       this.later(() => void this.opponentMove(), this.host.settings().reducedMotion ? 250 : think);
       return;
     }

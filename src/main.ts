@@ -5,8 +5,11 @@ import { t } from './i18n';
 const stageEl = document.getElementById('stage');
 const uiEl = document.getElementById('ui');
 if (!stageEl || !uiEl) throw new Error('В index.html нет #stage или #ui');
-// Демо-страница анимаций — только в режиме разработки (/?anim); в сборку продукта ветка не попадает.
-if (import.meta.env.DEV && new URLSearchParams(location.search).has('anim')) {
+// Демо-страницы анимаций — только в режиме разработки (/?anim — Агата, /?anim=matvey — Матвей); в сборку продукта не попадают.
+const anim = import.meta.env.DEV ? new URLSearchParams(location.search).get('anim') : null;
+if (anim === 'matvey') {
+  void import('./dev/matveyLab').then((m) => m.startMatveyLab(stageEl, uiEl));
+} else if (anim !== null) {
   void import('./dev/animLab').then((m) => m.startAnimLab(stageEl, uiEl));
 } else {
   const app = new App(stageEl, uiEl);

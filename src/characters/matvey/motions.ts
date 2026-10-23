@@ -275,12 +275,12 @@ function placeBone(target: ThrowTarget): GestureDef {
       { at: 0, pose: { ...m({ rHandX: 234, rHandY: 366, rCtrlX: 300, rCtrlY: 320, rDX: -10, rDY: 2, rHandRot: 140 }), gazeX: 0, gazeY: 0.85, headY: 2 }, spring: { arm: { f: 3, zeta: 0.8 } } },
       { at: 330, pose: {}, holdCard: true, holdHand: side },
       // Подняла кость над рядом.
-      { at: 380, pose: { ...m({ rHandX: 250, rHandY: 300, rCtrlX: 318, rCtrlY: 290, rHandRot: 160 }), gazeX: gx, gazeY: 0.8 }, spring: { arm: { f: 3.4, zeta: 0.78 } }, holdCard: true, holdHand: side, front: side },
+      { at: 380, pose: { ...m({ rHandX: 250, rHandY: 318, rCtrlX: 318, rCtrlY: 296, rHandRot: 160 }), gazeX: gx, gazeY: 0.8 }, spring: { arm: { f: 3.4, zeta: 0.78 } }, holdCard: true, holdHand: side, front: side },
       // Тянется к краю стола у цели, корпус чуть вперёд.
       { at: 620, pose: { ...m({ rHandX: sx, rHandY: 410, rCtrlX: sx + 46, rCtrlY: 320, rDX: -8, rDY: 6, rHandRot: 150 }), torsoY: 3, headY: 4, gazeX: gx, gazeY: 0.95 }, spring: { arm: { f: 3.4, zeta: 0.72 }, body: { f: 2, zeta: 0.8 } }, holdCard: true, holdHand: side, front: side },
       { at: 900, pose: {}, holdCard: false, holdHand: side, front: side },
       // Кисть поднимается над костями…
-      { at: 1050, pose: { ...m({ rHandX: 262, rHandY: 312, rCtrlX: 318, rCtrlY: 296, rDY: 2 }), torsoY: 0, headY: 1, gazeX: gx * 0.5, gazeY: 0.6 }, spring: { arm: { f: 2.8, zeta: 0.82 }, body: calm }, front: side },
+      { at: 1050, pose: { ...m({ rHandX: 262, rHandY: 322, rCtrlX: 318, rCtrlY: 300, rDY: 2 }), torsoY: 0, headY: 1, gazeX: gx * 0.5, gazeY: 0.6 }, spring: { arm: { f: 2.8, zeta: 0.82 }, body: calm }, front: side },
       // …и опускается за них.
       { at: 1350, pose: { ...restArm, headY: 0, gazeX: 0, gazeY: 0.2 }, spring: { arm: { f: 2.4, zeta: 0.85 } }, front: false },
     ],
