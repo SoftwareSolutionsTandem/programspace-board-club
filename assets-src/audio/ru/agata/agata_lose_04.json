@@ -1,25 +1,11 @@
 {
   "id": "agata_lose_04",
-  "text": "Эх, не помогли́ ко́зыри…",
-  "catalogText": "Эх, не помогли козыри…",
-  "stressStyle": "acute",
-  "seed": 76796,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
-    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "63be06dc5d9f7e5403abd53c87441ed3959de0a31886c64a0dcb4a67b457973f",
-  "sampleRate": 24000,
-  "durationSec": 2.16,
-  "generatedAt": "2026-10-18T07:19:01Z"
+  "text": "Эх, и козыри не спасли…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "a6f0588d0cf0dd0543fe2a968dbe3f97f415ece1227e6b8cb56fe7e91aff1ad0",
+  "sampleRate": 44100,
+  "durationSec": 2.75
 }

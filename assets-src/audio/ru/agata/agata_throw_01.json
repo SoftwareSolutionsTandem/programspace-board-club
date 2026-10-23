@@ -1,25 +1,11 @@
 {
   "id": "agata_throw_01",
-  "text": "А я ещё подки́ну!",
-  "catalogText": "А я ещё подкину!",
-  "stressStyle": "acute",
-  "seed": 8016128,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
-    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "cd1e1542d13d44f454ea2dc97dd6943071caf5d9d7b6fe07277f7478b340ce45",
-  "sampleRate": 24000,
-  "durationSec": 2.08,
-  "generatedAt": "2026-10-18T09:03:49Z"
+  "text": "А я ещё добавлю!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "499f96afa7e7e8b009da1314d70b1b6f381aaf003c32815fefbc9ddc50d6115a",
+  "sampleRate": 44100,
+  "durationSec": 1.65
 }

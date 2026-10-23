@@ -1,25 +1,11 @@
 {
   "id": "agata_trump_azart_01",
-  "text": "А ко́зырь-то я приберегла́!",
-  "catalogText": "А козырь-то я приберегла!",
-  "stressStyle": "acute",
-  "seed": 45641,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
-    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "8e222bdcb0d6658c5e88f057e0fdaf4134fbdaceafc776551665e3c027d065d9",
-  "sampleRate": 24000,
-  "durationSec": 2.24,
-  "generatedAt": "2026-10-18T07:14:43Z"
+  "text": "А вот и козырёк приберегла!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "f65ca6238a7f3acf38232403b2efade78ee16afffe3aa813cc87191e87f550d9",
+  "sampleRate": 44100,
+  "durationSec": 2.2
 }

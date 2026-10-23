@@ -1,24 +1,11 @@
 {
   "id": "agata_took_annoyed_01",
-  "text": "Ох ты ж… Ла́дно, заберу́.",
-  "catalogText": "Ох ты ж… Ладно, заберу.",
-  "stressStyle": "acute",
-  "seed": 61431,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "937ce4b67de2d75e466bea243e3478a63ddecfe918b18c99ed2f1adb8caae309",
-  "sampleRate": 24000,
-  "durationSec": 1.92,
-  "generatedAt": "2026-10-18T05:49:07Z"
+  "text": "Эх, придётся забирать.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "0467d678eedb2096413d774877f953adc7204a252083a360bbfcb2c9445afac9",
+  "sampleRate": 44100,
+  "durationSec": 2.2
 }

@@ -284,16 +284,16 @@
   },
   "stressStyle": "acute",
   "license": {
-    "$comment": "Строка в assets/audio/LICENSES.md для каждого файла голоса (build-voice.mjs). Голос синтетический: создан по текстовому описанию, реальный человек не клонировался.",
-    "source": "синтез: siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf (дообученная Qwen/Qwen3-TTS-12Hz-1.7B-Base); голос создан Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign по описанию персонажа",
-    "date": "2026-10-18",
-    "terms": "веса моделей — Apache-2.0 (копии карточек и лицензии: assets-src/audio/licenses/); записи созданы проектом",
-    "use": "в игре, включая коммерческое распространение; каждая реплика одобрена владельцем на слух",
+    "$comment": "Строка в assets/audio/LICENSES.md для каждого файла голоса (build-voice.mjs). С 23.10.2026 голос Агаты — запись владельца проекта (D49); прежний синтез — assets-src/audio/ru/agata/synthetic/.",
+    "source": "запись владельца проекта: собственный голос, записан для игры",
+    "date": "2026-10-22",
+    "terms": "голос и запись принадлежат владельцу проекта, переданы проекту для использования в игре",
+    "use": "в игре, включая коммерческое распространение; каждая реплика одобрена владельцем 2026-10-23",
     "voice": {
-      "id": "agata-qwen3-ru-stress-c",
-      "synthetic": true,
+      "id": "agata-owner-2026-10",
+      "synthetic": false,
       "approvedBy": "owner",
-      "approvedAt": "2026-10-18"
+      "approvedAt": "2026-10-23"
     }
   }
 }

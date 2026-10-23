@@ -1,25 +1,11 @@
 {
   "id": "agata_win_01",
-  "text": "В дурака́хто — ты!",
-  "catalogText": "В дураках-то — ты!",
-  "stressStyle": "acute",
-  "seed": 10062518,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
-    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "7096230b7306bcc3d166c9629a2fa00e8b1e8407c118a2dda6492ef844a53467",
-  "sampleRate": 24000,
-  "durationSec": 1.76,
-  "generatedAt": "2026-10-18T09:11:44Z"
+  "text": "Ну вот, внучек, ты и в дураках!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "9760e881563ed57bd3a1b18ba68b0079c75e732dfcdb7a2ddf965303ca460a32",
+  "sampleRate": 44100,
+  "durationSec": 2.95
 }

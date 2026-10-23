@@ -1,25 +1,11 @@
 {
   "id": "agata_took_02",
-  "text": "Беру́, беру́.",
-  "catalogText": "Беру, беру.",
-  "stressStyle": "acute",
-  "seed": 1081131,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
-    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "a9db2d0a8f93c37e19e6f7d6c968f254c8b70d35fffe202070d2eee3cf2f4b3d",
-  "sampleRate": 24000,
-  "durationSec": 2.16,
-  "generatedAt": "2026-10-18T07:37:03Z"
+  "text": "Ну ладно, беру.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "35c75f9c9e61ccd882a1812f5fa0cd28e0b1dcfea553495a5a280ba4afd5e898",
+  "sampleRate": 44100,
+  "durationSec": 1.53
 }
