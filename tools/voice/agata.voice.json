@@ -1,5 +1,5 @@
 {
-  "$comment": "Голос Бабушки Агаты (docs/AUDIO.md §14). Тексты — из src/characters/agata/lines.ts; здесь только настройки синтеза и правки произношения.",
+  "$comment": "Голос Бабушки Агаты. С 2026-10-23 — запись владельца (docs/AUDIO.md §16, D49): здесь нужны раздел license и character/lang для tools/audio/build-voice.mjs. Настройки синтеза ниже — история (D39); эталон и пробы удалены, синтез для Агаты не запускать.",
   "character": "agata",
   "lang": "ru",
   "language": "Russian",

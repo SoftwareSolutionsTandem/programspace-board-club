@@ -1,9 +1,0 @@
-{
-  "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
-  "from": "_audition_p5_s1310_m2.flac",
-  "instruct": "Clearly a woman's voice: an elderly Russian grandmother, about 75, speaking in a low female alto, lower than usual but still feminine. Languid, drawling and unhurried, with soft lingering vowels. Slightly hoarse and husky, a gentle smoker-like rasp. Warm, sly and affectionate.",
-  "seed": 1310,
-  "medianF0Hz": 154.0,
-  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-  "sha256": "f070051874952f40df8c2f42b33dc74678ec101e79925fce7a4def3822597b57"
-}
