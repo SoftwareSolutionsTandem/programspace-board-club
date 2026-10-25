@@ -76,18 +76,32 @@ test('домино: матч до 101 через касания и клики, �
     }
     await page.waitForTimeout(60);
   }
-  await expect(page.locator('.result--show')).toBeVisible({ timeout: 10_000 });
-  await expect(page.locator('.result .heading')).toHaveText(/Матч ваш!|Матч выиграл Матвей/);
-  const end = (await probe(page)).session!;
-  expect(Math.max(...end.view.score)).toBeGreaterThanOrEqual(101);
+  // Итог матча и сразу «Ещё матч» — прямо в странице, в тот же кадр, что появился итог: предложение реванша
+  // звучит через 2,6 с, и в новом матче оно звучать уже не должно (вызовы probe через Playwright слишком медленные).
+  const end = await page.evaluate(() => new Promise<{ heading: string; score: number[] }>((resolve, reject) => {
+    const t0 = performance.now();
+    const tick = () => {
+      const again = [...document.querySelectorAll<HTMLButtonElement>('.result--show button')].find((x) => x.textContent === 'Ещё матч');
+      if (again) {
+        const d = (window as unknown as { __igroteka: () => DomProbe }).__igroteka().session!;
+        const heading = document.querySelector('.result .heading')?.textContent ?? '';
+        const res = { heading, score: [...d.view.score] };
+        again.click();
+        resolve(res);
+      } else if (performance.now() - t0 > 10_000) reject(new Error('нет итога матча'));
+      else requestAnimationFrame(tick);
+    };
+    tick();
+  }));
+  expect(end.heading).toMatch(/Матч ваш!|Матч выиграл Матвей/);
+  expect(Math.max(...end.score)).toBeGreaterThanOrEqual(101);
   expect(hands).toBeGreaterThanOrEqual(1);
-  // «Ещё матч» сразу: отложенное предложение реванша не звучит уже в новом матче.
-  const logBefore = end.voiceLog.length;
-  await page.getByRole('button', { name: 'Ещё матч' }).click();
   await page.waitForTimeout(3500);
   const after = (await probe(page)).session!;
   expect(after.phase).toBe('play');
-  expect(after.voiceLog.slice(logBefore).map((e) => e.id).filter((id) => id.includes('rematch'))).toEqual([]);
+  // Это первый матч теста: до нажатия предложения реванша не было, значит, в журнале его быть не должно вовсе
+  // (журнал хранит последние 20 реплик, поэтому сравнение по длине ненадёжно).
+  expect(after.voiceLog.map((e) => e.id).filter((id) => id.includes('rematch'))).toEqual([]);
   noErrors(errors);
 });
 
