@@ -1,0 +1,334 @@
+{
+  "voice": {
+    "id": "matvey-owner-2026-10",
+    "synthetic": false,
+    "providedBy": "owner",
+    "providedAt": "2026-10-25"
+  },
+  "lines": {
+    "matvey_bazaar_empty_01": {
+      "opus": "matvey_bazaar_empty_01.opus",
+      "m4a": "matvey_bazaar_empty_01.m4a"
+    },
+    "matvey_bazaar_empty_02": {
+      "opus": "matvey_bazaar_empty_02.opus",
+      "m4a": "matvey_bazaar_empty_02.m4a"
+    },
+    "matvey_big_double_01": {
+      "opus": "matvey_big_double_01.opus",
+      "m4a": "matvey_big_double_01.m4a"
+    },
+    "matvey_block_01": {
+      "opus": "matvey_block_01.opus",
+      "m4a": "matvey_block_01.m4a"
+    },
+    "matvey_block_02": {
+      "opus": "matvey_block_02.opus",
+      "m4a": "matvey_block_02.m4a"
+    },
+    "matvey_bye_01": {
+      "opus": "matvey_bye_01.opus",
+      "m4a": "matvey_bye_01.m4a"
+    },
+    "matvey_bye_02": {
+      "opus": "matvey_bye_02.opus",
+      "m4a": "matvey_bye_02.m4a"
+    },
+    "matvey_drew_01": {
+      "opus": "matvey_drew_01.opus",
+      "m4a": "matvey_drew_01.m4a"
+    },
+    "matvey_drew_02": {
+      "opus": "matvey_drew_02.opus",
+      "m4a": "matvey_drew_02.m4a"
+    },
+    "matvey_drew_many_01": {
+      "opus": "matvey_drew_many_01.opus",
+      "m4a": "matvey_drew_many_01.m4a"
+    },
+    "matvey_drew_many_02": {
+      "opus": "matvey_drew_many_02.opus",
+      "m4a": "matvey_drew_many_02.m4a"
+    },
+    "matvey_fish_01": {
+      "opus": "matvey_fish_01.opus",
+      "m4a": "matvey_fish_01.m4a"
+    },
+    "matvey_fish_02": {
+      "opus": "matvey_fish_02.opus",
+      "m4a": "matvey_fish_02.m4a"
+    },
+    "matvey_fish_draw_01": {
+      "opus": "matvey_fish_draw_01.opus",
+      "m4a": "matvey_fish_draw_01.m4a"
+    },
+    "matvey_fish_draw_02": {
+      "opus": "matvey_fish_draw_02.opus",
+      "m4a": "matvey_fish_draw_02.m4a"
+    },
+    "matvey_fish_lose_01": {
+      "opus": "matvey_fish_lose_01.opus",
+      "m4a": "matvey_fish_lose_01.m4a"
+    },
+    "matvey_fish_lose_02": {
+      "opus": "matvey_fish_lose_02.opus",
+      "m4a": "matvey_fish_lose_02.m4a"
+    },
+    "matvey_greet_again_01": {
+      "opus": "matvey_greet_again_01.opus",
+      "m4a": "matvey_greet_again_01.m4a"
+    },
+    "matvey_greet_again_02": {
+      "opus": "matvey_greet_again_02.opus",
+      "m4a": "matvey_greet_again_02.m4a"
+    },
+    "matvey_greet_first_01": {
+      "opus": "matvey_greet_first_01.opus",
+      "m4a": "matvey_greet_first_01.m4a"
+    },
+    "matvey_greet_first_02": {
+      "opus": "matvey_greet_first_02.opus",
+      "m4a": "matvey_greet_first_02.m4a"
+    },
+    "matvey_hand_lose_01": {
+      "opus": "matvey_hand_lose_01.opus",
+      "m4a": "matvey_hand_lose_01.m4a"
+    },
+    "matvey_hand_lose_02": {
+      "opus": "matvey_hand_lose_02.opus",
+      "m4a": "matvey_hand_lose_02.m4a"
+    },
+    "matvey_hand_start_01": {
+      "opus": "matvey_hand_start_01.opus",
+      "m4a": "matvey_hand_start_01.m4a"
+    },
+    "matvey_hand_start_02": {
+      "opus": "matvey_hand_start_02.opus",
+      "m4a": "matvey_hand_start_02.m4a"
+    },
+    "matvey_hand_win_01": {
+      "opus": "matvey_hand_win_01.opus",
+      "m4a": "matvey_hand_win_01.m4a"
+    },
+    "matvey_hand_win_02": {
+      "opus": "matvey_hand_win_02.opus",
+      "m4a": "matvey_hand_win_02.m4a"
+    },
+    "matvey_knock_01": {
+      "opus": "matvey_knock_01.opus",
+      "m4a": "matvey_knock_01.m4a"
+    },
+    "matvey_knock_02": {
+      "opus": "matvey_knock_02.opus",
+      "m4a": "matvey_knock_02.m4a"
+    },
+    "matvey_last_bone_01": {
+      "opus": "matvey_last_bone_01.opus",
+      "m4a": "matvey_last_bone_01.m4a"
+    },
+    "matvey_last_bone_02": {
+      "opus": "matvey_last_bone_02.opus",
+      "m4a": "matvey_last_bone_02.m4a"
+    },
+    "matvey_lose_01": {
+      "opus": "matvey_lose_01.opus",
+      "m4a": "matvey_lose_01.m4a"
+    },
+    "matvey_lose_02": {
+      "opus": "matvey_lose_02.opus",
+      "m4a": "matvey_lose_02.m4a"
+    },
+    "matvey_lose_03": {
+      "opus": "matvey_lose_03.opus",
+      "m4a": "matvey_lose_03.m4a"
+    },
+    "matvey_near_target_01": {
+      "opus": "matvey_near_target_01.opus",
+      "m4a": "matvey_near_target_01.m4a"
+    },
+    "matvey_near_target_02": {
+      "opus": "matvey_near_target_02.opus",
+      "m4a": "matvey_near_target_02.m4a"
+    },
+    "matvey_nv_grumble_01": {
+      "opus": "matvey_nv_grumble_01.opus",
+      "m4a": "matvey_nv_grumble_01.m4a"
+    },
+    "matvey_nv_hmm_01": {
+      "opus": "matvey_nv_hmm_01.opus",
+      "m4a": "matvey_nv_hmm_01.m4a"
+    },
+    "matvey_nv_hmm_02": {
+      "opus": "matvey_nv_hmm_02.opus",
+      "m4a": "matvey_nv_hmm_02.m4a"
+    },
+    "matvey_nv_laugh_01": {
+      "opus": "matvey_nv_laugh_01.opus",
+      "m4a": "matvey_nv_laugh_01.m4a"
+    },
+    "matvey_nv_sigh_01": {
+      "opus": "matvey_nv_sigh_01.opus",
+      "m4a": "matvey_nv_sigh_01.m4a"
+    },
+    "matvey_open_double_01": {
+      "opus": "matvey_open_double_01.opus",
+      "m4a": "matvey_open_double_01.m4a"
+    },
+    "matvey_open_double_02": {
+      "opus": "matvey_open_double_02.opus",
+      "m4a": "matvey_open_double_02.m4a"
+    },
+    "matvey_play_01": {
+      "opus": "matvey_play_01.opus",
+      "m4a": "matvey_play_01.m4a"
+    },
+    "matvey_play_02": {
+      "opus": "matvey_play_02.opus",
+      "m4a": "matvey_play_02.m4a"
+    },
+    "matvey_play_03": {
+      "opus": "matvey_play_03.opus",
+      "m4a": "matvey_play_03.m4a"
+    },
+    "matvey_play_04": {
+      "opus": "matvey_play_04.opus",
+      "m4a": "matvey_play_04.m4a"
+    },
+    "matvey_play_double_01": {
+      "opus": "matvey_play_double_01.opus",
+      "m4a": "matvey_play_double_01.m4a"
+    },
+    "matvey_play_double_02": {
+      "opus": "matvey_play_double_02.opus",
+      "m4a": "matvey_play_double_02.m4a"
+    },
+    "matvey_player_drew_01": {
+      "opus": "matvey_player_drew_01.opus",
+      "m4a": "matvey_player_drew_01.m4a"
+    },
+    "matvey_player_drew_02": {
+      "opus": "matvey_player_drew_02.opus",
+      "m4a": "matvey_player_drew_02.m4a"
+    },
+    "matvey_player_drew_many_01": {
+      "opus": "matvey_player_drew_many_01.opus",
+      "m4a": "matvey_player_drew_many_01.m4a"
+    },
+    "matvey_player_drew_many_02": {
+      "opus": "matvey_player_drew_many_02.opus",
+      "m4a": "matvey_player_drew_many_02.m4a"
+    },
+    "matvey_player_knock_01": {
+      "opus": "matvey_player_knock_01.opus",
+      "m4a": "matvey_player_knock_01.m4a"
+    },
+    "matvey_player_knock_02": {
+      "opus": "matvey_player_knock_02.opus",
+      "m4a": "matvey_player_knock_02.m4a"
+    },
+    "matvey_player_last_bone_01": {
+      "opus": "matvey_player_last_bone_01.opus",
+      "m4a": "matvey_player_last_bone_01.m4a"
+    },
+    "matvey_player_last_bone_02": {
+      "opus": "matvey_player_last_bone_02.opus",
+      "m4a": "matvey_player_last_bone_02.m4a"
+    },
+    "matvey_player_play_01": {
+      "opus": "matvey_player_play_01.opus",
+      "m4a": "matvey_player_play_01.m4a"
+    },
+    "matvey_player_play_02": {
+      "opus": "matvey_player_play_02.opus",
+      "m4a": "matvey_player_play_02.m4a"
+    },
+    "matvey_player_play_03": {
+      "opus": "matvey_player_play_03.opus",
+      "m4a": "matvey_player_play_03.m4a"
+    },
+    "matvey_praise_01": {
+      "opus": "matvey_praise_01.opus",
+      "m4a": "matvey_praise_01.m4a"
+    },
+    "matvey_praise_02": {
+      "opus": "matvey_praise_02.opus",
+      "m4a": "matvey_praise_02.m4a"
+    },
+    "matvey_rematch_01": {
+      "opus": "matvey_rematch_01.opus",
+      "m4a": "matvey_rematch_01.m4a"
+    },
+    "matvey_rematch_02": {
+      "opus": "matvey_rematch_02.opus",
+      "m4a": "matvey_rematch_02.m4a"
+    },
+    "matvey_rematch_loss_01": {
+      "opus": "matvey_rematch_loss_01.opus",
+      "m4a": "matvey_rematch_loss_01.m4a"
+    },
+    "matvey_start_01": {
+      "opus": "matvey_start_01.opus",
+      "m4a": "matvey_start_01.m4a"
+    },
+    "matvey_start_02": {
+      "opus": "matvey_start_02.opus",
+      "m4a": "matvey_start_02.m4a"
+    },
+    "matvey_start_03": {
+      "opus": "matvey_start_03.opus",
+      "m4a": "matvey_start_03.m4a"
+    },
+    "matvey_tut_bazaar": {
+      "opus": "matvey_tut_bazaar.opus",
+      "m4a": "matvey_tut_bazaar.m4a"
+    },
+    "matvey_tut_done": {
+      "opus": "matvey_tut_done.opus",
+      "m4a": "matvey_tut_done.m4a"
+    },
+    "matvey_tut_ends": {
+      "opus": "matvey_tut_ends.opus",
+      "m4a": "matvey_tut_ends.m4a"
+    },
+    "matvey_tut_goal": {
+      "opus": "matvey_tut_goal.opus",
+      "m4a": "matvey_tut_goal.m4a"
+    },
+    "matvey_tut_intro": {
+      "opus": "matvey_tut_intro.opus",
+      "m4a": "matvey_tut_intro.m4a"
+    },
+    "matvey_tut_knock": {
+      "opus": "matvey_tut_knock.opus",
+      "m4a": "matvey_tut_knock.m4a"
+    },
+    "matvey_tut_match": {
+      "opus": "matvey_tut_match.opus",
+      "m4a": "matvey_tut_match.m4a"
+    },
+    "matvey_tut_wrong": {
+      "opus": "matvey_tut_wrong.opus",
+      "m4a": "matvey_tut_wrong.m4a"
+    },
+    "matvey_wait_01": {
+      "opus": "matvey_wait_01.opus",
+      "m4a": "matvey_wait_01.m4a"
+    },
+    "matvey_wait_02": {
+      "opus": "matvey_wait_02.opus",
+      "m4a": "matvey_wait_02.m4a"
+    },
+    "matvey_win_01": {
+      "opus": "matvey_win_01.opus",
+      "m4a": "matvey_win_01.m4a"
+    },
+    "matvey_win_02": {
+      "opus": "matvey_win_02.opus",
+      "m4a": "matvey_win_02.m4a"
+    },
+    "matvey_win_03": {
+      "opus": "matvey_win_03.opus",
+      "m4a": "matvey_win_03.m4a"
+    }
+  }
+}

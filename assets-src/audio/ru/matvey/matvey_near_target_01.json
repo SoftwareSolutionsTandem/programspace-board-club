@@ -1,0 +1,12 @@
+{
+  "id": "matvey_near_target_01",
+  "text": "До ста одного рукой подать.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "1c3e1b444dd4faaa30d425c74257de7fa142fb2b126ef83918cd05c57f3c01db",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.18
+}

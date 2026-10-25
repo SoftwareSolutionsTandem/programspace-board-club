@@ -1,0 +1,12 @@
+{
+  "id": "matvey_bye_02",
+  "text": "Уже? Ну, бывай.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "85480a9487ac203d89db564451a5dcd69eac1001836a1ffc2bef45b31ee1ccc8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.17
+}

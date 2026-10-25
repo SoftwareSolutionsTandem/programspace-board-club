@@ -5,7 +5,9 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { Director } from '../../src/characters/director';
 import { MATVEY_LINES } from '../../src/characters/matvey/lines';
+import { VoiceChannel, type VoicePlayer } from '../../src/audio/voiceChannel';
 import { createRng } from '../../src/core/rng';
+import type { LineCategory, VoicePriority } from '../../src/characters/types';
 
 const ROOT = join(import.meta.dirname, '../..');
 const DOC = readFileSync(join(ROOT, 'docs/voice/matvey-script.md'), 'utf8');
@@ -59,5 +61,43 @@ describe('сценарий озвучки Матвея', () => {
       expect(cue.line).toBeUndefined();
       expect(cue.gesture).toBe('slap');
     }
+  });
+
+  it('шквал событий: реплики Матвея не звучат одновременно и не повторяются чаще кулдауна', () => {
+    // Те же настройки, что в сеансе домино (session.ts): 9 с между фоновыми репликами, 120 с на повтор реплики.
+    let now = 0;
+    const playing = new Set<string>();
+    let overlap = 0;
+    const ends: (() => void)[] = [];
+    const player: VoicePlayer = {
+      play(id, onEnd) {
+        if (playing.size > 0) overlap++;
+        playing.add(id);
+        const end = () => {
+          if (playing.delete(id)) onEnd();
+        };
+        ends.push(end);
+        return { stop: end };
+      },
+    };
+    const voice = new VoiceChannel(player, () => now);
+    const d = new Director({ lines: MATVEY_LINES, minGapMs: 9000, lineCooldownMs: 120_000, available: () => true }, createRng(9));
+    const lastAt = new Map<string, number>();
+    const events: [LineCategory, VoicePriority][] = [['fish', 'reaction'], ['handWin', 'reaction'], ['playerPlay', 'reaction'], ['win', 'result'], ['rematch', 'greeting'], ['nvHmm', 'idle'], ['fish', 'reaction'], ['greetAgain', 'greeting']];
+    for (let step = 0; step < 400; step++) {
+      now += 700;
+      // Каждая третья реплика успевает закончиться, остальные прерываются или ждут.
+      if (step % 3 === 0) ends.shift()?.();
+      const [category, priority] = events[step % events.length]!;
+      const cue = d.react({ category, emotion: 'warm', priority, chance: 1 }, now);
+      if (!cue.line) continue;
+      const prev = lastAt.get(cue.line.id);
+      if (prev !== undefined) expect(now - prev, cue.line.id).toBeGreaterThanOrEqual(120_000);
+      lastAt.set(cue.line.id, now);
+      voice.request(cue.line.id, cue.line.priority);
+      expect(playing.size).toBeLessThanOrEqual(1);
+    }
+    expect(overlap).toBe(0);
+    expect(lastAt.size).toBeGreaterThan(5);
   });
 });

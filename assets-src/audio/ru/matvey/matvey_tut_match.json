@@ -1,0 +1,12 @@
+{
+  "id": "matvey_tut_match",
+  "text": "Приставь кость к концу с тем же числом.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "8fcb081c9d110b20c65bcf928426bb8598a4e9aaf7d5e195fa621c1782d80427",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.65
+}

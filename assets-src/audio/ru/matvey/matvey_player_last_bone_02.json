@@ -1,0 +1,12 @@
+{
+  "id": "matvey_player_last_bone_02",
+  "text": "Одна у тебя? Так-так…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "9664791b0069a690340ae9fa8c2b3a5ee2b024e98dd86252496043e58d776225",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.27
+}

@@ -1,0 +1,12 @@
+{
+  "id": "matvey_player_knock_01",
+  "text": "Ага, стучишь!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "90fbb31a0e66d3a8585faf8c3e30b838c0be3e3a8dfd6e853f56f828394249ca",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.37
+}

@@ -1,0 +1,12 @@
+{
+  "id": "matvey_play_04",
+  "text": "Эх, раз!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "9e527938886b84979abbceaed921404442a199079c0b37e6f721d8b4c14976e4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.49
+}

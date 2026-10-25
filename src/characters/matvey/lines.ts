@@ -1,8 +1,8 @@
 // Каталог реплик Деда Матвея (docs/AUDIO.md §2; сценарий записи — docs/voice/matvey-script.md).
 // Характер: спокойный, опытный, немного ворчливый, добродушный, с сухим юмором; говорит коротко, не тормозит игру.
 // Обращения нейтральны к полу игрока (D15): «молодёжь», без «внучек» и «дружок»; глаголы — без рода («берёшь», «стучишь»).
-// Голос — только настоящие аудиофайлы public/audio/ru/matvey/<id>.*: пока владелец их не записал, Матвей реагирует
-// мимикой и жестами, а реплики без файла не выбираются (Director.available). Текст — сценарий записи и субтитры.
+// Голос — запись владельца (D51): public/audio/ru/matvey/<id>.*, исходники — assets-src/audio/ru/matvey/<id>.flac.
+// Реплика без файла не выбирается (Director.available) — Матвей отвечает мимикой и жестом. Текст — субтитры.
 import type { Emotion, LineCategory, VoiceLine } from '../types';
 
 const L = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ id, category, emotion, text, direction });

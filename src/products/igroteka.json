@@ -13,7 +13,8 @@
     "matvey"
   ],
   "publicAssets": [
-    "audio/ru/agata"
+    "audio/ru/agata",
+    "audio/ru/matvey"
   ],
   "icon": {
     "file": "public/favicon.svg",

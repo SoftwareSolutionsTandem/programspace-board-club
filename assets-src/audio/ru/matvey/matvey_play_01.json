@@ -1,0 +1,12 @@
+{
+  "id": "matvey_play_01",
+  "text": "Вот так.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "c72d0d2a3d44a58d40d8e0c55e46155ec59254efc7abfa865795366a1f786e6b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.2
+}

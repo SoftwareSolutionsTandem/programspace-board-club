@@ -1,0 +1,12 @@
+{
+  "id": "matvey_hand_win_01",
+  "text": "Домино! Всё, вышел.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "a086d46214e4ee768a725424258b9b03eddbdd63642b2b718fdab5e1dd0fe216",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.51
+}

@@ -1,0 +1,12 @@
+{
+  "id": "matvey_player_drew_02",
+  "text": "Поищи, поищи.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "b015589f907332e40509a483a12b5bb1ed11b2741e8fb535069bfd23a4c29bf3",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.58
+}

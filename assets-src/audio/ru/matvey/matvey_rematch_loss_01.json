@@ -1,0 +1,12 @@
+{
+  "id": "matvey_rematch_loss_01",
+  "text": "Реванш дашь?",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "c2f2e7f3d198629468f41a81d2eb661ad24a1500d97025f4bb449afd127cb930",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.07
+}

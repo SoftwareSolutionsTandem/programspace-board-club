@@ -1,0 +1,12 @@
+{
+  "id": "matvey_hand_start_02",
+  "text": "Ещё рука. Посмотрим, что выпадет.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "9ea5ef757c853575528d5a2dd546d84e79adc6b9948d481b88f037d659b77695",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.81
+}

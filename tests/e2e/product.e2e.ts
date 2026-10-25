@@ -3,9 +3,9 @@ import { collectErrors, noErrors, playThroughUi, probe, seedSettings, sitAtTable
 
 // Паспорт продукта (src/products/<id>.json) на настоящей сборке: название, подзаголовок, свой ключ настроек, голос.
 const PASSPORT = {
-  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voice: 'Голос Агаты: записано реплик — 71 из 71' },
-  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voice: 'Голос Агаты: записано реплик — 71 из 71' },
-  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voice: /Деда Матвея/ },
+  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 71', 'Голос Деда Матвея: записано реплик — 81 из 81'] },
+  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voices: ['Голос Агаты: записано реплик — 71 из 71'] },
+  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voices: ['Голос Деда Матвея: записано реплик — 81 из 81'] },
 } as const;
 const productOf = () => test.info().project.metadata.product as keyof typeof PASSPORT;
 
@@ -18,7 +18,8 @@ test('паспорт продукта: название, подзаголово�
   await expect(page.locator('.subtitle').first()).toHaveText(p.subtitle);
   await page.getByRole('button', { name: 'Настройки' }).click();
   await page.getByLabel('Без звука').check();
-  await expect(page.locator('.modal .note').first()).toContainText(p.voice);
+  // Голоса только персонажей продукта: в «Дураке» нет Матвея, в «Домино» — Агаты.
+  await expect(page.locator('.modal .note').filter({ hasText: /^Голос |^Записи голоса / })).toHaveText([...p.voices]);
   await page.getByRole('button', { name: 'Закрыть' }).click();
   const keys = await page.evaluate(() => Object.keys(localStorage));
   expect(keys).toContain(p.key);

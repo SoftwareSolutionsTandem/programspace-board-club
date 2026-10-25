@@ -1,0 +1,12 @@
+{
+  "id": "matvey_bazaar_empty_01",
+  "text": "Базар пуст. Теперь каждый сам за себя.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "500b43cd969de63cae344391c9c7070d2c4199d751740047847651150b9b3d44",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.25
+}

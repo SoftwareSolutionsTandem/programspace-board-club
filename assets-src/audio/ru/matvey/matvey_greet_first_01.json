@@ -1,0 +1,12 @@
+{
+  "id": "matvey_greet_first_01",
+  "text": "Здравствуй. Садись, забьём козла.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "d635c880870cdb3d3cd08a623a3ae71e3d4a5f166b1567e85e0c3314d08f57ea",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.36
+}

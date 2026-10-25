@@ -1,0 +1,12 @@
+{
+  "id": "matvey_fish_draw_02",
+  "text": "Поровну. Ни тебе, ни мне.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "824d4524fcaa0b67f0c4ea6b9f18c98e1b75d557f00b136c6472fb1e338cfa66",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.14
+}

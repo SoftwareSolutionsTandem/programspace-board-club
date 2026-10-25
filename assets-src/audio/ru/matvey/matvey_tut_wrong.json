@@ -1,0 +1,12 @@
+{
+  "id": "matvey_tut_wrong",
+  "text": "Не подходит. Ищи такое же число.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "07f1ebc378299d66b03707856a55f4170031eb316b5ea0192005aa51fa508f0d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.74
+}

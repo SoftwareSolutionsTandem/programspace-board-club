@@ -1,0 +1,12 @@
+{
+  "id": "matvey_hand_lose_02",
+  "text": "Ловко… Записывай.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "f60f50714f820547a55bf1c7f4939b9d90086fb72c787fb16ee0049704265deb",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.13
+}

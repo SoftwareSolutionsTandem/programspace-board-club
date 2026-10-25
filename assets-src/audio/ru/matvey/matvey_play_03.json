@@ -1,0 +1,12 @@
+{
+  "id": "matvey_play_03",
+  "text": "Получай.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "f6b1a690f55ee28fd0a4a93143625b6ab08fb415aadaa10dbe81cb8677a2f84b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.79
+}

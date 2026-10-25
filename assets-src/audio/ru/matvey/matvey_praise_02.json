@@ -1,0 +1,12 @@
+{
+  "id": "matvey_praise_02",
+  "text": "Толково сыграно.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "066ae25a1623cb83cf4ffc21528d70a7b459775f76492b70e7e7aaa06a99ec56",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.21
+}

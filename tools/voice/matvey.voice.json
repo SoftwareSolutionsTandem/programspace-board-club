@@ -1,5 +1,5 @@
 {
-  "$comment": "Голос Деда Матвея (docs/AUDIO.md §2, §15). Тексты — из src/characters/matvey/lines.ts; здесь только настройки синтеза и правки произношения.",
+  "$comment": "Голос Деда Матвея. С 2026-10-25 — запись владельца (docs/AUDIO.md §17, D51): для tools/audio/build-voice.mjs --character matvey нужны раздел license и character/lang. Настройки синтеза ниже — история (§15); синтез для Матвея не запускать: tools/voice/generate.py пишет в assets-src/audio/ru/matvey/ и перезапишет запись владельца.",
   "character": "matvey",
   "lang": "ru",
   "language": "Russian",
@@ -37,5 +37,23 @@
     "matvey_wait_01"
   ],
   "stress": {},
-  "overrides": {}
+  "overrides": {},
+  "build": {
+    "$comment": "tools/audio/build-voice.mjs: только постоянное усиление (без loudnorm в динамическом режиме) и без обрезки краёв — характер живой записи не меняется; плавные вход 5 мс и выход 8 мс остаются (D51).",
+    "gain": "linear",
+    "trim": false
+  },
+  "license": {
+    "$comment": "Строка в assets/audio/LICENSES.md для каждого файла голоса (build-voice.mjs). Голос Матвея — запись владельца проекта (D51), архив voice_matvey.zip от 2026-10-25.",
+    "source": "запись владельца проекта: собственный голос, записан для игры",
+    "date": "2026-10-25",
+    "terms": "голос и запись принадлежат владельцу проекта, переданы проекту для использования в игре",
+    "use": "в игре, включая коммерческое распространение; записи переданы владельцем для подключения 2026-10-25",
+    "voice": {
+      "id": "matvey-owner-2026-10",
+      "synthetic": false,
+      "providedBy": "owner",
+      "providedAt": "2026-10-25"
+    }
+  }
 }

@@ -1,0 +1,12 @@
+{
+  "id": "matvey_nv_laugh_01",
+  "text": "Хе-хе.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "39c6830a5be629e9ed85676ffe688312912ed7a308a869c5ef8b8bc219518b6b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.37
+}

@@ -1,0 +1,12 @@
+{
+  "id": "matvey_player_drew_many_01",
+  "text": "Что, базар не отпускает?",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "516b66b62d7ec120cf1b2dfc5595e9f924083eb087752c68e3accf9a0445ab40",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.85
+}

@@ -1,5 +1,5 @@
 {
-  "$comment": "Самостоятельное «Домино» с Дедом Матвеем. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голос Матвея добавляется в publicAssets после одобрения владельцем.",
+  "$comment": "Самостоятельное «Домино» с Дедом Матвеем. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голос Матвея — запись владельца (D51).",
   "id": "dominoes",
   "version": "0.1.0",
   "strings": {
@@ -13,7 +13,9 @@
   "characters": [
     "matvey"
   ],
-  "publicAssets": [],
+  "publicAssets": [
+    "audio/ru/matvey"
+  ],
   "icon": {
     "file": "public/favicon.svg",
     "status": "temporary"

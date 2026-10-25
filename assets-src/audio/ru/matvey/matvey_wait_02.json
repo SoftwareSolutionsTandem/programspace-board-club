@@ -1,0 +1,12 @@
+{
+  "id": "matvey_wait_02",
+  "text": "Думай, думай. Костяшки не убегут.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "ac1f532042aa6144ed21c72e06e3cc81d10fcda0db0b176475a52dddf4bcacbd",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.97
+}

@@ -1,0 +1,12 @@
+{
+  "id": "matvey_start_03",
+  "text": "Поехали.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "b48428ad563f5e43898ec233c414c486a836f7689c80dffd40c2656d243080ab",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.65
+}

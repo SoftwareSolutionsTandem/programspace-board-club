@@ -1,0 +1,12 @@
+{
+  "id": "matvey_lose_01",
+  "text": "Обыграли старика… Ну и ну.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "bd99d69fb30ef5364069fc332fb955c61ca62b9050739b301116d4d0a0dbd653",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.02
+}

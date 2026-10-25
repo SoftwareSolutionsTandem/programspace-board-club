@@ -1,0 +1,12 @@
+{
+  "id": "matvey_greet_first_02",
+  "text": "Новое лицо… Ну, садись. Костяшки ждут.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "237d4e8198effadaeb1e180aceefcb533e4e7d159d2af39ba3b1168d0b7c746b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.23
+}

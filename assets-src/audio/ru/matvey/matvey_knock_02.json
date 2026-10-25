@@ -1,0 +1,12 @@
+{
+  "id": "matvey_knock_02",
+  "text": "Пас. Нечем.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "1deb59fa598950c105d3dd02e8d5a7f711eefd7e04c2ac0c5785be9c19de77cc",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.49
+}

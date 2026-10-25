@@ -1,0 +1,12 @@
+{
+  "id": "matvey_hand_start_01",
+  "text": "Новая раздача. Разбирай.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "37ee2335ede41918723fbcdadc6732fe10e404ac361ecb43a73e53d37ca0e341",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.13
+}
