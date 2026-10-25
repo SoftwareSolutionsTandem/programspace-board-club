@@ -67,7 +67,3 @@ export function characterBank(art: CharacterArt, map: ReadonlyMap<string, Textur
     fanHand: art.fan ? get('fanHand') : null,
   };
 }
-
-export function characterTextures(bank: CharacterBank): Texture[] {
-  return [bank.body, bank.blink, ...(bank.fanHand ? [bank.fanHand] : []), ...Object.values(bank.heads), ...Object.values(bank.mouths), ...Object.values(bank.arms)];
-}

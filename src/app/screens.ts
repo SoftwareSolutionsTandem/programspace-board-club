@@ -91,7 +91,8 @@ export function modal(title: string, body: HTMLElement[], onClose: () => void): 
   back.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') onClose();
   });
-  queueMicrotask(() => box.querySelector('button')?.focus());
+  // Фокус — для клавиатуры; без прокрутки, чтобы на низком экране окно открывалось с заголовка.
+  queueMicrotask(() => box.querySelector('button')?.focus({ preventScroll: true }));
   return back;
 }
 

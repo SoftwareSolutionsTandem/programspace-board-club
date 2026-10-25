@@ -6,6 +6,8 @@ import { isDouble, type Seat } from './rules/bones';
 import type { DominoEvent } from './rules/engine';
 import type { PlayerView } from './view';
 
+// «Взял из базара 4+ костей» (docs/games/dominoes.md §11): реакция — один раз, на четвёртой кости за ход.
+const DREW_MANY = 4;
 const WEIGHT = { result: 100, hand: 60, last: 45, block: 40, drewMany: 35, knock: 30, double: 20, drew: 15, empty: 12, play: 10, watch: 5 } as const;
 
 /** view — проекция игрока после действия (что известно обоим, в том числе выводы о руках). */
@@ -35,9 +37,9 @@ export function reactionFor(events: readonly DominoEvent[], characterSeat: Seat,
       }
       case 'drew':
         if (e.seat === characterSeat) {
-          if (e.drawnThisTurn === 3) offer(WEIGHT.drewMany, { category: 'drewMany', emotion: 'annoyed', pose: 'took', gesture: 'grumble', priority: 'reaction', chance: 0.8 });
+          if (e.drawnThisTurn === DREW_MANY) offer(WEIGHT.drewMany, { category: 'drewMany', emotion: 'annoyed', pose: 'took', gesture: 'grumble', priority: 'reaction', chance: 0.8 });
           else if (e.drawnThisTurn === 1) offer(WEIGHT.drew, { category: 'drew', emotion: 'think', pose: 'took', priority: 'reaction', chance: 0.35 });
-        } else if (e.drawnThisTurn === 3) offer(WEIGHT.drewMany, { category: 'playerDrewMany', emotion: 'sly', gesture: 'chuckle', priority: 'reaction', chance: 0.6 });
+        } else if (e.drawnThisTurn === DREW_MANY) offer(WEIGHT.drewMany, { category: 'playerDrewMany', emotion: 'sly', gesture: 'chuckle', priority: 'reaction', chance: 0.6 });
         else if (e.drawnThisTurn === 1) offer(WEIGHT.drew, { category: 'playerDrew', emotion: 'laugh', priority: 'reaction', chance: 0.35 });
         break;
       case 'bazaarEmpty':

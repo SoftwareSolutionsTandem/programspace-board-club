@@ -57,10 +57,3 @@ export function projectView(state: DurakState, seat: Seat): PlayerView {
 export type { DurakAction };
 
 export const legalActionsForView = (view: PlayerView): DurakAction[] => legalActionsFor(view);
-
-/** Чей ход по проекции (совпадает с actor() полного состояния). */
-export function viewActor(view: PlayerView): Seat | null {
-  if (view.phase === 'gameOver') return null;
-  if (view.phase === 'defend' && view.table.some((p) => p.defense === null)) return view.attacker === 0 ? 1 : 0;
-  return view.attacker;
-}

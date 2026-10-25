@@ -20,6 +20,18 @@ export function button(text: string, onClick: () => void, className = 'button'):
   return b;
 }
 
+/**
+ * Подпись счёта на грифельной доске фона (board — прямоугольник доски на экране). Если фон обрезан сверху
+ * (телефон в альбомной ориентации), текст занимает только видимую часть доски и уменьшается, чтобы все строки
+ * поместились, а не уходили за край экрана.
+ */
+export function placeChalk(node: HTMLElement, board: { x: number; y: number; w: number; h: number }, fontPx: number, lines: number): void {
+  const top = Math.max(board.y, 2);
+  const h = Math.max(0, board.y + board.h - top);
+  const font = Math.min(fontPx, h / (lines * 1.2));
+  Object.assign(node.style, { left: `${board.x}px`, top: `${top}px`, width: `${board.w}px`, height: `${h}px`, fontSize: `${Math.max(7, font)}px` });
+}
+
 export const ICONS = {
   menu: '<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
   sound: '<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 9q2 3 0 6M19 6q4 6 0 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',

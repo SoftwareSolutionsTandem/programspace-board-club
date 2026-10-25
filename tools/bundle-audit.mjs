@@ -36,6 +36,8 @@ export function auditBuild(a) {
     }
     const prod = /^src\/products\/([^/]+)\.json$/.exec(m)?.[1];
     if (prod && prod !== product.id) errors.push(`конфиг другого продукта в сборке: ${m}`);
+    // Демо-страницы анимаций (src/dev) подключаются только в режиме разработки.
+    if (m.startsWith('src/dev/')) errors.push(`модуль режима разработки в сборке: ${m}`);
   }
   for (const g of product.games) if (!seenGames.has(g)) errors.push(`игра «${g}» указана в продукте, но её модулей нет в сборке`);
   for (const c of product.characters) if (!seenChars.has(c)) errors.push(`персонаж «${c}» указан в продукте, но его модулей нет в сборке`);

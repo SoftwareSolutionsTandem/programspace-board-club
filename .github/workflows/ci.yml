@@ -17,7 +17,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run check:assets
       - run: npm test
-      # Две сборки — «Игротека» и «Дурак» — и проверка состава каждой (docs/ARCHITECTURE.md §8).
+      # Три сборки — «Игротека», «Дурак», «Домино» — и проверка состава каждой (docs/ARCHITECTURE.md §8).
       - run: npm run build:all
       - run: npm run check:bundle
   e2e:
@@ -31,7 +31,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      # e2e собирает и запускает оба продукта (playwright.config.ts).
+      # e2e собирает и запускает все три продукта (playwright.config.ts).
       - run: npm run test:e2e
         env:
           CI: '1'

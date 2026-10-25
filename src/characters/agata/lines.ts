@@ -78,5 +78,3 @@ export const AGATA_LINES: readonly VoiceLine[] = [
   L('agata_tut_wrong', 'tutWrong', 'think', 'Так нельзя. Посмотри подсказку.', 'мягко'),
   L('agata_tut_done', 'tutDone', 'azart', 'Молодец! Теперь сыграем по-настоящему.', 'радостно'),
 ];
-
-export const linesOf = (category: LineCategory): readonly VoiceLine[] => AGATA_LINES.filter((l) => l.category === category);

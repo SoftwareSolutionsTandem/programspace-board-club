@@ -70,23 +70,26 @@ describe('голосовой манифест: сверка с каталого�
     });
   }
 
-  it('голос Матвея: у каждой реплики — исходник владельца с метаданными; хэш совпадает, текст — из каталога', () => {
-    const src = join(ROOT, 'assets-src/audio/ru/matvey');
-    const { manifest } = read('matvey');
-    expect(Object.keys(manifest.lines).sort()).toEqual(MATVEY_LINES.map((l) => l.id).sort());
-    const voice = (manifest as { voice?: { synthetic?: boolean; approvedBy?: string } }).voice;
-    expect(voice?.synthetic).toBe(false);
-    expect(voice?.approvedBy).toBe('owner');
-    for (const l of MATVEY_LINES) {
-      const flac = join(src, `${l.id}.flac`);
-      expect(existsSync(flac), l.id).toBe(true);
-      const meta = JSON.parse(readFileSync(join(src, `${l.id}.json`), 'utf8')) as { id: string; text: string; sha256: string; approvedBy?: string };
-      expect(meta.approvedBy, l.id).toBe('owner');
-      expect(meta.id).toBe(l.id);
-      expect(meta.text, l.id).toBe(l.text);
-      expect(createHash('sha256').update(readFileSync(flac)).digest('hex'), l.id).toBe(meta.sha256);
-    }
-  });
+  for (const { name, character, lines } of VOICES) {
+    it(`голос ${name}: у каждой реплики — исходник владельца с метаданными; хэш совпадает, текст — из каталога`, () => {
+      // Защита принятой озвучки (D49, D51): запись владельца не подменена, не перекодирована и не потеряна.
+      const src = join(ROOT, 'assets-src/audio/ru', character);
+      const { manifest } = read(character);
+      expect(Object.keys(manifest.lines).sort()).toEqual(lines.map((l) => l.id).sort());
+      const voice = (manifest as { voice?: { synthetic?: boolean; approvedBy?: string } }).voice;
+      expect(voice?.synthetic).toBe(false);
+      expect(voice?.approvedBy).toBe('owner');
+      for (const l of lines) {
+        const flac = join(src, `${l.id}.flac`);
+        expect(existsSync(flac), l.id).toBe(true);
+        const meta = JSON.parse(readFileSync(join(src, `${l.id}.json`), 'utf8')) as { id: string; text: string; sha256: string; approvedBy?: string };
+        expect(meta.approvedBy, l.id).toBe('owner');
+        expect(meta.id).toBe(l.id);
+        expect(meta.text, l.id).toBe(l.text);
+        expect(createHash('sha256').update(readFileSync(flac)).digest('hex'), l.id).toBe(meta.sha256);
+      }
+    });
+  }
 
   it('голос Матвея — только в продуктах с Матвеем; у «Дурака» его нет', () => {
     for (const f of readdirSync(join(ROOT, 'src/products')).filter((x) => x.endsWith('.json'))) {

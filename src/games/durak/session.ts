@@ -1,7 +1,7 @@
 // Игровой сеанс: партия против Агаты на экране. Связывает контроллер партии, сцену, реакции, голос и HTML-интерфейс.
 // Все действия идут через DurakMatch (правила в ядре); сцена и кнопки лишь отражают состояние.
 import type { Container } from 'pixi.js';
-import { button, el, iconButton, ICONS } from '../../app/dom';
+import { button, el, iconButton, ICONS, placeChalk } from '../../app/dom';
 import type { GameAssets, GameSession as GameSessionApi, SessionHost, SessionOptions } from '../../app/game';
 import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
@@ -143,8 +143,7 @@ export class GameSession implements GameSessionApi {
     this.actions.classList.toggle('actions--column', spec.kind === 'landscape-compact');
     this.status.classList.toggle('status--multiline', spec.kind !== 'portrait' && spec.kind !== 'portrait-wide');
     const b = spec.background;
-    place(this.board, { x: b.x + BG_BOARD.x * b.scale, y: b.y + BG_BOARD.y * b.scale, w: BG_BOARD.w * b.scale, h: BG_BOARD.h * b.scale });
-    this.board.style.fontSize = `${Math.max(10, 20 * b.scale)}px`;
+    placeChalk(this.board, { x: b.x + BG_BOARD.x * b.scale, y: b.y + BG_BOARD.y * b.scale, w: BG_BOARD.w * b.scale, h: BG_BOARD.h * b.scale }, Math.max(10, 20 * b.scale), 2);
     this.overlay.style.setProperty('--hand-top', `${spec.hand.bottom - spec.hand.cardH - spec.hand.lift}px`);
     // Подсказки — у края стола: не на лице Агаты и не на картах; на больших экранах шрифты интерфейса крупнее.
     this.overlay.style.setProperty('--play-top', `${spec.table.farY + 12}px`);
@@ -459,7 +458,10 @@ export class GameSession implements GameSessionApi {
       this.result.classList.add('result--show');
       queueMicrotask(() => row.querySelector<HTMLButtonElement>('button:last-child')?.focus());
       const lost = !('draw' in result) && result.winner === OPPONENT;
-      this.soon(() => this.cue({ category: lost ? 'rematchAfterLoss' : 'rematch', emotion: 'warm', priority: 'greeting', chance: 0.8 }), 2400);
+      // Предложение реванша — только пока итог партии на экране: после «Ещё партию» оно уже не к месту.
+      this.soon(() => {
+        if (this.result.classList.contains('result--show')) this.cue({ category: lost ? 'rematchAfterLoss' : 'rematch', emotion: 'warm', priority: 'greeting', chance: 0.8 });
+      }, 2400);
     }, 1100);
   }
 

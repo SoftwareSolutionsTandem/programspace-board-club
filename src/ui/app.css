@@ -29,7 +29,8 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .screen {
   position: absolute; inset: 0; overflow-y: auto;
   padding: calc(16px + var(--safe-top)) calc(16px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(16px + var(--safe-left));
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  /* safe center: если экран ниже содержимого (телефон в альбомной ориентации), верх не уходит за край и прокручивается. */
+  display: flex; flex-direction: column; align-items: center; justify-content: center; justify-content: safe center; gap: 16px;
   background: radial-gradient(ellipse at 50% 30%, #fff1c9 0%, var(--wall) 55%, #e6c08c 100%);
 }
 .title { margin: 0; font-size: clamp(40px, 10vw, 72px); font-weight: 900; letter-spacing: 0.01em; }
@@ -74,7 +75,7 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .progress__fill { height: 100%; width: 0; background: var(--cherry); transition: width 0.2s; }
 
 /* ---------- модальные окна ---------- */
-.modal-backdrop { position: absolute; inset: 0; background: rgba(40, 24, 16, 0.45); display: flex; align-items: center; justify-content: center; padding: 16px; pointer-events: auto; z-index: 20; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(40, 24, 16, 0.45); display: flex; align-items: center; align-items: safe center; justify-content: center; padding: 16px; pointer-events: auto; z-index: 20; }
 .modal { background: var(--cream); border: 3px solid var(--ink); border-radius: 22px; padding: 20px; width: min(440px, 100%); max-height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
 .field { display: flex; flex-direction: column; gap: 4px; font-weight: 800; }
 .field--toggle { flex-direction: row; align-items: center; gap: 10px; min-height: 44px; }

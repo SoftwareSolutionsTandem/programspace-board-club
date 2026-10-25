@@ -130,6 +130,16 @@ describe('реакции Матвея', () => {
     expect(reactionFor(bg.events, OPPONENT, projectView(bg.state, HUMAN))?.category).toBe('bigDouble');
   });
 
+  it('долгий добор из базара — одна реакция, на 4-й кости за ход (dominoes.md §11)', () => {
+    const view = projectView(makeState({ hands: ['1:1', '2:2'], chain: '6:5', bazaar: '0:0 0:1 0:2 0:3 0:4', turn: 1 }), HUMAN);
+    const drew = (seat: 0 | 1, n: number) => [{ type: 'drew' as const, seat, bone: b('0:1'), drawnThisTurn: n }];
+    expect(reactionFor(drew(OPPONENT, 1), OPPONENT, view)?.category).toBe('drew');
+    expect(reactionFor(drew(OPPONENT, 3), OPPONENT, view)).toBeNull();
+    expect(reactionFor(drew(OPPONENT, 4), OPPONENT, view)).toMatchObject({ category: 'drewMany', gesture: 'grumble' });
+    expect(reactionFor(drew(OPPONENT, 5), OPPONENT, view)).toBeNull();
+    expect(reactionFor(drew(HUMAN, 4), OPPONENT, view)).toMatchObject({ category: 'playerDrewMany', gesture: 'chuckle' });
+  });
+
   it('«закрыл число» — только по открытым выводам о руке игрока', () => {
     // Цепочка 6:3, Матвей ставит 3:2 → концы 6 и 2; у игрока, по выводам, нет ни шестёрок, ни двоек.
     const s = makeState({ hands: ['0:0 4:4', '3:2 5:5 1:0'], chain: '6:3', bazaar: '1:1', turn: 1 });

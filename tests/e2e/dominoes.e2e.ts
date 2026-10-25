@@ -14,6 +14,7 @@ interface DomProbe {
     view: { hand: Bone[]; chain: { bone: Bone }[]; turn: number; seat: number; score: [number, number]; opponentHandCount: number; opponentRevealed: Bone[] | null };
     positions: { hand: Record<string, { x: number; y: number }>; ends: Record<string, { x: number; y: number }>; bazaar: { x: number; y: number } | null };
     faces: string[];
+    voiceLog: { id: string; outcome: string }[];
   };
 }
 const probe = (page: Page): Promise<DomProbe> => page.evaluate(() => (window as unknown as { __igroteka: () => DomProbe }).__igroteka());
@@ -80,6 +81,13 @@ test('домино: матч до 101 через касания и клики, �
   const end = (await probe(page)).session!;
   expect(Math.max(...end.view.score)).toBeGreaterThanOrEqual(101);
   expect(hands).toBeGreaterThanOrEqual(1);
+  // «Ещё матч» сразу: отложенное предложение реванша не звучит уже в новом матче.
+  const logBefore = end.voiceLog.length;
+  await page.getByRole('button', { name: 'Ещё матч' }).click();
+  await page.waitForTimeout(3500);
+  const after = (await probe(page)).session!;
+  expect(after.phase).toBe('play');
+  expect(after.voiceLog.slice(logBefore).map((e) => e.id).filter((id) => id.includes('rematch'))).toEqual([]);
   noErrors(errors);
 });
 

@@ -1,7 +1,7 @@
 // Игровой сеанс домино против Деда Матвея: связывает контроллер матча, сцену, реакции, голос и HTML-интерфейс.
 // Все действия идут через DominoMatch (правила в ядре); сцена и кнопки лишь отражают состояние.
 import type { Container } from 'pixi.js';
-import { button, el, iconButton, ICONS } from '../../app/dom';
+import { button, el, iconButton, ICONS, placeChalk } from '../../app/dom';
 import type { GameAssets, GameSession, SessionHost, SessionOptions } from '../../app/game';
 import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
@@ -145,8 +145,7 @@ export class DominoSession implements GameSession {
     this.actions.classList.toggle('actions--column', s.kind === 'landscape-compact');
     this.status.classList.toggle('status--multiline', s.kind !== 'portrait' && s.kind !== 'portrait-wide');
     const b = s.background;
-    place(this.board, { x: b.x + BG_BOARD.x * b.scale, y: b.y + BG_BOARD.y * b.scale, w: BG_BOARD.w * b.scale, h: BG_BOARD.h * b.scale });
-    this.board.style.fontSize = `${Math.max(9, 16 * b.scale)}px`;
+    placeChalk(this.board, { x: b.x + BG_BOARD.x * b.scale, y: b.y + BG_BOARD.y * b.scale, w: BG_BOARD.w * b.scale, h: BG_BOARD.h * b.scale }, Math.max(9, 16 * b.scale), 3);
     this.overlay.style.setProperty('--hand-top', `${s.hand.bottom - s.domino.handHalf * 2.3}px`);
     // Подсказки — над костями Матвея (поверх фигуры ниже лица), чтобы не закрывать ни его кости, ни цепочку.
     this.overlay.style.setProperty('--play-top', `${s.domino.opponent.y - s.domino.opponent.half * 1.3}px`);
@@ -485,7 +484,10 @@ export class DominoSession implements GameSession {
         const won = v.matchWinner === HUMAN;
         text.append(el('h2', 'heading', t(won ? 'dom.result.win' : 'dom.result.lose')), el('p', '', `${title} ${lines.join(' · ')}`), el('p', '', t('dom.result.score', { a: v.score[OPPONENT], p: v.score[HUMAN] })));
         row.append(button(t('result.club'), () => this.host.exitToClub(), 'button button--light'), button(t('dom.result.again'), () => this.rematch()));
-        this.soon(() => this.cue({ category: won ? 'rematchAfterLoss' : 'rematch', emotion: 'warm', priority: 'greeting', chance: 0.8 }), 2600);
+        // Предложение реванша — только пока итог матча на экране: после «Ещё матч» оно уже не к месту.
+        this.soon(() => {
+          if (this.match.phase === 'matchOver') this.cue({ category: won ? 'rematchAfterLoss' : 'rematch', emotion: 'warm', priority: 'greeting', chance: 0.8 });
+        }, 2600);
       } else {
         text.append(el('h2', 'heading', title), el('p', '', lines.join(' · ')), el('p', '', t('dom.hand.score', { a: v.score[OPPONENT], p: v.score[HUMAN], target: v.target })));
         row.append(button(t('dom.hand.next'), () => this.nextHand()));
