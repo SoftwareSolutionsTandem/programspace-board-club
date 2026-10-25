@@ -74,11 +74,14 @@ describe('голосовой манифест: сверка с каталого�
     const src = join(ROOT, 'assets-src/audio/ru/matvey');
     const { manifest } = read('matvey');
     expect(Object.keys(manifest.lines).sort()).toEqual(MATVEY_LINES.map((l) => l.id).sort());
-    expect((manifest as { voice?: { synthetic?: boolean } }).voice?.synthetic).toBe(false);
+    const voice = (manifest as { voice?: { synthetic?: boolean; approvedBy?: string } }).voice;
+    expect(voice?.synthetic).toBe(false);
+    expect(voice?.approvedBy).toBe('owner');
     for (const l of MATVEY_LINES) {
       const flac = join(src, `${l.id}.flac`);
       expect(existsSync(flac), l.id).toBe(true);
-      const meta = JSON.parse(readFileSync(join(src, `${l.id}.json`), 'utf8')) as { id: string; text: string; sha256: string };
+      const meta = JSON.parse(readFileSync(join(src, `${l.id}.json`), 'utf8')) as { id: string; text: string; sha256: string; approvedBy?: string };
+      expect(meta.approvedBy, l.id).toBe('owner');
       expect(meta.id).toBe(l.id);
       expect(meta.text, l.id).toBe(l.text);
       expect(createHash('sha256').update(readFileSync(flac)).digest('hex'), l.id).toBe(meta.sha256);

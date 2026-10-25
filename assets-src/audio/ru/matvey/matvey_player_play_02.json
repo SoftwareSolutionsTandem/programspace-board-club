@@ -3,6 +3,8 @@
   "text": "Так. Понятно.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "eec2720fdeffad31792b6a68b3c83df4afb539e79bfdaa7b607bd2c3c5fc910b",
   "sampleRate": 44100,

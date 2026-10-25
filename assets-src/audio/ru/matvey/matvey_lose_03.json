@@ -3,6 +3,8 @@
   "text": "Вот это да. Молодец, нечего сказать.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "d6ad4763183814874c429723707a6318db8802dadbd37f5e9d1f8fc5f8186104",
   "sampleRate": 44100,

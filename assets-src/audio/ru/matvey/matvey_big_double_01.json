@@ -3,6 +3,8 @@
   "text": "Шесть-шесть! Самая тяжёлая пошла.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "fe6b4e44e7be93b78cf91c48d4a3c160003949f91f4c99c961eec36b45e46b30",
   "sampleRate": 44100,

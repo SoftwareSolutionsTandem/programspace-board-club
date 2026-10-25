@@ -3,6 +3,8 @@
   "text": "Поровну! Ничья выходит.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "e65b9d80d2da871282577ca3367d9340390ff34f557a5ffdcc5a4fc8c4ed090a",
   "sampleRate": 44100,

@@ -3,6 +3,8 @@
   "text": "Опять ты? Ну садись, садись.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "5d05130dbace82026ac6c7cb21167f8ab3f762cb72886abad834f502d2562095",
   "sampleRate": 44100,

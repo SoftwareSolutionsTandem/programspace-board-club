@@ -3,6 +3,8 @@
   "text": "Новая раздача. Разбирай.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "37ee2335ede41918723fbcdadc6732fe10e404ac361ecb43a73e53d37ca0e341",
   "sampleRate": 44100,

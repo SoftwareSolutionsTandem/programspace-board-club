@@ -3,6 +3,8 @@
   "text": "Базар пуст, а хода нет — стучи.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "d141aa6609466bf3f532838552ab09ebf0517bfbe5b013e4d6bd43c51da13d88",
   "sampleRate": 44100,

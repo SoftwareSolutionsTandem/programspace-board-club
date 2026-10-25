@@ -3,6 +3,8 @@
   "text": "Ставлю.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "648b1a8df3ff2b2e157c1a70896acd15b3f1f69d2514b357b6851ef3ea7fc8ba",
   "sampleRate": 44100,

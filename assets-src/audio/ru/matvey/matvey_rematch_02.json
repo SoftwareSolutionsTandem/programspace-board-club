@@ -3,6 +3,8 @@
   "text": "Давай ещё. Я только разогрелся.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "61f74edb0172382d89f50eb4bb762f5450875d4283fa2b13419b5f92a97b8710",
   "sampleRate": 44100,

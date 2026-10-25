@@ -3,6 +3,8 @@
   "text": "Твоя взяла. Уважаю.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "3e17ee03c837b4e44093f8c3a5912c1d970501752b66c1826cfc204ba78f1554",
   "sampleRate": 44100,

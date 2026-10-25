@@ -3,6 +3,8 @@
   "text": "Пусто у меня. Считай очки.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "7d13ae1a5a8dfebae9cf0d37070406fb76439d7ba73d90e246179f618476d997",
   "sampleRate": 44100,

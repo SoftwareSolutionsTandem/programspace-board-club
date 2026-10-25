@@ -3,6 +3,8 @@
   "text": "Рыба… да не моя.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "85ed7723b361052e3cb147bc5bc29799e2f3f1a45eebd4a3360132da3598e550",
   "sampleRate": 44100,

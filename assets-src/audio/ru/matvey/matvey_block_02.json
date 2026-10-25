@@ -3,6 +3,8 @@
   "text": "Закрою-ка я это число.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "a4441876ba58d7d2ed2067fc7261753bd1de2c148c087ab3deb103c99e4188d5",
   "sampleRate": 44100,

@@ -3,6 +3,8 @@
   "text": "Ещё матч?",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "b423d0e50a0055c90f104dad70c6f6d6c80224011612d5aca27ca6d9c72fd51f",
   "sampleRate": 44100,

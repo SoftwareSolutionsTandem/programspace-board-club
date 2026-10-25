@@ -3,6 +3,8 @@
   "text": "Подходит к обоим концам? Выбери, куда ставить.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "4ad948e49ca498e34c55cc28183d4747fdf68df91fd83b75a9b858b9e763bd9c",
   "sampleRate": 44100,

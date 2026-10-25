@@ -3,6 +3,8 @@
   "text": "Дубль!",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "eccf48419b221ccde1880c00f12f98fefb2788d8861ed3376124e09703c39d4b",
   "sampleRate": 44100,

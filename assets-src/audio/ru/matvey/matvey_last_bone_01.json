@@ -3,6 +3,8 @@
   "text": "Одна осталась…",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "aaed7be80ce8fc7cc80923b310128fef3fecdf3014eac26bf67280a98889c5d9",
   "sampleRate": 44100,

@@ -3,6 +3,8 @@
   "text": "Заходи, ещё сыграем.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "b10d080fe39f434e2003937c22e62a7c35b468914ca6c63ff3399760d047a5ba",
   "sampleRate": 44100,

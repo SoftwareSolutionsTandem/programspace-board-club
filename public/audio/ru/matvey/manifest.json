@@ -3,7 +3,9 @@
     "id": "matvey-owner-2026-10",
     "synthetic": false,
     "providedBy": "owner",
-    "providedAt": "2026-10-25"
+    "providedAt": "2026-10-25",
+    "approvedBy": "owner",
+    "approvedAt": "2026-10-25"
   },
   "lines": {
     "matvey_bazaar_empty_01": {

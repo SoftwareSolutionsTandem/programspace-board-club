@@ -3,6 +3,8 @@
   "text": "Кто первым выложит все кости, тот и выиграл.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "b2a5323d929ccdcea0b642458183b17e0ef05ac22271912ccb02c70e072d922b",
   "sampleRate": 44100,

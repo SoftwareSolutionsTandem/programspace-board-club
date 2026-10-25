@@ -3,6 +3,8 @@
   "text": "Сто одно! Моя взяла.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "9a0050984a6126c3cfc43003dd18d89144cb2446911630c1c18a03baed339f40",
   "sampleRate": 44100,

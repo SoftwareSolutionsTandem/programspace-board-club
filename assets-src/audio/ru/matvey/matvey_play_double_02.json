@@ -3,6 +3,8 @@
   "text": "А вот тебе дуплет.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "77371ea606b5f4ba4372760226b445ea19ae8408e599832ffdf4dbad7f08ca9d",
   "sampleRate": 44100,

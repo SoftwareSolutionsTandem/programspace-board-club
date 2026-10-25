@@ -3,6 +3,8 @@
   "text": "Что, нечем крыть?",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "7cfb8b6bd4cfda5f19cc84b7e705e66e3f39aee16c966a47394f987b9ac6ca41",
   "sampleRate": 44100,

@@ -3,6 +3,8 @@
   "text": "Давай покажу, как в домино играют.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "a9ad9b61ee94c8bc87c59606579a7009fc66daaffeb804267e5557e300ab4df2",
   "sampleRate": 44100,

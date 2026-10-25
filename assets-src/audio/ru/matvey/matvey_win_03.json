@@ -3,6 +3,8 @@
   "text": "Не горюй. В следующий раз повезёт.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "b7187b036526f56167f4b74353cca1b109342e8d6c73a432d3adec4683eab0a5",
   "sampleRate": 44100,

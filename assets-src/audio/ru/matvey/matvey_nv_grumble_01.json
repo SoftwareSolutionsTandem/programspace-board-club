@@ -3,6 +3,8 @@
   "text": "Кхм.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "77f824ab4913e12a83f86399de4ee02f8db3cfb9afb1309abb0d3c6387255ffd",
   "sampleRate": 44100,

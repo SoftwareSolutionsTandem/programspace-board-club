@@ -3,6 +3,8 @@
   "text": "Одна у тебя? Так-так…",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "9664791b0069a690340ae9fa8c2b3a5ee2b024e98dd86252496043e58d776225",
   "sampleRate": 44100,

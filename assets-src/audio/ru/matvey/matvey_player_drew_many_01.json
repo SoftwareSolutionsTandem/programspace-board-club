@@ -3,6 +3,8 @@
   "text": "Что, базар не отпускает?",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "516b66b62d7ec120cf1b2dfc5595e9f924083eb087752c68e3accf9a0445ab40",
   "sampleRate": 44100,

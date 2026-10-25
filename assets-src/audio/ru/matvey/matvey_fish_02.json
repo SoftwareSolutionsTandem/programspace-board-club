@@ -3,6 +3,8 @@
   "text": "Всё, рыба. Считаем.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "1d2771bdd814800a25bcdfcc07ab63b78f55f0ead178eacc59a70012158b990a",
   "sampleRate": 44100,

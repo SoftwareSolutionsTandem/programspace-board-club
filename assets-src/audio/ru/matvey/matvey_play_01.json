@@ -3,6 +3,8 @@
   "text": "Вот так.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "c72d0d2a3d44a58d40d8e0c55e46155ec59254efc7abfa865795366a1f786e6b",
   "sampleRate": 44100,

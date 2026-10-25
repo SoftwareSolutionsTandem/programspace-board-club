@@ -3,6 +3,8 @@
   "text": "Эх…",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "2799b812cd76471bf6ade59fb1699e8975132ff10ed98aec89138d50f1194e7a",
   "sampleRate": 44100,

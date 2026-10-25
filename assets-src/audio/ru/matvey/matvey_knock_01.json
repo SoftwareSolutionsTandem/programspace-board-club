@@ -3,6 +3,8 @@
   "text": "Стучу.",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "894f12655e326d6128d01f49f212a54b5939bc0e5c6e0257fd3d1bcf9b724462",
   "sampleRate": 44100,

@@ -3,6 +3,8 @@
   "text": "На базар, на базар!",
   "source": "запись владельца проекта (живой голос)",
   "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
   "archive": "voice_matvey.zip",
   "sha256": "6d5a7649fbd0366156ae6bdbe85735eecf59f2919c9d58c959b7f2b02af901be",
   "sampleRate": 44100,
