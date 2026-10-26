@@ -17,15 +17,22 @@ describe('компоновка доски', () => {
     expect(inside(b, W, H)).toBe(true);
     // Ромб доски не заходит в прямоугольники кнопок и строки: проверяем углы и середины краёв ромба.
     const pts = [cellCenter(s.board, { u: 0, v: 0 }), cellCenter(s.board, { u: 7, v: 0 }), cellCenter(s.board, { u: 7, v: 7 }), cellCenter(s.board, { u: 0, v: 7 })];
+    // Ряды взятых фигур — под доской и не под кнопками.
+    for (const tr of [s.board.trays.human, s.board.trays.opponent]) {
+      // Ряд не заходит на доску: он под ней или сбоку от неё.
+      const below = tr.start.y - tr.size > b.y + b.h - 1;
+      const beside = tr.start.x + tr.size / 2 <= b.x + 1 || tr.start.x - tr.size / 2 >= b.x + b.w - 1;
+      expect(below || beside).toBe(true);
+      for (const r of [s.actions, s.status]) expect(overlaps({ x: tr.start.x - tr.size / 2, y: tr.start.y - tr.size, w: tr.size, h: tr.size }, r)).toBe(false);
+    }
     for (const p of pts) {
       for (const r of [s.actions, s.status]) expect(p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h).toBe(false);
     }
-    const bottomCorner = { x: s.board.cx - 2, y: b.y + b.h - s.board.depth, w: 4, h: s.board.depth };
-    expect(overlaps(bottomCorner, s.actions)).toBe(false);
-    expect(overlaps(bottomCorner, s.status)).toBe(false);
-    // Доска под персонажем: верхний угол — у дальнего края стола.
-    expect(s.board.cy - 4 * s.board.tileH).toBeGreaterThanOrEqual(s.table.farY);
-    expect(s.board.tileW).toBeGreaterThanOrEqual(30);
+    for (const r of [s.actions, s.status]) expect(overlaps(b, r)).toBe(false);
+    // Доска на столе перед персонажем: дальний край — ниже дальнего края стола (там лежат его руки).
+    expect(b.y).toBeGreaterThan(s.table.farY + 4);
+    // На самых низких экранах (телефон боком, 320–340 px) клетка мельче, касание выручает притяжение к подсказанному полю.
+    expect(s.board.tileW).toBeGreaterThanOrEqual(H < 360 ? 26 : 30);
     // Ряды взятых фигур — в пределах окна.
     for (const t of [s.board.trays.human, s.board.trays.opponent]) {
       for (const k of [0, t.max - 1]) {
@@ -38,8 +45,8 @@ describe('компоновка доски', () => {
 
   it('на телефоне доска во всю ширину, на компьютере — крупная', () => {
     const phone = computeBoardLayout({ width: 390, height: 844 });
-    expect(phone.board.tileW * 8).toBeGreaterThan(390 * 0.8);
+    expect(boardBounds(phone.board).w).toBeGreaterThan(390 * 0.85);
     const desk = computeBoardLayout({ width: 1920, height: 1080 });
-    expect(desk.board.tileW).toBeGreaterThan(90);
+    expect(desk.board.tileW).toBeGreaterThan(75);
   });
 });

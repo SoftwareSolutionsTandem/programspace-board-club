@@ -213,15 +213,23 @@ const hand = (x: number, y: number, rot = 0, fist = false): string => `<g transf
 const cuff = (x: number, y: number, rot = 0): string => `<g transform="rotate(${rot} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="17" ry="8" fill="${C.hoodieSh}" ${ol(3)}/>
   <path d="M${x - 9} ${y - 5} v10 M${x - 3} ${y - 6} v12 M${x + 3} ${y - 6} v12 M${x + 9} ${y - 5} v10" stroke="${C.hoodie}" stroke-width="2"/></g>`;
 
-/** Наушники на шее: дуга за шеей и две чашки на ключицах. */
-const headphones = (): string => `<path d="M178 248 C176 230 244 230 242 248" fill="none" stroke="${C.outline}" stroke-width="11" stroke-linecap="round"/>
-  <path d="M178 248 C176 230 244 230 242 248" fill="none" stroke="${C.phones}" stroke-width="6" stroke-linecap="round"/>
-  <g><ellipse cx="174" cy="266" rx="15" ry="18" transform="rotate(-20 174 266)" fill="${C.phones}" ${ol(3.4)}/>
-  <ellipse cx="176" cy="266" rx="8" ry="11" transform="rotate(-20 176 266)" fill="${C.phonesRing}" ${ol(2.4)}/>
-  <ellipse cx="168" cy="258" rx="3" ry="5" transform="rotate(-20 168 258)" fill="${C.phonesHi}"/></g>
-  <g><ellipse cx="246" cy="266" rx="15" ry="18" transform="rotate(20 246 266)" fill="${C.phones}" ${ol(3.4)}/>
-  <ellipse cx="244" cy="266" rx="8" ry="11" transform="rotate(20 244 266)" fill="${C.phonesRing}" ${ol(2.4)}/>
-  <ellipse cx="240" cy="258" rx="3" ry="5" transform="rotate(20 240 258)" fill="${C.phonesHi}"/></g>`;
+/** Дуга наушников — за шеей: рисуется до шеи, поэтому видна только по бокам от неё, как у надетых на шею. */
+const headphonesBand = (): string => {
+  const d = 'M182 262 C172 236 186 218 210 218 C234 218 248 236 238 262';
+  return `<path d="${d}" fill="none" stroke="${C.outline}" stroke-width="12" stroke-linecap="round"/>
+  <path d="${d}" fill="none" stroke="${C.phones}" stroke-width="7" stroke-linecap="round"/>
+  <path d="M180 248 C178 238 184 228 192 224" fill="none" stroke="${C.phonesHi}" stroke-width="2.2" stroke-linecap="round"/>`;
+};
+
+/** Чашки наушников лежат на воротнике по сторонам шеи, чуть развёрнуты наружу и прижаты к ней. */
+const headphonesCups = (): string => {
+  const cup = (x: number, rot: number, hiDx: number) => `<g transform="translate(${x} 262) rotate(${rot})">
+  <ellipse rx="13" ry="16" fill="${C.phones}" ${ol(3.4)}/>
+  <ellipse cx="${rot < 0 ? 2 : -2}" rx="7" ry="10" fill="${C.phonesRing}" ${ol(2.4)}/>
+  <ellipse cx="${hiDx}" cy="-7" rx="2.4" ry="4.4" fill="${C.phonesHi}"/>
+  </g>`;
+  return cup(184, -28, -6) + cup(236, 28, 6);
+};
 
 /** Нашивка: корона дамки. */
 const patch = (x: number, y: number): string => `<g transform="translate(${x} ${y}) rotate(-6)">
@@ -232,6 +240,7 @@ const patch = (x: number, y: number): string => `<g transform="translate(${x} ${
 
 function body(id: string): string {
   return `
+  ${headphonesBand()}
   <path d="M194 210 L192 258 L228 258 L226 210 Z" fill="${C.skinSh}" ${ol(3.6)}/>
   <clipPath id="${id}-hoodie"><path d="${HOODIE}"/></clipPath>
   <path d="${HOODIE}" fill="${C.hoodieSh}"/>
@@ -246,7 +255,7 @@ function body(id: string): string {
   <path d="M196 262 L192 316 M224 262 L228 316" fill="none" stroke="${C.outline}" stroke-width="5.5" stroke-linecap="round"/>
   <path d="M196 262 L192 316 M224 262 L228 316" fill="none" stroke="${C.string}" stroke-width="3" stroke-linecap="round"/>
   <rect x="188" y="314" width="8" height="10" rx="2" fill="${C.phones}" ${ol(1.8)}/><rect x="224" y="314" width="8" height="10" rx="2" fill="${C.phones}" ${ol(1.8)}/>
-  ${headphones()}
+  ${headphonesCups()}
   ${patch(256, 330)}
   <path d="M140 300 Q132 340 134 380 M280 300 Q288 340 286 380" fill="none" stroke="${C.hoodieSh}" stroke-width="3.4" stroke-linecap="round"/>`;
 }

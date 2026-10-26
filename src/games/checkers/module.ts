@@ -1,4 +1,4 @@
-// Шашки как игровой модуль приложения (src/app/game.ts): Костян, изометрическая доска 2,5D.
+// Шашки как игровой модуль приложения (src/app/game.ts): Костян, доска во взгляде сверху-сбоку (2,5D).
 import type { GameAssets, GameModule } from '../../app/game';
 import type { BoardBank } from '../../board/scene';
 import { BoardSession } from '../../board/session';
@@ -25,7 +25,7 @@ export const CHECKERS_GAME: GameModule = {
   rulesTitleKey: 'chk.rules.title',
   rulesKeys: ['chk.rules.1', 'chk.rules.2', 'chk.rules.3', 'chk.rules.4', 'chk.rules.5', 'chk.rules.6'],
   tutorialKey: 'checkersTutorialDone',
-  layout: computeBoardLayout,
+  layout: (vp) => computeBoardLayout(vp, { pieceRise: 0.35 }),
   resolutions: (spec, d) => ({
     figure: Math.min(2.6, spec.character.scale * d),
     piece: Math.min(3, (((spec as BoardLayout).board.tileW * 0.78) / MAN_W) * d * 1.15),

@@ -1,4 +1,4 @@
-// Шахматы как игровой модуль приложения (src/app/game.ts): Харитон, изометрическая доска 2,5D.
+// Шахматы как игровой модуль приложения (src/app/game.ts): Харитон, доска во взгляде сверху-сбоку (2,5D).
 import type { GameAssets, GameModule } from '../../app/game';
 import type { BoardBank } from '../../board/scene';
 import { BoardSession } from '../../board/session';
@@ -25,7 +25,7 @@ export const CHESS_GAME: GameModule = {
   rulesTitleKey: 'chess.rules.title',
   rulesKeys: ['chess.rules.1', 'chess.rules.2', 'chess.rules.3', 'chess.rules.4', 'chess.rules.5', 'chess.rules.6'],
   tutorialKey: 'chessTutorialDone',
-  layout: computeBoardLayout,
+  layout: (vp) => computeBoardLayout(vp, { pieceRise: 1 }),
   resolutions: (spec, d) => ({
     figure: Math.min(2.6, spec.character.scale * d),
     // Самая крупная фигура на доске — король: 0,82 клетки шириной.

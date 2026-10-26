@@ -1,8 +1,8 @@
-// Сцена партии на изометрической доске (шахматы, шашки; docs/ART_STYLE.md §11): кафе, стол, персонаж напротив,
-// доска-ромб с рамкой и боковыми гранями, объёмные фигуры с тенями, подсветка ходов и взятые фигуры у краёв.
+// Сцена партии на доске (шахматы, шашки; docs/ART_STYLE.md §11): кафе, стол, персонаж напротив, доска прямо во взгляде
+// сверху-сбоку — рамка и передняя грань, объёмные фигуры с тенями, подсветка ходов и взятые фигуры рядом с доской.
 // Сцена рисует то, что ей передали, и сообщает о касаниях клеток; правил она не знает.
 import { Container, Graphics, Sprite, Text, type FederatedPointerEvent, type Texture } from 'pixi.js';
-import { FRAME, cellCenter, cellCorners, cellOfSquare, isoPoint, pickCell, squareOfCell, type Cell, type IsoBoard } from '../layout/iso';
+import { FRAME, cellCenter, cellCorners, cellOfSquare, isoPoint, pickCell, scaleAtY, squareOfCell, type Cell, type IsoBoard } from '../layout/iso';
 import { traySlot, type BoardLayout } from '../layout/board';
 import { BG_DESIGN, FIGURE, type Point } from '../layout/layout';
 import { drawCafeTable } from '../render/table';
@@ -83,6 +83,8 @@ class PieceSprite {
   alpha = 1;
   pop = 1;
   destroyed = false;
+  /** Масштаб по глубине: фигуры у дальнего края чуть меньше (перспектива доски). */
+  depthScale: (y: number) => number = () => 1;
   constructor(public key: string, private width: number) {
     this.body.anchor.set(0.5, 1);
   }
@@ -95,21 +97,22 @@ class PieceSprite {
     this.body.height = (this.width * info.h) / info.w;
     this.shadow.clear();
     const rx = this.width * 0.42;
-    this.shadow.ellipse(0, 0, rx, rx * 0.5).fill({ color: 0x2a1408, alpha: 0.32 });
-    this.shadow.ellipse(0, 0, rx * 0.72, rx * 0.34).fill({ color: 0x2a1408, alpha: 0.18 });
+    this.shadow.ellipse(0, 0, rx, rx * 0.6).fill({ color: 0x2a1408, alpha: 0.32 });
+    this.shadow.ellipse(0, 0, rx * 0.72, rx * 0.42).fill({ color: 0x2a1408, alpha: 0.18 });
   }
 
   sync(): void {
     if (this.destroyed) return;
     const sw = this.body.texture.width ? this.width / this.body.texture.width : 1;
-    this.body.position.set(this.x, this.y - this.lift);
-    this.body.scale.set(sw * this.pop);
+    const ds = Math.min(1.12, this.depthScale(this.y));
+    this.body.position.set(this.x, this.y - this.lift * ds);
+    this.body.scale.set(sw * this.pop * ds);
     this.body.alpha = this.alpha;
     // Порядок отрисовки — по точке опоры: дальние фигуры (выше на экране) раньше ближних.
     this.body.zIndex = this.y + (this.lift > 0 ? 0.5 : 0);
     this.shadow.position.set(this.x, this.y);
     const k = Math.max(0.45, 1 - this.lift / (this.width * 2.2));
-    this.shadow.scale.set(k);
+    this.shadow.scale.set(k * ds);
     this.shadow.alpha = this.alpha * k;
   }
 
@@ -147,8 +150,9 @@ export class BoardScene {
 
   constructor(private readonly tweens: Tweener, private readonly input: BoardSceneInput, motion: MotionStyle, private readonly skin: BoardSkin, seed = 31) {
     this.rig = new PuppetRig(motion, seed);
-    // Руки персонажа — над фигурами: он тянется к доске, когда ходит.
-    this.root.addChild(this.bg, this.rig.back, this.table, this.boardG, this.labels, this.marksG, this.shadowLayer, this.pieceLayer, this.trayLayer, this.rig.front, this.rig.overLayer, this.flyLayer);
+    // В покое руки персонажа лежат на столе за доской — доска и фигуры перед ними. Рука, которая тянется к фигуре,
+    // на время хода переходит в rig.overLayer — над фигурами (syncArms), и возвращается, когда снова не над полем.
+    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.boardG, this.labels, this.marksG, this.shadowLayer, this.pieceLayer, this.rig.overLayer, this.trayLayer, this.flyLayer);
     this.labels.eventMode = 'none';
     this.root.eventMode = 'static';
     this.root.on('pointertap', (e: FederatedPointerEvent) => this.onTap(e));
@@ -237,17 +241,19 @@ export class BoardScene {
     if (!b) return;
     const s = this.skin;
     const n = FRAME;
-    const L = isoPoint(b, -n, -n), B = isoPoint(b, 8 + n, -n), R = isoPoint(b, 8 + n, 8 + n), T = isoPoint(b, -n, 8 + n);
+    // Углы рамки: ближний левый и правый, дальний правый и левый. Доска стоит прямо, дальний край чуть уже.
+    const NL = isoPoint(b, -n, -n), NR = isoPoint(b, 8 + n, -n), FR = isoPoint(b, 8 + n, 8 + n), FL = isoPoint(b, -n, 8 + n);
     const d = b.depth;
     const line = Math.max(2, b.tileW * 0.05);
     const outline = { color: 0x3b2418, width: line, join: 'round' as const };
-    // Боковые грани: левая освещена (свет слева сверху), правая — в тени.
-    g.poly([L.x, L.y, B.x, B.y, B.x, B.y + d, L.x, L.y + d]).fill(s.sideL).stroke(outline);
-    g.poly([B.x, B.y, R.x, R.y, R.x, R.y + d, B.x, B.y + d]).fill(s.sideR).stroke(outline);
-    // Блик по ребру верхней грани.
-    g.moveTo(L.x + line, L.y + line * 0.8).lineTo(B.x, B.y + line * 0.8).stroke({ color: s.frameHi, width: line * 0.8, alpha: 0.5 });
-    // Рамка.
-    g.poly([L.x, L.y, B.x, B.y, R.x, R.y, T.x, T.y]).fill(s.frame).stroke(outline);
+    // Тень доски на столе — мягкая, со смещением к игроку и вправо (свет слева сверху).
+    const sh = b.tileW * 0.18;
+    g.poly([FL.x + sh, FL.y + sh, FR.x + sh, FR.y + sh, NR.x + sh * 1.6, NR.y + d + sh, NL.x + sh * 1.6, NL.y + d + sh]).fill({ color: 0x163f3a, alpha: 0.35 });
+    // Передняя грань (толщина доски) и её нижнее ребро.
+    g.poly([NL.x, NL.y, NR.x, NR.y, NR.x, NR.y + d, NL.x, NL.y + d]).fill(s.sideL).stroke(outline);
+    g.moveTo(NL.x + line, NL.y + d * 0.62).lineTo(NR.x - line, NR.y + d * 0.62).stroke({ color: s.sideR, width: Math.max(1.5, d * 0.22), alpha: 0.6 });
+    // Рамка (верхняя грань доски вокруг поля).
+    g.poly([NL.x, NL.y, NR.x, NR.y, FR.x, FR.y, FL.x, FL.y]).fill(s.frame).stroke(outline);
     // Клетки.
     for (let u = 0; u < 8; u++) {
       for (let v = 0; v < 8; v++) {
@@ -257,14 +263,15 @@ export class BoardScene {
         g.poly([p0.x, p0.y, p1.x, p1.y, p2.x, p2.y, p3.x, p3.y]).fill(dark ? s.dark : s.light);
       }
     }
-    // Контур игрового поля и лёгкий блик рамки у ближних краёв.
+    // Контур игрового поля; блик по дальнему и левому краю рамки (свет слева сверху).
     const a0 = isoPoint(b, 0, 0), a1 = isoPoint(b, 8, 0), a2 = isoPoint(b, 8, 8), a3 = isoPoint(b, 0, 8);
     g.poly([a0.x, a0.y, a1.x, a1.y, a2.x, a2.y, a3.x, a3.y]).stroke({ color: 0x3b2418, width: line * 0.7, join: 'round' });
-    g.moveTo(T.x, T.y + line).lineTo(L.x + line * 1.5, L.y).stroke({ color: s.frameHi, width: line * 0.7, alpha: 0.45 });
+    g.moveTo(FL.x + line * 1.5, FL.y + line).lineTo(FR.x - line * 1.5, FR.y + line).stroke({ color: s.frameHi, width: line * 0.7, alpha: 0.5 });
+    g.moveTo(FL.x + line, FL.y + line * 1.5).lineTo(NL.x + line, NL.y - line * 1.2).stroke({ color: s.frameHi, width: line * 0.7, alpha: 0.4 });
     if (s.labels) this.drawLabels(b);
   }
 
-  /** Подписи: буквы вертикалей — вдоль края игрока, цифры горизонталей — вдоль нижнего правого края. */
+  /** Подписи: буквы вертикалей — на ближнем крае рамки (у игрока), цифры горизонталей — на левом. */
   private drawLabels(b: IsoBoard): void {
     const size = Math.max(9, Math.min(18, b.tileW * 0.24));
     const style = { fontFamily: 'Nunito, Trebuchet MS, sans-serif', fontSize: size, fontWeight: '800' as const, fill: this.skin.label };
@@ -278,8 +285,9 @@ export class BoardScene {
       const rank = this.human === 'w' ? i : 7 - i;
       const r = new Text({ text: String(rank + 1), style });
       r.anchor.set(0.5);
-      const q = isoPoint(b, 8 + FRAME / 2, i + 0.5);
+      const q = isoPoint(b, -FRAME / 2, i + 0.5);
       r.position.set(q.x, q.y);
+      r.scale.set(scaleAtY(b, q.y));
       this.labels.addChild(r);
     }
   }
@@ -320,7 +328,7 @@ export class BoardScene {
       } else {
         const r = b.tileW * 0.13;
         // Кремовая точка с тёмным контуром видна и на светлых, и на тёмных (в том числе зелёных) полях.
-        g.ellipse(c.x, c.y, r, r * (b.tileH / b.tileW)).fill({ color: 0xfff1c9, alpha: 0.95 }).stroke({ color: 0x3b2418, width: Math.max(1.5, b.tileW * 0.03), alpha: 0.85 });
+        g.ellipse(c.x, c.y, r * scaleAtY(b, c.y), r * scaleAtY(b, c.y) * b.tilt).fill({ color: 0xfff1c9, alpha: 0.95 }).stroke({ color: 0x3b2418, width: Math.max(1.5, b.tileW * 0.03), alpha: 0.85 });
       }
     }
     const outline = (sq: number, color: number) => g.poly(inset(sq, 0.94)).stroke({ color, width: Math.max(2, b.tileW * 0.04), alpha: 0.9 });
@@ -337,6 +345,7 @@ export class BoardScene {
     if (!bank || !b || !tex || !info) return null;
     const p = new PieceSprite(key, b.tileW * info.cells);
     p.setTexture(tex, info, b.tileW);
+    p.depthScale = (y) => scaleAtY(b, y);
     this.shadowLayer.addChild(p.shadow);
     this.pieceLayer.addChild(p.body);
     return p;
@@ -518,6 +527,28 @@ export class BoardScene {
     if (this.marks.movable.length || this.marks.check !== null) this.drawMarks();
     for (const p of this.pieces.values()) p.sync();
     this.rig.update(dtMs);
+    this.syncArms();
+  }
+
+  /**
+   * Слой руки: над фигурами — только пока жест тянет её к доске; переключение — когда кисть не над игровым полем,
+   * чтобы рука не «прыгала» сквозь фигуры.
+   */
+  private syncArms(): void {
+    const want = this.rig.armsFront;
+    const cur = this.rig.armOver;
+    if (want === cur) return;
+    const b = this.board;
+    if (!b) return;
+    const far = isoPoint(b, 0, 8), nl = isoPoint(b, -FRAME, -FRAME), nr = isoPoint(b, 8 + FRAME, -FRAME);
+    const field = { x: nl.x, y: far.y, w: nr.x - nl.x, h: nl.y - far.y };
+    const clear = (side: 'l' | 'r') => !this.rig.handBounds(side).some((h) => h.x < field.x + field.w && h.x + h.width > field.x && h.y < field.y + field.h && h.y + h.height > field.y);
+    if (cur && !clear(cur)) return;
+    if (want && !clear(want)) {
+      if (cur) this.rig.setArmOver(null);
+      return;
+    }
+    this.rig.setArmOver(want);
   }
 
   /** Что видно на доске — для отладки и e2e. */
