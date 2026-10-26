@@ -17,13 +17,22 @@ jobs:
       - run: npm run typecheck
       - run: npm run check:assets
       - run: npm test
-      # Три сборки — «Игротека», «Дурак», «Домино» — и проверка состава каждой (docs/ARCHITECTURE.md §8).
+      # Пять сборок — «Игротека», «Дурак», «Домино», «Шахматы», «Шашки» — и проверка состава каждой (docs/ARCHITECTURE.md §8).
       - run: npm run build:all
       - run: npm run check:bundle
   e2e:
     runs-on: ubuntu-latest
-    # Полный набор — около 30 минут в одном потоке (программный WebGL); запас на медленный раннер.
+    # Две параллельные группы (программный WebGL, один поток в группе): «Игротека» со всеми играми и
+    # самостоятельные продукты. Каждая — около 25–30 минут; запас на медленный раннер.
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: igroteka
+            projects: --project desktop --project phone
+          - group: products
+            projects: --project durak-desktop --project durak-phone --project dominoes-desktop --project dominoes-phone --project chess-desktop --project chess-phone --project checkers-desktop --project checkers-phone
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -32,14 +41,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      # e2e собирает и запускает все три продукта (playwright.config.ts).
-      - run: npm run test:e2e
+      # e2e собирает и запускает все пять продуктов (playwright.config.ts) и проходит проекты своей группы.
+      - run: npm run test:e2e -- ${{ matrix.projects }}
         env:
           CI: '1'
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.group }}
           path: |
             playwright-report/
             test-results/
