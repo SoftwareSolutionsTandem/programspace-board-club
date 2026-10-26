@@ -473,3 +473,8 @@ node tools/audio/build-voice.mjs
 - Голос входит в продукты «Домино» и «Игротека» (`publicAssets`). В «Дурака» не входит — это проверяют `npm run check:bundle` и `tests/audio/voiceManifest.test.ts`.
 - Сборка: `node tools/audio/build-voice.mjs --character matvey`. Без `--character` скрипт, как прежде, собирает Агату.
 
+
+## 18. Голоса Харитона и Костяна (этап 3, 2026-10-26) — не записаны
+- Каталоги реплик: `src/characters/khariton/lines.ts` (66) и `src/characters/kostyan/lines.ts` (65); сценарии записи с событием, эмоцией, приоритетом, шансом, жестом и именем файла — `docs/voice/khariton-script.md`, `docs/voice/kostyan-script.md` (тест `tests/characters/boardScripts.test.ts` сверяет их с каталогами).
+- **Записей нет.** Папок `public/audio/ru/khariton|kostyan/` нет, продукты «Шахматы», «Шашки» и «Игротека» их не подключают (`publicAssets`), манифест не запрашивается; `Director.available` не выбирает реплики, персонажи отвечают мимикой и жестом. В настройках честная пометка: «Записи голоса … ещё не добавлены в игру». Синтез и TTS не использовались, заглушки и пустые файлы не создавались (D57).
+- Когда записи будут: исходники — `assets-src/audio/ru/<id>/<ID>.flac`, сборка — `node tools/audio/build-voice.mjs --character <id>` (как у Матвея, §17), строки прав — `assets/audio/LICENSES.md`, папку — в `publicAssets` продукта и «Игротеки».

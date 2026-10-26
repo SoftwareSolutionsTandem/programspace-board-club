@@ -319,7 +319,8 @@ export class BoardScene {
         g.poly(inset(sq, 0.82)).stroke({ color: 0xe0453a, width: Math.max(2.5, b.tileW * 0.06), alpha: 0.85 });
       } else {
         const r = b.tileW * 0.13;
-        g.ellipse(c.x, c.y, r, r * (b.tileH / b.tileW)).fill({ color: 0x2f7a72, alpha: 0.75 }).stroke({ color: 0xfff8ee, width: 1.5, alpha: 0.8 });
+        // Кремовая точка с тёмным контуром видна и на светлых, и на тёмных (в том числе зелёных) полях.
+        g.ellipse(c.x, c.y, r, r * (b.tileH / b.tileW)).fill({ color: 0xfff1c9, alpha: 0.95 }).stroke({ color: 0x3b2418, width: Math.max(1.5, b.tileW * 0.03), alpha: 0.85 });
       }
     }
     const outline = (sq: number, color: number) => g.poly(inset(sq, 0.94)).stroke({ color, width: Math.max(2, b.tileW * 0.04), alpha: 0.9 });
