@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { cardCode, collectErrors, noErrors, playThroughUi, pressButton, probe, seedSettings, sitAtTable } from './helpers';
+import { cardCode, collectErrors, noErrors, opponentMovesWithin, playThroughUi, pressButton, probe, seedSettings, setTabHidden, sitAtTable } from './helpers';
 
 const touchOf = (name: string) => name === 'phone';
 
@@ -159,6 +159,19 @@ test('недопустимый ход объясняется подсказко�
   test.info().annotations.push({ type: 'note', description: 'ситуация не встретилась в этой раздаче' });
 });
 
+test('свернули и вернули вкладку — партия продолжается, Агата ходит', async ({ page }) => {
+  test.setTimeout(150_000);
+  const errors = collectErrors(page);
+  await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
+  await sitAtTable(page, 'Лёгкая');
+  // Вкладка скрыта и снова видна — пауза снимается сама, без меню.
+  await setTabHidden(page, true);
+  await page.waitForTimeout(500);
+  await setTabHidden(page, false);
+  expect(await opponentMovesWithin(page, 90_000, 3)).toBeGreaterThanOrEqual(3);
+  noErrors(errors);
+});
+
 test('настройки сохраняются после перезапуска', async ({ page }) => {
   await seedSettings(page, { tutorialDone: true });
   await page.getByRole('button', { name: 'Настройки' }).click();
@@ -294,20 +307,34 @@ test.describe('высокая плотность пикселей (Pixel 7, 2.62
       expect(p.x).toBeLessThanOrEqual(vp.width);
       expect(p.y).toBeLessThanOrEqual(vp.height);
     }
-    // Один ход через интерфейс: «Беру» на защите или атака первой картой.
-    await expect.poll(async () => (await probe(page)).session!.legal.some((a) => a.type === 'attack' || a.type === 'take'), { timeout: 30_000 }).toBe(true);
-    const now = (await probe(page)).session!;
-    const attack = now.legal.find((a) => a.type === 'attack');
-    if (attack) {
-      const code = cardCode(attack.cards![0]!);
-      const p = now.positions.hand[code]!;
-      await page.touchscreen.tap(p.x, p.y);
-      await expect.poll(async () => (await probe(page)).session!.view.table.length, { timeout: 15_000 }).toBeGreaterThan(0);
-    } else {
-      const before = now.view.hand.length;
-      await pressButton(page, /Беру/, true);
-      await expect.poll(async () => (await probe(page)).session!.view.hand.length, { timeout: 20_000 }).toBeGreaterThan(before);
+    // Один ход через интерфейс: атака первой картой или «Беру». Касание засчитывается только на свободной сцене:
+    // пока она доигрывает ход Агаты (busy), сеанс его игнорирует, хотя правила уже разрешают ход. На медленной
+    // программной отрисовке при такой плотности касание может и потеряться, поэтому, как в playThroughUi,
+    // касаемся снова, пока ход не применится (не дольше 60 с).
+    const deadline = Date.now() + 60_000;
+    let moved = false;
+    while (!moved && Date.now() < deadline) {
+      const now = (await probe(page)).session!;
+      const attack = now.legal.find((a) => a.type === 'attack');
+      const take = now.legal.some((a) => a.type === 'take');
+      if (now.busy || (!attack && !take)) {
+        await page.waitForTimeout(200);
+        continue;
+      }
+      // Ход принят, когда изменилось состояние партии: рука, стол или набор допустимых ходов
+      // (после «Беру» Агата может ещё подкинуть вдогонку — рука вырастет позже).
+      const sig = (d: typeof now) => `${d.view.hand.length}|${d.view.table.length}|${d.legal.map((x) => x.type).sort().join(',')}`;
+      const before = sig(now);
+      if (attack) {
+        const p = now.positions.hand[cardCode(attack.cards![0]!)]!;
+        await page.touchscreen.tap(p.x, p.y);
+      } else await pressButton(page, /Беру/, true);
+      moved = await expect
+        .poll(async () => sig((await probe(page)).session!) !== before, { timeout: 10_000 })
+        .toBe(true)
+        .then(() => true, () => false);
     }
+    expect(moved, 'ход через интерфейс не прошёл за 60 с').toBe(true);
     noErrors(errors);
   });
 });

@@ -21,6 +21,8 @@ export class App {
   private readonly assets = new Map<string, GameAssets>();
   private game: GameModule = PRODUCT_GAMES[0]!;
   private session: GameSession | null = null;
+  /** Пауза поставлена скрытием вкладки, а не игроком: её снимает возвращение на вкладку. */
+  private pausedByVisibility = false;
   private layoutSpec: LayoutSpec | null = null;
   private screen: ScreenName = 'club';
   private readonly smallNotice = el('div', 'small-notice');
@@ -81,7 +83,19 @@ export class App {
   private onVisibility(): void {
     const hidden = document.visibilityState === 'hidden' || !document.hasFocus();
     this.audio.setPaused(hidden);
-    if (document.visibilityState === 'hidden') this.session?.setPaused(true);
+    const s = this.session;
+    if (document.visibilityState === 'hidden') {
+      // Вкладку скрыли (телефон погас, свернули окно): партия на паузе. Если игрок уже сам открыл меню паузы,
+      // она остаётся его паузой и при возвращении не снимается.
+      if (s && !s.isPaused()) {
+        s.setPaused(true);
+        this.pausedByVisibility = true;
+      }
+    } else if (this.pausedByVisibility) {
+      // Вкладка снова видна — снимаем только свою паузу: иначе ход соперника так и остаётся отложенным.
+      this.pausedByVisibility = false;
+      s?.setPaused(false);
+    }
   }
 
   private setUi(...nodes: HTMLElement[]): void {
@@ -199,6 +213,7 @@ export class App {
   }
 
   private endSession(): void {
+    this.pausedByVisibility = false;
     if (!this.session) return;
     this.session.dispose();
     this.session = null;

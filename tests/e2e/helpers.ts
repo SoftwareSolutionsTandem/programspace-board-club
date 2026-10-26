@@ -93,6 +93,36 @@ export async function playThroughUi(page: Page, touch: boolean): Promise<number>
   throw new Error('партия не завершилась за отведённое число шагов');
 }
 
+/** Свернуть или вернуть вкладку (телефон погас, переключились на другую вкладку): visibilityState и событие. */
+export async function setTabHidden(page: Page, hidden: boolean): Promise<void> {
+  await page.evaluate((h) => {
+    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => (h ? 'hidden' : 'visible') });
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => h });
+    document.dispatchEvent(new Event('visibilitychange'));
+  }, hidden);
+}
+
+/**
+ * Партия идёт сама: ходим первым допустимым действием, когда сцена свободна, и считаем ходы соперника —
+ * каждое изменение числа его карт или костей (сыграл, взял, добрал). Если партия зависла, счётчик стоит.
+ */
+export async function opponentMovesWithin(page: Page, ms: number, want: number): Promise<number> {
+  type S = { busy: boolean; legal: unknown[]; view: { opponentHandCount: number } };
+  let moves = 0;
+  let last: number | null = null;
+  const t0 = Date.now();
+  while (Date.now() - t0 < ms && moves < want) {
+    const s = (await probe(page)).session as unknown as S | null;
+    if (!s) break;
+    const n = s.view.opponentHandCount;
+    if (last !== null && n !== last) moves++;
+    last = n;
+    if (s.legal.length > 0 && !s.busy) await page.evaluate(() => (window as unknown as { __igroteka: () => { session: { act: (i: number) => void } } }).__igroteka().session.act(0));
+    await page.waitForTimeout(150);
+  }
+  return moves;
+}
+
 export function collectErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));

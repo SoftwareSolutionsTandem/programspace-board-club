@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { collectErrors, noErrors, seedSettings } from './helpers';
+import { collectErrors, noErrors, opponentMovesWithin, seedSettings, setTabHidden } from './helpers';
 
 // Домино в «Игротеке» и в самостоятельном продукте «Домино»: матч через настоящий интерфейс, обучение, честность сцены.
 interface Bone { hi: number; lo: number }
@@ -179,5 +179,18 @@ test('домино: раздача с обычными анимациями до
     await page.waitForTimeout(150);
   }
   await expect(page.locator('.result--show')).toBeVisible({ timeout: 10_000 });
+  noErrors(errors);
+});
+
+test('домино: свернули и вернули вкладку — партия продолжается, Матвей ходит', async ({ page }) => {
+  test.setTimeout(150_000);
+  const errors = collectErrors(page);
+  await seedSettings(page, { dominoesTutorialDone: true, metMatvey: true, reducedMotion: true }, keyOf());
+  await sitAtDominoes(page);
+  // Вкладка скрыта и снова видна — пауза снимается сама, без меню.
+  await setTabHidden(page, true);
+  await page.waitForTimeout(500);
+  await setTabHidden(page, false);
+  expect(await opponentMovesWithin(page, 90_000, 3)).toBeGreaterThanOrEqual(3);
   noErrors(errors);
 });

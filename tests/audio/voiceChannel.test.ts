@@ -110,4 +110,25 @@ describe('голосовой канал', () => {
     expect(ch.speaking).toBeNull();
     expect(f.active()).toEqual([]);
   });
+  it('звук на паузе (вкладка без фокуса): плеер сразу завершает реплику — она пропущена, но не помечена недоступной', () => {
+    let paused = true;
+    const played: string[] = [];
+    const player: VoicePlayer = {
+      play(id, onEnd) {
+        if (paused) {
+          onEnd();
+          return { stop: () => {} };
+        }
+        played.push(id);
+        return { stop: () => onEnd() };
+      },
+    };
+    const ch = new VoiceChannel(player, () => 0);
+    expect(ch.request('a', 'reaction')).toBe('played');
+    expect(ch.speaking).toBeNull();
+    expect(ch.isUnavailable('a')).toBe(false);
+    paused = false;
+    expect(ch.request('a', 'reaction')).toBe('played');
+    expect(played).toEqual(['a']);
+  });
 });

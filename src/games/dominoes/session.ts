@@ -550,6 +550,10 @@ export class DominoSession implements GameSession {
     }, ms);
   }
 
+  isPaused(): boolean {
+    return this.paused;
+  }
+
   setPaused(paused: boolean): void {
     if (paused === this.paused) return;
     this.paused = paused;

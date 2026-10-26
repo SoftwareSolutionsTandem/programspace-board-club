@@ -146,7 +146,13 @@ export class AudioEngine implements VoicePlayer {
 
   play(id: string, onEnd: () => void): VoiceHandle | null {
     const buf = this.buffers.get(id);
-    if (!this.ctx || !this.voiceBus || !buf || this.userPaused) return null;
+    if (!this.ctx || !this.voiceBus || !buf) return null;
+    // Звук на паузе (вкладка скрыта или без фокуса): реплика пропускается, но остаётся доступной —
+    // null означал бы «файла нет», и канал больше никогда бы её не выбрал.
+    if (this.userPaused) {
+      onEnd();
+      return { stop: () => {} };
+    }
     const src = this.ctx.createBufferSource();
     const gain = this.ctx.createGain();
     src.buffer = buf;

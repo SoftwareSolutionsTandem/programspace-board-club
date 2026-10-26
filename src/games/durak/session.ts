@@ -503,6 +503,10 @@ export class GameSession implements GameSessionApi {
     }, ms);
   }
 
+  isPaused(): boolean {
+    return this.paused;
+  }
+
   setPaused(paused: boolean): void {
     if (paused === this.paused) return;
     this.paused = paused;

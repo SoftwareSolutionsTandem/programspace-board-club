@@ -46,6 +46,8 @@ export interface GameSession {
   update(dtMs: number): void;
   onKey(e: KeyboardEvent): void;
   setPaused(paused: boolean): void;
+  /** Партия на паузе (меню паузы или скрытая вкладка). */
+  isPaused(): boolean;
   settingsChanged(s: Settings): void;
   dispose(): void;
   /** Отладка и e2e: только то, что видит игрок. */
