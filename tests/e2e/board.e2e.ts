@@ -13,6 +13,7 @@ interface BoardProbe {
     winner: 'w' | 'b' | null | undefined;
     human: 'w' | 'b';
     tallies: [number, number, number];
+    plies: number;
     legal: Path[];
     selected: number[];
     promoting: boolean;
@@ -74,6 +75,16 @@ async function waitMyTurn(page: Page, timeout = 30_000): Promise<NonNullable<Boa
   }
 }
 
+/** Ход принят: счётчик полуходов вырос (персонаж может ответить мгновенно). Иначе — понятная ошибка. */
+async function moveAccepted(page: Page, m: Path, plies: number): Promise<void> {
+  try {
+    await page.waitForFunction((n) => (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().session!.plies > n, plies, { timeout: 10_000 });
+  } catch {
+    const s = (await probe(page)).session!;
+    throw new Error(`ход ${JSON.stringify(m)} не принят: выбрано ${JSON.stringify(s.selected)}, ход ${s.view.turn}, игрок ${s.human}, занят ${s.busy}`);
+  }
+}
+
 for (const game of ['chess', 'checkers'] as const) {
   test.describe(game === 'chess' ? 'шахматы' : 'шашки', () => {
     test.beforeEach(() => test.skip(!games().includes(game), `в продукте «${product()}» нет этой игры`));
@@ -93,14 +104,10 @@ for (const game of ['chess', 'checkers'] as const) {
         const before = s.view.board.filter(Boolean).length;
         const m = pick(s.legal, step);
         await playPath(page, m);
-        // Ход принят: очередь ушла к ИИ (или партия окончена), выбор сброшен.
-        await page.waitForFunction(() => {
-          const d = (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().session!;
-          return d.over || d.view.turn !== d.human || d.busy;
-        }, null, { timeout: 10_000 });
+        await moveAccepted(page, m, s.plies);
         const after = (await probe(page)).session!;
         // Пока персонаж не ответил, на доске ровно на сбитые фигуры меньше.
-        if (!after.over && after.view.turn !== after.human && !after.busy) expect(after.view.board.filter(Boolean).length).toBe(before - m.captures.length);
+        if (after.plies === s.plies + 1) expect(after.view.board.filter(Boolean).length).toBe(before - m.captures.length);
         moves++;
       }
       expect(moves).toBeGreaterThan(3);
@@ -142,7 +149,9 @@ for (const game of ['chess', 'checkers'] as const) {
       const s = await waitMyTurn(page);
       const tap = tapper(page);
       // Фигура соперника.
-      const enemy = s.view.board.findIndex((p) => p?.toLowerCase() === p && p !== null && p !== p.toUpperCase());
+      // Цвет фигуры: в шахматах заглавные — белые (FEN), в шашках буква и есть цвет (w, W — белые).
+      const colorOf = (p: string) => (game === 'chess' ? (p === p.toUpperCase() ? 'w' : 'b') : p.toLowerCase());
+      const enemy = s.view.board.findIndex((p) => p !== null && colorOf(p) !== s.human);
       const ep = await squareAt(page, enemy);
       await tap(ep.x, ep.y);
       await expect(page.locator('.toast--show')).toHaveText('Это фигура соперника');
@@ -175,10 +184,7 @@ for (const game of ['chess', 'checkers'] as const) {
         await go(sq, at);
         at = sq;
       }
-      await page.waitForFunction(() => {
-        const d = (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().session!;
-        return d.view.turn !== d.human || d.busy;
-      }, null, { timeout: 10_000 });
+      await moveAccepted(page, m, s.plies);
     });
 
     test('свернули и вернули вкладку — персонаж продолжает ходить', async ({ page }) => {
@@ -196,7 +202,9 @@ for (const game of ['chess', 'checkers'] as const) {
     test('первый запуск: обучение с подсказками и знакомство с персонажем', async ({ page }) => {
       const errors = collectErrors(page);
       await seedSettings(page, { reducedMotion: true }, settingsKey());
-      await sit(page, game);
+      // Первый запуск: касание игры сразу открывает обучающую партию.
+      await page.getByRole('button', { name: TITLE[game] }).first().click();
+      await page.waitForFunction(() => (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().screen === 'game', null, { timeout: 60_000 });
       await expect(page.locator('.coach--show')).toBeVisible({ timeout: 10_000 });
       await expect(page.locator('.coach--show')).toContainText(game === 'chess' ? 'Харитон' : 'Костян');
       const st = await page.evaluate((k) => JSON.parse(localStorage.getItem(k) ?? '{}') as Record<string, unknown>, settingsKey());

@@ -118,6 +118,10 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   private paused = false;
   private tutorial: Set<string> | null;
   private humanMoves = 0;
+  /** До этого момента текущую подсказку обучения не сменять: её нужно успеть прочитать. */
+  private coachUntil = 0;
+  /** Сделано полуходов в текущей партии (для отладки и e2e). */
+  private plies = 0;
   private pending: { fn: () => void; ms: number } | null = null;
   private timer: ReturnType<typeof setTimeout> | null = null;
   private idleTimer: ReturnType<typeof setTimeout> | null = null;
@@ -184,6 +188,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       over: this.match.over,
       winner: this.match.winner,
       tallies: this.match.tallies,
+      plies: this.plies,
       selected: [...this.prefix],
       promoting: !!this.promoting,
       pose: this.scene.rig.currentPose,
@@ -291,6 +296,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     const before = this.view();
     const r = this.match.opponentStep();
     if (r?.ok) {
+      this.plies++;
       const anim = this.spec.anim(r.events, before, 'opponent');
       // Рука персонажа тянется к своей фигуре; фигура прыгает, когда рука её «касается».
       if (anim && anim.path[0] !== undefined) {
@@ -316,6 +322,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.prefix = [];
     this.promoting = null;
     this.humanMoves++;
+    this.plies++;
     this.refresh();
     await this.afterMove(r.events, before, this.spec.anim(r.events, before, 'human'), 'human');
     this.busy = false;
@@ -579,6 +586,11 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
 
   private showCoach(): void {
     if (!this.tutorial || this.match.over) return;
+    const wait = this.coachUntil - this.host.now();
+    if (wait > 0) {
+      this.soon(() => this.showCoach(), wait + 50);
+      return;
+    }
     const v = this.view();
     const ctx: TutorialContext<V, A> = { view: v, paths: this.match.turn() === this.match.human ? this.paths() : [], humanMoves: this.humanMoves, inCheck: this.spec.check(v) !== null && this.match.turn() === this.match.human };
     const step = this.spec.tutorial.find((s) => !this.tutorial!.has(s.id) && s.when(ctx));
@@ -592,9 +604,10 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       this.coachBox.append(skip);
     }
     this.coachBox.classList.add('coach--show');
+    this.coachUntil = this.host.now() + 3400;
     this.cue({ category: step.line, emotion: 'warm', priority: 'greeting', chance: 1 });
     if (step.id === 'done') this.finishTutorial();
-    else this.soon(() => this.showCoach(), 3400);
+    else this.soon(() => this.showCoach(), 3450);
   }
 
   private finishTutorial(): void {
@@ -692,6 +705,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.coachBox.classList.remove('coach--show');
     this.match.newMatch();
     this.humanMoves = 0;
+    this.plies = 0;
     this.scene.rig.setPose('idle');
     this.scene.rig.setEmotion('warm');
     this.resetBoard();
