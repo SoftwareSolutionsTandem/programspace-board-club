@@ -9,7 +9,7 @@ const read = (id: string) => parseProduct(JSON.parse(readFileSync(join(DIR, `${i
 const ids = readdirSync(DIR).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5));
 
 describe('конфиги продуктов', () => {
-  it('продукты: «Игротека», «Дурак», «Домино»', () => expect(ids.sort()).toEqual(['dominoes', 'durak', 'igroteka']));
+  it('продукты: «Игротека», «Дурак», «Домино», «Шахматы», «Шашки»', () => expect(ids.sort()).toEqual(['checkers', 'chess', 'dominoes', 'durak', 'igroteka']));
 
   it('список игровых модулей продукта (<id>.games.ts) совпадает с его конфигом', () => {
     for (const p of ids.map(read)) {

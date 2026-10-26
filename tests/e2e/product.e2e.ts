@@ -1,11 +1,16 @@
 import { expect, test } from '@playwright/test';
 import { collectErrors, noErrors, playThroughUi, probe, seedSettings, sitAtTable } from './helpers';
 
+const NO_VOICE = (gen: string) => `Записи голоса ${gen} ещё не добавлены в игру: персонаж пока реагирует мимикой и жестами.`;
+
 // Паспорт продукта (src/products/<id>.json) на настоящей сборке: название, подзаголовок, свой ключ настроек, голос.
 const PASSPORT = {
-  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 71', 'Голос Деда Матвея: записано реплик — 81 из 81'] },
+  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 71', 'Голос Деда Матвея: записано реплик — 81 из 81', NO_VOICE('Харитона'), NO_VOICE('Костяна')] },
   durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voices: ['Голос Агаты: записано реплик — 71 из 71'] },
   dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voices: ['Голос Деда Матвея: записано реплик — 81 из 81'] },
+  // Голоса Харитона и Костяна ещё не записаны: настройки честно говорят, что записей нет.
+  chess: { title: 'Шахматы', subtitle: 'Партия с профессором Харитоном', key: 'chess.settings', otherKey: 'igroteka.settings', voices: [NO_VOICE('Харитона')] },
+  checkers: { title: 'Шашки', subtitle: 'Русские шашки с Костяном', key: 'checkers.settings', otherKey: 'igroteka.settings', voices: [NO_VOICE('Костяна')] },
 } as const;
 const productOf = () => test.info().project.metadata.product as keyof typeof PASSPORT;
 
@@ -28,7 +33,7 @@ test('паспорт продукта: название, подзаголово�
 });
 
 test('самостоятельный продукт: партия от начала до результата', async ({ page }, info) => {
-  test.skip(productOf() !== 'durak', 'для «Игротеки» полная партия — в game.e2e.ts, для «Домино» — в dominoes.e2e.ts');
+  test.skip(productOf() !== 'durak', 'для «Игротеки» полная партия — в game.e2e.ts, для «Домино» — в dominoes.e2e.ts, для шахмат и шашек — в board.e2e.ts');
   test.setTimeout(480_000);
   const p = PASSPORT[productOf()];
   const errors = collectErrors(page);

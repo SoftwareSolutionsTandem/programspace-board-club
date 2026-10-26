@@ -21,7 +21,7 @@ export default defineConfig({
   reporter: [['list']],
   use: { trace: 'retain-on-failure' },
   // Каждый продукт собирается и запускается отдельно (docs/ARCHITECTURE.md §8).
-  webServer: [server('igroteka', 4173), server('durak', 4174), server('dominoes', 4175)],
+  webServer: [server('igroteka', 4173), server('durak', 4174), server('dominoes', 4175), server('chess', 4176), server('checkers', 4177)],
   projects: [
     // «Игротека» — весь набор проверок; product.e2e.ts — паспорт продукта.
     { name: 'desktop', metadata: { product: 'igroteka' }, use: { ...DESKTOP, baseURL: url(4173) } },
@@ -32,5 +32,10 @@ export default defineConfig({
     // Самостоятельное «Домино»: паспорт и полный матч.
     { name: 'dominoes-desktop', metadata: { product: 'dominoes' }, testMatch: ['**/product.e2e.ts', '**/dominoes.e2e.ts'], use: { ...DESKTOP, baseURL: url(4175) } },
     { name: 'dominoes-phone', metadata: { product: 'dominoes' }, testMatch: ['**/product.e2e.ts', '**/dominoes.e2e.ts'], use: { ...PHONE, baseURL: url(4175) } },
+    // Самостоятельные «Шахматы» и «Шашки»: паспорт и партии на изометрической доске.
+    { name: 'chess-desktop', metadata: { product: 'chess' }, testMatch: ['**/product.e2e.ts', '**/board.e2e.ts'], use: { ...DESKTOP, baseURL: url(4176) } },
+    { name: 'chess-phone', metadata: { product: 'chess' }, testMatch: ['**/product.e2e.ts', '**/board.e2e.ts'], use: { ...PHONE, baseURL: url(4176) } },
+    { name: 'checkers-desktop', metadata: { product: 'checkers' }, testMatch: ['**/product.e2e.ts', '**/board.e2e.ts'], use: { ...DESKTOP, baseURL: url(4177) } },
+    { name: 'checkers-phone', metadata: { product: 'checkers' }, testMatch: ['**/product.e2e.ts', '**/board.e2e.ts'], use: { ...PHONE, baseURL: url(4177) } },
   ],
 });

@@ -2,7 +2,7 @@
 export type Difficulty = 'easy' | 'normal' | 'hard';
 
 export interface Settings {
-  readonly version: 2;
+  readonly version: 3;
   readonly masterVolume: number;
   readonly voiceVolume: number;
   readonly sfxVolume: number;
@@ -19,13 +19,19 @@ export interface Settings {
   readonly dominoesTutorialDone: boolean;
   /** Знакомились ли уже с Дедом Матвеем (с версии 2). */
   readonly metMatvey: boolean;
+  /** Обучение шахматам и шашкам пройдено (с версии 3). */
+  readonly chessTutorialDone: boolean;
+  readonly checkersTutorialDone: boolean;
+  /** Знакомились ли уже с Харитоном и Костяном (с версии 3). */
+  readonly metKhariton: boolean;
+  readonly metKostyan: boolean;
 }
 
-export const SETTINGS_VERSION = 2;
+export const SETTINGS_VERSION = 3;
 export const SETTINGS_KEY = 'igroteka.settings';
 
 export const DEFAULT_SETTINGS: Settings = {
-  version: 2,
+  version: 3,
   masterVolume: 0.9,
   voiceVolume: 1,
   sfxVolume: 0.8,
@@ -37,6 +43,10 @@ export const DEFAULT_SETTINGS: Settings = {
   metAgata: false,
   dominoesTutorialDone: false,
   metMatvey: false,
+  chessTutorialDone: false,
+  checkersTutorialDone: false,
+  metKhariton: false,
+  metKostyan: false,
 };
 
 export interface KeyValueStore {
@@ -53,6 +63,8 @@ const MIGRATIONS: Record<number, (raw: Record<string, unknown>) => Record<string
   0: (raw) => ({ ...raw, version: 1 }),
   // v2: домино и Дед Матвей — обучение не пройдено, знакомства не было; остальное без изменений.
   1: (raw) => ({ ...raw, version: 2, dominoesTutorialDone: false, metMatvey: false }),
+  // v3: шахматы с Харитоном и шашки с Костяном — обучение не пройдено, знакомства не было.
+  2: (raw) => ({ ...raw, version: 3, chessTutorialDone: false, checkersTutorialDone: false, metKhariton: false, metKostyan: false }),
 };
 
 /** Разбор сохранённых данных; повреждённые и неизвестные поля заменяются значениями по умолчанию. */
@@ -69,7 +81,7 @@ export function parseSettings(raw: unknown): Settings {
   }
   const d = DEFAULT_SETTINGS;
   return {
-    version: 2,
+    version: 3,
     masterVolume: vol(obj.masterVolume, d.masterVolume),
     voiceVolume: vol(obj.voiceVolume, d.voiceVolume),
     sfxVolume: vol(obj.sfxVolume, d.sfxVolume),
@@ -81,6 +93,10 @@ export function parseSettings(raw: unknown): Settings {
     metAgata: bool(obj.metAgata, d.metAgata),
     dominoesTutorialDone: bool(obj.dominoesTutorialDone, d.dominoesTutorialDone),
     metMatvey: bool(obj.metMatvey, d.metMatvey),
+    chessTutorialDone: bool(obj.chessTutorialDone, d.chessTutorialDone),
+    checkersTutorialDone: bool(obj.checkersTutorialDone, d.checkersTutorialDone),
+    metKhariton: bool(obj.metKhariton, d.metKhariton),
+    metKostyan: bool(obj.metKostyan, d.metKostyan),
   };
 }
 

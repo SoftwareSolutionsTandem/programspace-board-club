@@ -49,7 +49,7 @@ export function computeBoardLayout(vp: Viewport): BoardLayout {
   // или у нижнего края (компьютер: кнопки и строка состояния — по сторонам доски).
   const bottom = portraitish ? Math.min(actions.y, status.y) - 10 : safe.y + safe.h - 4;
   // На компьютере персонаж меньше, чем за карточным столом: доске нужна высота.
-  const farMin = base.kind === 'landscape' ? Math.round(H * 0.4) : base.table.farY;
+  const farMin = base.kind === 'landscape' ? Math.round(H * 0.36) : base.table.farY;
   const span = 8 + 2 * FRAME;
   const boardHeight = (tw: number) => tw * ISO_RATIO * (span + DEPTH_RATIO);
   // По ширине: на телефоне — вся ширина; на компьютере — между строкой состояния и кнопками.
@@ -60,10 +60,11 @@ export function computeBoardLayout(vp: Viewport): BoardLayout {
   const tileW = Math.max(18, Math.min((bottom - farMin - 6) / boardHeight(1), sideRoom / span, 132));
   const tileH = tileW * ISO_RATIO;
   const depth = tileH * DEPTH_RATIO;
-  // Лишняя высота (телефон): доска опускается к кнопкам, персонаж становится крупнее.
-  const free = bottom - farMin - 6 - boardHeight(tileW);
-  const farY = Math.round(farMin + Math.max(0, free) * (portraitish ? 0.6 : 0.3));
-  const top = farY + 6;
+  // Лишняя высота (телефон): персонаж чуть крупнее, а доска отодвигается от дальнего края стола к игроку —
+  // она стоит на столе, руки персонажа лежат за ней.
+  const free = Math.max(0, bottom - farMin - 6 - boardHeight(tileW));
+  const farY = Math.round(farMin + free * 0.3);
+  const top = farY + 6 + Math.round(free * (portraitish ? 0.45 : 0.35));
   const cx = compact ? (safe.x + regionRight) / 2 : safe.x + safe.w / 2;
   const cy = top + (4 + FRAME) * tileH;
 

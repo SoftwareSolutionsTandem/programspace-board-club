@@ -6,11 +6,15 @@
   "storageKey": "igroteka.settings",
   "games": [
     "durak",
-    "dominoes"
+    "dominoes",
+    "chess",
+    "checkers"
   ],
   "characters": [
     "agata",
-    "matvey"
+    "matvey",
+    "khariton",
+    "kostyan"
   ],
   "publicAssets": [
     "audio/ru/agata",

@@ -1,0 +1,14 @@
+{
+  "$comment": "Самостоятельные «Шахматы» с Харитоном. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голоса Харитона ещё нет: папки audio/ru/khariton в составе нет, реплики молчат (docs/voice/khariton-script.md).",
+  "id": "chess",
+  "version": "0.1.0",
+  "strings": {
+    "app.title": "Шахматы",
+    "start.subtitle": "Партия с профессором Харитоном"
+  },
+  "storageKey": "chess.settings",
+  "games": ["chess"],
+  "characters": ["khariton"],
+  "publicAssets": [],
+  "icon": { "file": "public/favicon.svg", "status": "temporary" }
+}

@@ -64,7 +64,7 @@ export interface CharacterInfo {
   /** Имя в родительном падеже: «Голос Агаты». */
   readonly genKey: string;
   /** Ключ «Знакомились ли» в настройках: первое или повторное приветствие. */
-  readonly metKey: 'metAgata' | 'metMatvey';
+  readonly metKey: 'metAgata' | 'metMatvey' | 'metKhariton' | 'metKostyan';
 }
 
 export interface GameModule {
@@ -76,7 +76,7 @@ export interface GameModule {
   readonly loadingKey: string;
   readonly rulesTitleKey: string;
   readonly rulesKeys: readonly string[];
-  readonly tutorialKey: 'tutorialDone' | 'dominoesTutorialDone';
+  readonly tutorialKey: 'tutorialDone' | 'dominoesTutorialDone' | 'chessTutorialDone' | 'checkersTutorialDone';
   layout(vp: Viewport): LayoutSpec;
   resolutions(spec: LayoutSpec, dpr: number): AssetResolutions;
   buildAssets(res: AssetResolutions, onProgress?: (done: number, total: number) => void): Promise<GameAssets>;

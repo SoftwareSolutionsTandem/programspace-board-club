@@ -85,13 +85,13 @@ describe('продукты: статический граф импортов о�
     });
   }
 
-  it('«Домино» и «Дурак» не пересекаются по модулям игр и персонажей', () => {
+  it('отдельные продукты не пересекаются по модулям игр и персонажей', () => {
     const of = (id: string) => {
       const aliases = { '@product': join(SRC, `products/${id}.json`), '@product-games': join(SRC, `products/${id}.games.ts`) };
       return new Set([...closure(join(SRC, 'main.ts'), (f) => deps(f, aliases))].map(rel).filter((f) => /^src\/(games|characters\/[^/]+)\//.test(f)));
     };
-    const durak = of('durak');
-    expect([...of('dominoes')].filter((f) => durak.has(f))).toEqual([]);
+    const single = ['durak', 'dominoes', 'chess', 'checkers'].map((id) => [id, of(id)] as const);
+    for (const [a, fa] of single) for (const [b, fb] of single) if (a < b) expect([...fa].filter((f) => fb.has(f)), `${a} ∩ ${b}`).toEqual([]);
   });
 });
 
@@ -134,7 +134,7 @@ describe('направление зависимостей', () => {
   });
 
   it('правила, ИИ и контроллер матча не знают о сцене, персонаже, анимации и звуке', () => {
-    const core = (f: string) => /^src\/games\/[^/]+\/(rules\/|ai\/|match\.ts|sim\.ts|view\.ts)/.test(f);
+    const core = (f: string) => /^src\/games\/[^/]+\/(rules\/|ai\/|match\.ts|sim\.ts|view\.ts)/.test(f) || f === 'src/board/match.ts';
     const bad: string[] = [];
     for (const f of FILES.map(rel).filter(core)) {
       const code = CODE.get(join(ROOT, f))!;
@@ -146,8 +146,8 @@ describe('направление зависимостей', () => {
   });
 
   it('каталоги игр и персонажей на месте (проверки выше не пусты)', () => {
-    expect(GAME_DIRS).toEqual(expect.arrayContaining(['durak', 'dominoes']));
-    expect(CHARACTER_DIRS).toEqual(expect.arrayContaining(['agata', 'matvey']));
+    expect(GAME_DIRS).toEqual(expect.arrayContaining(['durak', 'dominoes', 'chess', 'checkers']));
+    expect(CHARACTER_DIRS).toEqual(expect.arrayContaining(['agata', 'matvey', 'khariton', 'kostyan']));
   });
 });
 
