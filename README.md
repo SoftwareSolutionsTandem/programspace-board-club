@@ -7,11 +7,13 @@
 ## Что есть сейчас
 | Продукт | Игры | Персонаж | Сборка |
 |---|---|---|---|
-| «Игротека» (сборник) | подкидной дурак, домино | Бабушка Агата, Дед Матвей | `npm run build:igroteka` → `dist/igroteka/` |
+| «Игротека» (сборник) | подкидной дурак, домино, шахматы, шашки | Бабушка Агата, Дед Матвей, Харитон, Костян | `npm run build:igroteka` → `dist/igroteka/` |
 | «Подкидной дурак» | подкидной дурак 1 на 1 | Бабушка Агата | `npm run build:durak` → `dist/durak/` |
 | «Домино» | домино «с базаром» 1 на 1, до 101 | Дед Матвей | `npm run build:dominoes` → `dist/dominoes/` |
+| «Шахматы» | классические шахматы на изометрической доске | Харитон | `npm run build:chess` → `dist/chess/` |
+| «Шашки» | русские шашки на изометрической доске | Костян | `npm run build:checkers` → `dist/checkers/` |
 
-«Шахматы» и «Шашки» запланированы (D40), но не начаты: ни правил, ни конфигураций сборки у них пока нет. Ни один продукт ещё не выпущен; что осталось до выпуска — в `docs/PROGRESS.md`.
+У Харитона и Костяна пока нет записанного голоса: каталоги реплик и сценарии записи готовы (`docs/voice/`), в игре они отвечают мимикой и жестом. Ни один продукт ещё не выпущен; что осталось до выпуска — в `docs/PROGRESS.md`.
 
 ## Требования
 - Node.js 22.13+ (проверено на 22.22) и npm 10+.
@@ -24,27 +26,29 @@ npm install          # один раз после клонирования и п
 npm run dev          # «Игротека»: откройте адрес из консоли (обычно http://localhost:5173)
 npm run dev:durak    # самостоятельный «Дурак»
 npm run dev:dominoes # самостоятельное «Домино»
+npm run dev:chess    # самостоятельные «Шахматы»
+npm run dev:checkers # самостоятельные «Шашки»
 ```
 Демо анимаций (только режим разработки): `/?anim` — Агата, `/?anim=matvey` — Матвей.
 
 ## Команды
 | Команда | Что делает |
 |---|---|
-| `npm run dev`, `dev:durak`, `dev:dominoes` | dev-сервер продукта с горячей перезагрузкой |
+| `npm run dev`, `dev:durak`, `dev:dominoes`, `dev:chess`, `dev:checkers` | dev-сервер продукта с горячей перезагрузкой |
 | `npm test` | автотесты (Vitest) |
 | `npm run test:watch` | тесты в режиме наблюдения |
 | `npm run typecheck` | проверка типов TypeScript |
 | `npm run lint` | ESLint, включая правила чистоты кода правил и ИИ |
 | `npm run check:assets` | права на каждый аудиофайл (`assets/audio/LICENSES.md`) и ссылки манифестов |
-| `npm run build:all` | сборка всех трёх продуктов; по одному — `build:igroteka`, `build:durak`, `build:dominoes` |
+| `npm run build:all` | сборка всех пяти продуктов; по одному — `build:igroteka`, `build:durak`, `build:dominoes`, `build:chess`, `build:checkers` |
 | `npm run check:bundle` | проверка состава собранных продуктов: только свои игры, персонажи и ресурсы |
-| `npm run preview`, `preview:durak`, `preview:dominoes` | локальный просмотр собранного продукта |
+| `npm run preview`, `preview:durak`, `preview:dominoes`, `preview:chess`, `preview:checkers` | локальный просмотр собранного продукта |
 | `npm run check` | всё сразу: lint → typecheck → check:assets → test → build:all → check:bundle (то же, что CI) |
 | `npm run test:e2e` | браузерные проверки Playwright всех продуктов (собирает их сам) |
 
 ## Документация
 - Концепция — `docs/CONCEPT.md`; решения — `docs/DECISIONS.md`; архитектура и продукты — `docs/ARCHITECTURE.md`.
-- Звук и озвучка — `docs/AUDIO.md`; сценарий реплик Матвея — `docs/voice/matvey-script.md`; стиль и анимация — `docs/ART_STYLE.md`; персонажи — `docs/CHARACTERS.md`.
+- Звук и озвучка — `docs/AUDIO.md`; сценарии реплик — `docs/voice/` (Матвей, Харитон, Костян); стиль и анимация — `docs/ART_STYLE.md`; персонажи — `docs/CHARACTERS.md`.
 - Правила игр — `docs/games/`; компоновки для телефона и компьютера — `docs/LAYOUT.md`.
 - Тестирование — `docs/TESTING.md`; локализация — `docs/LOCALIZATION.md`; платформа — `docs/YANDEX.md`; монетизация — `docs/MONETIZATION.md`.
 
@@ -52,8 +56,9 @@ npm run dev:dominoes # самостоятельное «Домино»
 ```
 src/main.ts          запуск приложения (и dev-страниц анимации)
 src/app/             приложение: клуб, загрузка, настройки, интерфейс игрового модуля (game.ts)
-src/games/<игра>/    durak, dominoes: rules/ (чистые правила), view.ts, ai/, match.ts, scene/ (Pixi), session.ts, module.ts
-src/characters/      персонажи: agata/, matvey/ (рисунок, марионетка, движения, реплики), режиссёр реакций
+src/games/<игра>/    durak, dominoes, chess, checkers: rules/ (чистые правила), view.ts, ai/, match.ts, scene/, module.ts
+src/board/           общее для шахмат и шашек: изометрическая доска, сеанс партии, контроллер
+src/characters/      персонажи: agata/, matvey/, khariton/, kostyan/ (рисунок, марионетка, движения, реплики), режиссёр реакций
 src/puppet/          общий движок марионетки персонажа
 src/audio/           Web Audio и голосовой канал
 src/layout/          геометрия экранов (computeLayout) — чистые функции
