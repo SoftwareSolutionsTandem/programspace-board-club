@@ -6,6 +6,7 @@ import { buildBoardTextures, destroyBoardTextures } from '../../board/textures';
 import { KOSTYAN_ART } from '../../characters/kostyan/art';
 import { KOSTYAN_LINES } from '../../characters/kostyan/lines';
 import { KOSTYAN_PUPPET } from '../../characters/kostyan/puppet';
+import { KOSTYAN_ROOM } from '../../characters/kostyan/room';
 import { computeBoardLayout, type BoardLayout } from '../../layout/board';
 import { MAN_W, PIECES, pieceInfo, pieceKey, pieceSvg } from './scene/pieceArt';
 import { CHECKERS_SPEC } from './spec';
@@ -32,7 +33,7 @@ export const CHECKERS_GAME: GameModule = {
     bg: Math.min(1, spec.background.scale * d),
   }),
   async buildAssets(res, onProgress) {
-    const bank = await buildBoardTextures(KOSTYAN_PUPPET, ART, res.figure, res.piece, res.bg, onProgress);
+    const bank = await buildBoardTextures(KOSTYAN_PUPPET, KOSTYAN_ROOM, ART, res.figure, res.piece, res.bg, onProgress);
     const assets: CheckersAssets = { bank, figureRes: res.figure, destroy: () => destroyBoardTextures(bank) };
     return assets;
   },

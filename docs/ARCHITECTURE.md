@@ -60,7 +60,8 @@ src/dev/            демо-страницы анимаций /?anim и /?anim=
 src/audio/          engine.ts (Web Audio, голоса нескольких персонажей), voiceChannel.ts
 src/layout/         layout.ts — computeLayout, handSlots, pairSlot; dominoes.ts — стол домино и цепочка-«змейка»;
                     iso.ts — проекция доски (сверху-сбоку, мягкая перспектива) и попадание по клетке; board.ts — компоновка доски
-src/render/         tween.ts, svgTexture.ts, cafe.ts (фон клуба), table.ts (общий стол)
+src/render/         tween.ts, svgTexture.ts, cafe.ts (фон кафе для демо, место табло), table.ts (общий стол),
+                    ambient.ts (слой живых предметов комнаты), roomKit.ts (детали рисунка комнат)
 src/products/       <id>.json (паспорт продукта), <id>.games.ts (игры продукта), current.ts
 src/storage/        settings.ts
 ```
@@ -202,7 +203,7 @@ interface VoiceRequest { lineId: string; priority: 'result'|'greeting'|'reaction
 - сеанс партии `createSession(host, options)` с методами `setAssets`, `setLayout`, `start`, `update`, `onKey`, `setPaused`, `dispose`, `debug`;
 - ключи строк клуба, загрузки и правил, ключ «обучение пройдено» и seed обучающей раздачи.
 
-В партии персонаж — марионетка на общем движке `src/puppet/` (D46, D50): части и движения задаёт персонаж (`puppet.ts`, `motions.ts`), движок не импортирует ни одного персонажа. `CharacterArt` (`src/characters/art.ts`) остаётся для портрета в клубе и сравнения со старым ригом. Фон клуба (`src/render/cafe.ts`) и стол (`src/render/table.ts`) общие для всех игр. Голоса всех персонажей продукта загружаются одним `AudioEngine` из `audio/ru/<персонаж>/manifest.json`.
+В партии персонаж — марионетка на общем движке `src/puppet/` (D46, D50): части и движения задаёт персонаж (`puppet.ts`, `motions.ts`), движок не импортирует ни одного персонажа. `CharacterArt` (`src/characters/art.ts`) остаётся для портрета в клубе и сравнения со старым ригом. Стол (`src/render/table.ts`) общий для всех игр; фон партии — комната персонажа (`src/characters/<id>/room.ts`, D60) с живыми предметами на слое `AmbientLayer` (`src/render/ambient.ts`) между фоном и персонажем. Голоса всех персонажей продукта загружаются одним `AudioEngine` из `audio/ru/<персонаж>/manifest.json`.
 
 ### 8.7 Игры на доске (`src/board/`, 2026-10-26, D54)
 - Контроллер `BoardMatch` (`board/match.ts`, чистый) ведёт партию через адаптер правил `BoardRules`: новая партия, применение действия, очередь, ходы, проекция, решение ИИ, победитель, сдача. Цвет игрока: первая партия — белые, реванш — смена цветов; счёт сеанса — победы, поражения, ничьи.

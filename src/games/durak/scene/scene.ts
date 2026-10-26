@@ -11,6 +11,7 @@ import type { DurakEvent } from '../rules/engine';
 import type { PlayerView } from '../view';
 import { CardSprite } from './cardSprite';
 import type { TextureBank } from './textures';
+import { AmbientLayer } from '../../../render/ambient';
 
 export type DropTarget = { kind: 'pair'; index: number } | { kind: 'table' } | null;
 
@@ -47,6 +48,8 @@ export class DurakScene {
   readonly root = new Container();
   readonly rig = new PuppetRig(AGATA_MOTION, 11);
   private readonly bg = new Sprite();
+  /** Живые предметы комнаты персонажа — над фоном, под персонажем и столом. */
+  readonly ambient = new AmbientLayer();
   private readonly table = new Graphics();
   private readonly deckLayer = new Container();
   private readonly discardLayer = new Container();
@@ -72,7 +75,7 @@ export class DurakScene {
   constructor(private readonly tweens: Tweener, private readonly input: SceneInput) {
     // Глубина: всё, что лежит на сукне (колода, отбой, карты стола), — под руками Агаты: кисть лежит на столе или
     // над ним и закрывает плоскую карту, а не проваливается под неё. Рука игрока и карты в воздухе ближе к камере — сверху.
-    this.root.addChild(this.bg, this.rig.back, this.table, this.deckLayer, this.deckBadge, this.discardLayer, this.tableLayer, this.toFanLayer, this.rig.front, this.handLayer, this.flyLayer);
+    this.root.addChild(this.bg, this.ambient.root, this.rig.back, this.table, this.deckLayer, this.deckBadge, this.discardLayer, this.tableLayer, this.toFanLayer, this.rig.front, this.handLayer, this.flyLayer);
     this.deckBadge.addChild(this.deckBadgeBg, this.deckCount);
     this.table.eventMode = 'static';
     this.table.on('pointertap', () => {
@@ -87,6 +90,7 @@ export class DurakScene {
   setTextures(bank: TextureBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
+    this.ambient.setRoom(bank.room, bank.ambient);
     this.rig.setTextures(bank.puppet, bank.back);
     // Пересоздать спрайты с новыми текстурами.
     for (const s of this.sprites.values()) s.destroy();
@@ -103,6 +107,7 @@ export class DurakScene {
     this.bg.position.set(spec.background.x, spec.background.y);
     this.bg.width = BG_DESIGN.width * bgs;
     this.bg.height = BG_DESIGN.height * bgs;
+    this.ambient.setTransform(spec.background);
     const c = spec.character;
     const anchorY = c.crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
     this.rig.setTransform(c.x - FIGURE.centerX * c.scale, c.y - anchorY * c.scale, c.scale);
@@ -437,6 +442,7 @@ export class DurakScene {
   update(dtMs: number): void {
     this.tweens.update(dtMs);
     this.rig.update(dtMs);
+    this.ambient.update(dtMs);
     for (const sp of this.sprites.values()) sp.sync();
     for (const layer of [this.flyLayer, this.toFanLayer]) for (const c of layer.children) if (c instanceof CardSprite) c.sync();
   }

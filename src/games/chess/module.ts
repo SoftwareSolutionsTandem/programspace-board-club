@@ -6,6 +6,7 @@ import { buildBoardTextures, destroyBoardTextures } from '../../board/textures';
 import { KHARITON_ART } from '../../characters/khariton/art';
 import { KHARITON_LINES } from '../../characters/khariton/lines';
 import { KHARITON_PUPPET } from '../../characters/khariton/puppet';
+import { KHARITON_ROOM } from '../../characters/khariton/room';
 import { computeBoardLayout, type BoardLayout } from '../../layout/board';
 import { KINDS, pieceInfo, pieceKey, pieceSvg, PIECE_W } from './scene/pieceArt';
 import { CHESS_SPEC } from './spec';
@@ -33,7 +34,7 @@ export const CHESS_GAME: GameModule = {
     bg: Math.min(1, spec.background.scale * d),
   }),
   async buildAssets(res, onProgress) {
-    const bank = await buildBoardTextures(KHARITON_PUPPET, PIECES, res.figure, res.piece, res.bg, onProgress);
+    const bank = await buildBoardTextures(KHARITON_PUPPET, KHARITON_ROOM, PIECES, res.figure, res.piece, res.bg, onProgress);
     const assets: ChessAssets = { bank, figureRes: res.figure, destroy: () => destroyBoardTextures(bank) };
     return assets;
   },

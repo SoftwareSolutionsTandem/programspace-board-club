@@ -10,6 +10,7 @@ import { easeInOutQuad, easeOutBack, type Tweener } from '../render/tween';
 import { PuppetRig } from '../puppet/rig';
 import type { PuppetBank } from '../puppet/textures';
 import type { MotionStyle } from '../puppet/types';
+import { AmbientLayer, type RoomArt } from '../render/ambient';
 
 /** Рисунок фигуры: размер текстуры в единицах рисунка, точка опоры (центр основания) и ширина на доске в клетках. */
 export interface PieceInfo {
@@ -24,6 +25,8 @@ export interface BoardBank {
   readonly pieces: ReadonlyMap<string, Texture>;
   readonly info: Readonly<Record<string, PieceInfo>>;
   readonly background: Texture;
+  readonly room: RoomArt;
+  readonly ambient: ReadonlyMap<string, Texture>;
 }
 
 /** Цвета доски: клетки, рамка, грани и подписи. */
@@ -127,6 +130,8 @@ export class BoardScene {
   readonly root = new Container();
   readonly rig: PuppetRig;
   private readonly bg = new Sprite();
+  /** Живые предметы комнаты персонажа — над фоном, под персонажем и столом. */
+  readonly ambient = new AmbientLayer();
   private readonly table = new Graphics();
   private readonly boardG = new Graphics();
   private readonly labels = new Container();
@@ -152,7 +157,7 @@ export class BoardScene {
     this.rig = new PuppetRig(motion, seed);
     // В покое руки персонажа лежат на столе за доской — доска и фигуры перед ними. Рука, которая тянется к фигуре,
     // на время хода переходит в rig.overLayer — над фигурами (syncArms), и возвращается, когда снова не над полем.
-    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.boardG, this.labels, this.marksG, this.shadowLayer, this.pieceLayer, this.rig.overLayer, this.trayLayer, this.flyLayer);
+    this.root.addChild(this.bg, this.ambient.root, this.rig.back, this.table, this.rig.front, this.boardG, this.labels, this.marksG, this.shadowLayer, this.pieceLayer, this.rig.overLayer, this.trayLayer, this.flyLayer);
     this.labels.eventMode = 'none';
     this.root.eventMode = 'static';
     this.root.on('pointertap', (e: FederatedPointerEvent) => this.onTap(e));
@@ -164,6 +169,7 @@ export class BoardScene {
   setTextures(bank: BoardBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
+    this.ambient.setRoom(bank.room, bank.ambient);
     this.rig.setTextures(bank.character, null, null);
     this.rebuild();
   }
@@ -175,6 +181,7 @@ export class BoardScene {
     this.bg.position.set(spec.background.x, spec.background.y);
     this.bg.width = BG_DESIGN.width * bgs;
     this.bg.height = BG_DESIGN.height * bgs;
+    this.ambient.setTransform(spec.background);
     const c = spec.character;
     const anchorY = c.crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
     this.rigT = { x: c.x - FIGURE.centerX * c.scale, y: c.y - anchorY * c.scale, s: c.scale };
@@ -527,6 +534,7 @@ export class BoardScene {
     if (this.marks.movable.length || this.marks.check !== null) this.drawMarks();
     for (const p of this.pieces.values()) p.sync();
     this.rig.update(dtMs);
+    this.ambient.update(dtMs);
     this.syncArms();
   }
 

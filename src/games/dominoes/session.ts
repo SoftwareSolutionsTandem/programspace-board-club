@@ -25,6 +25,7 @@ import { DominoScene } from './scene/scene';
 import type { DominoTextureBank } from './scene/textures';
 import { STEP_LINE, TutorialCoach, type TutorialStep } from './tutorial';
 import type { DominoAction, PlayerView } from './view';
+import { systemReducedMotion } from '../../render/ambient';
 
 /** Первый seed (от заданного), где в обучении первый ход за игроком. */
 export function dominoTutorialSeed(from: number): number {
@@ -108,6 +109,7 @@ export class DominoSession implements GameSession {
   debug() {
     return {
       view: this.view(),
+      ambient: this.scene.ambient.stats(),
       legal: this.legal(),
       busy: this.busy,
       phase: this.match.phase,
@@ -170,6 +172,7 @@ export class DominoSession implements GameSession {
     this.voice.setEnabled(!s.muted && s.voiceVolume > 0);
     this.tweens.instant = s.reducedMotion;
     this.scene.rig.reducedMotion = s.reducedMotion;
+    this.scene.ambient.reduced = s.reducedMotion || systemReducedMotion();
     this.soundBtn.innerHTML = s.muted ? ICONS.mute : ICONS.sound;
     this.soundBtn.setAttribute('aria-label', s.muted ? t('hud.soundOff') : t('hud.sound'));
     if (!s.subtitles) this.subtitle.textContent = '';

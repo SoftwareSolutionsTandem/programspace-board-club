@@ -19,6 +19,7 @@ import type { MotionStyle } from '../puppet/types';
 import type { Settings } from '../storage/settings';
 import type { BoardMatch, Side } from './match';
 import { BoardScene, NO_MARKS, type BoardBank, type BoardSkin, type MoveAnim } from './scene';
+import { systemReducedMotion } from '../render/ambient';
 
 /** Ход как путь по полям: шахматы — [откуда, куда] (+ фигура превращения), шашки — все поля прыжков. */
 export interface MovePath<A> {
@@ -182,6 +183,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     const paths = this.paths();
     return {
       view: this.view(),
+      ambient: this.scene.ambient.stats(),
       human: this.match.human,
       legal: paths.map((m) => ({ path: [...m.path], captures: [...m.captures], promotion: m.promotion ?? null })),
       busy: this.busy || this.scene.busy,
@@ -260,6 +262,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.voice.setEnabled(!s.muted && s.voiceVolume > 0);
     this.tweens.instant = s.reducedMotion;
     this.scene.rig.reducedMotion = s.reducedMotion;
+    this.scene.ambient.reduced = s.reducedMotion || systemReducedMotion();
     this.soundBtn.innerHTML = s.muted ? ICONS.mute : ICONS.sound;
     this.soundBtn.setAttribute('aria-label', s.muted ? t('hud.soundOff') : t('hud.sound'));
     if (!s.subtitles) this.subtitle.textContent = '';

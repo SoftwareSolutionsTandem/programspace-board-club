@@ -14,6 +14,7 @@ import type { End } from '../rules/state';
 import type { PlayerView } from '../view';
 import { BoneSprite } from './boneSprite';
 import type { DominoTextureBank } from './textures';
+import { AmbientLayer } from '../../../render/ambient';
 
 export interface DominoSceneInput {
   onBoneTap(code: string): void;
@@ -50,6 +51,8 @@ export class DominoScene {
   readonly rig = new PuppetRig(MATVEY_MOTION, 23);
 
   private readonly bg = new Sprite();
+  /** Живые предметы комнаты персонажа — над фоном, под персонажем и столом. */
+  readonly ambient = new AmbientLayer();
   private readonly table = new Graphics();
   private readonly oppLayer = new Container();
   private readonly bazaarLayer = new Container();
@@ -77,7 +80,7 @@ export class DominoScene {
   constructor(private readonly tweens: Tweener, private readonly input: DominoSceneInput) {
     // Глубина: кости Матвея стоят на ребре перед его руками — в покое кисти за ними. Рука, которая тянется через его кости
     // к цепочке или к базару, рисуется в rig.overLayer — над всем, что на столе (syncArmsLayer). Рука игрока и летящие кости — сверху.
-    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.oppLayer, this.bazaarLayer, this.bazaarBadge, this.chainLayer, this.markerLayer, this.rig.overLayer, this.handLayer, this.flyLayer);
+    this.root.addChild(this.bg, this.ambient.root, this.rig.back, this.table, this.rig.front, this.oppLayer, this.bazaarLayer, this.bazaarBadge, this.chainLayer, this.markerLayer, this.rig.overLayer, this.handLayer, this.flyLayer);
     this.bazaarBadge.addChild(this.bazaarBadgeBg, this.bazaarCount);
     this.bazaarLayer.eventMode = 'static';
     this.bazaarLayer.cursor = 'pointer';
@@ -100,6 +103,7 @@ export class DominoScene {
   setTextures(bank: DominoTextureBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
+    this.ambient.setRoom(bank.room, bank.ambient);
     this.rig.setTextures(bank.character, null, bank.back);
     for (const s of this.sprites.values()) this.kill(s);
     this.sprites.clear();
@@ -115,6 +119,7 @@ export class DominoScene {
     this.bg.position.set(spec.background.x, spec.background.y);
     this.bg.width = BG_DESIGN.width * bgs;
     this.bg.height = BG_DESIGN.height * bgs;
+    this.ambient.setTransform(spec.background);
     const c = spec.character;
     const anchorY = c.crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
     this.rig.setTransform(c.x - FIGURE.centerX * c.scale, c.y - anchorY * c.scale, c.scale);
@@ -480,6 +485,7 @@ export class DominoScene {
   update(dtMs: number): void {
     this.tweens.update(dtMs);
     this.rig.update(dtMs);
+    this.ambient.update(dtMs);
     this.syncArmsLayer();
     for (const sp of this.sprites.values()) sp.sync();
     for (const c of [...this.oppLayer.children, ...this.flyLayer.children]) if (c instanceof BoneSprite) c.sync();

@@ -22,6 +22,7 @@ import { DurakScene, sortHand } from './scene/scene';
 import type { TextureBank } from './scene/textures';
 import { STEP_LINE, TutorialCoach, type TutorialStep } from './tutorial';
 import type { DurakAction, PlayerView } from './view';
+import { systemReducedMotion } from '../../render/ambient';
 
 export type { SessionHost, SessionOptions };
 
@@ -103,6 +104,7 @@ export class GameSession implements GameSessionApi {
   debug() {
     return {
       view: this.view(),
+      ambient: this.scene.ambient.stats(),
       legal: this.legal(),
       busy: this.busy,
       over: this.match.over,
@@ -166,6 +168,7 @@ export class GameSession implements GameSessionApi {
     this.voice.setEnabled(!s.muted && s.voiceVolume > 0);
     this.tweens.instant = s.reducedMotion;
     this.scene.rig.reducedMotion = s.reducedMotion;
+    this.scene.ambient.reduced = s.reducedMotion || systemReducedMotion();
     this.soundBtn.innerHTML = s.muted ? ICONS.mute : ICONS.sound;
     this.soundBtn.setAttribute('aria-label', s.muted ? t('hud.soundOff') : t('hud.sound'));
     if (!s.subtitles) this.subtitle.textContent = '';
