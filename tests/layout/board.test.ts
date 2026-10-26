@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { computeBoardLayout, traySlot } from '../../src/layout/board';
 import { boardBounds, cellCenter } from '../../src/layout/iso';
+import { computeLayout } from '../../src/layout/layout';
 
 const VIEWPORTS = [
   [320, 568], [360, 740], [390, 844], [430, 932], [768, 1024], [820, 1180], [1024, 768],
@@ -48,5 +49,19 @@ describe('компоновка доски', () => {
     expect(boardBounds(phone.board).w).toBeGreaterThan(390 * 0.85);
     const desk = computeBoardLayout({ width: 1920, height: 1080 });
     expect(desk.board.tileW).toBeGreaterThan(75);
+  });
+});
+
+describe('масштаб как за карточным столом', () => {
+  // Персонаж, комната и табло счёта — того же размера, что в дураке и домино (компьютер и планшет боком).
+  it.each([[1280, 720], [1366, 768], [1920, 1080], [1024, 768], [2560, 1440]] as const)('%i×%i', (W, H) => {
+    const base = computeLayout({ width: W, height: H, pointer: 'fine' });
+    for (const rise of [1, 0.35]) {
+      const b = computeBoardLayout({ width: W, height: H, pointer: 'fine' }, { pieceRise: rise });
+      expect(b.table.farY).toBeCloseTo(base.table.farY, 0);
+      expect(b.character.scale).toBeCloseTo(base.character.scale, 2);
+      expect(b.background.scale).toBeCloseTo(base.background.scale, 3);
+      expect(b.background.y).toBeCloseTo(base.background.y, 0);
+    }
   });
 });

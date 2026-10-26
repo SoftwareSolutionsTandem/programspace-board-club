@@ -50,6 +50,7 @@ export const KHARITON_PUPPET: PuppetArt = {
   hand: part('hand', { x: -24, y: -17, w: 44, h: 34 }, P.hand),
   handFist: part('fist', { x: -24, y: -17, w: 44, h: 34 }, P.fist),
   handR: 16,
+  mirrorHandR: true,
   cuff: part('cuff', { x: -17, y: -9, w: 34, h: 18 }, P.cuff),
   // Карт в руке нет: фигуры на доске ходят сами, рука лишь направляет ход.
   fanOffset: null,

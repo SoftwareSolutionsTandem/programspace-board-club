@@ -187,6 +187,8 @@ export class PuppetRig {
       s.width = art.hand.box.w;
       s.height = art.hand.box.h;
     }
+    // Правая кисть — зеркальная левой: большой палец у обеих с внутренней стороны.
+    if (art.mirrorHandR) this.handR.scale.y = -Math.abs(this.handR.scale.y);
     for (const s of [this.cuffL, this.cuffR]) {
       s.texture = tex(art.cuff);
       s.width = art.cuff.box.w;

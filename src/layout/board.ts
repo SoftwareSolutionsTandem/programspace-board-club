@@ -53,8 +53,9 @@ export function computeBoardLayout(vp: Viewport, opts: { pieceRise?: number } = 
   // Доска с рамкой, передней гранью и рядом взятых фигур под ней — между дальним краем стола (с отступом:
   // там лежат руки персонажа) и строкой состояния (телефон) или нижним краем (компьютер: кнопки и строка — по сторонам).
   const bottom = portraitish ? Math.min(actions.y, status.y) - 8 : safe.y + safe.h - 4;
-  // На компьютере персонаж меньше, чем за карточным столом: доске нужна высота.
-  const farMin = base.kind === 'landscape' ? Math.round(H * 0.36) : base.table.farY;
+  // Дальний край стола — как за карточным столом (дурак, домино): персонаж, комната и табло счёта того же
+  // масштаба во всех играх, доска занимает место игровой зоны стола.
+  const farMin = base.table.farY;
   // Габарит доски при клетке шириной 1 (всё остальное ей пропорционально).
   const unit = (tw: number): IsoBoard => ({ cx: 0, nearY: 0, tileW: tw, tilt: TILT, persp: PERSP, tileH: tw * TILT, depth: tw * TILT * DEPTH_RATIO });
   const ub = boardBounds(unit(1));

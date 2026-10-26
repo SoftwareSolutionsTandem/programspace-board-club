@@ -252,7 +252,7 @@ function tube(d: string, w = 26, fill = C.jacket): string {
 }
 
 /** Худая кисть с костяшками; fist — сжатый кулак. */
-const hand = (x: number, y: number, rot = 0, fist = false): string => `<g transform="translate(${x} ${y}) rotate(${rot})">
+const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(-1 ${mirror ? -1 : 1})">
   <ellipse rx="17" ry="14" fill="${C.skin}" ${ol(3.4)}/>
   ${fist
     ? `<path d="M-10 -6 q4 -4 8 0 M-2 -6 q4 -4 8 0 M6 -6 q3 -3 6 1" fill="none" ${ol(2.2)}/>`
@@ -333,18 +333,18 @@ const boneInHand = (x: number, y: number, rot: number): string => `<g transform=
 const impact = (x: number, y: number): string => `<path d="M${x - 44} ${y - 8} l-18 -10 M${x - 42} ${y + 8} l-20 3 M${x + 44} ${y - 8} l18 -10 M${x + 42} ${y + 8} l20 3" ${ol(3.6)}/>`;
 
 const LEFT_REST = () => tube('M148 268 Q104 330 150 384') + cuff(152, 382, 70) + hand(166, 392, 10);
-const RIGHT_REST = () => tube('M272 268 Q316 330 270 384') + cuff(268, 382, -70) + hand(254, 392, 170);
+const RIGHT_REST = () => tube('M272 268 Q316 330 270 384') + cuff(268, 382, -70) + hand(254, 392, 170, false, true);
 const POSE_ARMS: Record<Pose, () => string> = {
   // Руки на столе за своими костями.
   idle: () => LEFT_REST() + RIGHT_REST(),
   // Поглаживает усы: правая рука у подбородка.
-  think: () => LEFT_REST() + tube('M272 268 Q336 300 282 230') + cuff(286, 236, -40) + hand(268, 214, -150),
+  think: () => LEFT_REST() + tube('M272 268 Q336 300 282 230') + cuff(286, 236, -40) + hand(268, 214, -150, false, true),
   // Стук костяшкой о стол.
-  throw: () => LEFT_REST() + tube('M272 270 Q326 330 262 388') + cuff(268, 384, -50) + boneInHand(236, 412, 90) + hand(250, 394, 170, true) + impact(236, 414),
+  throw: () => LEFT_REST() + tube('M272 270 Q326 330 262 388') + cuff(268, 384, -50) + boneInHand(236, 412, 90) + hand(250, 394, 170, true, true) + impact(236, 414),
   // Тянется к базару (слева от игрока — справа от Матвея).
   took: () => RIGHT_REST() + tube('M148 268 Q86 320 62 392') + cuff(66, 384, 50) + hand(58, 404, 30),
   // Кулак вверх.
-  victory: () => LEFT_REST() + tube('M272 266 Q340 210 322 128') + cuff(324, 140, -10) + hand(322, 112, -80, true) + spark(364, 70, 1.1) + spark(282, 46, 0.7),
+  victory: () => LEFT_REST() + tube('M272 266 Q340 210 322 128') + cuff(324, 140, -10) + hand(322, 112, -80, true, true) + spark(364, 70, 1.1) + spark(282, 46, 0.7),
 };
 export const armsSvg = (pose: Pose): string => svgDoc(FIGURE_BOX, POSE_ARMS[pose]());
 

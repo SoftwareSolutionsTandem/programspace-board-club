@@ -195,14 +195,15 @@ export const EXPR: Record<Emotion, Expr> = {
 
 // ---------- тело ----------
 // Широкие округлые плечи, оранжевое худи; капюшон лежит за шеей, наушники — на шее.
-const HOODIE = 'M156 246 C120 254 110 294 110 342 L108 540 L312 540 L310 342 C310 294 300 254 264 246 Z';
+// Плечи худи начинаются от шеи и плавно спускаются к рукавам.
+const HOODIE = 'M184 244 C158 246 126 256 116 290 C110 310 110 330 110 342 L108 540 L312 540 L310 342 C310 330 310 310 304 290 C294 256 262 246 236 244 C230 262 190 262 184 244 Z';
 
 function tube(d: string, w = 32, fill = C.hoodie): string {
   return `<path d="${d}" fill="none" stroke="${C.outline}" stroke-width="${w + 8}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
 
-const hand = (x: number, y: number, rot = 0, fist = false): string => `<g transform="translate(${x} ${y}) rotate(${rot})">
+const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(-1 ${mirror ? -1 : 1})">
   <ellipse rx="17" ry="14" fill="${C.skin}" ${ol(3.4)}/>
   ${fist
     ? `<path d="M-10 -6 q4 -4 8 0 M-2 -6 q4 -4 8 0 M6 -6 q3 -3 6 1" fill="none" ${ol(2.2)}/>`
@@ -240,8 +241,10 @@ const patch = (x: number, y: number): string => `<g transform="translate(${x} ${
 
 function body(id: string): string {
   return `
+  <path d="M162 258 C156 228 180 210 210 210 C240 210 264 228 258 258 C248 248 228 244 210 244 C192 244 172 248 162 258 Z" fill="${C.hoodieSh}" ${ol(3.4)}/>
+  <path d="M174 246 C178 228 194 220 210 220 C226 220 242 228 246 246" fill="none" stroke="${C.outline}" stroke-width="2.4" opacity="0.5"/>
   ${headphonesBand()}
-  <path d="M194 210 L192 258 L228 258 L226 210 Z" fill="${C.skinSh}" ${ol(3.6)}/>
+  <path d="M194 210 L192 256 L228 256 L226 210 Z" fill="${C.skinSh}" ${ol(3.6)}/>
   <clipPath id="${id}-hoodie"><path d="${HOODIE}"/></clipPath>
   <path d="${HOODIE}" fill="${C.hoodieSh}"/>
   <g clip-path="url(#${id}-hoodie)">
@@ -251,7 +254,9 @@ function body(id: string): string {
     <path d="M150 420 L270 420" fill="none" stroke="${C.outline}" stroke-width="2.6" opacity="0.6"/>
   </g>
   <path d="${HOODIE}" fill="none" ${ol()}/>
-  <path d="M168 246 C170 268 250 268 252 246 C248 236 172 236 168 246 Z" fill="${C.hoodieSh}" ${ol(3.4)}/>
+  <path d="M180 246 C186 266 234 266 240 246" fill="none" stroke="${C.outline}" stroke-width="13" stroke-linecap="round"/>
+  <path d="M180 246 C186 266 234 266 240 246" fill="none" stroke="${C.hoodieSh}" stroke-width="7" stroke-linecap="round"/>
+  <path d="M186 252 l2 4 M196 257 l1 4 M210 259 v4 M224 257 l-1 4 M234 252 l-2 4" stroke="${C.hoodie}" stroke-width="1.6"/>
   <path d="M196 262 L192 316 M224 262 L228 316" fill="none" stroke="${C.outline}" stroke-width="5.5" stroke-linecap="round"/>
   <path d="M196 262 L192 316 M224 262 L228 316" fill="none" stroke="${C.string}" stroke-width="3" stroke-linecap="round"/>
   <rect x="188" y="314" width="8" height="10" rx="2" fill="${C.phones}" ${ol(1.8)}/><rect x="224" y="314" width="8" height="10" rx="2" fill="${C.phones}" ${ol(1.8)}/>
@@ -286,15 +291,15 @@ export const blinkSvg = (): string => {
 };
 
 const LEFT_REST = () => tube('M142 270 Q96 332 146 386') + cuff(148, 384, 70) + hand(162, 394, 10);
-const RIGHT_REST = () => tube('M278 270 Q324 332 274 386') + cuff(272, 384, -70) + hand(258, 394, 170);
+const RIGHT_REST = () => tube('M278 270 Q324 332 274 386') + cuff(272, 384, -70) + hand(258, 394, 170, false, true);
 const POSE_ARMS: Record<Pose, () => string> = {
   idle: () => LEFT_REST() + RIGHT_REST(),
   // Кулак под подбородком.
-  think: () => LEFT_REST() + tube('M278 268 Q336 300 262 236') + cuff(268, 242, -40) + hand(248, 222, -150, true),
-  throw: () => LEFT_REST() + tube('M278 270 Q334 340 276 410') + cuff(278, 404, -50) + hand(266, 418, 160),
+  think: () => LEFT_REST() + tube('M278 268 Q336 300 262 236') + cuff(268, 242, -40) + hand(248, 222, -150, true, true),
+  throw: () => LEFT_REST() + tube('M278 270 Q334 340 276 410') + cuff(278, 404, -50) + hand(266, 418, 160, false, true),
   took: () => RIGHT_REST() + tube('M142 268 Q92 300 116 220') + cuff(118, 228, 30) + hand(122, 208, -40, true),
   // Оба кулака вверх.
-  victory: () => tube('M142 266 Q80 210 102 130') + cuff(100, 142, 10) + hand(102, 114, -100, true) + tube('M278 266 Q340 210 318 130') + cuff(320, 142, -10) + hand(318, 114, -80, true) + spark(360, 70, 1) + spark(60, 70, 0.8),
+  victory: () => tube('M142 266 Q80 210 102 130') + cuff(100, 142, 10) + hand(102, 114, -100, true) + tube('M278 266 Q340 210 318 130') + cuff(320, 142, -10) + hand(318, 114, -80, true, true) + spark(360, 70, 1) + spark(60, 70, 0.8),
 };
 export const armsSvg = (pose: Pose): string => svgDoc(FIGURE_BOX, POSE_ARMS[pose]());
 

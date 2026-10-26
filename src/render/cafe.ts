@@ -2,6 +2,12 @@
 // Только декор: окно, лампы, полка с играми, доска для счёта мелом. Модуль не зависит от DOM.
 const ol = (w = 4): string => `stroke="#3B2418" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
 
+/**
+ * Где на фоне висит доска для счёта (единицы фона): правее головы персонажа и целиком в кадре на экранах
+ * от 4:3 (видно до x ≈ 1729) до 21:9.
+ */
+export const BG_BOARD = { x: 1490, y: 105, w: 212, h: 106 } as const;
+
 // ---------- фон кафе (единицы BG_DESIGN: 2400 × 900, центр персонажа x = 1200, дальний край стола y = 470) ----------
 export function cafeBackgroundSvg(): string {
   // Провод доходит до верхушки купола плафона (вершина кривой — y = 75).
@@ -26,7 +32,8 @@ export function cafeBackgroundSvg(): string {
     <path d="M${x + 193} 250 C${x + 182} 214 ${x + 160} 204 ${x + 150} 210 C${x + 166} 220 ${x + 177} 234 ${x + 188} 250 M${x + 193} 250 C${x + 198} 210 ${x + 220} 194 ${x + 234} 198 C${x + 220} 212 ${x + 208} 230 ${x + 198} 250" fill="#5B9A4E" ${ol(2.6)}/></g>`;
   const picture = (x: number) => `<g><rect x="${x}" y="150" width="150" height="110" rx="6" fill="#8C5A31" ${ol(4)}/><rect x="${x + 12}" y="162" width="126" height="86" rx="3" fill="#E9D7B4"/>
     <path d="M${x + 20} 238 L${x + 60} 196 L${x + 86} 222 L${x + 104} 206 L${x + 130} 238 Z" fill="#7FA36B"/><circle cx="${x + 110}" cy="184" r="9" fill="#F4C542"/></g>`;
-  const board = `<rect x="1520" y="96" width="230" height="124" rx="10" fill="#2E4038" ${ol(5)}/><rect x="1529" y="105" width="212" height="106" rx="6" fill="none" stroke="#8C5A31" stroke-width="5"/>`;
+  const b = BG_BOARD;
+  const board = `<rect x="${b.x - 9}" y="${b.y - 9}" width="${b.w + 18}" height="${b.h + 18}" rx="10" fill="#2E4038" ${ol(5)}/><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="6" fill="none" stroke="#8C5A31" stroke-width="5"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 900" width="2400" height="900">
   <defs>
     <linearGradient id="bgWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3DDB8"/><stop offset="1" stop-color="#E6C08C"/></linearGradient>
@@ -45,5 +52,4 @@ export function cafeBackgroundSvg(): string {
   </svg>`;
 }
 
-/** Где на фоне висит доска для счёта (единицы фона). */
-export const BG_BOARD = { x: 1529, y: 105, w: 212, h: 106 } as const;
+

@@ -7,6 +7,10 @@ import { KOSTYAN_ROOM } from '../src/characters/kostyan/room';
 import { MATVEY_ROOM } from '../src/characters/matvey/room';
 import { ambientJobs, hueTint, poseBounds, propPose, type AmbientPose, type BgRect, type RoomArt } from '../src/render/ambient';
 import { BG_BOARD } from '../src/render/cafe';
+import { FLOOR_Y } from '../src/render/roomKit';
+import { KHARITON_PUPPET } from '../src/characters/khariton/puppet';
+import { KOSTYAN_PUPPET } from '../src/characters/kostyan/puppet';
+import { MATVEY_PUPPET } from '../src/characters/matvey/puppet';
 import { BG_DESIGN } from '../src/layout/layout';
 
 const ROOMS: readonly RoomArt[] = [AGATA_ROOM, MATVEY_ROOM, KHARITON_ROOM, KOSTYAN_ROOM];
@@ -33,21 +37,24 @@ describe.each(ROOMS.map((r) => [r.id, r] as const))('комната %s', (_id, r
     expect(svg).toContain(`viewBox="0 0 ${BG_DESIGN.width} ${BG_DESIGN.height}"`);
     expect(svg).toContain(`x="${BG_BOARD.x}" y="${BG_BOARD.y}" width="${BG_BOARD.w}" height="${BG_BOARD.h}"`);
     expect(svg).not.toMatch(/NaN|undefined/);
+    // Пол — общий для всех комнат, на одной высоте; стена кончается на линии пола.
+    expect(svg).toContain(`<rect y="${FLOOR_Y}" width="2400"`);
+    expect(svg).toContain(`height="${FLOOR_Y}" fill=`);
     for (const p of room.props) expect(p.svg).not.toMatch(/NaN|undefined/);
   });
 
-  it('2–5 видов движения, у каждого свой период не короче 2 с', () => {
+  it('2–9 видов движения, у каждого свой период не короче 2 с', () => {
     const periods = animated.map((p) => p.period!);
     expect(periods.every((v) => v !== undefined && v >= 2)).toBe(true);
     expect(periods.length).toBeGreaterThanOrEqual(2);
-    expect(periods.length).toBeLessThanOrEqual(6);
+    expect(periods.length).toBeLessThanOrEqual(9);
     const sorted = [...periods].sort((a, b) => a - b);
     for (let i = 1; i < sorted.length; i++) expect(sorted[i]! / sorted[i - 1]!).toBeGreaterThan(1.05);
   });
 
   it('движения цикличны', () => {
     for (const p of animated)
-      for (let i = 0; i < (p.count ?? 1); i++)
+      for (let i = 0; i < (p.count ?? p.frames ?? 1); i++)
         for (const t of [0, 0.7, 3.1, 11.9]) same(p.motion!(t + p.period!, i), p.motion!(t, i));
   });
 
@@ -56,7 +63,7 @@ describe.each(ROOMS.map((r) => [r.id, r] as const))('комната %s', (_id, r
       const reach = p.reach ?? 30;
       const area: BgRect = { x: p.box.x - reach, y: p.box.y - reach, w: p.box.w + 2 * reach, h: p.box.h + 2 * reach };
       const period = p.period ?? 1;
-      for (let i = 0; i < (p.count ?? 1); i++) {
+      for (let i = 0; i < (p.count ?? p.frames ?? 1); i++) {
         let prev: BgRect | null = null;
         for (let t = 0; t <= period; t += 1 / 30) {
           const pose = propPose(p, t, i, false)!;
@@ -84,7 +91,7 @@ describe.each(ROOMS.map((r) => [r.id, r] as const))('комната %s', (_id, r
 
   it('«Меньше движения»: частицы скрыты, остальное замерло', () => {
     for (const p of room.props)
-      for (let i = 0; i < (p.count ?? 1); i++) {
+      for (let i = 0; i < (p.count ?? p.frames ?? 1); i++) {
         const a = propPose(p, 0, i, true);
         if (p.particle) expect(a).toBeNull();
         else for (const t of [1.3, 7.7, 42]) same(propPose(p, t, i, true)!, a!);
@@ -110,4 +117,8 @@ it('hueTint даёт корректный RGB', () => {
     expect(c).toBeGreaterThanOrEqual(0);
     expect(c).toBeLessThanOrEqual(0xffffff);
   }
+});
+
+it('правая кисть — зеркальная левой у персонажей доски и домино', () => {
+  for (const p of [MATVEY_PUPPET, KHARITON_PUPPET, KOSTYAN_PUPPET]) expect(p.mirrorHandR).toBe(true);
 });

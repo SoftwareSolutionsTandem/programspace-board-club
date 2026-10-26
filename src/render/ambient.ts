@@ -2,7 +2,7 @@
 // BG_DESIGN) плюс несколько маленьких «живых» предметов: занавеска, маятник, пар, огоньки. Каждый предмет — своя
 // небольшая текстура, движение — чистая функция времени (тестируется без Pixi). Слой стоит между фоном и персонажем:
 // персонаж, стол, доска, карты и счёт всегда рисуются поверх. При «Меньше движения» слой замирает.
-import { Container, Sprite, type Texture } from 'pixi.js';
+import { Container, Graphics, Rectangle, Sprite, Texture } from 'pixi.js';
 import type { TextureJob } from '../characters/textures';
 
 /** Прямоугольник в единицах фона (2400 × 900). */
@@ -41,6 +41,13 @@ export interface AmbientProp {
   /** Насколько далеко предмет может уйти от своего box (единицы фона) — для проверки, что он не залезает на важное. */
   readonly reach?: number;
   readonly motion?: (t: number, i: number) => AmbientPose;
+  /**
+   * Текстура из frames полос по горизонтали (каждая шириной box.w): копия i показывает полосу i. Так глобус
+   * вращается по-настоящему — полосы карты встают по проекции и сжимаются к краю диска. count по умолчанию = frames.
+   */
+  readonly frames?: number;
+  /** Маска (единицы фона): круг или прямоугольник — предмет виден только внутри. */
+  readonly clip?: { readonly x: number; readonly y: number; readonly r: number } | BgRect;
 }
 
 export interface RoomArt {
@@ -118,7 +125,7 @@ const jobKey = (room: RoomArt, p: AmbientProp) => `amb:${room.id}:${p.key}`;
 export function ambientJobs(room: RoomArt, res: number): TextureJob[] {
   // Мелкие предметы рисуются чуть чётче фона: их видно в движении.
   const r = Math.min(1.25, res * 1.25);
-  return room.props.map((p) => ({ key: jobKey(room, p), svg: p.svg, w: p.box.w * r, h: p.box.h * r }));
+  return room.props.map((p) => ({ key: jobKey(room, p), svg: p.svg, w: p.box.w * (p.frames ?? 1) * r, h: p.box.h * r }));
 }
 
 export function ambientTextures(room: RoomArt, out: ReadonlyMap<string, Texture>): Map<string, Texture> {
@@ -147,6 +154,8 @@ interface Item {
 export class AmbientLayer {
   readonly root = new Container();
   private items: Item[] = [];
+  /** Полосы текстур (frames) и контейнеры с масками — свои, освобождаются при смене комнаты. */
+  private owned: { textures: Texture[]; nodes: Container[] } = { textures: [], nodes: [] };
   private t = 0;
   private _reduced = false;
 
@@ -156,18 +165,38 @@ export class AmbientLayer {
 
   setRoom(room: RoomArt, textures: ReadonlyMap<string, Texture>): void {
     for (const it of this.items) it.sprite.destroy();
+    for (const n of this.owned.nodes) n.destroy({ children: true });
+    for (const t of this.owned.textures) t.destroy(false);
     this.items = [];
+    this.owned = { textures: [], nodes: [] };
     for (const prop of room.props) {
       const tex = textures.get(prop.key);
       if (!tex) continue;
       const px = prop.pivot?.x ?? prop.box.x + prop.box.w / 2;
       const py = prop.pivot?.y ?? prop.box.y + prop.box.h / 2;
-      for (let i = 0; i < (prop.count ?? 1); i++) {
-        const sprite = new Sprite(tex);
+      let parent: Container = this.root;
+      if (prop.clip) {
+        parent = new Container();
+        const c = prop.clip;
+        const mask = ('r' in c ? new Graphics().circle(c.x, c.y, c.r) : new Graphics().rect(c.x, c.y, c.w, c.h)).fill(0xffffff);
+        parent.addChild(mask);
+        parent.mask = mask;
+        this.root.addChild(parent);
+        this.owned.nodes.push(parent);
+      }
+      const frames = prop.frames ?? 1;
+      const fw = tex.width / frames;
+      for (let i = 0; i < (prop.count ?? frames); i++) {
+        let t = tex;
+        if (frames > 1) {
+          t = new Texture({ source: tex.source, frame: new Rectangle(tex.frame.x + fw * (i % frames), tex.frame.y, fw, tex.height) });
+          this.owned.textures.push(t);
+        }
+        const sprite = new Sprite(t);
         sprite.anchor.set((px - prop.box.x) / prop.box.w, (py - prop.box.y) / prop.box.h);
-        const item: Item = { prop, index: i, sprite, px, py, scaleX: prop.box.w / tex.width, scaleY: prop.box.h / tex.height };
+        const item: Item = { prop, index: i, sprite, px, py, scaleX: prop.box.w / t.width, scaleY: prop.box.h / t.height };
         this.items.push(item);
-        this.root.addChild(sprite);
+        parent.addChild(sprite);
       }
     }
     this.apply();

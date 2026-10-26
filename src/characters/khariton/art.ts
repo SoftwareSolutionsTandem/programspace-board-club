@@ -247,7 +247,7 @@ function tube(d: string, w = 28, fill = C.tweed): string {
 }
 
 /** Кисть с длинными пальцами; fist — сжата. */
-const hand = (x: number, y: number, rot = 0, fist = false): string => `<g transform="translate(${x} ${y}) rotate(${rot})">
+const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(-1 ${mirror ? -1 : 1})">
   <ellipse rx="16" ry="13" fill="${C.skin}" ${ol(3.4)}/>
   ${fist
     ? `<path d="M-10 -6 q4 -4 8 0 M-2 -6 q4 -4 8 0 M6 -6 q3 -3 6 1" fill="none" ${ol(2.2)}/>`
@@ -328,16 +328,16 @@ export const blinkSvg = (): string => {
 };
 
 const LEFT_REST = () => tube('M146 268 Q100 330 148 384') + cuff(150, 382, 70) + hand(164, 392, 10);
-const RIGHT_REST = () => tube('M274 268 Q320 330 272 384') + cuff(270, 382, -70) + hand(256, 392, 170);
+const RIGHT_REST = () => tube('M274 268 Q320 330 272 384') + cuff(270, 382, -70) + hand(256, 392, 170, false, true);
 const POSE_ARMS: Record<Pose, () => string> = {
   idle: () => LEFT_REST() + RIGHT_REST(),
   // Пальцы у бородки.
-  think: () => LEFT_REST() + tube('M274 268 Q340 300 266 248') + cuff(272, 252, -40) + hand(252, 236, -150),
+  think: () => LEFT_REST() + tube('M274 268 Q340 300 266 248') + cuff(272, 252, -40) + hand(252, 236, -150, false, true),
   // Тянется к доске.
-  throw: () => LEFT_REST() + tube('M274 270 Q330 340 272 410') + cuff(274, 404, -50) + hand(262, 418, 160),
+  throw: () => LEFT_REST() + tube('M274 270 Q330 340 272 410') + cuff(274, 404, -50) + hand(262, 418, 160, false, true),
   took: () => RIGHT_REST() + tube('M146 268 Q96 300 120 222') + cuff(122, 230, 30) + hand(126, 210, -40),
   // Указательный палец вверх — «эврика!».
-  victory: () => LEFT_REST() + tube('M274 266 Q340 210 318 132') + cuff(320, 144, -10) + hand(318, 116, -80, true) + spark(360, 72, 1) + spark(282, 50, 0.7),
+  victory: () => LEFT_REST() + tube('M274 266 Q340 210 318 132') + cuff(320, 144, -10) + hand(318, 116, -80, true, true) + spark(360, 72, 1) + spark(282, 50, 0.7),
 };
 export const armsSvg = (pose: Pose): string => svgDoc(FIGURE_BOX, POSE_ARMS[pose]());
 

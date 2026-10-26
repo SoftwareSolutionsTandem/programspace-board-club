@@ -1,31 +1,39 @@
-// Комната Костяна — «Комната с постерами» (docs/ART_STYLE.md §12): сине-фиолетовая стена, постеры, светодиодная
-// лента под потолком, гитара на стойке, монитор с заставкой, приставка, скейт, окно на вечерний город.
-// Живое: лента плавно меняет оттенок, гитара чуть покачивается, заставка на мониторе, огни города и самолёт.
+// Комната Костяна — «Комната с постерами» (docs/ART_STYLE.md §12): сине-фиолетовая стена, афиши рок-фестиваля и
+// скейт-контеста, светодиодная лента под потолком, классическая гитара на стойке, телевизор на тумбе с приставкой,
+// скейт, кровать, дощатый пол, окно на вечерний город.
+// Живое: лента меняет оттенок, гитара чуть покачивается, музыкальный канал по телевизору, огни города и самолёт.
 // Модуль строит SVG-строки и не зависит от DOM.
 import { cycle, hash01, hueTint, propSvg, wave, type RoomArt } from '../../render/ambient';
-import { frame, glow, glowDef, ol, roomDoc, scoreSlate } from '../../render/roomKit';
+import { FLOOR_Y, floorDefs, floorSvg, glow, glowDef, ol, roomDoc, scoreSlate } from '../../render/roomKit';
 
-const NEON = '#FF4FA0', CYAN = '#3FE0E8', WOOD = '#5A3A2A';
-const WIN = { x: 560, y: 110, w: 260, h: 220 };
-// Экран монитора (единицы фона).
-const SCREEN = { x: 1512, y: 262, w: 196, h: 104 };
-const GUITAR = { x: 908, base: 458 };
+const NEON = '#FF4FA0', CYAN = '#3FE0E8', WOOD = '#5A3A2A', INK = '#1E1C3E';
+// Окно на вечерний город — слева, между постером и Костяном; гитара стоит на полу перед окном.
+const WIN = { x: 694, y: 104, w: 220, h: 214 };
+// Телевизор на тумбе под табло счёта; экран — единицы фона.
+const TV = { x: 1476, y: 244, w: 240, h: 128 };
+const SCREEN = { x: TV.x + 12, y: TV.y + 10, w: TV.w - 24, h: TV.h - 20 };
+const STAND_TOP = TV.y + TV.h + 8;
+const GUITAR = { x: 868, base: FLOOR_Y + 6, w: 100, h: 250 };
+// Постеры — целиком в кадре на широком экране (единицы фона).
+const POSTER_L = { x: 516, y: 122, w: 150, h: 216 };
+const POSTER_R = { x: 1764, y: 124, w: 110, h: 200 };
+const KX = WIN.w / 260;
 
 function city(): string {
   const { x, y, w, h } = WIN;
   const b = y + h;
   const towers = [[0, 120, 40], [44, 90, 34], [82, 140, 46], [132, 70, 30], [166, 110, 42], [212, 150, 48]];
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#kcSky)"/>
-  ${towers.map(([dx, th, tw]) => `<rect x="${x + dx!}" y="${b - th!}" width="${tw}" height="${th}" fill="#1E1C3E"/>`).join('')}
-  <rect x="${x + 140}" y="${b - 92}" width="3" height="22" fill="#1E1C3E"/>`;
+  ${towers.map(([dx, th, tw]) => `<rect x="${x + dx! * KX}" y="${b - th!}" width="${tw! * KX}" height="${th}" fill="${INK}"/>`).join('')}
+  <rect x="${x + 140 * KX}" y="${b - 92}" width="3" height="22" fill="${INK}"/>`;
 }
 
 // Окна домов: каждое светится своим ритмом (координаты — от левого верхнего угла стекла).
-const LIGHTS: readonly (readonly [number, number])[] = [[10, 128], [22, 150], [56, 156], [94, 116], [106, 146], [140, 176], [178, 136], [190, 164], [224, 100], [236, 132]];
+const LIGHTS: readonly (readonly [number, number])[] = [[10, 128], [22, 150], [56, 156], [94, 116], [106, 146], [140, 176], [178, 136], [190, 164], [224, 100], [236, 132]].map(([lx, ly]) => [lx! * KX, ly!] as const);
 
 function blinds(ox: number, oy: number): string {
   const x = WIN.x - ox, y = WIN.y - oy, { w, h } = WIN;
-  // Жалюзи подняты: собраны сверху; рама и подоконник.
+  // Жалюзи подняты: собраны сверху; рама.
   return `<rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="34" rx="4" fill="#D8D4E8" ${ol(3)}/>
   ${[0, 1, 2].map((k) => `<path d="M${x - 4} ${y + 4 + k * 9} H${x + w + 4}" stroke="#A8A2C2" stroke-width="2"/>`).join('')}
   <path d="M${x + 40} ${y + 28} V${y + 70}" stroke="#D8D4E8" stroke-width="2"/>
@@ -34,60 +42,140 @@ function blinds(ox: number, oy: number): string {
   <rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="5" fill="none" ${ol(4)}/>`;
 }
 
+/** Классическая гитара: дека из ели с волокнами, тёмная обечайка, розетка, подставка, грифель с ладами, головка с колками. */
 function guitar(): string {
-  // Локальные координаты 120 × 310; основание стойки — низ по центру (60, 300).
-  return propSvg(120, 310, `
-    <path d="M60 300 L30 304 M60 300 L90 304 M60 300 V230" fill="none" stroke="#2A2A36" stroke-width="7" stroke-linecap="round"/>
-    <rect x="53" y="18" width="14" height="150" rx="4" fill="#7A4A2A" ${ol(3)}/>
-    ${[0, 1, 2, 3, 4, 5, 6].map((k) => `<path d="M53 ${40 + k * 18} H67" stroke="#E8D8B0" stroke-width="1.6"/>`).join('')}
-    <path d="M50 4 H70 L72 26 H48 Z" fill="#2A2A36" ${ol(3)}/>
-    <circle cx="44" cy="10" r="3.4" fill="#C9CED6"/><circle cx="76" cy="10" r="3.4" fill="#C9CED6"/><circle cx="44" cy="20" r="3.4" fill="#C9CED6"/><circle cx="76" cy="20" r="3.4" fill="#C9CED6"/>
-    <path d="M60 160 C28 160 18 182 26 204 C34 222 14 236 18 262 C24 296 96 296 102 262 C106 236 86 222 94 204 C102 182 92 160 60 160 Z" fill="#E2483A" ${ol(4)}/>
-    <path d="M60 172 C40 172 34 188 40 204 C46 220 30 232 32 254 C36 280 84 280 88 254 C90 232 74 220 80 204 C86 188 80 172 60 172 Z" fill="#F7EEDC" opacity="0.9"/>
-    <circle cx="60" cy="214" r="15" fill="#2A2A36" ${ol(2.4)}/>
-    <rect x="46" y="250" width="28" height="8" rx="2" fill="#2A2A36"/>
-    <path d="M56 26 V250 M64 26 V250" stroke="#E8E4F4" stroke-width="1.1" opacity="0.8"/>`);
+  const { w, h } = GUITAR;
+  const cx = w / 2, base = h - 6;
+  const body = `M${cx} ${base - 112} C${cx - 26} ${base - 114} ${cx - 34} ${base - 96} ${cx - 30} ${base - 80} C${cx - 26} ${base - 68} ${cx - 44} ${base - 58} ${cx - 44} ${base - 36} C${cx - 44} ${base - 10} ${cx - 20} ${base} ${cx} ${base} C${cx + 20} ${base} ${cx + 44} ${base - 10} ${cx + 44} ${base - 36} C${cx + 44} ${base - 58} ${cx + 26} ${base - 68} ${cx + 30} ${base - 80} C${cx + 34} ${base - 96} ${cx + 26} ${base - 114} ${cx} ${base - 112} Z`;
+  const grain = [-30, -20, -10, 0, 10, 20, 30].map((dx) => `<path d="M${cx + dx} ${base - 108 + Math.abs(dx) * 0.4} C${cx + dx + 2} ${base - 70} ${cx + dx - 2} ${base - 40} ${cx + dx} ${base - 4 - Math.abs(dx) * 0.3}" stroke="#C48A48" stroke-width="1.2" fill="none" opacity="0.6"/>`).join('');
+  const frets = Array.from({ length: 8 }, (_, k) => `<path d="M${cx - 6} ${base - 118 - k * 11} H${cx + 6}" stroke="#D8D2C0" stroke-width="1.4"/>`).join('');
+  return propSvg(w, h, `
+    <path d="M${cx} ${base} L${cx - 22} ${h} M${cx} ${base} L${cx + 22} ${h} M${cx} ${base - 6} V${base - 30}" fill="none" stroke="#2A2A36" stroke-width="5" stroke-linecap="round"/>
+    <rect x="${cx - 7}" y="${base - 206}" width="14" height="100" rx="3" fill="#5A3A22" ${ol(2.6)}/>${frets}
+    <path d="M${cx - 11} ${base - 206} L${cx - 12} ${base - 236} Q${cx} ${base - 242} ${cx + 12} ${base - 236} L${cx + 11} ${base - 206} Z" fill="#6E4A2C" ${ol(2.4)}/>
+    <path d="M${cx - 4} ${base - 210} V${base - 232} M${cx + 4} ${base - 210} V${base - 232}" stroke="#2A1A10" stroke-width="3" stroke-linecap="round"/>
+    ${[0, 1, 2].map((k) => `<circle cx="${cx - 15}" cy="${base - 228 + k * 8}" r="3" fill="#F2E7C8" ${ol(1.2)}/><circle cx="${cx + 15}" cy="${base - 228 + k * 8}" r="3" fill="#F2E7C8" ${ol(1.2)}/>`).join('')}
+    <path d="${body}" fill="#8A5A2E" ${ol(3.4)}/>
+    <g transform="translate(${cx} ${base - 56}) scale(0.92) translate(${-cx} ${-(base - 56)})"><path d="${body}" fill="#E2B06A"/>${grain}</g>
+    <circle cx="${cx}" cy="${base - 70}" r="13" fill="#2A1A10" ${ol(2)}/>
+    <circle cx="${cx}" cy="${base - 70}" r="16.5" fill="none" stroke="#5A8A5A" stroke-width="2.2"/><circle cx="${cx}" cy="${base - 70}" r="19" fill="none" stroke="#8A5A2E" stroke-width="1.6"/>
+    <rect x="${cx - 16}" y="${base - 30}" width="32" height="8" rx="2" fill="#5A3A22" ${ol(1.8)}/>
+    <path d="M${cx - 5} ${base - 206} V${base - 26} M${cx - 3} ${base - 206} V${base - 26} M${cx - 1} ${base - 206} V${base - 26} M${cx + 1} ${base - 206} V${base - 26} M${cx + 3} ${base - 206} V${base - 26} M${cx + 5} ${base - 206} V${base - 26}" stroke="#F4F0E6" stroke-width="0.7" opacity="0.9"/>
+    <path d="M${cx - 34} ${base - 40} C${cx - 36} ${base - 60} ${cx - 26} ${base - 72} ${cx - 22} ${base - 78}" stroke="#FFF3D6" stroke-width="2.4" fill="none" opacity="0.6" stroke-linecap="round"/>`);
 }
 
-function desk(): string {
-  const x = 1470, top = 392, s = SCREEN;
+const text = (x: number, y: number, size: number, fill: string, str: string, extra = '') =>
+  `<text x="${x}" y="${y}" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="${size}" fill="${fill}" text-anchor="middle" ${extra}>${str}</text>`;
+
+/** Афиша рок-фестиваля: сцена, лучи прожекторов, гитарист в прыжке, толпа, название и дата. */
+function rockPoster(): string {
+  const { x, y, w, h } = POSTER_L;
+  const cx = x + w / 2;
+  const beams = [[-44, '#F4C542'], [0, '#FF4FA0'], [44, '#3FE0E8']].map(([dx, c]) => `<path d="M${cx + Number(dx)} ${y + 40} L${cx + Number(dx) - 30} ${y + h - 46} L${cx + Number(dx) + 30} ${y + h - 46} Z" fill="${c}" opacity="0.28"/>`).join('');
+  const crowd = Array.from({ length: 9 }, (_, k) => {
+    const hx = x + 12 + k * 15.5, hy = y + h - 34 + (k % 2) * 4;
+    return `<circle cx="${hx}" cy="${hy}" r="6" fill="#0E0C22"/>` + (k % 3 === 1 ? `<path d="M${hx + 3} ${hy - 4} l6 -14 l3 -2" stroke="#0E0C22" stroke-width="3.4" stroke-linecap="round" fill="none"/>` : '');
+  }).join('');
+  // Гитарист: силуэт с электрогитарой, одна рука вверх.
+  const g = `<g transform="translate(${cx} ${y + h - 72})">
+    <circle cx="0" cy="-58" r="9" fill="#0E0C22"/>
+    <path d="M-10 -48 L10 -48 L8 -10 L-8 -10 Z" fill="#0E0C22"/>
+    <path d="M-8 -10 L-18 18 M8 -10 L16 18" stroke="#0E0C22" stroke-width="7" stroke-linecap="round"/>
+    <path d="M8 -44 L22 -64 L26 -78" stroke="#0E0C22" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M-10 -44 L-18 -28" stroke="#0E0C22" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-24 -24 C-30 -30 -22 -38 -14 -32 L14 -46 L30 -56 L32 -52 L16 -42 C20 -34 12 -24 2 -28 C-6 -18 -18 -18 -24 -24 Z" fill="#E2483A" stroke="#0E0C22" stroke-width="2"/>
+    <path d="M28 -80 l4 -6 M30 -72 l7 -2" stroke="#F4C542" stroke-width="2.4" stroke-linecap="round"/></g>`;
   return `<g>
-    <rect x="${s.x - 14}" y="${s.y - 12}" width="${s.w + 28}" height="${s.h + 26}" rx="8" fill="#1A1A26" ${ol(4)}/>
-    <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="3" fill="#121838"/>
-    <path d="M${s.x + s.w / 2} ${s.y + s.h + 14} V${top - 12} M${s.x + s.w / 2 - 40} ${top - 10} H${s.x + s.w / 2 + 40}" ${ol(7, '#1A1A26')}/>
-    <rect x="${x - 10}" y="${top - 12}" width="470" height="18" rx="4" fill="${WOOD}" ${ol(3.5)}/>
-    <rect x="${x}" y="${top + 6}" width="450" height="${900 - top}" fill="#4A3046" ${ol(4)}/>
-    <rect x="${x + 260}" y="${top - 30}" width="120" height="18" rx="6" fill="#E8E4F4" ${ol(3)}/><circle cx="${x + 362}" cy="${top - 21}" r="3.5" fill="${CYAN}"/>
-    <path d="M${x + 400} ${top - 12} V${top - 54} H${x + 428} V${top - 12} Z" fill="#3FA0E8" ${ol(3)}/><path d="M${x + 400} ${top - 44} H${x + 428}" stroke="#F7EEDC" stroke-width="5"/></g>`;
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#2A1450" ${ol(3.5)}/>
+    <rect x="${x + 6}" y="${y + 6}" width="${w - 12}" height="${h - 12}" fill="#3A1C6A"/>
+    ${beams}
+    <rect x="${x + 6}" y="${y + h - 52}" width="${w - 12}" height="12" fill="#5A3A8A"/>
+    ${g}${crowd}
+    ${text(cx, y + 34, 25, '#F4C542', 'РОК', 'stroke="#0E0C22" stroke-width="1.2"')}${text(cx, y + 56, 19, '#FF4FA0', 'ФЕСТ', 'stroke="#0E0C22" stroke-width="1"')}
+    ${text(cx, y + h - 12, 12, '#F7EEDC', '12 АВГУСТА')}
+    <path d="M${x + 4} ${y + 4} l10 0 l-10 10 Z M${x + w - 4} ${y + 4} l-10 0 l10 10 Z" fill="#F7EEDC"/></g>`;
 }
 
-const poster = (x: number, y: number, w: number, h: number, inner: string, color = '#F7EEDC') => frame(x, y, w, h, color, inner, 6);
+/** Афиша скейт-контеста: закат, рампа, скейтер в прыжке, надписи. */
+function skatePoster(): string {
+  const { x, y, w, h } = POSTER_R;
+  const cx = x + w / 2;
+  return `<g>
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#F4A24A" ${ol(3.5)}/>
+    <rect x="${x + 5}" y="${y + 5}" width="${w - 10}" height="${h - 10}" fill="url(#kcPoster)"/>
+    <circle cx="${cx + 18}" cy="${y + 78}" r="22" fill="#FFE08A"/>
+    <path d="M${x + 5} ${y + h - 30} H${x + 30} C${x + 60} ${y + h - 30} ${x + 80} ${y + h - 60} ${x + 86} ${y + h - 108} L${x + w - 5} ${y + h - 108} V${y + h - 5} H${x + 5} Z" fill="#8A8FA6" stroke="#1E1C3E" stroke-width="2"/>
+    <path d="M${x + 86} ${y + h - 108} H${x + w - 5}" stroke="#E8E4F4" stroke-width="4"/>
+    <g transform="translate(${cx - 8} ${y + 112}) rotate(-18)">
+      <circle cx="0" cy="-30" r="7" fill="#F2C6A8" stroke="#1E1C3E" stroke-width="1.8"/>
+      <path d="M-6 -36 q6 -6 12 0" fill="#1E1C3E"/>
+      <path d="M-8 -22 L8 -22 L6 0 L-6 0 Z" fill="#E2483A" stroke="#1E1C3E" stroke-width="1.8"/>
+      <path d="M-8 -18 L-20 -26 M8 -18 L20 -8" stroke="#F2C6A8" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-4 0 L-12 12 M4 0 L10 12" stroke="#3E5AA8" stroke-width="5" stroke-linecap="round"/>
+      <rect x="-20" y="12" width="40" height="5" rx="2.5" fill="#3FE0E8" stroke="#1E1C3E" stroke-width="1.6"/>
+      <circle cx="-12" cy="19" r="2.6" fill="#F4C542"/><circle cx="12" cy="19" r="2.6" fill="#F4C542"/></g>
+    <path d="M${cx - 34} ${y + 146} q-8 4 -14 0 M${cx - 30} ${y + 154} q-8 4 -14 0" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.8"/>
+    ${text(cx, y + 28, 17, '#1E1C3E', 'СКЕЙТ')}${text(cx, y + 46, 13, '#FFFFFF', 'КОНТЕСТ', 'stroke="#1E1C3E" stroke-width="0.8"')}
+    ${text(cx, y + h - 12, 13, '#FFFFFF', 'ФИНАЛ', 'stroke="#1E1C3E" stroke-width="0.8"')}</g>`;
+}
+
+function tvStand(): string {
+  const t = TV, s = SCREEN;
+  return `<g>
+    <rect x="${t.x - 16}" y="${STAND_TOP}" width="${t.w + 32}" height="${FLOOR_Y - 4 - STAND_TOP}" rx="4" fill="#4A3046" ${ol(3.5)}/>
+    <rect x="${t.x - 22}" y="${STAND_TOP - 6}" width="${t.w + 44}" height="12" rx="4" fill="${WOOD}" ${ol(3)}/>
+    <rect x="${t.x + 4}" y="${STAND_TOP + 14}" width="${t.w - 8}" height="${FLOOR_Y - 22 - STAND_TOP - 14}" rx="3" fill="#2E1E30" ${ol(2.4)}/>
+    <rect x="${t.x + 20}" y="${STAND_TOP + 22}" width="96" height="16" rx="5" fill="#E8E4F4" ${ol(2.4)}/><circle cx="${t.x + 104}" cy="${STAND_TOP + 30}" r="3" fill="${CYAN}"/>
+    <path d="M${t.x + 140} ${STAND_TOP + 38} c0 -12 10 -14 16 -8 c6 -6 16 -4 16 8 c0 8 -8 10 -16 6 c-8 4 -16 2 -16 -6 Z" fill="#2A2A36" ${ol(2)}/>
+    <path d="M${t.x + 6} ${FLOOR_Y - 4} v10 M${t.x + t.w - 6} ${FLOOR_Y - 4} v10" ${ol(6)}/>
+    <rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" rx="8" fill="#1A1A26" ${ol(4)}/>
+    <rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="3" fill="url(#kcScreenBg)"/>
+    <path d="M${t.x + t.w / 2 - 30} ${t.y + t.h} L${t.x + t.w / 2 - 40} ${STAND_TOP - 6} H${t.x + t.w / 2 + 40} L${t.x + t.w / 2 + 30} ${t.y + t.h} Z" fill="#1A1A26" ${ol(2.6)}/>
+    <circle cx="${t.x + t.w - 14}" cy="${t.y + t.h - 5}" r="2.4" fill="#FF5A5A"/></g>`;
+}
+
+/** Постоянное на экране музыкального канала: логотип, «певица» у микрофона, пол сцены. */
+function tvScene(): string {
+  const s = SCREEN;
+  return `<g>
+    <rect x="${s.x + 6}" y="${s.y + 6}" width="40" height="16" rx="4" fill="${NEON}"/>${text(s.x + 26, s.y + 18, 11, '#FFFFFF', 'МУЗ')}
+    <circle cx="${s.x + s.w - 40}" cy="${s.y + 40}" r="10" fill="#F2C6A8"/><path d="M${s.x + s.w - 52} ${s.y + 34} q12 -16 24 0 v16 q-4 -6 -4 -10 q-8 -6 -16 0 q0 6 -4 10 Z" fill="#F4C542"/>
+    <path d="M${s.x + s.w - 56} ${s.y + 86} C${s.x + s.w - 56} ${s.y + 58} ${s.x + s.w - 24} ${s.y + 58} ${s.x + s.w - 24} ${s.y + 86} Z" fill="#3FE0E8"/>
+    <path d="M${s.x + s.w - 62} ${s.y + 86} V${s.y + 56}" stroke="#C9CED6" stroke-width="2"/><circle cx="${s.x + s.w - 62}" cy="${s.y + 54}" r="4" fill="#C9CED6"/>
+    <rect x="${s.x}" y="${s.y + s.h - 18}" width="${s.w}" height="18" fill="#0E0C22" opacity="0.85"/></g>`;
+}
+
+const EQ = { n: 7, w: 12, h: 48, gap: 17 };
+const TICKER = { w: 520, h: 14, loop: 260 };
+const tickerSvg = (): string => {
+  const line = '★ ХИТ-ПАРАД ★ НОВЫЕ КЛИПЫ ★ ПРЯМОЙ ЭФИР ';
+  return propSvg(TICKER.w, TICKER.h, [0, TICKER.loop].map((ox) => `<text x="${ox + 4}" y="11" font-family="Arial, sans-serif" font-weight="700" font-size="10.5" fill="#FFE08A" textLength="${TICKER.loop - 8}" lengthAdjust="spacingAndGlyphs">${line}</text>`).join(''));
+};
 
 function background(): string {
   const defs = `
     <linearGradient id="kcWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C2A5C"/><stop offset="1" stop-color="#3D2F6A"/></linearGradient>
     <linearGradient id="kcSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A3478"/><stop offset="0.6" stop-color="#B0558A"/><stop offset="1" stop-color="#F09A6A"/></linearGradient>
-    ${glowDef('kcScreen', '#6AA8FF', 0.28)}${glowDef('kcWin', '#F09A6A', 0.22)}`;
+    <linearGradient id="kcPoster" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4C542"/><stop offset="1" stop-color="#F06A5A"/></linearGradient>
+    <linearGradient id="kcScreenBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2A1A6A"/><stop offset="1" stop-color="#6A2A8A"/></linearGradient>
+    ${glowDef('kcScreen', '#6AA8FF', 0.28)}${glowDef('kcWin', '#F09A6A', 0.22)}${floorDefs}`;
   return roomDoc(defs, `
-  <rect width="2400" height="900" fill="url(#kcWall)"/>
-  <rect y="398" width="2400" height="502" fill="#2A2246"/>
-  <path d="M0 398 H2400" stroke="#1E183A" stroke-width="10"/>
+  <rect width="2400" height="${FLOOR_Y}" fill="url(#kcWall)"/>
+  ${floorSvg('#1E183A')}
   ${glow('kcWin', WIN.x + WIN.w / 2, WIN.y + WIN.h / 2, 300, 220)}${glow('kcScreen', SCREEN.x + SCREEN.w / 2, SCREEN.y + SCREEN.h / 2, 260, 180)}
-  ${poster(110, 110, 170, 230, `<rect width="100" height="100" fill="#1E1C3E"/><circle cx="50" cy="44" r="26" fill="${NEON}"/><path d="M20 82 H80 M28 92 H72" stroke="#F7EEDC" stroke-width="5"/><path d="M38 44 L50 30 L62 44 L50 58 Z" fill="#1E1C3E"/>`)}
-  ${poster(310, 150, 130, 170, `<rect width="100" height="100" fill="#F4C542"/><rect x="18" y="20" width="64" height="44" rx="8" fill="#2A2A36"/><circle cx="34" cy="42" r="7" fill="${CYAN}"/><circle cx="66" cy="42" r="7" fill="${NEON}"/><path d="M20 80 H80" stroke="#2A2A36" stroke-width="6"/>`)}
+  ${rockPoster()}
   <g><rect x="${WIN.x}" y="${WIN.y}" width="${WIN.w}" height="${WIN.h}" fill="url(#kcSky)"/>${city()}${blinds(0, 0)}</g>
   <rect x="${WIN.x - 20}" y="${WIN.y + WIN.h + 6}" width="${WIN.w + 40}" height="16" rx="4" fill="#E8E4F4" ${ol(3)}/>
   <path d="M${WIN.x + 20} ${WIN.y + WIN.h + 6} L${WIN.x + 26} ${WIN.y + WIN.h - 24} L${WIN.x + 60} ${WIN.y + WIN.h - 24} L${WIN.x + 66} ${WIN.y + WIN.h + 6} Z" fill="#E8E4F4" ${ol(2.5)}/>
   <path d="M${WIN.x + 43} ${WIN.y + WIN.h - 24} C${WIN.x + 30} ${WIN.y + WIN.h - 60} ${WIN.x + 50} ${WIN.y + WIN.h - 64} ${WIN.x + 43} ${WIN.y + WIN.h - 24} M${WIN.x + 43} ${WIN.y + WIN.h - 24} C${WIN.x + 56} ${WIN.y + WIN.h - 56} ${WIN.x + 70} ${WIN.y + WIN.h - 50} ${WIN.x + 43} ${WIN.y + WIN.h - 24}" fill="#5B9A4E" ${ol(2)}/>
   ${scoreSlate(NEON, '#1E1A3A')}
-  ${desk()}
-  ${poster(1960, 110, 150, 200, `<rect width="100" height="100" fill="${CYAN}"/><path d="M10 70 Q50 40 90 70" stroke="#1E1C3E" stroke-width="10" fill="none"/><circle cx="26" cy="78" r="7" fill="#1E1C3E"/><circle cx="74" cy="78" r="7" fill="#1E1C3E"/><path d="M30 26 L50 12 L70 26" stroke="${NEON}" stroke-width="6" fill="none"/>`)}
-  ${poster(2140, 160, 120, 150, `<rect width="100" height="100" fill="#2A2A36"/><path d="M50 14 L60 40 L88 40 L66 56 L74 84 L50 68 L26 84 L34 56 L12 40 L40 40 Z" fill="#F4C542"/>`)}
-  <g transform="rotate(-12 2290 660)"><rect x="2266" y="380" width="48" height="300" rx="24" fill="#E2483A" ${ol(4)}/>
-    <path d="M2276 420 H2304 M2276 640 H2304" stroke="#F7EEDC" stroke-width="4"/>
-    <circle cx="2272" cy="440" r="9" fill="#F4C542" ${ol(2)}/><circle cx="2308" cy="440" r="9" fill="#F4C542" ${ol(2)}/><circle cx="2272" cy="620" r="9" fill="#F4C542" ${ol(2)}/><circle cx="2308" cy="620" r="9" fill="#F4C542" ${ol(2)}/></g>
-  <g><rect x="80" y="430" width="420" height="120" rx="20" fill="#3E5AA8" ${ol(4)}/><rect x="96" y="402" width="140" height="56" rx="22" fill="#E8E4F4" ${ol(3.5)}/>
-    <path d="M250 450 Q330 430 480 446" stroke="#2E4A90" stroke-width="5" fill="none"/></g>
+  ${tvStand()}${tvScene()}
+  ${skatePoster()}
+  <g transform="rotate(-12 2290 ${FLOOR_Y})"><rect x="2266" y="${FLOOR_Y - 300}" width="48" height="300" rx="24" fill="#E2483A" ${ol(4)}/>
+    <path d="M2276 ${FLOOR_Y - 260} H2304 M2276 ${FLOOR_Y - 40} H2304" stroke="#F7EEDC" stroke-width="4"/>
+    ${[[2272, -240], [2308, -240], [2272, -60], [2308, -60]].map(([wx, wy]) => `<circle cx="${wx}" cy="${FLOOR_Y + wy!}" r="9" fill="#F4C542" ${ol(2)}/>`).join('')}</g>
+  <g><rect x="80" y="${FLOOR_Y - 100}" width="380" height="110" rx="18" fill="#3E5AA8" ${ol(4)}/><rect x="96" y="${FLOOR_Y - 128}" width="140" height="56" rx="22" fill="#E8E4F4" ${ol(3.5)}/>
+    <path d="M250 ${FLOOR_Y - 80} Q330 ${FLOOR_Y - 100} 450 ${FLOOR_Y - 84}" stroke="#2E4A90" stroke-width="5" fill="none"/></g>
   `);
 }
 
@@ -138,23 +226,35 @@ export const KOSTYAN_ROOM: RoomArt = {
       },
     },
     { key: 'blinds', box: { x: WIN.x - 10, y: WIN.y - 10, w: WIN.w + 20, h: WIN.h + 20 }, svg: propSvg(WIN.w + 20, WIN.h + 20, blinds(WIN.x - 10, WIN.y - 10)) },
-    // Гитара на стойке: едва заметно покачивается.
+    // Гитара на стойке у окна: едва заметно покачивается.
     {
       key: 'guitar',
-      box: { x: GUITAR.x - 60, y: GUITAR.base - 300, w: 120, h: 310 },
+      box: { x: GUITAR.x - GUITAR.w / 2, y: GUITAR.base - GUITAR.h + 6, w: GUITAR.w, h: GUITAR.h },
       pivot: { x: GUITAR.x, y: GUITAR.base },
       svg: guitar(),
       period: 6.7,
-      motion: (t) => ({ rot: wave(t, 6.7, 0.012) }),
+      motion: (t) => ({ rot: wave(t, 6.7, 0.01) }),
     },
-    // Заставка монитора: значок плавает по экрану и медленно меняет цвет.
+    // Музыкальный канал: эквалайзер пляшет в такт…
     {
-      key: 'saver',
-      box: { x: SCREEN.x + SCREEN.w / 2 - 22, y: SCREEN.y + SCREEN.h / 2 - 13, w: 44, h: 26 },
-      svg: propSvg(44, 26, `<rect x="2" y="2" width="40" height="22" rx="11" fill="#FFFFFF" opacity="0.9"/><path d="M14 7 V19 M14 13 L22 7 M14 13 L22 19" stroke="#121838" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="31" cy="13" r="4" fill="#121838"/>`),
-      period: 91,
-      reach: 80,
-      motion: (t) => ({ dx: wave(t, 13, 70), dy: wave(t, 9.1, 30, 1), tint: hueTint(cycle(t, 91), 0.6, 0.7) }),
+      key: 'eq',
+      box: { x: SCREEN.x + 12, y: SCREEN.y + SCREEN.h - 20 - EQ.h, w: EQ.w, h: EQ.h },
+      pivot: { x: SCREEN.x + 12 + EQ.w / 2, y: SCREEN.y + SCREEN.h - 20 },
+      svg: propSvg(EQ.w, EQ.h, `<defs><linearGradient id="e" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#3FE0E8"/><stop offset="0.6" stop-color="#F4C542"/><stop offset="1" stop-color="#FF4FA0"/></linearGradient></defs><rect width="${EQ.w}" height="${EQ.h}" rx="2" fill="url(#e)"/>`),
+      count: EQ.n,
+      period: 2.6,
+      reach: EQ.n * EQ.gap,
+      motion: (t, i) => ({ dx: i * EQ.gap, sy: 0.5 + wave(t, 2.6, 0.3, i * 1.9) + wave(t, 1.3, 0.12, i * 0.7) }),
+    },
+    // …а внизу экрана бежит строка.
+    {
+      key: 'ticker',
+      box: { x: SCREEN.x, y: SCREEN.y + SCREEN.h - 16, w: TICKER.w, h: TICKER.h },
+      svg: tickerSvg(),
+      clip: SCREEN,
+      period: 16,
+      reach: TICKER.loop,
+      motion: (t) => ({ dx: -cycle(t, 16) * TICKER.loop }),
     },
   ],
 };

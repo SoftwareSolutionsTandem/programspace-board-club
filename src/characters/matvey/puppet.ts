@@ -52,6 +52,7 @@ export const MATVEY_PUPPET: PuppetArt = {
   hand: part('hand', { x: -24, y: -17, w: 44, h: 34 }, P.hand),
   handFist: part('fist', { x: -24, y: -17, w: 44, h: 34 }, P.fist),
   handR: 17,
+  mirrorHandR: true,
   cuff: part('cuff', { x: -17, y: -9, w: 34, h: 18 }, P.cuff),
   // Своих костей в руке нет — они стоят на столе; в руке — одна кость, которую он кладёт или несёт из базара.
   fanOffset: null,

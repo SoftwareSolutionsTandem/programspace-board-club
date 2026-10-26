@@ -49,6 +49,7 @@ export const KOSTYAN_PUPPET: PuppetArt = {
   hand: part('hand', { x: -25, y: -18, w: 46, h: 36 }, P.hand),
   handFist: part('fist', { x: -25, y: -18, w: 46, h: 36 }, P.fist),
   handR: 17,
+  mirrorHandR: true,
   cuff: part('cuff', { x: -19, y: -10, w: 38, h: 20 }, P.cuff),
   fanOffset: null,
   heldCard: { x: 0, y: 0, rot: 0, w: 1, h: 1 },

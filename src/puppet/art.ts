@@ -84,6 +84,11 @@ export interface PuppetArt {
   readonly hand: PartSpec;
   readonly handFist?: PartSpec;
   readonly handR: number;
+  /**
+   * Правая кисть — зеркальное отражение левой (по оси кисти): повороты правой руки в движениях — зеркальные
+   * левой (≈ 180° − угол левой), и без отражения правая кисть была бы копией левой («две одинаковые руки»).
+   */
+  readonly mirrorHandR?: boolean;
   readonly cuff: PartSpec;
   /** Веер своих карт: смещение от центра левой кисти; null — веера нет (свои кости лежат на столе). */
   readonly fanOffset: Point | null;
