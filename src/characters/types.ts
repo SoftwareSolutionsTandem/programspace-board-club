@@ -20,7 +20,11 @@ export type LineCategory =
   | 'openDouble' | 'play' | 'playDouble' | 'block' | 'drew' | 'drewMany' | 'playerDrew' | 'knock' | 'playerKnock'
   | 'lastBone' | 'playerLastBone' | 'fish' | 'fishDraw' | 'handWin' | 'handLose' | 'nearTarget' | 'nvGrumble'
   | 'playerPlay' | 'playerDrewMany' | 'bazaarEmpty' | 'handStart' | 'fishLose' | 'bigDouble'
-  | 'tutMatch' | 'tutEnds' | 'tutBazaar' | 'tutKnock' | 'tutGoal';
+  | 'tutMatch' | 'tutEnds' | 'tutBazaar' | 'tutKnock' | 'tutGoal'
+  // Шахматы и шашки (docs/games/chess.md §8, docs/games/checkers.md §8).
+  | 'boardMove' | 'boardCapture' | 'boardLostPiece' | 'check' | 'inCheck' | 'castle' | 'playerCastle' | 'promote' | 'playerPromote'
+  | 'multiCapture' | 'playerMultiCapture' | 'crown' | 'playerCrown' | 'mustCapture' | 'ahead' | 'behind' | 'playerResign'
+  | 'tutMove' | 'tutCapture' | 'tutCheck' | 'tutCrown';
 
 export interface VoiceLine {
   /** Имя аудиофайла без расширения, например agata_win_01. */
