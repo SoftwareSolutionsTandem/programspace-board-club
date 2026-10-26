@@ -9,7 +9,7 @@ import { easeInOutQuad, easeOutBack, Tweener } from '../../../render/tween';
 import { cardCode, type Card } from '../rules/cards';
 import type { DurakEvent } from '../rules/engine';
 import type { PlayerView } from '../view';
-import { CardSprite } from './cardSprite';
+import { CardSprite, TABLE_TILT } from './cardSprite';
 import type { TextureBank } from './textures';
 import { AmbientLayer } from '../../../render/ambient';
 
@@ -206,7 +206,7 @@ export class DurakScene {
         sp.setCardSize(s.tableCard.w, s.tableCard.h);
         this.tableLayer.addChild(sp);
         const rot = (((hash(code) % 13) - 6) * Math.PI) / 180;
-        jobs.push(this.tweens.to(sp, { x: slot.x + dx, y: slot.y + dy, rotation: rot, flip: 1, lift: 0 }, ms));
+        jobs.push(this.tweens.to(sp, { x: slot.x + dx, y: slot.y + dy, rotation: rot, flip: 1, lift: 0, tilt: TABLE_TILT, shadow: 1 }, ms));
       }
     });
     // Рука игрока.
@@ -220,7 +220,7 @@ export class DurakScene {
       sp.setCardSize(s.hand.cardW, s.hand.cardH);
       if (sp.parent !== this.handLayer || this.handLayer.getChildIndex(sp) !== i) this.handLayer.addChildAt(sp, Math.min(i, this.handLayer.children.length));
       const lifted = this.highlights.selected.has(code) ? 0.16 : 0;
-      jobs.push(this.tweens.to(sp, { x: slot.x, y: slot.y, rotation: slot.rot, flip: 1, lift: lifted }, ms));
+      jobs.push(this.tweens.to(sp, { x: slot.x, y: slot.y, rotation: slot.rot, flip: 1, lift: lifted, tilt: 1, shadow: 0 }, ms));
     });
     for (const [code, sp] of [...this.sprites]) if (!seen.has(code)) {
       sp.destroy();
@@ -252,6 +252,8 @@ export class DurakScene {
       trump.setCardSize(w, h);
       trump.rotation = Math.PI / 2;
       trump.position.set(s.deck.x + w * 0.42, s.deck.y);
+      trump.tilt = TABLE_TILT;
+      trump.shadow = 1;
       trump.sync();
       this.deckLayer.addChild(trump);
     }
@@ -261,6 +263,9 @@ export class DurakScene {
       b.setCardSize(w, h);
       b.position.set(s.deck.x - i * 1.5, s.deck.y - i * 1.5);
       b.rotation = -0.06;
+      b.tilt = TABLE_TILT;
+      // Тень — только у нижней карты колоды: стопка лежит на сукне одним предметом.
+      b.shadow = i === 0 ? 1 : 0;
       b.sync();
       this.deckLayer.addChild(b);
     }
@@ -285,6 +290,8 @@ export class DurakScene {
       b.setCardSize(w, h);
       b.position.set(s.discard.x + ((i * 7) % 5) - 2, s.discard.y + ((i * 3) % 4) - 2);
       b.rotation = ((((i * 37) % 30) - 15) * Math.PI) / 180;
+      b.tilt = TABLE_TILT;
+      b.shadow = i === 0 ? 1 : 0.4;
       b.sync();
       this.discardLayer.addChild(b);
     }

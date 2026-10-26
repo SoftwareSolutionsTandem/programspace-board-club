@@ -10,7 +10,8 @@ const WOOD = '#6A4023', WOOD_L = '#8C5A31', BRASS = '#C9A24A', BRASS_D = '#9C7A3
 const WIN = { x: 724, y: 96, w: 196, h: 226 };
 // Настольный глобус на бюро.
 const DESK_Y = 380;
-const GLOBE = { x: 1646, y: DESK_Y - 62, r: 46 };
+// Шар поднят на точёной стойке: низ меридиана — на 30 единиц выше столешницы.
+const GLOBE = { x: 1646, y: DESK_Y - 98, r: 46 };
 // Лампа: абажур и конус света вниз, на бюро.
 const LAMP = { x: 1836, shadeY: 236, deskY: DESK_Y };
 // Латунный прибор с красным огоньком — строго по центру корпуса, под шкалой.
@@ -125,9 +126,15 @@ function strip(t: number, i: number): AmbientPose {
 
 function globeStand(): string {
   const { x, y, r } = GLOBE;
+  const top = y + r + 10, foot = DESK_Y - 12;
+  const mid = (top + foot) / 2;
+  // Точёная деревянная стойка: круглое основание, балясина с утолщением, латунная муфта под осью меридиана.
   return `<g>
-    <ellipse cx="${x}" cy="${DESK_Y - 12}" rx="30" ry="7" fill="${BRASS_D}" ${ol(3)}/>
-    <path d="M${x} ${DESK_Y - 14} V${y + r + 8}" stroke="${BRASS}" stroke-width="6"/><path d="M${x} ${DESK_Y - 14} V${y + r + 8}" fill="none" ${ol(1.6)}/>
+    <ellipse cx="${x}" cy="${foot}" rx="34" ry="8" fill="${WOOD}" ${ol(3)}/>
+    <path d="M${x - 30} ${foot - 2} Q${x} ${foot - 14} ${x + 30} ${foot - 2}" fill="${WOOD_L}" ${ol(2.4)}/>
+    <path d="M${x - 6} ${foot - 9} C${x - 14} ${mid + 6} ${x - 14} ${mid - 6} ${x - 5} ${top + 4} L${x + 5} ${top + 4} C${x + 14} ${mid - 6} ${x + 14} ${mid + 6} ${x + 6} ${foot - 9} Z" fill="${WOOD_L}" ${ol(2.4)}/>
+    <path d="M${x - 11} ${mid} H${x + 11}" stroke="${WOOD}" stroke-width="2"/>
+    <rect x="${x - 7}" y="${top - 2}" width="14" height="7" rx="2" fill="${BRASS}" ${ol(1.8)}/>
     <circle cx="${x}" cy="${y}" r="${r}" fill="#3F7DA8" ${ol(4)}/></g>`;
 }
 

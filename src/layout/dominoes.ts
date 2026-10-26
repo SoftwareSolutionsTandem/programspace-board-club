@@ -34,11 +34,14 @@ export function computeDominoLayout(vp: Viewport): DominoLayout {
   // На компьютере кость в руке не выше 7 % высоты окна: остаётся место для цепочки. На телефоне — не уже удобного касания.
   const handHalf = clamp(Math.min((hand.right - hand.left - 6 * gap) / 7, hand.cardH / 2, base.kind === 'landscape' ? base.height * 0.068 : base.kind === 'landscape-compact' ? base.height * 0.1 : Infinity), MIN_TOUCH * 0.8, 64);
   const handTop = hand.bottom - handHalf * 2 - handHalf * 0.3;
-  // Кости Матвея — у его рук на дальнем краю стола.
+  // Кости Матвея — на столе перед его руками: руки лежат на дальнем краю стола, ряд костей начинается ниже кистей
+  // (кисть в покое опускается на ≈ 26 единиц рига ниже пояса), чтобы кости не заслоняли руки и руки — кости.
+  // На низком экране телефона боком высоты нет — ряд остаётся у края стола.
   const oppHalf = clamp(handHalf * 0.5, 12, 26);
+  const handsBottom = table.farY + 2 + 26 * base.character.scale;
   const tableLeft = Math.max(base.safe.x, table.farLeft + 8);
   const tableRight = Math.min(base.safe.x + base.safe.w, table.farRight - 8);
-  const opponent = { cx: base.character.x, y: table.farY + oppHalf * 1.1, half: oppHalf, maxW: Math.min(tableRight - tableLeft, base.character.bounds.w * 1.15) };
+  const opponent = { cx: base.character.x, y: base.kind === 'landscape-compact' ? table.farY + oppHalf * 1.1 : Math.max(table.farY + oppHalf * 1.1, handsBottom + 4 + oppHalf), half: oppHalf, maxW: Math.min(tableRight - tableLeft, base.character.bounds.w * 1.15) };
   // Игровое поле: от костей Матвея до строки состояния/кнопок (телефон) или до руки (компьютер).
   const playTop = opponent.y + oppHalf * 1.2 + 6;
   const playBottom = (portraitish ? Math.min(base.status.y, base.actions.y) : handTop) - 8;

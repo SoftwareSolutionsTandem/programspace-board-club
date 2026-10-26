@@ -12,7 +12,7 @@ import { boneCode, type Bone } from '../rules/bones';
 import type { DominoEvent } from '../rules/engine';
 import type { End } from '../rules/state';
 import type { PlayerView } from '../view';
-import { BoneSprite } from './boneSprite';
+import { BoneSprite, TABLE_TILT } from './boneSprite';
 import type { DominoTextureBank } from './textures';
 import { AmbientLayer } from '../../../render/ambient';
 
@@ -211,7 +211,7 @@ export class DominoScene {
       const sp = this.ensure(code, pose.x, pose.y, pose.rot);
       if (sp.parent !== this.chainLayer) this.chainLayer.addChild(sp);
       sp.setGlow('none');
-      jobs.push(this.tweens.to(sp, { x: pose.x, y: pose.y, rotation: nearAngle(sp.rotation, pose.rot), flip: 1, lift: 0 }, ms));
+      jobs.push(this.tweens.to(sp, { x: pose.x, y: pose.y, rotation: nearAngle(sp.rotation, pose.rot), flip: 1, lift: 0, tilt: TABLE_TILT, shadow: 1 }, ms));
       jobs.push(this.tweens.to(sp, { half: plan.half }, ms));
     });
     // Рука игрока: по старшей половине, стоймя.
@@ -227,7 +227,7 @@ export class DominoScene {
       const playable = this.highlights.playable.has(code);
       sp.setGlow(picking ? 'selected' : playable ? 'playable' : 'none');
       sp.alpha = this.highlights.playable.size > 0 && !playable && !picking ? 0.82 : 1;
-      jobs.push(this.tweens.to(sp, { x: slot.x, y: slot.y, rotation: nearAngle(sp.rotation, UPRIGHT), flip: 1, lift: picking ? 0.14 : playable ? 0.06 : 0 }, ms));
+      jobs.push(this.tweens.to(sp, { x: slot.x, y: slot.y, rotation: nearAngle(sp.rotation, UPRIGHT), flip: 1, lift: picking ? 0.14 : playable ? 0.06 : 0, tilt: 1, shadow: 0 }, ms));
       jobs.push(this.tweens.to(sp, { half: slot.half }, ms));
     });
     // Кости Матвея: рубашкой к игроку; после раздачи — лицом.
@@ -243,7 +243,7 @@ export class DominoScene {
         const sp = this.ensure(code, slot.x, slot.y, UPRIGHT, 0);
         if (sp.parent !== this.oppLayer) this.oppLayer.addChild(sp);
         sp.setGlow('none');
-        jobs.push(this.tweens.to(sp, { x: slot.x, y: slot.y, rotation: nearAngle(sp.rotation, UPRIGHT), flip: 1, lift: 0 }, instant ? 0 : 420, { delay: instant ? 0 : i * 60 }));
+        jobs.push(this.tweens.to(sp, { x: slot.x, y: slot.y, rotation: nearAngle(sp.rotation, UPRIGHT), flip: 1, lift: 0, shadow: 1 }, instant ? 0 : 420, { delay: instant ? 0 : i * 60 }));
         jobs.push(this.tweens.to(sp, { half: slot.half }, ms));
       });
     } else {
@@ -253,6 +253,8 @@ export class DominoScene {
         const last = oppSlots[this.oppBacks.length]!;
         b.position.set(last.x, last.y);
         b.rotation = UPRIGHT;
+        // Кости Матвея стоят на ребре — без наклона, но с тенью на сукне.
+        b.shadow = 1;
         this.oppBacks.push(b);
         this.oppLayer.addChild(b);
       }
@@ -287,6 +289,8 @@ export class DominoScene {
       const col = i % 2, row = Math.floor(i / 2);
       b.position.set(x + (col - 0.5) * half * 0.5 + (row % 2) * 2, y + (row - 1) * half * 1.15);
       b.rotation = UPRIGHT + (col ? 0.06 : -0.05);
+      b.tilt = TABLE_TILT;
+      b.shadow = row === 0 ? 1 : 0.5;
       b.sync();
       this.bazaarLayer.addChild(b);
     }

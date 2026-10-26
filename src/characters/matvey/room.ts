@@ -10,7 +10,7 @@ const PINE = '#D9A86A', PINE_D = '#B9824A', WOOD = '#8C5A31', WOOD_D = '#6A4023'
 const WIN = { x: 520, y: 92, w: 430, h: 238 };
 const SILL_Y = WIN.y + WIN.h + 8;
 // Труба соседского дома (откуда идёт дым).
-const CHIMNEY = { x: WIN.x + 166, y: WIN.y + WIN.h - 126 };
+const CHIMNEY = { x: WIN.x + 196, y: WIN.y + WIN.h - 70 - 92 };
 // Приёмник на тумбочке под табло счёта: верх корпуса ниже табло, ноты уходят влево вверх, мимо табло.
 const RADIO = { x: 1462, y: 266, w: 196, h: 82 };
 const CAB = { x: 1446, top: RADIO.y + RADIO.h, w: 296 };
@@ -57,21 +57,47 @@ function appleTree(cx: number, ground: number): string {
   return `<g><ellipse cx="${cx}" cy="${ground + 2}" rx="70" ry="8" fill="#4E7A3A" opacity="0.5"/>${trunk}${crown}${tufts}${lights}${apples}</g>`;
 }
 
+/** Соседский домик: обшивка, черепичная крыша, труба, окна со ставнями, дверь с крыльцом, слуховое окно. */
+function house(x0: number, ground: number): string {
+  const L = x0, R = x0 + 112, eave = ground - 50, apex = ground - 96;
+  const siding = Array.from({ length: 5 }, (_, k) => `<path d="M${L + 2} ${ground - 8 - k * 9} H${R - 2}" stroke="#C9B48A" stroke-width="1.4"/>`).join('');
+  const roofRows = Array.from({ length: 4 }, (_, k) => {
+    const yy = eave - 2 - k * 11, half = ((yy - apex) / (eave - apex)) * 66;
+    const n = Math.max(2, Math.round(half / 7));
+    let d = `M${x0 + 56 - half} ${yy}`;
+    for (let i = 0; i < n * 2; i++) d += ` q${half / n / 2} 5 ${half / n} 0`;
+    return `<path d="${d}" fill="none" stroke="#8E3328" stroke-width="1.6"/>`;
+  }).join('');
+  const win = (wx: number, wy: number) => `<rect x="${wx - 9}" y="${wy}" width="7" height="20" fill="#4E8A5A" ${ol(1.6)}/><rect x="${wx + 18}" y="${wy}" width="7" height="20" fill="#4E8A5A" ${ol(1.6)}/>
+    <rect x="${wx - 1}" y="${wy}" width="18" height="20" fill="#9ED0E8" ${ol(1.8)}/><path d="M${wx + 8} ${wy} V${wy + 20} M${wx - 1} ${wy + 10} H${wx + 17}" stroke="#F3EBDD" stroke-width="1.8"/>
+    <rect x="${wx - 3}" y="${wy + 20}" width="22" height="3" fill="#F3EBDD" ${ol(1)}/>`;
+  return `<g>
+    <rect x="${CHIMNEY.x - 7}" y="${CHIMNEY.y + 2}" width="14" height="24" fill="#9C4A3A" ${ol(2.2)}/><rect x="${CHIMNEY.x - 9}" y="${CHIMNEY.y}" width="18" height="5" fill="#7A3A2E" ${ol(1.6)}/>
+    <rect x="${L}" y="${eave}" width="${R - L}" height="${ground - eave}" fill="#E7D3A8" ${ol(2.6)}/>${siding}
+    <path d="M${L - 10} ${eave + 2} L${x0 + 56} ${apex} L${R + 10} ${eave + 2} Z" fill="#B8463A" ${ol(2.6)}/>${roofRows}
+    <circle cx="${x0 + 56}" cy="${eave - 18}" r="6" fill="#9ED0E8" ${ol(1.6)}/><path d="M${x0 + 50} ${eave - 18} h12 M${x0 + 56} ${eave - 24} v12" stroke="#F3EBDD" stroke-width="1.4"/>
+    ${win(L + 16, eave + 10)}${win(R - 32, eave + 10)}
+    <rect x="${x0 + 46}" y="${ground - 30}" width="20" height="30" fill="#8C5A31" ${ol(2)}/><circle cx="${x0 + 62}" cy="${ground - 15}" r="1.6" fill="#E8AB30"/>
+    <path d="M${x0 + 48} ${ground - 26} h16 M${x0 + 48} ${ground - 18} h16" stroke="#6A4023" stroke-width="1.2"/>
+    <rect x="${x0 + 40}" y="${ground - 2}" width="32" height="5" fill="#C9B48A" ${ol(1.6)}/>
+    <path d="M${x0 + 40} ${ground - 34} h32 l-4 -6 h-24 Z" fill="#8E3328" ${ol(1.4)}/></g>`;
+}
+
 function garden(): string {
   const { x, y, w, h } = WIN;
   const b = y + h;
-  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#mvSky)"/>
+  // Всё за окном обрезано по стеклу: дальше — небо, холмы, домик; ближе — яблоня; ещё ближе — забор.
+  return `<clipPath id="mvGlass"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath><g clip-path="url(#mvGlass)">
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#mvSky)"/>
   <path d="M${x + 220} ${y + 44} C${x + 240} ${y + 22} ${x + 280} ${y + 22} ${x + 294} ${y + 38} C${x + 310} ${y + 28} ${x + 340} ${y + 34} ${x + 342} ${y + 52} Z" fill="#FFFFFF" opacity="0.85"/>
   <path d="M${x + 60} ${y + 70} C${x + 74} ${y + 56} ${x + 100} ${y + 56} ${x + 110} ${y + 68} C${x + 120} ${y + 62} ${x + 140} ${y + 64} ${x + 140} ${y + 76} Z" fill="#FFFFFF" opacity="0.7"/>
   <path d="M${x} ${b - 84} C${x + 120} ${b - 110} ${x + 280} ${b - 100} ${x + w} ${b - 120} V${b} H${x} Z" fill="#9CC27A"/>
+  ${house(x + 110, b - 70)}
   <path d="M${x} ${b - 46} C${x + 140} ${b - 68} ${x + 300} ${b - 56} ${x + w} ${b - 70} V${b} H${x} Z" fill="#79A85C"/>
-  <g><path d="M${x + 110} ${b - 90} V${b - 140} L${x + 166} ${b - 176} L${x + 222} ${b - 140} V${b - 90} Z" fill="#E7D3A8" ${ol(3)}/>
-    <path d="M${x + 100} ${b - 138} L${x + 166} ${b - 186} L${x + 232} ${b - 138}" fill="#B8463A" ${ol(3)}/>
-    <rect x="${CHIMNEY.x - 8}" y="${CHIMNEY.y - 4}" width="16" height="26" fill="#9C4A3A" ${ol(2.5)}/>
-    <rect x="${x + 150}" y="${b - 130}" width="30" height="26" fill="#8EC3E0" ${ol(2.5)}/></g>
+  ${appleTree(x + 330, b - 36)}
   ${Array.from({ length: 10 }, (_, k) => `<path d="M${x + 14 + k * 44} ${b - 8} V${b - 42} L${x + 22 + k * 44} ${b - 50} L${x + 30 + k * 44} ${b - 42} V${b - 8}" fill="#F3EBDD" ${ol(2)}/>`).join('')}
-  <path d="M${x} ${b - 32} H${x + w}" stroke="#F3EBDD" stroke-width="5"/>
-  ${appleTree(x + 340, b - 24)}`;
+  <path d="M${x} ${b - 32} H${x + w}" stroke="#F3EBDD" stroke-width="5"/><path d="M${x} ${b - 18} H${x + w}" stroke="#F3EBDD" stroke-width="4"/>
+  </g>`;
 }
 
 /** Переплёт: три створки и фрамуга. ox, oy — сдвиг начала координат (для текстуры поверх живого). */
@@ -103,8 +129,11 @@ function tulip(x: number, y: number, rot = 0): string {
     <path d="M-6 -30 C-8 -18 -6 -6 0 2 M6 -30 C8 -18 6 -6 0 2" fill="none" stroke="#9E1428" stroke-width="1.6"/>
     <path d="M-8 -20 q2 -6 4 -8" stroke="#FF7A86" stroke-width="2" fill="none" stroke-linecap="round"/></g>`;
 }
+const TULIP_X = WIN.x + 40, TULIP_BASE = SILL_Y - 4;
+// Область рисунка тюльпанов: банка на подоконнике и цветы над ней.
+const TULIPS = { x: TULIP_X - 16, y: TULIP_BASE - 132, w: 92, h: 136 };
 function tulips(): string {
-  const jx = WIN.x + 40, base = SILL_Y - 4;
+  const jx = TULIP_X, base = TULIP_BASE;
   const stems = [[-16, -96, -10], [2, -118, 2], [18, -100, 12]] as const;
   return `<g>
     ${stems.map(([dx, dy]) => `<path d="M${jx + 22 + dx / 3} ${base - 20} Q${jx + 22 + dx} ${base + dy / 2} ${jx + 22 + dx} ${base + dy + 4}" fill="none" stroke="#3E7A34" stroke-width="4.5" stroke-linecap="round"/>`).join('')}
@@ -141,12 +170,20 @@ function radioCabinet(): string {
 
 function tools(): string {
   const x = 1756, y = 108;
-  // Пила: полотно с чётко прорисованными зубьями по нижнему краю.
-  const teeth = Array.from({ length: 16 }, (_, k) => `L${x + 30 + k * 2.1 + (k % 2 ? 0 : 0)} ${y + 46 + k * 9} L${x + 22 + k * 2.1} ${y + 50 + k * 9}`).join(' ');
+  // Пила: полотно-трапеция; зубья — одинаковые треугольники вдоль рабочей кромки, от ручки до самого кончика.
+  const A = { x: x + 30, y: y + 46 }, Bt = { x: x + 54, y: y + 198 };
+  const len = Math.hypot(Bt.x - A.x, Bt.y - A.y), ux = (Bt.x - A.x) / len, uy = (Bt.y - A.y) / len;
+  const nx = -uy, ny = ux; // наружу, к зубьям
+  const N = 17;
+  let teeth = '';
+  for (let k = 0; k < N; k++) {
+    const tm = (len * (k + 0.35)) / N, t1 = (len * (k + 1)) / N;
+    teeth += ` L${(A.x + ux * tm + nx * 5.5).toFixed(1)} ${(A.y + uy * tm + ny * 5.5).toFixed(1)} L${(A.x + ux * t1).toFixed(1)} ${(A.y + uy * t1).toFixed(1)}`;
+  }
   return `<g>
     <rect x="${x}" y="${y}" width="250" height="230" rx="6" fill="#C9935A" ${ol(4)}/>
     ${Array.from({ length: 8 }, (_, r) => Array.from({ length: 9 }, (_, c) => `<circle cx="${x + 18 + c * 27}" cy="${y + 16 + r * 28}" r="2" fill="#7A5233"/>`).join('')).join('')}
-    <path d="M${x + 30} ${y + 42} ${teeth} L${x + 58} ${y + 196} L${x + 70} ${y + 190} L${x + 64} ${y + 46} Z" fill="#C9CED6" stroke="#3B2418" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M${x + 64} ${y + 46} L${A.x} ${A.y}${teeth} L${x + 68} ${y + 192} Z" fill="#C9CED6" stroke="#3B2418" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M${x + 44} ${y + 60} L${x + 58} ${y + 176}" stroke="#E8ECF0" stroke-width="3" stroke-linecap="round"/>
     <path d="M${x + 22} ${y + 14} H${x + 74} Q${x + 80} ${y + 14} ${x + 80} ${y + 22} V${y + 40} Q${x + 80} ${y + 48} ${x + 72} ${y + 48} H${x + 24} Q${x + 16} ${y + 48} ${x + 16} ${y + 40} V${y + 22} Q${x + 16} ${y + 14} ${x + 22} ${y + 14} Z M${x + 30} ${y + 24} H${x + 66} V${y + 38} H${x + 30} Z" fill="#B8463A" fill-rule="evenodd" ${ol(3)}/>
     <path d="M${x + 112} ${y + 44} V${y + 196}" stroke="#3B2418" stroke-width="20" stroke-linecap="round"/><path d="M${x + 112} ${y + 44} V${y + 196}" stroke="#A0703C" stroke-width="15" stroke-linecap="round"/>
@@ -192,7 +229,6 @@ function background(): string {
   <rect x="${x - 24}" y="${SILL_Y - 4}" width="${w + 48}" height="18" rx="5" fill="${SASH}" ${ol(3.5)}/>
   <path d="M${x - 18} ${SILL_Y + 14} H${x + w + 18}" stroke="#3B2418" stroke-opacity="0.25" stroke-width="5"/>
   <path d="M${x + 60} ${y + 20} L${x + w - 20} ${y + 20} L${x + w + 220} 470 L${x + 300} 470 Z" fill="url(#mvBeam)"/>
-  ${tulips()}
   ${hooks()}
   ${scoreSlate('#C2955A', '#2E3B36')}
   ${radioCabinet()}${tools()}
@@ -222,6 +258,7 @@ export const MATVEY_ROOM: RoomArt = {
       svg: propSvg(24, 24, '<circle cx="12" cy="12" r="10" fill="#E8EEF2" opacity="0.8"/>'),
       count: 3,
       particle: true,
+      clip: WIN,
       period: 6.4,
       reach: 110,
       motion: (t, i) => {
@@ -235,10 +272,13 @@ export const MATVEY_ROOM: RoomArt = {
       box: { x: WIN.x + 4, y: WIN.y + 4, w: BRANCH.w, h: BRANCH.h },
       pivot: { x: WIN.x + 4, y: WIN.y + 8 },
       svg: branch(),
+      clip: WIN,
       period: 5.9,
       motion: (t) => ({ rot: wave(t, 5.9, 0.03) + wave(t, 5.9 / 2, 0.008, 1) }),
     },
     { key: 'sash', box: { x: WIN.x - 12, y: WIN.y - 12, w: WIN.w + 24, h: WIN.h + 24 }, svg: propSvg(WIN.w + 24, WIN.h + 24, sash(WIN.x - 12, WIN.y - 12)) },
+    // Тюльпаны на подоконнике — перед рамой.
+    { key: 'tulips', box: TULIPS, svg: propSvg(TULIPS.w, TULIPS.h, `<g transform="translate(${-TULIPS.x} ${-TULIPS.y})">${tulips()}</g>`) },
     // Пылинки в солнечном луче: медленно плывут вниз-вправо, мерцают.
     {
       key: 'mote',

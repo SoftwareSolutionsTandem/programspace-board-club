@@ -13,7 +13,8 @@ const WIN = { x: 694, y: 104, w: 220, h: 214 };
 const TV = { x: 1476, y: 244, w: 240, h: 128 };
 const SCREEN = { x: TV.x + 12, y: TV.y + 10, w: TV.w - 24, h: TV.h - 20 };
 const STAND_TOP = TV.y + TV.h + 8;
-const GUITAR = { x: 868, base: FLOOR_Y + 6, w: 100, h: 250 };
+// Гитара висит на стене слева за спиной Костяна, на крючке за головку грифа.
+const GUITAR = { x: 1004, top: 62, w: 100, h: 250 };
 // Постеры — целиком в кадре на широком экране (единицы фона).
 const POSTER_L = { x: 516, y: 122, w: 150, h: 216 };
 const POSTER_R = { x: 1764, y: 124, w: 110, h: 200 };
@@ -42,7 +43,7 @@ function blinds(ox: number, oy: number): string {
   <rect x="${x - 6}" y="${y - 6}" width="${w + 12}" height="${h + 12}" rx="5" fill="none" ${ol(4)}/>`;
 }
 
-/** Классическая гитара: дека из ели с волокнами, тёмная обечайка, розетка, подставка, грифель с ладами, головка с колками. */
+/** Классическая гитара (висит на крючке): дека из ели с волокнами, тёмная обечайка, розетка, подставка, грифель с ладами, головка с колками. */
 function guitar(): string {
   const { w, h } = GUITAR;
   const cx = w / 2, base = h - 6;
@@ -50,7 +51,6 @@ function guitar(): string {
   const grain = [-30, -20, -10, 0, 10, 20, 30].map((dx) => `<path d="M${cx + dx} ${base - 108 + Math.abs(dx) * 0.4} C${cx + dx + 2} ${base - 70} ${cx + dx - 2} ${base - 40} ${cx + dx} ${base - 4 - Math.abs(dx) * 0.3}" stroke="#C48A48" stroke-width="1.2" fill="none" opacity="0.6"/>`).join('');
   const frets = Array.from({ length: 8 }, (_, k) => `<path d="M${cx - 6} ${base - 118 - k * 11} H${cx + 6}" stroke="#D8D2C0" stroke-width="1.4"/>`).join('');
   return propSvg(w, h, `
-    <path d="M${cx} ${base} L${cx - 22} ${h} M${cx} ${base} L${cx + 22} ${h} M${cx} ${base - 6} V${base - 30}" fill="none" stroke="#2A2A36" stroke-width="5" stroke-linecap="round"/>
     <rect x="${cx - 7}" y="${base - 206}" width="14" height="100" rx="3" fill="#5A3A22" ${ol(2.6)}/>${frets}
     <path d="M${cx - 11} ${base - 206} L${cx - 12} ${base - 236} Q${cx} ${base - 242} ${cx + 12} ${base - 236} L${cx + 11} ${base - 206} Z" fill="#6E4A2C" ${ol(2.4)}/>
     <path d="M${cx - 4} ${base - 210} V${base - 232} M${cx + 4} ${base - 210} V${base - 232}" stroke="#2A1A10" stroke-width="3" stroke-linecap="round"/>
@@ -62,6 +62,25 @@ function guitar(): string {
     <rect x="${cx - 16}" y="${base - 30}" width="32" height="8" rx="2" fill="#5A3A22" ${ol(1.8)}/>
     <path d="M${cx - 5} ${base - 206} V${base - 26} M${cx - 3} ${base - 206} V${base - 26} M${cx - 1} ${base - 206} V${base - 26} M${cx + 1} ${base - 206} V${base - 26} M${cx + 3} ${base - 206} V${base - 26} M${cx + 5} ${base - 206} V${base - 26}" stroke="#F4F0E6" stroke-width="0.7" opacity="0.9"/>
     <path d="M${cx - 34} ${base - 40} C${cx - 36} ${base - 60} ${cx - 26} ${base - 72} ${cx - 22} ${base - 78}" stroke="#FFF3D6" stroke-width="2.4" fill="none" opacity="0.6" stroke-linecap="round"/>`);
+}
+
+/** Настенный крючок для гитары. */
+const guitarHook = (): string => `<g><rect x="${GUITAR.x - 9}" y="${GUITAR.top - 4}" width="18" height="14" rx="3" fill="#2A2A36" ${ol(2.4)}/>
+  <path d="M${GUITAR.x - 8} ${GUITAR.top + 8} q-4 8 2 10 M${GUITAR.x + 8} ${GUITAR.top + 8} q4 8 -2 10" fill="none" stroke="#2A2A36" stroke-width="4" stroke-linecap="round"/></g>`;
+
+/** Полочка справа от Костяна: кубок за турнир по шашкам, маленькая колонка и кактус. */
+function trophyShelf(): string {
+  const x = 1340, y = 214;
+  return `<g>
+    <rect x="${x}" y="${y}" width="124" height="10" rx="3" fill="${WOOD}" ${ol(3)}/>
+    <path d="M${x + 14} ${y + 10} l6 14 M${x + 110} ${y + 10} l-6 14" ${ol(3)}/>
+    <path d="M${x + 22} ${y} V${y - 6} H${x + 50} V${y} Z" fill="#7A5A2A" ${ol(2)}/><rect x="${x + 32}" y="${y - 16}" width="8" height="10" fill="#E8AB30" ${ol(1.8)}/>
+    <path d="M${x + 22} ${y - 46} H${x + 50} C${x + 50} ${y - 26} ${x + 44} ${y - 18} ${x + 36} ${y - 16} C${x + 28} ${y - 18} ${x + 22} ${y - 26} ${x + 22} ${y - 46} Z" fill="#F4C542" ${ol(2.4)}/>
+    <path d="M${x + 22} ${y - 42} c-12 0 -12 14 0 14 M${x + 50} ${y - 42} c12 0 12 14 0 14" fill="none" stroke="#F4C542" stroke-width="4"/><path d="M${x + 22} ${y - 42} c-12 0 -12 14 0 14 M${x + 50} ${y - 42} c12 0 12 14 0 14" fill="none" ${ol(1.4)}/>
+    <circle cx="${x + 36}" cy="${y - 34}" r="6" fill="#C5333B" ${ol(1.6)}/><path d="M${x + 32} ${y - 33} l2 -4 l2 3 l2 -3 l2 4 Z" fill="#F4C542"/>
+    <rect x="${x + 62}" y="${y - 30}" width="24" height="30" rx="4" fill="#2A2A36" ${ol(2.2)}/><circle cx="${x + 74}" cy="${y - 11}" r="7" fill="#3A3F4A" ${ol(1.6)}/><circle cx="${x + 74}" cy="${y - 24}" r="3" fill="#3A3F4A"/>
+    <path d="M${x + 94} ${y} L${x + 92} ${y - 12} H${x + 112} L${x + 110} ${y} Z" fill="#C2774A" ${ol(2)}/>
+    <path d="M${x + 102} ${y - 12} V${y - 32} M${x + 102} ${y - 22} h-6 v-6 M${x + 102} ${y - 26} h5 v-6" fill="none" stroke="#3E7A34" stroke-width="5" stroke-linecap="round"/></g>`;
 }
 
 const text = (x: number, y: number, size: number, fill: string, str: string, extra = '') =>
@@ -168,6 +187,7 @@ function background(): string {
   <rect x="${WIN.x - 20}" y="${WIN.y + WIN.h + 6}" width="${WIN.w + 40}" height="16" rx="4" fill="#E8E4F4" ${ol(3)}/>
   <path d="M${WIN.x + 20} ${WIN.y + WIN.h + 6} L${WIN.x + 26} ${WIN.y + WIN.h - 24} L${WIN.x + 60} ${WIN.y + WIN.h - 24} L${WIN.x + 66} ${WIN.y + WIN.h + 6} Z" fill="#E8E4F4" ${ol(2.5)}/>
   <path d="M${WIN.x + 43} ${WIN.y + WIN.h - 24} C${WIN.x + 30} ${WIN.y + WIN.h - 60} ${WIN.x + 50} ${WIN.y + WIN.h - 64} ${WIN.x + 43} ${WIN.y + WIN.h - 24} M${WIN.x + 43} ${WIN.y + WIN.h - 24} C${WIN.x + 56} ${WIN.y + WIN.h - 56} ${WIN.x + 70} ${WIN.y + WIN.h - 50} ${WIN.x + 43} ${WIN.y + WIN.h - 24}" fill="#5B9A4E" ${ol(2)}/>
+  ${guitarHook()}${trophyShelf()}
   ${scoreSlate(NEON, '#1E1A3A')}
   ${tvStand()}${tvScene()}
   ${skatePoster()}
@@ -226,11 +246,11 @@ export const KOSTYAN_ROOM: RoomArt = {
       },
     },
     { key: 'blinds', box: { x: WIN.x - 10, y: WIN.y - 10, w: WIN.w + 20, h: WIN.h + 20 }, svg: propSvg(WIN.w + 20, WIN.h + 20, blinds(WIN.x - 10, WIN.y - 10)) },
-    // Гитара на стойке у окна: едва заметно покачивается.
+    // Гитара на крючке: едва заметно покачивается.
     {
       key: 'guitar',
-      box: { x: GUITAR.x - GUITAR.w / 2, y: GUITAR.base - GUITAR.h + 6, w: GUITAR.w, h: GUITAR.h },
-      pivot: { x: GUITAR.x, y: GUITAR.base },
+      box: { x: GUITAR.x - GUITAR.w / 2, y: GUITAR.top, w: GUITAR.w, h: GUITAR.h },
+      pivot: { x: GUITAR.x, y: GUITAR.top + 8 },
       svg: guitar(),
       period: 6.7,
       motion: (t) => ({ rot: wave(t, 6.7, 0.01) }),

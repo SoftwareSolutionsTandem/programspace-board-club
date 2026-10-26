@@ -1,7 +1,7 @@
 // Комната Агаты — «Гостиная с сервантом» (docs/ART_STYLE.md §12): обои в мелкий цветочек, советский ковёр на стене
 // за Агатой, сервант с хрусталём, фарфором и портретом Агаты с Матвеем, часы с маятником, торшер, батарея под окном,
-// дощатый пол. На подоконнике — бенгальская кошка и розы, за окном — морось.
-// Живое: шторы, маятник, пар над чайником, морось, кошка (хвост, ухо, моргание). Модуль строит SVG-строки и не зависит от DOM.
+// дощатый пол. На подоконнике — розы, за окном — морось.
+// Живое: шторы, маятник, морось. Модуль строит SVG-строки и не зависит от DOM.
 import { cycle, hash01, hump, propSvg, wave, type RoomArt } from '../../render/ambient';
 import { FLOOR_Y, floorDefs, floorSvg, frame, glow, glowDef, ol, roomDoc, scoreSlate } from '../../render/roomKit';
 
@@ -13,11 +13,9 @@ const SILL_Y = WIN.y + WIN.h + 8;
 const RUG = { x: 945, y: 52, w: 520, h: 336 };
 // Сервант: левый край, верх (под табло счёта).
 const SB = { x: 1515, top: 236, w: 420 };
-// Кошка лежит на подоконнике головой влево.
-const CAT = { x: 538, y: SILL_Y - 2 };
 // Часы с маятником.
 const CLOCK = { x: 878 };
-const TEAPOT = { x: 1828, spoutX: 1868, spoutY: 196 };
+const TEAPOT = { x: 1822 };
 
 // ---------- окно ----------
 
@@ -79,8 +77,11 @@ const stem = (d: string, thorns: readonly (readonly [number, number, number])[])
   `<path d="${d}" fill="none" stroke="#3E7A34" stroke-width="4" stroke-linecap="round"/>` +
   thorns.map(([tx, ty, a]) => `<path d="M${tx} ${ty} l${4 * Math.cos(a)} ${4 * Math.sin(a)} l${2 * Math.cos(a + 1.8)} ${2 * Math.sin(a + 1.8)} Z" fill="#2F5A24"/>`).join('');
 
+const ROSE_X = WIN.x + WIN.w - 130, ROSE_BASE = SILL_Y - 4;
+// Область рисунка роз (единицы фона): горшок на подоконнике и бутоны над ним.
+const ROSES = { x: ROSE_X - 12, y: ROSE_BASE - 176, w: 92, h: 180 };
 function roses(): string {
-  const px = WIN.x + WIN.w - 92, base = SILL_Y - 4;
+  const px = ROSE_X, base = ROSE_BASE;
   return `<g>
     ${stem(`M${px + 26} ${base - 30} C${px + 22} ${base - 70} ${px + 10} ${base - 100} ${px + 6} ${base - 126}`, [[px + 20, base - 60, 3.4], [px + 12, base - 96, -0.3]])}
     ${stem(`M${px + 28} ${base - 30} C${px + 30} ${base - 80} ${px + 34} ${base - 110} ${px + 32} ${base - 148}`, [[px + 31, base - 74, 0.2], [px + 33, base - 120, 3.3]])}
@@ -91,49 +92,6 @@ function roses(): string {
     <rect x="${px - 4}" y="${base - 40}" width="66" height="10" rx="3" fill="#D08A5C" ${ol(2.6)}/>
     <path d="M${px + 8} ${base - 18} q21 6 42 0" fill="none" stroke="#F6EEDB" stroke-width="3" opacity="0.6"/></g>`;
 }
-
-// ---------- кошка ----------
-
-const CAT_FUR = '#E8A24A', CAT_DARK = '#5A3216', CAT_ROSE = '#B8621E', CAT_BELLY = '#F7E3C0';
-/** Бенгальская кошка: лежит «буханкой», голова слева. Без хвоста, уха и век — они живые (props). */
-function catBody(): string {
-  const { x, y } = CAT;
-  // Розетки: тёмный контур с рыжей серединой — характерный окрас бенгала.
-  const rosette = (cx: number, cy: number, r: number) => `<path d="M${cx - r} ${cy} C${cx - r} ${cy - r * 0.9} ${cx + r * 0.7} ${cy - r} ${cx + r} ${cy - r * 0.2} C${cx + r * 1.1} ${cy + r * 0.7} ${cx - r * 0.2} ${cy + r} ${cx - r} ${cy} Z" fill="${CAT_ROSE}" stroke="${CAT_DARK}" stroke-width="2.6"/>`;
-  const spots = [[44, -30, 7], [64, -34, 6], [82, -28, 7], [100, -22, 6], [56, -16, 6], [76, -12, 7], [96, -8, 5], [112, -12, 5], [36, -14, 5]].map(([dx, dy, r]) => rosette(x + dx!, y + dy!, r!)).join('');
-  return `<g>
-    <ellipse cx="${x + 70}" cy="${y + 1}" rx="74" ry="7" fill="#3B2418" opacity="0.2"/>
-    <path d="M${x + 6} ${y} C${x + 4} ${y - 34} ${x + 40} ${y - 48} ${x + 80} ${y - 46} C${x + 118} ${y - 44} ${x + 138} ${y - 26} ${x + 136} ${y} Z" fill="${CAT_FUR}" ${ol(3.4)}/>
-    ${spots}
-    <path d="M${x + 14} ${y} C${x + 24} ${y - 10} ${x + 50} ${y - 10} ${x + 62} ${y}" fill="${CAT_BELLY}" ${ol(2)}/>
-    <ellipse cx="${x + 20}" cy="${y - 3}" rx="13" ry="6" fill="${CAT_FUR}" ${ol(2.6)}/><ellipse cx="${x + 44}" cy="${y - 3}" rx="13" ry="6" fill="${CAT_FUR}" ${ol(2.6)}/>
-    <path d="M${x + 14} ${y - 3} v4 M${x + 20} ${y - 2} v4 M${x + 38} ${y - 3} v4 M${x + 44} ${y - 2} v4" stroke="${CAT_DARK}" stroke-width="1.6"/>
-    <g>
-      <path d="M${x + 20} ${y - 46} L${x + 14} ${y - 76} L${x + 34} ${y - 58} Z" fill="${CAT_FUR}" ${ol(2.8)}/><path d="M${x + 20} ${y - 52} L${x + 18} ${y - 68} L${x + 28} ${y - 58} Z" fill="#F2A7A0"/>
-      <ellipse cx="${x + 30}" cy="${y - 38}" rx="27" ry="23" fill="${CAT_FUR}" ${ol(3.2)}/>
-      <path d="M${x + 22} ${y - 56} l3 8 M${x + 30} ${y - 58} v9 M${x + 38} ${y - 56} l-3 8" stroke="${CAT_DARK}" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M${x + 6} ${y - 40} q6 2 9 -2 M${x + 54} ${y - 40} q-6 2 -9 -2 M${x + 8} ${y - 30} q6 1 8 -3 M${x + 52} ${y - 30} q-6 1 -8 -3" fill="none" stroke="${CAT_DARK}" stroke-width="2" stroke-linecap="round"/>
-      <ellipse cx="${x + 30}" cy="${y - 25}" rx="12" ry="8" fill="${CAT_BELLY}"/>
-      <ellipse cx="${x + 20}" cy="${y - 40}" rx="6" ry="5.5" fill="#8BC34A" ${ol(1.8)}/><ellipse cx="${x + 40}" cy="${y - 40}" rx="6" ry="5.5" fill="#8BC34A" ${ol(1.8)}/>
-      <ellipse cx="${x + 20}" cy="${y - 40}" rx="1.8" ry="4.6" fill="#1E1408"/><ellipse cx="${x + 40}" cy="${y - 40}" rx="1.8" ry="4.6" fill="#1E1408"/>
-      <circle cx="${x + 18.5}" cy="${y - 42}" r="1.4" fill="#FFFFFF"/><circle cx="${x + 38.5}" cy="${y - 42}" r="1.4" fill="#FFFFFF"/>
-      <path d="M${x + 27} ${y - 30} h6 l-3 4 Z" fill="#E07A80" ${ol(1.4)}/>
-      <path d="M${x + 30} ${y - 26} q-3 4 -7 2 M${x + 30} ${y - 26} q3 4 7 2" fill="none" stroke="${CAT_DARK}" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M${x + 18} ${y - 27} l-16 -3 M${x + 18} ${y - 24} l-16 2 M${x + 42} ${y - 27} l16 -3 M${x + 42} ${y - 24} l16 2" stroke="#FFF6E6" stroke-width="1.3"/>
-    </g></g>`;
-}
-// Правое ухо — отдельно (подёргивается); опора — у основания уха.
-const EAR = { x: CAT.x + 32, y: CAT.y - 78, w: 26, h: 26, px: CAT.x + 40, py: CAT.y - 56 };
-const catEar = (): string => propSvg(EAR.w, EAR.h, `<path d="M2 22 L14 2 L22 24 Z" fill="${CAT_FUR}" stroke="#3B2418" stroke-width="2.8" stroke-linejoin="round"/><path d="M7 20 L14 8 L18 21 Z" fill="#F2A7A0"/><path d="M14 4 v-3" stroke="${CAT_DARK}" stroke-width="2" stroke-linecap="round"/>`);
-// Веки: закрывают оба глаза на миг.
-const LIDS = { x: CAT.x + 12, y: CAT.y - 47, w: 36, h: 14 };
-const catLids = (): string => propSvg(LIDS.w, LIDS.h, `<ellipse cx="8" cy="7" rx="6.6" ry="6" fill="${CAT_FUR}" stroke="#3B2418" stroke-width="1.8"/><ellipse cx="28" cy="7" rx="6.6" ry="6" fill="${CAT_FUR}" stroke="#3B2418" stroke-width="1.8"/><path d="M3 8 q5 3 10 0 M23 8 q5 3 10 0" fill="none" stroke="#3B2418" stroke-width="1.8" stroke-linecap="round"/>`);
-// Хвост свешивается с подоконника; опора — у основания.
-const TAIL = { x: CAT.x + 126, y: CAT.y - 14, w: 46, h: 96, px: CAT.x + 132, py: CAT.y - 8 };
-const catTail = (): string => propSvg(TAIL.w, TAIL.h, `<path d="M6 6 C26 14 36 40 30 64 C27 78 22 86 18 90" fill="none" stroke="#3B2418" stroke-width="17" stroke-linecap="round"/>
-  <path d="M6 6 C26 14 36 40 30 64 C27 78 22 86 18 90" fill="none" stroke="${CAT_FUR}" stroke-width="11" stroke-linecap="round"/>
-  <path d="M20 16 l8 -4 M30 34 l8 -2 M32 52 l7 1 M28 70 l6 3" stroke="${CAT_DARK}" stroke-width="4" stroke-linecap="round"/>
-  <path d="M22 80 C21 85 19 88 18 90" fill="none" stroke="${CAT_DARK}" stroke-width="11" stroke-linecap="round"/>`);
 
 // ---------- часы, сервант ----------
 
@@ -151,6 +109,8 @@ function clock(): string {
 
 /** Предметы на полках серванта — разной формы, высоты и цвета. Опора — на полке (y). */
 const CRYSTAL = '#DCEAF2';
+/** Масштаб предмета вокруг его опоры (x, y): чтобы высокие вещи помещались на полке. */
+const scaled = (x: number, y: number, k: number, inner: string): string => `<g transform="translate(${x} ${y}) scale(${k}) translate(${-x} ${-y})">${inner}</g>`;
 const shelfItems = {
   decanter: (x: number, y: number) => `<g><path d="M${x - 16} ${y} C${x - 24} ${y - 20} ${x - 20} ${y - 38} ${x - 6} ${y - 46} V${y - 60} H${x + 6} V${y - 46} C${x + 20} ${y - 38} ${x + 24} ${y - 20} ${x + 16} ${y} Z" fill="${CRYSTAL}" opacity="0.9" ${ol(2.2)}/>
     <path d="M${x - 12} ${y - 14} L${x - 4} ${y - 30} M${x - 2} ${y - 8} L${x + 8} ${y - 28} M${x + 8} ${y - 6} L${x + 14} ${y - 18}" stroke="#A9C3D4" stroke-width="1.6"/>
@@ -162,9 +122,14 @@ const shelfItems = {
     <path d="M${x - 10} ${y - 38} l6 10 l6 -10 l6 10" fill="none" stroke="#B2788E" stroke-width="1.4"/><path d="M${x - 9} ${y - 40} v8" stroke="#FFFFFF" stroke-width="2"/></g>`,
   vase: (x: number, y: number) => `<g><path d="M${x - 10} ${y} L${x - 14} ${y - 10} C${x - 22} ${y - 30} ${x - 10} ${y - 44} ${x - 12} ${y - 56} H${x + 12} C${x + 10} ${y - 44} ${x + 22} ${y - 30} ${x + 14} ${y - 10} L${x + 10} ${y} Z" fill="#7FB3C9" opacity="0.85" ${ol(2)}/>
     <path d="M${x - 12} ${y - 30} l6 -6 l6 6 l6 -6 l6 6 M${x - 10} ${y - 18} l5 -5 l5 5 l5 -5 l5 5" fill="none" stroke="#D9EEF6" stroke-width="1.8"/></g>`,
-  sugar: (x: number, y: number) => `<g><path d="M${x - 18} ${y - 22} C${x - 18} ${y - 4} ${x + 18} ${y - 4} ${x + 18} ${y - 22} Z" fill="#F7F1E4" ${ol(2)}/><ellipse cx="${x}" cy="${y - 22}" rx="18" ry="4" fill="#F7F1E4" ${ol(2)}/>
-    <path d="M${x - 10} ${y - 30} Q${x} ${y - 38} ${x + 10} ${y - 30}" fill="#F7F1E4" ${ol(2)}/><circle cx="${x}" cy="${y - 36}" r="3.5" fill="${GOLD}" ${ol(1.4)}/>
-    <path d="M${x - 14} ${y - 14} q14 6 28 0" fill="none" stroke="#2F6FA8" stroke-width="2.4"/><rect x="${x - 8}" y="${y - 4}" width="16" height="4" fill="#F7F1E4" ${ol(1.6)}/></g>`,
+  // Фарфоровый молочник: ручка, тулово с носиком и ножка — одним цельным предметом.
+  jug: (x: number, y: number) => `<g>
+    <path d="M${x - 12} ${y - 36} C${x - 26} ${y - 36} ${x - 26} ${y - 14} ${x - 12} ${y - 14}" fill="none" stroke="#3B2418" stroke-width="7.6" stroke-linecap="round"/>
+    <path d="M${x - 12} ${y - 36} C${x - 26} ${y - 36} ${x - 26} ${y - 14} ${x - 12} ${y - 14}" fill="none" stroke="#F7F1E4" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M${x - 9} ${y} L${x - 8} ${y - 4} C${x - 18} ${y - 12} ${x - 18} ${y - 28} ${x - 10} ${y - 36} L${x - 11} ${y - 42} L${x + 6} ${y - 42} L${x + 15} ${y - 47} L${x + 11} ${y - 38} C${x + 18} ${y - 28} ${x + 18} ${y - 12} ${x + 8} ${y - 4} L${x + 9} ${y} Z" fill="#F7F1E4" ${ol(2)}/>
+    <path d="M${x - 15} ${y - 18} Q${x} ${y - 13} ${x + 15} ${y - 18}" fill="none" stroke="#2F6FA8" stroke-width="2.4"/>
+    <circle cx="${x + 1}" cy="${y - 26}" r="3.4" fill="#C5333B"/><path d="M${x - 3} ${y - 26} q4 -5 8 0" fill="#5B9A4E"/>
+    <path d="M${x - 9} ${y - 33} q-3 8 0 16" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/></g>`,
   dog: (x: number, y: number) => `<g><rect x="${x - 16}" y="${y - 6}" width="32" height="6" rx="2" fill="#F7F1E4" ${ol(1.6)}/>
     <path d="M${x - 12} ${y - 6} V${y - 20} C${x - 12} ${y - 30} ${x + 4} ${y - 32} ${x + 8} ${y - 24} L${x + 10} ${y - 6}" fill="#F7F1E4" ${ol(2)}/>
     <circle cx="${x + 8}" cy="${y - 32}" r="8" fill="#F7F1E4" ${ol(2)}/><path d="M${x + 4} ${y - 38} q-6 2 -5 10" fill="#C9A06A" ${ol(1.6)}/>
@@ -204,8 +169,9 @@ function sideboard(): string {
     <rect x="${x + dx + 4}" y="${glassTop + 4}" width="182" height="${glassBot - glassTop - 8}" rx="2" fill="#7A6875"/>
     <path d="M${x + dx + 4} ${mid} H${x + dx + 186}" stroke="${WOOD_D}" stroke-width="5"/>`;
   const I = shelfItems;
-  const upperL = I.decanter(x + 46, mid - 2) + I.flute(x + 84, mid - 2) + I.goblet(x + 116, mid - 2) + I.vase(x + 162, mid - 2);
-  const upperR = I.sugar(x + 252, mid - 2) + I.dog(x + 300, mid - 2) + I.flute(x + 338, mid - 2) + I.goblet(x + 374, mid - 2);
+  // Полка — 58 единиц высотой: графин и фужеры уменьшены, чтобы стоять внутри, не касаясь верха.
+  const upperL = scaled(x + 46, mid - 2, 0.74, I.decanter(x + 46, mid - 2)) + scaled(x + 84, mid - 2, 0.88, I.flute(x + 84, mid - 2)) + I.goblet(x + 116, mid - 2) + scaled(x + 162, mid - 2, 0.92, I.vase(x + 162, mid - 2));
+  const upperR = I.jug(x + 252, mid - 2) + I.dog(x + 300, mid - 2) + scaled(x + 338, mid - 2, 0.88, I.flute(x + 338, mid - 2)) + I.goblet(x + 374, mid - 2);
   const lowerL = couplePortrait(x + 26, glassBot - 6) + I.cup(x + 120, glassBot - 6) +
     I.plate(x + 168, glassBot - 6, 22, '#2F6FA8', `<circle cx="${x + 168}" cy="${glassBot - 28}" r="6" fill="#2F6FA8" opacity="0.7"/>`);
   const lowerR = I.plate(x + 254, glassBot - 6, 26, GOLD, `<circle cx="${x + 254}" cy="${glassBot - 32}" r="9" fill="#C5333B"/><path d="M${x + 247} ${glassBot - 26} q7 -4 14 0" stroke="#5B9A4E" stroke-width="2.4" fill="none"/>`) +
@@ -220,18 +186,20 @@ function sideboard(): string {
 }
 
 function teapot(): string {
-  const x = TEAPOT.x;
-  // Фарфоровый чайник на кружевной салфетке; носик — на (TEAPOT.spoutX, TEAPOT.spoutY).
-  const lace = Array.from({ length: 9 }, (_, k) => `<circle cx="${x - 40 + k * 10}" cy="${SB.top - 6}" r="4.5" fill="none" stroke="${CREAM}" stroke-width="2"/>`).join('');
+  const x = TEAPOT.x, t = SB.top;
+  // Фарфоровый заварочный чайник на кружевной салфетке: носик, ручка, крышка с шишечкой.
+  const lace = Array.from({ length: 9 }, (_, k) => `<circle cx="${x - 40 + k * 10}" cy="${t - 6}" r="4.5" fill="none" stroke="${CREAM}" stroke-width="2"/>`).join('');
   return `<g>
-    <path d="M${x - 46} ${SB.top - 8} Q${x} ${SB.top - 20} ${x + 46} ${SB.top - 8} Q${x} ${SB.top - 2} ${x - 46} ${SB.top - 8} Z" fill="${CREAM}" ${ol(2)}/>${lace}
-    <path d="M${x - 30} ${SB.top - 10} C${x - 36} ${SB.top - 46} ${x - 12} ${SB.top - 60} ${x + 4} ${SB.top - 60} C${x + 20} ${SB.top - 60} ${x + 44} ${SB.top - 46} ${x + 38} ${SB.top - 10} Z" fill="#F1E6D2" ${ol(3.5)}/>
-    <path d="M${x + 34} ${SB.top - 30} C${x + 44} ${SB.top - 32} ${x + 44} ${SB.top - 40} ${TEAPOT.spoutX} ${TEAPOT.spoutY + 4}" fill="none" stroke="#F1E6D2" stroke-width="8" stroke-linecap="round"/>
-    <path d="M${x + 34} ${SB.top - 30} C${x + 44} ${SB.top - 32} ${x + 44} ${SB.top - 40} ${TEAPOT.spoutX} ${TEAPOT.spoutY + 4}" fill="none" ${ol(2.6)}/>
-    <path d="M${x - 28} ${SB.top - 42} C${x - 46} ${SB.top - 42} ${x - 46} ${SB.top - 18} ${x - 28} ${SB.top - 18}" fill="none" ${ol(3)}/>
-    <ellipse cx="${x + 4}" cy="${SB.top - 60}" rx="14" ry="5" fill="#F1E6D2" ${ol(2.5)}/><circle cx="${x + 4}" cy="${SB.top - 67}" r="4" fill="#2F6FA8" ${ol(2)}/>
-    <path d="M${x - 20} ${SB.top - 34} Q${x + 4} ${SB.top - 24} ${x + 28} ${SB.top - 34}" fill="none" stroke="#2F6FA8" stroke-width="3"/>
-    <circle cx="${x + 4}" cy="${SB.top - 26}" r="5" fill="#C5333B"/></g>`;
+    <path d="M${x - 46} ${t - 8} Q${x} ${t - 20} ${x + 46} ${t - 8} Q${x} ${t - 2} ${x - 46} ${t - 8} Z" fill="${CREAM}" ${ol(2)}/>${lace}
+    <path d="M${x + 26} ${t - 34} C${x + 40} ${t - 36} ${x + 46} ${t - 44} ${x + 52} ${t - 56} L${x + 60} ${t - 56} C${x + 56} ${t - 40} ${x + 48} ${t - 22} ${x + 30} ${t - 16} Z" fill="#F1E6D2" ${ol(3)}/>
+    <path d="M${x + 51} ${t - 56} L${x + 61} ${t - 56}" ${ol(3.4)}/>
+    <path d="M${x - 28} ${t - 42} C${x - 48} ${t - 42} ${x - 48} ${t - 18} ${x - 28} ${t - 18}" fill="none" stroke="#3B2418" stroke-width="9" stroke-linecap="round"/>
+    <path d="M${x - 28} ${t - 42} C${x - 48} ${t - 42} ${x - 48} ${t - 18} ${x - 28} ${t - 18}" fill="none" stroke="#F1E6D2" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M${x - 30} ${t - 10} C${x - 36} ${t - 46} ${x - 12} ${t - 60} ${x + 4} ${t - 60} C${x + 20} ${t - 60} ${x + 44} ${t - 46} ${x + 38} ${t - 10} Z" fill="#F1E6D2" ${ol(3.5)}/>
+    <ellipse cx="${x + 4}" cy="${t - 60}" rx="16" ry="5" fill="#F1E6D2" ${ol(2.5)}/><circle cx="${x + 4}" cy="${t - 67}" r="4" fill="#2F6FA8" ${ol(2)}/>
+    <path d="M${x - 20} ${t - 34} Q${x + 4} ${t - 24} ${x + 28} ${t - 34}" fill="none" stroke="#2F6FA8" stroke-width="3"/>
+    <circle cx="${x + 4}" cy="${t - 26}" r="5" fill="#C5333B"/><path d="M${x - 1} ${t - 26} q5 -6 10 0" fill="#5B9A4E"/>
+    <path d="M${x - 22} ${t - 46} q-4 12 -2 24" stroke="#FFFFFF" stroke-width="2.6" fill="none" opacity="0.7" stroke-linecap="round"/></g>`;
 }
 
 // ---------- советский ковёр ----------
@@ -253,76 +221,148 @@ const rosette = (cx: number, cy: number, r: number, petal: string, core: string)
   Array.from({ length: 8 }, (_, k) => `<ellipse cx="${cx}" cy="${cy - r * 0.6}" rx="${r * 0.22}" ry="${r * 0.42}" fill="${petal}" stroke="${RUG_RED_D}" stroke-width="1.2" transform="rotate(${k * 45} ${cx} ${cy})"/>`).join('') +
   `<circle cx="${cx}" cy="${cy}" r="${r * 0.3}" fill="${core}" stroke="${RUG_RED_D}" stroke-width="1.4"/><circle cx="${cx}" cy="${cy}" r="${r * 0.12}" fill="${RUG_CREAM}"/>`;
 
+/** Восьмиконечная звёздочка. */
+const star8 = (cx: number, cy: number, r: number, fill: string): string =>
+  `<path d="${Array.from({ length: 16 }, (_, k) => { const a = (k * Math.PI) / 8, rr = k % 2 ? r * 0.45 : r; return `${k ? 'L' : 'M'}${(cx + Math.sin(a) * rr).toFixed(1)} ${(cy - Math.cos(a) * rr).toFixed(1)}`; }).join(' ')} Z" fill="${fill}" stroke="${RUG_RED_D}" stroke-width="1"/>`;
+
+/** «Бараньи рога» — парный завиток, частый мотив советских ковров. */
+const horns = (cx: number, cy: number, s: number, color: string): string =>
+  `<path d="M${cx} ${cy + s} V${cy - s * 0.2} M${cx} ${cy - s * 0.2} C${cx - s * 0.2} ${cy - s} ${cx - s} ${cy - s} ${cx - s} ${cy - s * 0.3} C${cx - s} ${cy + s * 0.1} ${cx - s * 0.5} ${cy + s * 0.2} ${cx - s * 0.4} ${cy - s * 0.2} M${cx} ${cy - s * 0.2} C${cx + s * 0.2} ${cy - s} ${cx + s} ${cy - s} ${cx + s} ${cy - s * 0.3} C${cx + s} ${cy + s * 0.1} ${cx + s * 0.5} ${cy + s * 0.2} ${cx + s * 0.4} ${cy - s * 0.2}" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round"/>`;
+
+/** Полоса «бегущей волны» вдоль прямоугольника (x, y, w, h). */
+function waveBand(x: number, y: number, w: number, h: number, step: number, amp: number): string {
+  const side = (x0: number, y0: number, dx: number, dy: number, len: number) => {
+    const n = Math.max(2, Math.round(len / step));
+    let d = `M${x0} ${y0}`;
+    for (let i = 0; i < n; i++) {
+      const t0 = i / n, t1 = (i + 0.5) / n, t2 = (i + 1) / n;
+      const nx = -dy, ny = dx;
+      d += ` Q${(x0 + dx * len * t0 + nx * amp * 0).toFixed(1)} ${(y0 + dy * len * t0).toFixed(1)} ${(x0 + dx * len * t1 + nx * amp).toFixed(1)} ${(y0 + dy * len * t1 + ny * amp).toFixed(1)} T${(x0 + dx * len * t2).toFixed(1)} ${(y0 + dy * len * t2).toFixed(1)}`;
+    }
+    return d;
+  };
+  return `<path d="${side(x, y, 1, 0, w)} ${side(x + w, y + h, -1, 0, w)} ${side(x, y + h, 0, -1, h)} ${side(x + w, y, 0, 1, h)}" fill="none" stroke="${RUG_RED}" stroke-width="2.2"/>`;
+}
+
+/** Зубчатая кромка: треугольники вдоль всех сторон (x, y, w, h), острием внутрь. */
+function sawEdge(x: number, y: number, w: number, h: number, t: number, fill: string): string {
+  let d = '';
+  const nx = Math.round(w / (t * 1.6)), ny = Math.round(h / (t * 1.6));
+  for (let i = 0; i < nx; i++) {
+    const a = x + (w * i) / nx, b = x + (w * (i + 1)) / nx, m = (a + b) / 2;
+    d += `M${a} ${y} L${m} ${y + t} L${b} ${y} Z M${a} ${y + h} L${m} ${y + h - t} L${b} ${y + h} Z `;
+  }
+  for (let j = 0; j < ny; j++) {
+    const a = y + (h * j) / ny, b = y + (h * (j + 1)) / ny, m = (a + b) / 2;
+    d += `M${x} ${a} L${x + t} ${m} L${x} ${b} Z M${x + w} ${a} L${x + w - t} ${m} L${x + w} ${b} Z `;
+  }
+  return `<path d="${d}" fill="${fill}"/>`;
+}
+
 function sovietRug(): string {
   const { x, y, w, h } = RUG;
   const cx = x + w / 2, cy = y + h / 2;
-  const B = 40; // ширина бордюра
-  // Бордюр: зелёная полоса с ромбами-«гёлями» и мелкими крестиками между ними, по всем сторонам симметрично.
+  const E = 9; // зубчатая кромка
+  const B = 38; // бордюр
+  const b0 = x + E, b1 = y + E, bw = w - 2 * E, bh = h - 2 * E;
+  // Бордюр: ромбы-«гёли», между ними восьмиконечные звёздочки; по краям — тонкие охристые линии с точками.
   let border = '';
-  const nx = 10, ny = 6;
+  const nx = 9, ny = 5;
+  const topY = b1 + B / 2, botY = b1 + bh - B / 2, lX = b0 + B / 2, rX = b0 + bw - B / 2;
   for (let i = 0; i < nx; i++) {
-    const gx = x + B + 6 + ((w - 2 * B - 12) * (i + 0.5)) / nx;
-    border += gul(gx, y + B / 2 + 2, 15, 13) + gul(gx, y + h - B / 2 - 2, 15, 13);
+    const gx = b0 + B + ((bw - 2 * B) * (i + 0.5)) / nx;
+    border += gul(gx, topY, 14, 12) + gul(gx, botY, 14, 12);
     if (i < nx - 1) {
-      const kx = x + B + 6 + ((w - 2 * B - 12) * (i + 1)) / nx;
-      border += [y + B / 2 + 2, y + h - B / 2 - 2].map((ky) => `<path d="M${kx - 5} ${ky} H${kx + 5} M${kx} ${ky - 5} V${ky + 5}" stroke="${RUG_CREAM}" stroke-width="2.4"/>`).join('');
+      const kx = b0 + B + ((bw - 2 * B) * (i + 1)) / nx;
+      border += star8(kx, topY, 6, RUG_CREAM) + star8(kx, botY, 6, RUG_CREAM);
     }
   }
   for (let j = 0; j < ny; j++) {
-    const gy = y + B + 4 + ((h - 2 * B - 8) * (j + 0.5)) / ny;
-    border += gul(x + B / 2 + 2, gy, 13, 15) + gul(x + w - B / 2 - 2, gy, 13, 15);
+    const gy = b1 + B + ((bh - 2 * B) * (j + 0.5)) / ny;
+    border += gul(lX, gy, 12, 14) + gul(rX, gy, 12, 14);
+    if (j < ny - 1) {
+      const ky = b1 + B + ((bh - 2 * B) * (j + 1)) / ny;
+      border += star8(lX, ky, 6, RUG_CREAM) + star8(rX, ky, 6, RUG_CREAM);
+    }
   }
-  // Угловые розетки бордюра.
-  border += [[x + B / 2 + 2, y + B / 2 + 2], [x + w - B / 2 - 2, y + B / 2 + 2], [x + B / 2 + 2, y + h - B / 2 - 2], [x + w - B / 2 - 2, y + h - B / 2 - 2]].map(([rx, ry]) => rosette(rx!, ry!, 18, RUG_OCHRE, RUG_RED)).join('');
-  const fx0 = x + B + 10, fy0 = y + B + 10, fw = w - 2 * B - 20, fh = h - 2 * B - 20;
-  // Угловые четверти медальона (зелёные с охрой) — зеркально в четырёх углах поля.
+  border += [[lX, topY], [rX, topY], [lX, botY], [rX, botY]].map(([rx, ry]) => rosette(rx!, ry!, 17, RUG_OCHRE, RUG_RED)).join('');
+  const dots = (x0: number, y0: number, ww: number, hh: number) => {
+    let d = '';
+    for (let i = 0; i <= Math.round(ww / 9); i++) d += `<circle cx="${x0 + (ww * i) / Math.round(ww / 9)}" cy="${y0}" r="1.3"/><circle cx="${x0 + (ww * i) / Math.round(ww / 9)}" cy="${y0 + hh}" r="1.3"/>`;
+    for (let j = 1; j < Math.round(hh / 9); j++) d += `<circle cx="${x0}" cy="${y0 + (hh * j) / Math.round(hh / 9)}" r="1.3"/><circle cx="${x0 + ww}" cy="${y0 + (hh * j) / Math.round(hh / 9)}" r="1.3"/>`;
+    return `<g fill="${RUG_CREAM}">${d}</g>`;
+  };
+  // Поле.
+  const G = b0 + B, H = b1 + B, gw = bw - 2 * B, gh = bh - 2 * B; // внутренняя полоса
+  const fx0 = G + 12, fy0 = H + 12, fw = gw - 24, fh = gh - 24;
   const corner = (sx: number, sy: number) => {
     const ox = sx > 0 ? fx0 : fx0 + fw, oy = sy > 0 ? fy0 : fy0 + fh;
+    const comb = Array.from({ length: 5 }, (_, k) => `<path d="M${18 + k * 14} 30 l5 7 l5 -7" fill="${RUG_CREAM}"/>`).join('');
     return `<g transform="translate(${ox} ${oy}) scale(${sx} ${sy})">
-      <path d="M0 0 H86 L86 14 L60 14 L60 30 L30 30 L30 60 L14 60 L14 86 L0 86 Z" fill="${RUG_GREEN}" stroke="${RUG_OCHRE}" stroke-width="2.4"/>
-      <path d="M0 0 H50 L50 10 L34 10 L34 34 L10 34 L10 50 L0 50 Z" fill="${RUG_OCHRE}" stroke="${RUG_RED_D}" stroke-width="1.4"/>
-      <circle cx="18" cy="18" r="7" fill="${RUG_CREAM}" stroke="${RUG_RED_D}" stroke-width="1.4"/></g>`;
+      <path d="M0 0 H92 L92 14 L66 14 L66 30 L30 30 L30 66 L14 66 L14 92 L0 92 Z" fill="${RUG_GREEN}" stroke="${RUG_OCHRE}" stroke-width="2.4"/>
+      <path d="M0 0 H52 L52 10 L36 10 L36 36 L10 36 L10 52 L0 52 Z" fill="${RUG_OCHRE}" stroke="${RUG_RED_D}" stroke-width="1.4"/>
+      ${comb}<g transform="rotate(90) scale(1 -1)">${comb}</g>
+      <circle cx="18" cy="18" r="7" fill="${RUG_CREAM}" stroke="${RUG_RED_D}" stroke-width="1.4"/><circle cx="18" cy="18" r="2.6" fill="${RUG_RED}"/>
+      ${horns(76, 48, 9, RUG_OCHRE)}</g>`;
   };
-  // Мелкий узор поля: ромбики и «ёлочки» симметрично относительно центра.
+  // Мелкий узор поля — симметрично относительно центра: ромбики, звёздочки, «рога», «ёлочки».
   let field = '';
-  for (const [dx, dy] of [[0.18, 0.3], [0.32, 0.18], [0.3, 0.42], [0.42, 0.32]]) {
+  for (const [dx, dy, kind] of [[0.2, 0.32, 0], [0.34, 0.2, 1], [0.31, 0.42, 0], [0.43, 0.3, 1], [0.12, 0.44, 2], [0.42, 0.1, 2]] as const) {
     for (const [sx, sy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
-      const px = cx + sx! * dx! * fw, py = cy + sy! * dy! * fh;
-      field += `<path d="M${px} ${py - 9} L${px + 7} ${py} L${px} ${py + 9} L${px - 7} ${py} Z" fill="${RUG_GREEN}" stroke="${RUG_OCHRE}" stroke-width="1.4"/><circle cx="${px}" cy="${py}" r="2" fill="${RUG_CREAM}"/>`;
+      const px = cx + sx! * dx * fw, py = cy + sy! * dy * fh;
+      field += kind === 0
+        ? `<path d="M${px} ${py - 9} L${px + 7} ${py} L${px} ${py + 9} L${px - 7} ${py} Z" fill="${RUG_GREEN}" stroke="${RUG_OCHRE}" stroke-width="1.4"/><circle cx="${px}" cy="${py}" r="2" fill="${RUG_CREAM}"/>`
+        : kind === 1 ? star8(px, py, 6.5, RUG_OCHRE) : horns(px, py, 7, RUG_CREAM);
     }
   }
   for (const sx of [1, -1]) {
-    const px = cx + sx * fw * 0.44;
-    field += `<path d="M${px} ${cy - 40} V${cy + 40} ${[-30, -15, 0, 15, 30].map((d) => `M${px} ${cy + d} l${-sx * 10} -8 M${px} ${cy + d} l${sx * 10} -8`).join(' ')}" stroke="${RUG_OCHRE}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+    const px = cx + sx * fw * 0.455;
+    field += `<path d="M${px} ${cy - 44} V${cy + 44} ${[-34, -20, -6, 8, 22, 36].map((d) => `M${px} ${cy + d} l${-sx * 10} -8 M${px} ${cy + d} l${sx * 10} -8`).join(' ')}" stroke="${RUG_OCHRE}" stroke-width="2.4" fill="none" stroke-linecap="round"/>` +
+      `<circle cx="${px}" cy="${cy - 48}" r="3" fill="${RUG_CREAM}"/><circle cx="${px}" cy="${cy + 48}" r="3" fill="${RUG_CREAM}"/>`;
   }
-  // Центральный медальон: ступенчатые восьмиугольники, звезда, розетка; подвески сверху и снизу.
+  // Центральный медальон: зубчатый восьмиугольник с «крючками», вложенные ступенчатые рамки, ромб, звезда, розетка.
+  const mA = 112, mB = fh * 0.34;
+  const hooksRing = (() => {
+    let d = '';
+    for (const sy of [-1, 1]) for (let i = -3; i <= 3; i++) { const hx = cx + i * 26; d += `M${hx} ${cy + sy * mB} v${sy * 8} h${6} `; }
+    for (const sx of [-1, 1]) for (let j = -1; j <= 1; j++) { const hy = cy + j * 26; d += `M${cx + sx * mA} ${hy} h${sx * 8} v${-6} `; }
+    return `<path d="${d}" fill="none" stroke="${RUG_OCHRE}" stroke-width="3" stroke-linecap="square"/>`;
+  })();
   const pend = (sy: number) => `<g transform="translate(${cx} ${cy}) scale(1 ${sy})">
-    <path d="M-16 -${fh * 0.33} H16 V-${fh * 0.33 + 14} H8 V-${fh * 0.33 + 24} H-8 V-${fh * 0.33 + 14} H-16 Z" fill="${RUG_GREEN}" stroke="${RUG_OCHRE}" stroke-width="2"/>
-    <path d="M0 -${fh * 0.33 + 4} l6 -6 l-6 -6 l-6 6 Z" fill="${RUG_CREAM}"/></g>`;
+    <path d="M-18 -${mB} H18 V-${mB + 14} H9 V-${mB + 26} H-9 V-${mB + 14} H-18 Z" fill="${RUG_GREEN}" stroke="${RUG_OCHRE}" stroke-width="2"/>
+    <path d="M0 -${mB + 6} l6 -6 l-6 -6 l-6 6 Z" fill="${RUG_CREAM}"/><circle cx="0" cy="-${mB + 30}" r="3" fill="${RUG_OCHRE}"/></g>`;
   const star = Array.from({ length: 8 }, (_, k) => `<path d="M${cx} ${cy - 46} L${cx + 9} ${cy - 20} L${cx - 9} ${cy - 20} Z" fill="${RUG_OCHRE}" stroke="${RUG_RED_D}" stroke-width="1.2" transform="rotate(${k * 45} ${cx} ${cy})"/>`).join('');
-  const medallion = pend(1) + pend(-1) +
-    stepOct(cx, cy, 118, fh * 0.33, 26, RUG_GREEN, RUG_OCHRE) +
-    stepOct(cx, cy, 100, fh * 0.33 - 14, 22, RUG_RED, RUG_OCHRE) +
-    stepOct(cx, cy, 74, fh * 0.33 - 34, 18, RUG_CREAM, RUG_RED_D) +
-    `<path d="M${cx} ${cy - 60} L${cx + 64} ${cy} L${cx} ${cy + 60} L${cx - 64} ${cy} Z" fill="${RUG_GREEN}" stroke="${RUG_RED_D}" stroke-width="2"/>` +
-    star + rosette(cx, cy, 30, RUG_CREAM, RUG_RED) +
-    [[-1, 0], [1, 0]].map(([sx]) => `<path d="M${cx + sx! * 82} ${cy} l${sx! * 10} -10 l${sx! * 10} 10 l${-sx! * 10} 10 Z" fill="${RUG_OCHRE}" stroke="${RUG_RED_D}" stroke-width="1.4"/>`).join('');
-  // Бахрома по нижнему краю: кисточки с узелками.
-  const tassels = Array.from({ length: 49 }, (_, k) => {
-    const tx = x + 10 + ((w - 20) * k) / 48;
-    return `<path d="M${tx} ${y + h} V${y + h + 18}" stroke="#3B2418" stroke-width="5.4" stroke-linecap="round"/><path d="M${tx} ${y + h} V${y + h + 18}" stroke="${RUG_CREAM}" stroke-width="3" stroke-linecap="round"/><circle cx="${tx}" cy="${y + h + 5}" r="2.6" fill="${RUG_RED}" stroke="#3B2418" stroke-width="1.2"/>`;
+  const beads = Array.from({ length: 16 }, (_, k) => { const a = (k * Math.PI) / 8; return `<circle cx="${cx + Math.sin(a) * 36}" cy="${cy - Math.cos(a) * 36}" r="2" fill="${RUG_CREAM}"/>`; }).join('');
+  const medallion = pend(1) + pend(-1) + hooksRing +
+    stepOct(cx, cy, mA, mB, 26, RUG_GREEN, RUG_OCHRE) +
+    stepOct(cx, cy, mA - 16, mB - 14, 22, RUG_RED, RUG_OCHRE) +
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([sx, sy]) => star8(cx + sx! * (mA - 40), cy + sy! * (mB - 26), 7, RUG_CREAM)).join('') +
+    stepOct(cx, cy, mA - 42, mB - 34, 18, RUG_CREAM, RUG_RED_D) +
+    `<path d="M${cx} ${cy - 58} L${cx + 62} ${cy} L${cx} ${cy + 58} L${cx - 62} ${cy} Z" fill="${RUG_GREEN}" stroke="${RUG_RED_D}" stroke-width="2"/>` +
+    `<path d="M${cx} ${cy - 50} L${cx + 54} ${cy} L${cx} ${cy + 50} L${cx - 54} ${cy} Z" fill="none" stroke="${RUG_OCHRE}" stroke-width="1.6" stroke-dasharray="4 3"/>` +
+    star + beads + rosette(cx, cy, 28, RUG_CREAM, RUG_RED) +
+    [-1, 1].map((sx) => `<path d="M${cx + sx * 80} ${cy} l${sx * 10} -10 l${sx * 10} 10 l${-sx * 10} 10 Z" fill="${RUG_OCHRE}" stroke="${RUG_RED_D}" stroke-width="1.4"/><circle cx="${cx + sx * 90}" cy="${cy}" r="2.4" fill="${RUG_RED}"/>`).join('');
+  // Бахрома: кисточки из трёх нитей, собранные узелком, и общая плетёная кромка.
+  const tassels = Array.from({ length: 41 }, (_, k) => {
+    const tx = x + 8 + ((w - 16) * k) / 40, ty = y + h;
+    const threads = [-2.6, 0, 2.6].map((dx) => `M${tx} ${ty + 6} L${tx + dx} ${ty + 20}`).join(' ');
+    return `<path d="${threads}" stroke="#3B2418" stroke-width="3.6" stroke-linecap="round"/><path d="${threads}" stroke="${RUG_CREAM}" stroke-width="1.8" stroke-linecap="round"/>` +
+      `<path d="M${tx} ${ty} V${ty + 6}" stroke="${RUG_CREAM}" stroke-width="2.6"/><ellipse cx="${tx}" cy="${ty + 6}" rx="2.6" ry="2" fill="${RUG_OCHRE}" stroke="#3B2418" stroke-width="1"/>`;
   }).join('');
+  const braid = `<path d="M${x + 2} ${y + h + 1.5} H${x + w - 2}" stroke="${RUG_RED_D}" stroke-width="4"/><path d="M${x + 2} ${y + h + 1.5} H${x + w - 2}" stroke="${RUG_CREAM}" stroke-width="2" stroke-dasharray="3 3"/>`;
   return `<g>
     <rect x="${x + 6}" y="${y + 8}" width="${w}" height="${h}" fill="#3B2418" opacity="0.18"/>
     ${tassels}
-    <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${RUG_GREEN}" stroke="#3B2418" stroke-width="3.5"/>
-    <rect x="${x + 5}" y="${y + 5}" width="${w - 10}" height="${h - 10}" fill="none" stroke="${RUG_CREAM}" stroke-width="2.4"/>
-    ${border}
-    <rect x="${x + B}" y="${y + B}" width="${w - 2 * B}" height="${h - 2 * B}" fill="${RUG_OCHRE}" stroke="${RUG_RED_D}" stroke-width="2"/>
-    <rect x="${x + B + 5}" y="${y + B + 5}" width="${w - 2 * B - 10}" height="${h - 2 * B - 10}" fill="${RUG_CREAM}"/>
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${RUG_RED_D}" stroke="#3B2418" stroke-width="3.5"/>
+    ${sawEdge(x + 2, y + 2, w - 4, h - 4, 6, RUG_CREAM)}
+    <rect x="${b0}" y="${b1}" width="${bw}" height="${bh}" fill="${RUG_GREEN}" stroke="${RUG_CREAM}" stroke-width="2"/>
+    ${dots(b0 + 4, b1 + 4, bw - 8, bh - 8)}${border}
+    <rect x="${G}" y="${H}" width="${gw}" height="${gh}" fill="${RUG_CREAM}" stroke="${RUG_OCHRE}" stroke-width="3"/>
+    ${waveBand(G + 6, H + 6, gw - 12, gh - 12, 14, 3)}
     <rect x="${fx0}" y="${fy0}" width="${fw}" height="${fh}" fill="${RUG_RED}" stroke="${RUG_RED_D}" stroke-width="2"/>
+    <rect x="${fx0 + 4}" y="${fy0 + 4}" width="${fw - 8}" height="${fh - 8}" fill="none" stroke="${RUG_OCHRE}" stroke-width="1" stroke-dasharray="2 4"/>
     ${corner(1, 1)}${corner(-1, 1)}${corner(1, -1)}${corner(-1, -1)}
-    ${field}${medallion}</g>`;
+    ${field}${medallion}${braid}</g>`;
 }
 
 // ---------- прочее ----------
@@ -357,7 +397,6 @@ function background(): string {
   ${frame(160, 300, 90, 80, '#C9A24A', photoFace('#B9C4A8', '#8E2632'))}
   <g><rect x="${x - 8}" y="${y - 8}" width="${w + 16}" height="${h + 16}" rx="8" fill="${CREAM}" ${ol(4)}/>${windowGlass()}${windowFrame(0, 0)}</g>
   ${sillAndRadiator()}
-  ${catBody()}${roses()}
   ${clock()}
   ${sovietRug()}
   ${scoreSlate(WOOD)}
@@ -400,38 +439,8 @@ export const AGATA_ROOM: RoomArt = {
     },
     // Переплёт поверх мороси.
     { key: 'mullion', box: { x: WIN.x - 8, y: WIN.y - 8, w: WIN.w + 16, h: WIN.h + 16 }, svg: propSvg(WIN.w + 16, WIN.h + 16, windowFrame(WIN.x - 8, WIN.y - 8)) },
-    // Кошка: хвост, свисающий с подоконника, покачивается и подёргивает кончиком.
-    {
-      key: 'catTail',
-      box: { x: TAIL.x, y: TAIL.y, w: TAIL.w, h: TAIL.h },
-      pivot: { x: TAIL.px, y: TAIL.py },
-      svg: catTail(),
-      period: 3.6,
-      motion: (t) => ({ rot: wave(t, 3.6, 0.09) + wave(t, 1.8, 0.03, 0.6) }),
-    },
-    // Ухо иногда вздрагивает.
-    {
-      key: 'catEar',
-      box: { x: EAR.x, y: EAR.y, w: EAR.w, h: EAR.h },
-      pivot: { x: EAR.px, y: EAR.py },
-      svg: catEar(),
-      period: 5.3,
-      motion: (t) => {
-        const u = cycle(t, 5.3, 0.3);
-        return { rot: u < 0.1 ? -0.22 * Math.sin((Math.PI * u) / 0.1) : 0 };
-      },
-    },
-    // Моргание: веки на миг закрывают глаза.
-    {
-      key: 'catLids',
-      box: { x: LIDS.x, y: LIDS.y, w: LIDS.w, h: LIDS.h },
-      svg: catLids(),
-      period: 4.9,
-      motion: (t) => {
-        const u = cycle(t, 4.9, 0.5);
-        return { alpha: u < 0.05 ? Math.sin((Math.PI * u) / 0.05) : 0 };
-      },
-    },
+    // Розы на подоконнике — перед рамой: стоят в комнате, ближе к нам, чем стекло.
+    { key: 'roses', box: ROSES, svg: propSvg(ROSES.w, ROSES.h, `<g transform="translate(${-ROSES.x} ${-ROSES.y})">${roses()}</g>`) },
     // Маятник часов: ±4°, период 2,4 с.
     {
       key: 'pendulum',
@@ -440,21 +449,6 @@ export const AGATA_ROOM: RoomArt = {
       svg: propSvg(20, 110, '<path d="M10 4 V86" stroke="#C9A24A" stroke-width="3"/><circle cx="10" cy="4" r="3" fill="#C9A24A"/><circle cx="10" cy="94" r="10" fill="#E8AB30" stroke="#3B2418" stroke-width="2.5"/><circle cx="7" cy="91" r="3" fill="#FFF1C9"/>'),
       period: 2.4,
       motion: (t) => ({ rot: wave(t, 2.4, 0.07) }),
-    },
-    // Пар над носиком чайника.
-    {
-      key: 'steam',
-      box: { x: TEAPOT.spoutX - 13, y: TEAPOT.spoutY - 22, w: 26, h: 26 },
-      pivot: { x: TEAPOT.spoutX, y: TEAPOT.spoutY },
-      svg: propSvg(26, 26, '<circle cx="13" cy="13" r="10" fill="#FFFFFF" opacity="0.55"/>'),
-      count: 3,
-      particle: true,
-      period: 4.3,
-      reach: 80,
-      motion: (t, i) => {
-        const u = cycle(t, 4.3, i / 3);
-        return { dy: -u * 66, dx: 6 + wave(u, 1, 6, i), sx: 0.6 + u * 0.9, sy: 0.6 + u * 0.9, alpha: hump(u) * 0.75 };
-      },
     },
     // Шторы висят свободно и едва колышутся, у каждой свой период.
     {
