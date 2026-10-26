@@ -2,6 +2,7 @@
 // docs/AUDIO.md §8, §14. Нужен ffmpeg с libopus. Модель синтеза здесь не участвует.
 //
 //   node tools/audio/build-voice.mjs                 # весь каталог Агаты в public/audio/ru/agata
+//   node tools/audio/build-voice.mjs --character matvey   # голос Деда Матвея в public/audio/ru/matvey
 //   node tools/audio/build-voice.mjs --only agata_win_01
 //   node tools/audio/build-voice.mjs --src <папка> --out <папка> --no-manifest   # пробы для прослушивания
 //   node tools/audio/build-voice.mjs --src <папка> --out <папка> --no-manifest --report-dir <папка>   # предпрослушивание, отчёт вне репозитория
@@ -17,17 +18,27 @@ const arg = (name, def) => {
 };
 const flag = (name) => process.argv.includes(name);
 
-const cfg = JSON.parse(readFileSync(join(root, 'tools/voice/agata.voice.json'), 'utf8'));
+// Персонаж: конфиг tools/voice/<id>.voice.json и каталог src/characters/<id>/lines.ts (<ID>_LINES). По умолчанию — Агата.
+const character = arg('--character', 'agata');
+if (!/^[a-z]+$/.test(character)) throw new Error(`--character: ожидается id персонажа, получено «${character}»`);
+const cfgFile = `tools/voice/${character}.voice.json`;
+const cfg = JSON.parse(readFileSync(join(root, cfgFile), 'utf8'));
+if (cfg.character !== character) throw new Error(`${cfgFile}: character = «${cfg.character}», ожидается «${character}»`);
 const src = arg('--src', join(root, 'assets-src/audio', cfg.lang, cfg.character));
 const out = arg('--out', join(root, 'public/audio', cfg.lang, cfg.character));
 const only = arg('--only', '')?.split(',').filter(Boolean) ?? [];
 const writeManifest = !flag('--no-manifest');
+// Только постоянное усиление, без динамической обработки (живая запись Матвея, D51): громкость к цели, пока пик
+// не упрётся в предел; тише цели остаются реплики с высоким пиком. Иначе loudnorm, где он сам может сжимать динамику.
+const linearOnly = cfg.build?.gain === 'linear';
 
 // Целевые параметры (§8.1): громкость −16 LUFS, пик −1,5 dBTP; голос моно.
 export const TARGET = { lufs: -16, truePeak: -1.5, lra: 11, opusKbps: 32, aacKbps: 48 };
 
-const { AGATA_LINES } = await import('../../src/characters/agata/lines.ts');
-const catalog = new Map(AGATA_LINES.map((l) => [l.id, l]));
+const linesModule = await import(`../../src/characters/${character}/lines.ts`);
+const catalogLines = linesModule[`${character.toUpperCase()}_LINES`];
+if (!Array.isArray(catalogLines)) throw new Error(`src/characters/${character}/lines.ts: нет экспорта ${character.toUpperCase()}_LINES`);
+const catalog = new Map(catalogLines.map((l) => [l.id, l]));
 
 const ff = (args) => execFileSync('ffmpeg', ['-hide_banner', '-nostdin', '-y', ...args], { stdio: ['ignore', 'pipe', 'pipe'] });
 // Замеры ffmpeg печатает в stderr — читаем его и при успешном завершении.
@@ -39,7 +50,16 @@ const ffStderr = (args) => {
 const probeDuration = (file) => Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]).toString().trim());
 
 // Обрезка тишины по краям (порог −50 дБ), затем короткие поля, чтобы не съесть атаку и хвост.
-const TRIM = 'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.03,areverse,silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.06,areverse';
+// Края — с плавным входом 5 мс и выходом 8 мс: живая запись, нарезанная вплотную к звуку, иначе щёлкает.
+const TRIM_SILENCE = 'silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.03,areverse,silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.06,afade=t=in:d=0.008,areverse,afade=t=in:d=0.005';
+// build.trim = false (Матвей, D51): края записи не обрезаются — только те же плавные вход и выход.
+const TRIM = cfg.build?.trim === false ? 'areverse,afade=t=in:d=0.008,areverse,afade=t=in:d=0.005' : TRIM_SILENCE;
+
+/** Блок прав персонажа — сразу после строки его манифеста в реестре (для Агаты — как прежде). */
+function insertAfterManifest(reg, block) {
+  const row = relative(root, join(out, 'manifest.json')).replace(/[.*+?^${}()|[\]\\/]/g, '\\$&');
+  return reg.replace(new RegExp(`(\\| \`${row}\`[^\\n]*\\n)`), `$1${block}\n`);
+}
 
 function measure(file, loops = 0) {
   const input = loops ? ['-stream_loop', String(loops), '-i', file] : ['-i', file];
@@ -60,16 +80,19 @@ function buildOne(id, flac, tmp) {
   const norm = join(tmp, `${id}.wav`);
   const tail = 'aresample=48000,adelay=40:all=1,apad=pad_dur=0.12';
   let gain;
-  if (Number.isFinite(Number(m.input_i))) {
+  let gainDb = null;
+  if (!linearOnly && Number.isFinite(Number(m.input_i))) {
     gain = `loudnorm=I=${TARGET.lufs}:TP=${TARGET.truePeak}:LRA=${TARGET.lra}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`;
   } else {
     // Реплика короче окна измерения громкости (≈0,4 с после обрезки): меряем её, повторённую 5 раз, —
     // громкость повтора равна громкости реплики. Усиление постоянное, с запасом по пику.
-    const r = measure(flac, 4);
+    const short = !Number.isFinite(Number(m.input_i));
+    const r = short ? measure(flac, 4) : m;
     const db = Math.min(TARGET.lufs - Number(r.input_i), TARGET.truePeak - Number(r.input_tp));
     if (!Number.isFinite(db)) throw new Error('не удалось измерить громкость');
     gain = `volume=${db.toFixed(2)}dB`;
-    warnings.push('короткая: громкость по повтору');
+    gainDb = Math.round(db * 100) / 100;
+    if (short) warnings.push('короткая: громкость по повтору');
   }
   // Второй проход: линейная нормализация по замеру, 48 кГц моно, поля 40 мс в начале и 120 мс в конце.
   ff(['-i', flac, '-af', `${TRIM},${gain},${tail}`, '-ac', '1', '-c:a', 'pcm_s16le', norm]);
@@ -90,6 +113,7 @@ function buildOne(id, flac, tmp) {
     durationSec: Math.round(duration * 100) / 100,
     bytes: { flac: statSync(flac).size, opus: statSync(opus).size, m4a: statSync(m4a).size, wav: statSync(norm).size },
     inputLufs: Number(m.input_i),
+    ...(gainDb === null ? {} : { gainDb }),
     peakDb: vol.max,
     status: warnings.length ? 'warning' : 'ok',
     warnings,
@@ -135,12 +159,13 @@ if (writeManifest) {
   const end = `<!-- voice:${cfg.character}:end -->`;
   const lic = cfg.license;
   if (!lic) {
-    console.error('В tools/voice/agata.voice.json нет раздела license — файлы не будут записаны в реестр прав, проверка check:assets не пройдёт.');
+    console.error(`В ${cfgFile} нет раздела license — файлы не будут записаны в реестр прав, проверка check:assets не пройдёт.`);
   } else {
     const rel = (f) => relative(root, join(out, f));
     const rows = Object.entries(lines).flatMap(([, e]) => [e.opus, e.m4a]).map((f) => `| \`${rel(f)}\` | ${lic.source} | ${lic.date} | ${lic.terms} | ${lic.use} |`);
     const block = `${start}\n${rows.join('\n')}\n${end}`;
-    const next = reg.includes(start) ? reg.replace(new RegExp(`${start}[\\s\\S]*?${end}`), block) : reg.replace(/(\| `public\/audio\/ru\/agata\/manifest\.json`[^\n]*\n)/, `$1${block}\n`);
+    const next = reg.includes(start) ? reg.replace(new RegExp(`${start}[\\s\\S]*?${end}`), block) : insertAfterManifest(reg, block);
+    if (next === reg && !reg.includes(start)) throw new Error(`assets/audio/LICENSES.md: нет строки \`${relative(root, manifestPath)}\` — блок прав некуда вставить`);
     writeFileSync(regPath, next);
   }
 }

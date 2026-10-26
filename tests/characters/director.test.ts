@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createRng } from '../../src/core/rng';
 import { AGATA_LINES } from '../../src/characters/agata/lines';
+import { MATVEY_LINES } from '../../src/characters/matvey/lines';
 import { Director, type Trigger } from '../../src/characters/director';
 import { EMOTIONS } from '../../src/characters/types';
 
@@ -22,8 +23,20 @@ describe('каталог реплик Агаты', () => {
     const ids = AGATA_LINES.map((l) => l.id);
     for (const id of ['agata_greet_first_01', 'agata_attack_sly_01', 'agata_trump_azart_01', 'agata_player_took_laugh_01', 'agata_took_annoyed_01', 'agata_surprise_01', 'agata_win_01', 'agata_lose_01', 'agata_rematch_01', 'agata_nv_giggle_01', 'agata_nv_hmm_01', 'agata_nv_sigh_01']) expect(ids).toContain(id);
   });
-  it('обращения нейтральны к полу игрока', () => {
-    for (const l of AGATA_LINES) expect(l.text).not.toMatch(/\b(милок|голубчик|внучек|внучка|видал|обыграл\b|молодчина-парень)/i);
+  // Агата обращается к игроку в мужском роде («внучек», «милок») — решение владельца D48; правило D15 — для остальных.
+  it('у Агаты обращения по-бабушкиному: «внучек», «милок», без «солнышко» и «золотце»', () => {
+    const all = AGATA_LINES.map((l) => l.text).join(' ');
+    expect(all).toMatch(GENDERED);
+    expect(all).not.toMatch(/(?<!\p{L})(солнышко|золотце)(?!\p{L})/iu);
+  });
+});
+
+// Обращения и формы, выдающие пол игрока. Граница слова — по буквам Юникода: \b в JS не видит кириллицу.
+const GENDERED = /(?<!\p{L})(милок|голубчик|внучек|внучка|видал|обыграл|набрал|молодчина-парень)(?!\p{L})/iu;
+
+describe('каталог реплик Матвея', () => {
+  it('обращения нейтральны к полу игрока (D15)', () => {
+    for (const l of MATVEY_LINES) expect(l.text, l.id).not.toMatch(GENDERED);
   });
 });
 

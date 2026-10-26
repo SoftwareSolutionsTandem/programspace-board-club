@@ -1,0 +1,14 @@
+{
+  "id": "matvey_player_last_bone_01",
+  "text": "Ох, одна кость! Ну-ка, ну-ка…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "24f5cc3767feb38cade36c6571011bc105805c456287eb72f61451c0e7d557dc",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.48
+}

@@ -1,0 +1,14 @@
+{
+  "id": "matvey_hand_lose_01",
+  "text": "Эх, вышел-таки.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "3af7237a20d0292ca6a5d57290f37573f012f45d0814a2a4ce2b2476e8467a0b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.28
+}

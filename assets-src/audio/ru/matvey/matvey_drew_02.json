@@ -1,0 +1,14 @@
+{
+  "id": "matvey_drew_02",
+  "text": "Поищем…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "eca7d62f756722db94f6169ad4c5e6c4c7e231bd2a341587c33ffa5ca56ff5f0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.93
+}

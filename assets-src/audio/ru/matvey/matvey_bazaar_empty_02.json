@@ -1,0 +1,14 @@
+{
+  "id": "matvey_bazaar_empty_02",
+  "text": "Всё, брать больше нечего.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "75e9c9072df88d60f0515ce2f07865ec33364804935f18122622532a89341431",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.04
+}

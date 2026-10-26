@@ -1,8 +1,10 @@
 // Сцена партии: кафе, общий стол, Агата напротив, карты. Рисует PlayerView и анимирует переходы по событиям.
 // Правила здесь не проверяются: сцена только показывает состояние и сообщает о касаниях.
 import { Container, Graphics, Sprite, Text, type FederatedPointerEvent } from 'pixi.js';
-import { CharacterRig } from '../../../characters/rig';
+import { AGATA_MOTION } from '../../../characters/agata/motions';
+import { PuppetRig } from '../../../puppet/rig';
 import { FIGURE, defenseOffset, handSlots, pairSlot, type LayoutSpec, BG_DESIGN } from '../../../layout/layout';
+import { drawCafeTable } from '../../../render/table';
 import { easeInOutQuad, easeOutBack, Tweener } from '../../../render/tween';
 import { cardCode, type Card } from '../rules/cards';
 import type { DurakEvent } from '../rules/engine';
@@ -17,6 +19,8 @@ export interface SceneInput {
   onPairTap(index: number): void;
   onTableTap(): void;
   onDrop(code: string, target: DropTarget): void;
+  /** Карта Агаты легла на стол (для звука удара в этот момент, а не в начале жеста). */
+  onOpponentCardLanded?(slap: boolean): void;
 }
 
 export interface Highlights {
@@ -41,7 +45,7 @@ export function sortHand(cards: readonly Card[], trump: Card['suit']): Card[] {
 
 export class DurakScene {
   readonly root = new Container();
-  readonly rig = new CharacterRig();
+  readonly rig = new PuppetRig(AGATA_MOTION, 11);
   private readonly bg = new Sprite();
   private readonly table = new Graphics();
   private readonly deckLayer = new Container();
@@ -49,6 +53,8 @@ export class DurakScene {
   private readonly tableLayer = new Container();
   private readonly handLayer = new Container();
   private readonly flyLayer = new Container();
+  /** Карты, летящие в веер Агаты (взяла, добрала): уходят под её руку, в веер. */
+  private readonly toFanLayer = new Container();
   // Число карт в колоде — плашкой на самой колоде (её не закрывает отбой и не путают с ним).
   private readonly deckBadge = new Container();
   private readonly deckBadgeBg = new Graphics();
@@ -64,7 +70,9 @@ export class DurakScene {
   inputEnabled = false;
 
   constructor(private readonly tweens: Tweener, private readonly input: SceneInput) {
-    this.root.addChild(this.bg, this.rig.back, this.table, this.rig.front, this.deckLayer, this.deckBadge, this.discardLayer, this.tableLayer, this.handLayer, this.flyLayer);
+    // Глубина: всё, что лежит на сукне (колода, отбой, карты стола), — под руками Агаты: кисть лежит на столе или
+    // над ним и закрывает плоскую карту, а не проваливается под неё. Рука игрока и карты в воздухе ближе к камере — сверху.
+    this.root.addChild(this.bg, this.rig.back, this.table, this.deckLayer, this.deckBadge, this.discardLayer, this.tableLayer, this.toFanLayer, this.rig.front, this.handLayer, this.flyLayer);
     this.deckBadge.addChild(this.deckBadgeBg, this.deckCount);
     this.table.eventMode = 'static';
     this.table.on('pointertap', () => {
@@ -79,7 +87,7 @@ export class DurakScene {
   setTextures(bank: TextureBank): void {
     this.bank = bank;
     this.bg.texture = bank.background;
-    this.rig.setTextures(bank);
+    this.rig.setTextures(bank.puppet, bank.back);
     // Пересоздать спрайты с новыми текстурами.
     for (const s of this.sprites.values()) s.destroy();
     this.sprites.clear();
@@ -98,27 +106,8 @@ export class DurakScene {
     const c = spec.character;
     const anchorY = c.crop === 'bust' ? FIGURE.bustY : FIGURE.waistY;
     this.rig.setTransform(c.x - FIGURE.centerX * c.scale, c.y - anchorY * c.scale, c.scale);
-    this.drawTable(spec);
+    drawCafeTable(this.table, spec);
     if (this.view) this.place(this.view, true);
-  }
-
-  private drawTable(s: LayoutSpec): void {
-    const t = s.table;
-    const g = this.table;
-    g.clear();
-    g.poly([t.farLeft - 12, t.farY - 8, t.farRight + 12, t.farY - 8, t.nearRight + 30, t.nearY, t.nearLeft - 30, t.nearY]).fill(0xa86b3c).stroke({ color: 0x3b2418, width: 5 });
-    g.moveTo(t.farLeft, t.farY - 2).lineTo(t.farRight, t.farY - 2).stroke({ color: 0xc88d58, width: 3 });
-    g.poly([t.farLeft + 8, t.farY + 4, t.farRight - 8, t.farY + 4, t.nearRight, t.nearY, t.nearLeft, t.nearY]).fill(0x2a6d66).stroke({ color: 0x3b2418, width: 4 });
-    // Пятно света от ламп: по центру видимого сукна и целиком в его пределах (не залезает на бортик).
-    const cx = (t.farLeft + t.farRight) / 2;
-    const felt = s.height - (t.farY + 4);
-    const cy = t.farY + 4 + felt / 2;
-    const lw = Math.min((t.farRight - t.farLeft) * 0.42, s.width * 0.46);
-    const lh = felt / 2 - Math.max(10, felt * 0.06);
-    g.ellipse(cx, cy, lw, lh).fill({ color: 0x4aa293, alpha: 0.35 });
-    g.ellipse(cx, cy, lw * 0.6, lh * 0.6).fill({ color: 0x5fb3a3, alpha: 0.25 });
-    // Строчка по краю сукна.
-    for (let x = t.farLeft + 20; x < t.farRight - 20; x += 14) g.circle(x, t.farY + 14, 1.4).fill({ color: 0x8fd0c3, alpha: 0.7 });
   }
 
   // ---------- состояние без анимации ----------
@@ -323,6 +312,7 @@ export class DurakScene {
     for (const s of this.sprites.values()) s.destroy();
     this.sprites.clear();
     this.flyLayer.removeChildren().forEach((c) => c.destroy());
+    this.toFanLayer.removeChildren().forEach((c) => c.destroy());
     this.view = view;
     void this.place(view, true);
   }
@@ -339,26 +329,54 @@ export class DurakScene {
     const prevTable = tableCodes(prev);
     const prevHand = new Set(prev.hand.map(cardCode));
     const newHand = new Set(view.hand.map(cardCode));
-    const fan = this.root.toLocal(this.rig.fanPoint());
+    let fan = this.root.toLocal(this.rig.fanPoint());
     const jobs: Promise<void>[] = [];
-    // Карты, впервые появившиеся на столе не из руки игрока, — от Агаты: вылетают из её веера рубашкой и переворачиваются.
-    for (const code of tableCodes(view)) {
-      if (prevTable.has(code) || prevHand.has(code) || this.sprites.has(code)) continue;
-      const sp = this.makeSprite(code);
-      sp.setCardSize(s.tableCard.w * 0.7, s.tableCard.h * 0.7);
-      sp.position.set(fan.x, fan.y);
-      sp.flip = 0;
-      this.sprites.set(code, sp);
-      this.tableLayer.addChild(sp);
+    // Карты, впервые появившиеся на столе не из руки игрока, — от Агаты. Она берёт карту из веера, замахивается
+    // и бросает: полёт настоящей карты начинается из её руки в момент броска (PuppetRig.throwCard).
+    const released: CardSprite[] = [];
+    const fromOpponent = [...tableCodes(view)].filter((code) => !prevTable.has(code) && !prevHand.has(code) && !this.sprites.has(code));
+    if (fromOpponent.length) {
+      const idx = view.table.findIndex((p) => [p.attack, p.defense].some((c) => c && fromOpponent.includes(cardCode(c))));
+      const slot = pairSlot(s, Math.max(0, idx), view.table.length);
+      const rel = await this.rig.throwCard(this.root.toGlobal(slot));
+      if (!this.layout || this.view !== prev) return;
+      const from = this.root.toLocal({ x: rel.x, y: rel.y });
+      // Карта вылетает того же размера, что была в руке, и в полёте вырастает до карты стола.
+      const m = this.root.worldTransform;
+      const inHand = rel.w > 0 ? rel.w / Math.hypot(m.a, m.b) / s.tableCard.w : 0.7;
+      for (const code of fromOpponent) {
+        const sp = this.makeSprite(code);
+        sp.setCardSize(s.tableCard.w, s.tableCard.h);
+        sp.scale.set(inHand);
+        sp.position.set(from.x, from.y);
+        sp.rotation = rel.rotation;
+        sp.flip = 0;
+        this.sprites.set(code, sp);
+        this.tableLayer.addChild(sp);
+        // На вылете карта рисуется там же, где была в руке (над рукавом, под пальцами), а легла — под руки, как всё на сукне.
+        this.rig.releaseLayer.attach(sp);
+        released.push(sp);
+      }
     }
     // Карты, ушедшие со стола: в отбой или Агате.
     const gone = [...prevTable].filter((c) => !tableCodes(view).has(c) && !newHand.has(c));
     const tookByOpp = events.some((e) => e.type === 'took' && e.seat !== view.seat);
+    // Агата взяла: тянется к картам и сгребает их — карты летят в веер, когда кисть их коснулась.
+    if (tookByOpp && gone.length) {
+      const pile = gone.map((c) => this.sprites.get(c)).filter((sp): sp is CardSprite => !!sp);
+      if (pile.length) {
+        const cx = pile.reduce((a, sp) => a + sp.x, 0) / pile.length;
+        const cy = pile.reduce((a, sp) => a + sp.y, 0) / pile.length;
+        await this.rig.takeCards(this.root.toGlobal({ x: cx, y: cy }));
+        if (!this.layout || this.view !== prev) return;
+        fan = this.root.toLocal(this.rig.fanPoint());
+      }
+    }
     for (const code of gone) {
       const sp = this.sprites.get(code);
       if (!sp) continue;
       this.sprites.delete(code);
-      this.flyLayer.addChild(sp);
+      (tookByOpp ? this.toFanLayer : this.flyLayer).addChild(sp);
       const target = tookByOpp ? fan : s.discard;
       const flipTo = tookByOpp ? 0 : 0;
       jobs.push(this.tweens.to(sp, { x: target.x, y: target.y, flip: flipTo, rotation: sp.rotation + 0.6, alpha: tookByOpp ? 0.2 : 1 }, 380, { ease: easeInOutQuad }).then(() => sp.destroy()));
@@ -372,7 +390,7 @@ export class DurakScene {
         b.setCardSize(s.tableCard.w * 0.8, s.tableCard.h * 0.8);
         b.position.set(s.deck.x, s.deck.y);
         b.sync();
-        this.flyLayer.addChild(b);
+        this.toFanLayer.addChild(b);
         jobs.push(this.tweens.to(b, { x: fan.x, y: fan.y, rotation: -0.3, alpha: 0.3 }, 340, { delay: delay += 60 }).then(() => b.destroy()));
       }
     }
@@ -388,15 +406,22 @@ export class DurakScene {
     }
     this.view = view;
     jobs.push(this.place(view, false));
-    // Удар картой о стол: короткое «прыжок» масштаба у новой карты Агаты.
-    if (events.some((e) => (e.type === 'attacked' || e.type === 'thrownIn' || e.type === 'defended') && e.seat !== view.seat)) {
+    if (released.length) jobs.push(this.tweens.wait(280).then(() => released.forEach((sp) => sp.parentRenderLayer === this.rig.releaseLayer && this.rig.releaseLayer.detach(sp))));
+    // Удар картой о стол: короткий «прыжок» масштаба у новой карты Агаты и звук — когда карта долетела.
+    const oppPlay = events.find((e) => (e.type === 'attacked' || e.type === 'thrownIn' || e.type === 'defended') && e.seat !== view.seat);
+    if (oppPlay) {
       const last = view.table.at(-1);
       const code = last ? cardCode(last.defense ?? last.attack) : null;
       const sp = code ? this.sprites.get(code) : undefined;
-      if (sp) {
+      if (sp && released.includes(sp)) {
+        jobs.push(this.tweens.to(sp.scale, { x: 1.12, y: 1.12 }, 220, { ease: easeInOutQuad }).then(() => this.tweens.to(sp.scale, { x: 1, y: 1 }, 260, { ease: easeOutBack })));
+      } else if (sp) {
         sp.scale.set(1.12);
         jobs.push(this.tweens.to(sp.scale, { x: 1, y: 1 }, 260, { delay: 220, ease: easeOutBack }));
       }
+      for (const r of released) if (r !== sp) jobs.push(this.tweens.to(r.scale, { x: 1, y: 1 }, 280, { ease: easeInOutQuad }));
+      const slap = oppPlay.type !== 'defended' || oppPlay.withTrump;
+      jobs.push(this.tweens.wait(250).then(() => this.input.onOpponentCardLanded?.(slap)));
     }
     await Promise.all(jobs);
   }
@@ -413,7 +438,7 @@ export class DurakScene {
     this.tweens.update(dtMs);
     this.rig.update(dtMs);
     for (const sp of this.sprites.values()) sp.sync();
-    for (const c of this.flyLayer.children) if (c instanceof CardSprite) c.sync();
+    for (const layer of [this.flyLayer, this.toFanLayer]) for (const c of layer.children) if (c instanceof CardSprite) c.sync();
   }
 
   /**

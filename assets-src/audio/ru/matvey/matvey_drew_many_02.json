@@ -1,0 +1,14 @@
+{
+  "id": "matvey_drew_many_02",
+  "text": "Базар меня сегодня не любит.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "09caabd0bdcb6e0e61bfdfb1aff8685dae5dd8c292faa9d2f60d41a1d45bd3cc",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.55
+}

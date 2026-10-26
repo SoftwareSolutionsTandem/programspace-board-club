@@ -1,0 +1,14 @@
+{
+  "id": "matvey_drew_01",
+  "text": "Эх, на базар…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "e60af7266b604d50edf1436999389e9c686661809a23c8316bf7d7fa43b80981",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.18
+}

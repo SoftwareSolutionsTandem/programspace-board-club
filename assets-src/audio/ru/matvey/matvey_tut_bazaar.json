@@ -1,0 +1,14 @@
+{
+  "id": "matvey_tut_bazaar",
+  "text": "Нечем ходить? Бери из базара.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "3df33fb52d81713853322ddf3d57c81b9b47b04d9ebc6336211bdccb873761f9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.51
+}

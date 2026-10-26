@@ -1,0 +1,14 @@
+{
+  "id": "matvey_player_play_03",
+  "text": "Хитро.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "51cd8cd7ae51e1774b9c6bf6370c6eefb9c6741546661feb7b28bb52aa5972d4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.88
+}

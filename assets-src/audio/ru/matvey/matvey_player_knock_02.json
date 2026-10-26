@@ -1,0 +1,14 @@
+{
+  "id": "matvey_player_knock_02",
+  "text": "Стучишь? Ну-ну.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "abd5208337495a7af3af5a4c8490c422fc1ae9025cf3c4d1215297f483b682c3",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.69
+}

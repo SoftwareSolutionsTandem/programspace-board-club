@@ -1,0 +1,14 @@
+{
+  "id": "matvey_near_target_02",
+  "text": "Ещё немного — и всё.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "938cd038b716b261132ea525288d8dbe1ef7efd9dad5052c61090bd11cc1a78d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.95
+}

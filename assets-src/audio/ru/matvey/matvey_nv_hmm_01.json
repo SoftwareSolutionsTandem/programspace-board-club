@@ -1,0 +1,14 @@
+{
+  "id": "matvey_nv_hmm_01",
+  "text": "Мда-а…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "0eaee03aee3f8a5784815c1f04e869454830c724d6a7e8c67fa7a2831203b7af",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.44
+}

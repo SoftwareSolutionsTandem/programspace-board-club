@@ -1,0 +1,14 @@
+{
+  "id": "matvey_fish_01",
+  "text": "Рыба!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "55cea05bdf6566017408a035de2d8feb08031b6ac44ea8ce0cb61401f8e3eff9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.74
+}

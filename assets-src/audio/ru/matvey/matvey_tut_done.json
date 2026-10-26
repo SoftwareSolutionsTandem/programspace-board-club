@@ -1,0 +1,14 @@
+{
+  "id": "matvey_tut_done",
+  "text": "Вот и всё. Играем до ста одного!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "6e3e99704dad80bd7c20424d7890445ea74210956e214fc2b8d4a68936b88277",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.45
+}

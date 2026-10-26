@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
-import { parseProduct, type ProductConfig } from './src/products/types';
+import { parseProduct, type ProductConfig } from './src/products/types.ts';
 
 // Продукт сборки: `vite build --mode durak`. Обычные режимы (production, development, test) — «Игротека».
 // Состав продуктов и проверка сборки — docs/ARCHITECTURE.md §8.
@@ -62,7 +62,7 @@ export default defineConfig(({ mode }) => {
   return {
     // Относительные пути: архив игры для Яндекс Игр открывается не из корня домена.
     base: './',
-    resolve: { alias: { '@product': resolve(root, 'src/products', `${product.id}.json`) } },
+    resolve: { alias: { '@product-games': resolve(root, 'src/products', `${product.id}.games.ts`), '@product': resolve(root, 'src/products', `${product.id}.json`) } },
     plugins: [productPlugin(product)],
     build: {
       outDir: `dist/${product.id}`,

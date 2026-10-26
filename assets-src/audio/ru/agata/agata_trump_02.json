@@ -1,25 +1,11 @@
 {
   "id": "agata_trump_02",
-  "text": "Ко́зырем тебя́!",
-  "catalogText": "Козырем тебя!",
-  "stressStyle": "acute",
-  "seed": 88111,
-  "engine": {
-    "package": "qwen-tts",
-    "version": "0.1.1"
-  },
-  "models": {
-    "design": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-    "clone": "siriusfreak/qwen3-tts-12hz-1.7b-ru-stress-cf",
-    "$comment": "design — только для поиска кандидатов голоса (--audition); реплики озвучивает clone"
-  },
-  "sampling": {
-    "temperature": 0.6,
-    "subtalker_temperature": 0.6
-  },
-  "reference": "db72adccb973e7b2223fc5af7b00f79ae97937b7a3dfc3720fd65bd01d8a8b64",
-  "sha256": "b91eae6512ed645eb9d6fff3ef66b02056a18100dd349c6c64b0595d64b1e3da",
-  "sampleRate": 24000,
-  "durationSec": 1.52,
-  "generatedAt": "2026-10-18T07:14:52Z"
+  "text": "Получай козыря!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-22",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-23",
+  "sha256": "34beab9d3abc549bf50078a9f485610922f39bed9a785556a808cc6c577b8bc9",
+  "sampleRate": 44100,
+  "durationSec": 1.35
 }

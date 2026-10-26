@@ -1,0 +1,14 @@
+{
+  "id": "matvey_fish_lose_02",
+  "text": "Посчитал — у тебя меньше. Эх.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "1c669e71ec5865e4098986a7c871293bd6c5c114fa81df08079c7e77fa56e471",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.34
+}

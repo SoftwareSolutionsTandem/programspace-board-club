@@ -57,4 +57,31 @@ describe('твины', () => {
       expect(e(1)).toBeCloseTo(1);
     }
   });
+
+  it('разрушенный объект не останавливает анимации и ход: его твин завершается сразу', async () => {
+    const t = new Tweener();
+    // Как у Pixi: после destroy() позиция — null, запись свойства бросает исключение.
+    const sprite = { destroyed: false, pos: { v: 0 } as { v: number } | null, get x() { return this.pos!.v; }, set x(v: number) { this.pos!.v = v; } };
+    const other = { x: 0 };
+    const p1 = t.to(sprite, { x: 100 }, 300);
+    const p2 = t.to(other, { x: 100 }, 300);
+    t.update(50);
+    sprite.destroyed = true;
+    sprite.pos = null;
+    expect(() => t.update(50)).not.toThrow();
+    await p1;
+    t.update(300);
+    await p2;
+    expect(other.x).toBe(100);
+    expect(t.active).toBe(0);
+  });
+
+  it('исключение при записи свойства завершает только этот твин', async () => {
+    const t = new Tweener();
+    const bad = { set x(_v: number) { throw new Error('нет объекта'); }, get x() { return 0; } };
+    const p = t.to(bad, { x: 1 }, 100);
+    expect(() => t.update(10)).not.toThrow();
+    await p;
+    expect(t.active).toBe(0);
+  });
 });

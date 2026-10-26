@@ -1,0 +1,14 @@
+{
+  "id": "matvey_praise_01",
+  "text": "Ишь, молодёжь!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "a2057b8709a6b1acd5b87a59084b0d1c61c6d8d323460d245ecca1523e165e94",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.14
+}

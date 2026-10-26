@@ -1,9 +1,0 @@
-{
-  "text": "Ну, здравствуй, солнышко. Садись, сыграем в дурачка.",
-  "from": "_audition_p3_s1308_p3.flac",
-  "instruct": "Elderly Russian grandmother, about 75 years old, with a low, deep, velvety alto voice. Languid and drawling, unhurried, slightly lazy and sultry manner of speaking, with long soft vowels. A light natural huskiness and gentle rasp in the voice. Warm, sly and affectionate.",
-  "seed": 1308,
-  "medianF0Hz": 131.2,
-  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-  "sha256": "9650aa701e4d9d606634ec16b62cc75c006cf438a451a2f998c675068565c4c4"
-}

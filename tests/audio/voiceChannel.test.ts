@@ -92,4 +92,43 @@ describe('голосовой канал', () => {
     ch.setEnabled(true);
     expect(ch.request('b', 'result')).toBe('played');
   });
+  it('одна и та же реплика не накладывается на саму себя', () => {
+    const f = fakePlayer();
+    const ch = new VoiceChannel(f.player, () => 0);
+    for (const p of ['reaction', 'reaction', 'result', 'result'] as const) {
+      ch.request('same', p);
+      expect(f.active().filter((x) => x.id === 'same').length).toBeLessThanOrEqual(1);
+    }
+  });
+  it('выход из партии (stopAll): реплика гаснет, очередь сброшена — после окончания ничего не начинается', () => {
+    const f = fakePlayer();
+    const ch = new VoiceChannel(f.player, () => 0);
+    ch.request('a', 'reaction');
+    ch.request('b', 'reaction');
+    ch.stopAll();
+    expect(f.log).toEqual(['play:a', 'stop:a']);
+    expect(ch.speaking).toBeNull();
+    expect(f.active()).toEqual([]);
+  });
+  it('звук на паузе (вкладка без фокуса): плеер сразу завершает реплику — она пропущена, но не помечена недоступной', () => {
+    let paused = true;
+    const played: string[] = [];
+    const player: VoicePlayer = {
+      play(id, onEnd) {
+        if (paused) {
+          onEnd();
+          return { stop: () => {} };
+        }
+        played.push(id);
+        return { stop: () => onEnd() };
+      },
+    };
+    const ch = new VoiceChannel(player, () => 0);
+    expect(ch.request('a', 'reaction')).toBe('played');
+    expect(ch.speaking).toBeNull();
+    expect(ch.isUnavailable('a')).toBe(false);
+    paused = false;
+    expect(ch.request('a', 'reaction')).toBe('played');
+    expect(played).toEqual(['a']);
+  });
 });

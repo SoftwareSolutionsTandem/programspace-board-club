@@ -9,999 +9,995 @@
   "results": [
     {
       "id": "agata_attack_02",
-      "durationSec": 1.51,
+      "durationSec": 2.18,
       "bytes": {
-        "flac": 34305,
-        "opus": 6745,
-        "m4a": 14123,
-        "wav": 144624
+        "flac": 95372,
+        "opus": 9605,
+        "m4a": 15231,
+        "wav": 208822
       },
-      "inputLufs": -26.34,
-      "peakDb": -1.5,
+      "inputLufs": -17.28,
+      "peakDb": -1.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_attack_03",
-      "durationSec": 1.09,
-      "bytes": {
-        "flac": 23303,
-        "opus": 4445,
-        "m4a": 8429,
-        "wav": 104488
-      },
-      "inputLufs": -28.22,
-      "peakDb": -2.4,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_attack_04",
-      "durationSec": 0.94,
-      "bytes": {
-        "flac": 21484,
-        "opus": 3763,
-        "m4a": 6257,
-        "wav": 89932
-      },
-      "inputLufs": -24.22,
-      "peakDb": -3,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_attack_sly_01",
-      "durationSec": 1.64,
-      "bytes": {
-        "flac": 36483,
-        "opus": 6452,
-        "m4a": 11837,
-        "wav": 156420
-      },
-      "inputLufs": -23.4,
-      "peakDb": -2.1,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_bito_01",
-      "durationSec": 2.02,
-      "bytes": {
-        "flac": 31315,
-        "opus": 7842,
-        "m4a": 15705,
-        "wav": 193716
-      },
-      "inputLufs": -33.99,
-      "peakDb": -1.6,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_bito_02",
-      "durationSec": 1.11,
-      "bytes": {
-        "flac": 25372,
-        "opus": 4485,
-        "m4a": 8257,
-        "wav": 106218
-      },
-      "inputLufs": -20.81,
-      "peakDb": -5.5,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_bye_01",
-      "durationSec": 1.71,
-      "bytes": {
-        "flac": 41217,
-        "opus": 6887,
-        "m4a": 12146,
-        "wav": 163390
-      },
-      "inputLufs": -22.77,
-      "peakDb": -4.5,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_bye_02",
-      "durationSec": 2.7,
-      "bytes": {
-        "flac": 60426,
-        "opus": 10752,
-        "m4a": 18269,
-        "wav": 258690
-      },
-      "inputLufs": -20.93,
-      "peakDb": -2.9,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_deck_empty_01",
-      "durationSec": 1.77,
-      "bytes": {
-        "flac": 39853,
-        "opus": 7160,
-        "m4a": 12447,
-        "wav": 169512
-      },
-      "inputLufs": -22.95,
-      "peakDb": -2.1,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_deck_empty_02",
-      "durationSec": 2.18,
-      "bytes": {
-        "flac": 54158,
-        "opus": 8841,
-        "m4a": 15076,
-        "wav": 209042
-      },
-      "inputLufs": -20.98,
-      "peakDb": -3.2,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_defend_01",
-      "durationSec": 0.97,
-      "bytes": {
-        "flac": 24027,
-        "opus": 3809,
-        "m4a": 7983,
-        "wav": 93026
-      },
-      "inputLufs": -18.85,
-      "peakDb": -5.6,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_defend_02",
-      "durationSec": 1.38,
-      "bytes": {
-        "flac": 33667,
-        "opus": 5614,
-        "m4a": 10233,
-        "wav": 132154
-      },
-      "inputLufs": -21.1,
-      "peakDb": -3.2,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_defend_03",
       "durationSec": 1.68,
       "bytes": {
-        "flac": 41260,
-        "opus": 6837,
-        "m4a": 11135,
-        "wav": 160896
+        "flac": 86399,
+        "opus": 6670,
+        "m4a": 10654,
+        "wav": 161092
       },
-      "inputLufs": -26.21,
-      "peakDb": -5.6,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_defend_04",
-      "durationSec": 1.41,
-      "bytes": {
-        "flac": 36264,
-        "opus": 5619,
-        "m4a": 10138,
-        "wav": 135130
-      },
-      "inputLufs": -21.87,
+      "inputLufs": -17.89,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
-      "id": "agata_draw_01",
-      "durationSec": 1.84,
+      "id": "agata_attack_04",
+      "durationSec": 2.19,
       "bytes": {
-        "flac": 34190,
-        "opus": 6558,
-        "m4a": 10443,
-        "wav": 175932
+        "flac": 121692,
+        "opus": 8904,
+        "m4a": 14019,
+        "wav": 209838
       },
-      "inputLufs": -21.68,
-      "peakDb": -3.7,
+      "inputLufs": -12.47,
+      "peakDb": -5,
       "status": "ok",
       "warnings": []
     },
     {
-      "id": "agata_draw_02",
-      "durationSec": 1.67,
+      "id": "agata_attack_sly_01",
+      "durationSec": 1.92,
       "bytes": {
-        "flac": 36728,
-        "opus": 6763,
-        "m4a": 11303,
-        "wav": 159664
+        "flac": 89842,
+        "opus": 7655,
+        "m4a": 13724,
+        "wav": 183722
       },
-      "inputLufs": -22.82,
-      "peakDb": -4,
+      "inputLufs": -14.16,
+      "peakDb": -2.4,
       "status": "ok",
       "warnings": []
     },
     {
-      "id": "agata_greet_again_01",
-      "durationSec": 2.21,
+      "id": "agata_bito_01",
+      "durationSec": 1.77,
       "bytes": {
-        "flac": 54465,
-        "opus": 8936,
-        "m4a": 15982,
-        "wav": 212050
+        "flac": 78394,
+        "opus": 7539,
+        "m4a": 13588,
+        "wav": 169382
       },
-      "inputLufs": -21.43,
+      "inputLufs": -17.5,
+      "peakDb": -1.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_bito_02",
+      "durationSec": 2.62,
+      "bytes": {
+        "flac": 113495,
+        "opus": 11611,
+        "m4a": 16594,
+        "wav": 251372
+      },
+      "inputLufs": -15.85,
+      "peakDb": -2.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_bye_01",
+      "durationSec": 2.02,
+      "bytes": {
+        "flac": 114835,
+        "opus": 8052,
+        "m4a": 13755,
+        "wav": 193132
+      },
+      "inputLufs": -13.6,
+      "peakDb": -3.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_bye_02",
+      "durationSec": 2.67,
+      "bytes": {
+        "flac": 128528,
+        "opus": 10418,
+        "m4a": 16848,
+        "wav": 256062
+      },
+      "inputLufs": -15.74,
+      "peakDb": -3.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_deck_empty_01",
+      "durationSec": 2,
+      "bytes": {
+        "flac": 99624,
+        "opus": 7689,
+        "m4a": 14981,
+        "wav": 191866
+      },
+      "inputLufs": -14.6,
+      "peakDb": -2.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_deck_empty_02",
+      "durationSec": 2.83,
+      "bytes": {
+        "flac": 135244,
+        "opus": 10860,
+        "m4a": 18543,
+        "wav": 271300
+      },
+      "inputLufs": -14.97,
       "peakDb": -4.3,
       "status": "ok",
       "warnings": []
     },
     {
-      "id": "agata_greet_again_02",
-      "durationSec": 2.63,
+      "id": "agata_defend_01",
+      "durationSec": 1.07,
       "bytes": {
-        "flac": 56783,
-        "opus": 9980,
-        "m4a": 17786,
-        "wav": 252252
+        "flac": 58191,
+        "opus": 4318,
+        "m4a": 8508,
+        "wav": 102154
       },
-      "inputLufs": -19.52,
-      "peakDb": -2,
+      "inputLufs": -15.51,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_defend_02",
+      "durationSec": 1.62,
+      "bytes": {
+        "flac": 77409,
+        "opus": 6846,
+        "m4a": 11201,
+        "wav": 154716
+      },
+      "inputLufs": -14.1,
+      "peakDb": -3.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_defend_03",
+      "durationSec": 1.94,
+      "bytes": {
+        "flac": 113835,
+        "opus": 9263,
+        "m4a": 12590,
+        "wav": 186052
+      },
+      "inputLufs": -13.34,
+      "peakDb": -3.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_defend_04",
+      "durationSec": 1.57,
+      "bytes": {
+        "flac": 87417,
+        "opus": 6191,
+        "m4a": 10828,
+        "wav": 149746
+      },
+      "inputLufs": -14.94,
+      "peakDb": -2.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_draw_01",
+      "durationSec": 2.41,
+      "bytes": {
+        "flac": 102818,
+        "opus": 8857,
+        "m4a": 15628,
+        "wav": 231012
+      },
+      "inputLufs": -15.52,
+      "peakDb": -2.4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_draw_02",
+      "durationSec": 2.21,
+      "bytes": {
+        "flac": 115826,
+        "opus": 9328,
+        "m4a": 14175,
+        "wav": 211348
+      },
+      "inputLufs": -11.13,
+      "peakDb": -5.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_greet_again_01",
+      "durationSec": 3.68,
+      "bytes": {
+        "flac": 147939,
+        "opus": 13335,
+        "m4a": 24518,
+        "wav": 352328
+      },
+      "inputLufs": -16.26,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_greet_again_02",
+      "durationSec": 3.01,
+      "bytes": {
+        "flac": 125300,
+        "opus": 11449,
+        "m4a": 20743,
+        "wav": 288112
+      },
+      "inputLufs": -13.69,
+      "peakDb": -3.2,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_greet_first_01",
-      "durationSec": 2.95,
+      "durationSec": 3.58,
       "bytes": {
-        "flac": 71922,
-        "opus": 11969,
-        "m4a": 18682,
-        "wav": 282330
+        "flac": 173794,
+        "opus": 15786,
+        "m4a": 23371,
+        "wav": 342950
       },
-      "inputLufs": -23.27,
+      "inputLufs": -16.79,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_greet_first_02",
-      "durationSec": 2.63,
+      "durationSec": 3.39,
       "bytes": {
-        "flac": 57621,
-        "opus": 10471,
-        "m4a": 16946,
-        "wav": 251956
+        "flac": 149751,
+        "opus": 14053,
+        "m4a": 22376,
+        "wav": 325356
       },
-      "inputLufs": -24.39,
-      "peakDb": -3.3,
+      "inputLufs": -15.23,
+      "peakDb": -2.6,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_lose_01",
-      "durationSec": 3.05,
+      "durationSec": 4.63,
       "bytes": {
-        "flac": 60992,
-        "opus": 11292,
-        "m4a": 19881,
-        "wav": 292412
+        "flac": 215502,
+        "opus": 18471,
+        "m4a": 31557,
+        "wav": 444040
       },
-      "inputLufs": -21.04,
-      "peakDb": -1.5,
+      "inputLufs": -14.1,
+      "peakDb": -2.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_lose_02",
-      "durationSec": 2.21,
+      "durationSec": 3.19,
       "bytes": {
-        "flac": 53813,
-        "opus": 8982,
-        "m4a": 15353,
-        "wav": 212088
+        "flac": 157908,
+        "opus": 14313,
+        "m4a": 22347,
+        "wav": 305804
       },
-      "inputLufs": -21.74,
-      "peakDb": -1.5,
+      "inputLufs": -14.57,
+      "peakDb": -3.2,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_lose_03",
-      "durationSec": 1.9,
+      "durationSec": 1.59,
       "bytes": {
-        "flac": 43930,
-        "opus": 7674,
-        "m4a": 13132,
-        "wav": 182222
+        "flac": 87743,
+        "opus": 6326,
+        "m4a": 10325,
+        "wav": 151662
       },
-      "inputLufs": -23.06,
-      "peakDb": -1.6,
+      "inputLufs": -13.56,
+      "peakDb": -3.2,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_lose_04",
-      "durationSec": 1.99,
+      "durationSec": 2.8,
       "bytes": {
-        "flac": 43468,
-        "opus": 7863,
-        "m4a": 15532,
-        "wav": 190168
+        "flac": 144694,
+        "opus": 11263,
+        "m4a": 19462,
+        "wav": 268158
       },
-      "inputLufs": -28.52,
-      "peakDb": -1.7,
+      "inputLufs": -19.01,
+      "peakDb": -2.3,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_nv_ah_01",
-      "durationSec": 0.52,
+      "durationSec": 0.57,
       "bytes": {
-        "flac": 10465,
-        "opus": 2062,
-        "m4a": 4656,
-        "wav": 49246
+        "flac": 34853,
+        "opus": 2604,
+        "m4a": 4124,
+        "wav": 54230
       },
-      "inputLufs": null,
-      "peakDb": -1.6,
-      "status": "warning",
-      "warnings": [
-        "короткая: громкость по повтору"
-      ]
+      "inputLufs": -18.75,
+      "peakDb": -2.2,
+      "status": "ok",
+      "warnings": []
     },
     {
       "id": "agata_nv_giggle_01",
-      "durationSec": 1.26,
+      "durationSec": 2.02,
       "bytes": {
-        "flac": 31656,
-        "opus": 4729,
-        "m4a": 8605,
-        "wav": 120218
+        "flac": 100409,
+        "opus": 9760,
+        "m4a": 15948,
+        "wav": 193768
       },
-      "inputLufs": -21.7,
-      "peakDb": -5.1,
+      "inputLufs": -19.61,
+      "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_nv_giggle_02",
-      "durationSec": 0.54,
+      "durationSec": 1.21,
       "bytes": {
-        "flac": 11830,
-        "opus": 2116,
-        "m4a": 4154,
-        "wav": 51254
+        "flac": 57986,
+        "opus": 4705,
+        "m4a": 9849,
+        "wav": 115190
       },
-      "inputLufs": null,
-      "peakDb": -2.8,
-      "status": "warning",
-      "warnings": [
-        "короткая: громкость по повтору"
-      ]
+      "inputLufs": -18.83,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
     },
     {
       "id": "agata_nv_hmm_01",
-      "durationSec": 0.98,
+      "durationSec": 1.29,
       "bytes": {
-        "flac": 20501,
-        "opus": 4216,
-        "m4a": 6747,
-        "wav": 93210
+        "flac": 57680,
+        "opus": 5001,
+        "m4a": 8649,
+        "wav": 122990
       },
-      "inputLufs": -20.19,
-      "peakDb": -7.9,
+      "inputLufs": -15.17,
+      "peakDb": -5.7,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_nv_hmm_02",
-      "durationSec": 1.05,
+      "durationSec": 0.89,
       "bytes": {
-        "flac": 22817,
-        "opus": 4779,
-        "m4a": 9908,
-        "wav": 100376
+        "flac": 46924,
+        "opus": 3587,
+        "m4a": 7808,
+        "wav": 84598
       },
-      "inputLufs": -23.95,
+      "inputLufs": -17.96,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_nv_sigh_01",
-      "durationSec": 0.87,
+      "durationSec": 0.72,
       "bytes": {
-        "flac": 17180,
-        "opus": 3550,
-        "m4a": 6126,
-        "wav": 83328
+        "flac": 37679,
+        "opus": 3202,
+        "m4a": 5184,
+        "wav": 68570
       },
-      "inputLufs": -29.6,
-      "peakDb": -2.2,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_player_took_02",
-      "durationSec": 1.43,
-      "bytes": {
-        "flac": 29220,
-        "opus": 5705,
-        "m4a": 10779,
-        "wav": 136700
-      },
-      "inputLufs": -28.23,
-      "peakDb": -1.8,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_player_took_03",
-      "durationSec": 2.12,
-      "bytes": {
-        "flac": 40028,
-        "opus": 8623,
-        "m4a": 15080,
-        "wav": 202832
-      },
-      "inputLufs": -21.79,
-      "peakDb": -3,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_player_took_04",
-      "durationSec": 2.09,
-      "bytes": {
-        "flac": 47727,
-        "opus": 8471,
-        "m4a": 15582,
-        "wav": 200390
-      },
-      "inputLufs": -22.68,
-      "peakDb": -2.3,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_player_took_laugh_01",
-      "durationSec": 2.31,
-      "bytes": {
-        "flac": 59386,
-        "opus": 9331,
-        "m4a": 15673,
-        "wav": 220826
-      },
-      "inputLufs": -20.8,
-      "peakDb": -2.4,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_praise_01",
-      "durationSec": 0.82,
-      "bytes": {
-        "flac": 21171,
-        "opus": 3216,
-        "m4a": 6673,
-        "wav": 78616
-      },
-      "inputLufs": -19.78,
-      "peakDb": -3,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_praise_02",
-      "durationSec": 2.07,
-      "bytes": {
-        "flac": 49541,
-        "opus": 8406,
-        "m4a": 14109,
-        "wav": 198118
-      },
-      "inputLufs": -22.43,
-      "peakDb": -3.2,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_praise_03",
-      "durationSec": 1.38,
-      "bytes": {
-        "flac": 37008,
-        "opus": 5501,
-        "m4a": 9354,
-        "wav": 131708
-      },
-      "inputLufs": -21.85,
-      "peakDb": -4.5,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_rematch_01",
-      "durationSec": 1.19,
-      "bytes": {
-        "flac": 25015,
-        "opus": 4795,
-        "m4a": 11915,
-        "wav": 113914
-      },
-      "inputLufs": -28.34,
-      "peakDb": -2.4,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_rematch_02",
-      "durationSec": 1.47,
-      "bytes": {
-        "flac": 35797,
-        "opus": 5943,
-        "m4a": 11154,
-        "wav": 140428
-      },
-      "inputLufs": -22.06,
-      "peakDb": -3.8,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_rematch_loss_01",
-      "durationSec": 1.7,
-      "bytes": {
-        "flac": 39604,
-        "opus": 6833,
-        "m4a": 10826,
-        "wav": 162662
-      },
-      "inputLufs": -22.79,
-      "peakDb": -2.2,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_start_01",
-      "durationSec": 2.43,
-      "bytes": {
-        "flac": 49649,
-        "opus": 9933,
-        "m4a": 16386,
-        "wav": 232284
-      },
-      "inputLufs": -27.73,
-      "peakDb": -2.3,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_start_02",
-      "durationSec": 2.04,
-      "bytes": {
-        "flac": 46200,
-        "opus": 8333,
-        "m4a": 13193,
-        "wav": 195714
-      },
-      "inputLufs": -23.16,
-      "peakDb": -2.8,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_start_03",
-      "durationSec": 1.9,
-      "bytes": {
-        "flac": 46689,
-        "opus": 7612,
-        "m4a": 16166,
-        "wav": 181902
-      },
-      "inputLufs": -22.23,
-      "peakDb": -1.7,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_surprise_01",
-      "durationSec": 1.43,
-      "bytes": {
-        "flac": 30102,
-        "opus": 5596,
-        "m4a": 12518,
-        "wav": 136278
-      },
-      "inputLufs": -23.61,
-      "peakDb": -3.1,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_surprise_02",
-      "durationSec": 1.26,
-      "bytes": {
-        "flac": 28662,
-        "opus": 5098,
-        "m4a": 10205,
-        "wav": 120780
-      },
-      "inputLufs": -27.06,
+      "inputLufs": -19.84,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
-      "id": "agata_throw_01",
-      "durationSec": 1.7,
+      "id": "agata_player_took_02",
+      "durationSec": 2.08,
       "bytes": {
-        "flac": 42194,
-        "opus": 6905,
-        "m4a": 14068,
-        "wav": 162512
+        "flac": 110917,
+        "opus": 9685,
+        "m4a": 14069,
+        "wav": 199120
       },
-      "inputLufs": -22.1,
-      "peakDb": -2.5,
+      "inputLufs": -11.91,
+      "peakDb": -5.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_player_took_03",
+      "durationSec": 2.52,
+      "bytes": {
+        "flac": 124258,
+        "opus": 10016,
+        "m4a": 17519,
+        "wav": 241508
+      },
+      "inputLufs": -15.32,
+      "peakDb": -2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_player_took_04",
+      "durationSec": 2.71,
+      "bytes": {
+        "flac": 136481,
+        "opus": 10491,
+        "m4a": 20462,
+        "wav": 259222
+      },
+      "inputLufs": -11.89,
+      "peakDb": -4.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_player_took_laugh_01",
+      "durationSec": 2.45,
+      "bytes": {
+        "flac": 117334,
+        "opus": 9931,
+        "m4a": 17496,
+        "wav": 234688
+      },
+      "inputLufs": -14.5,
+      "peakDb": -2.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_praise_01",
+      "durationSec": 1.03,
+      "bytes": {
+        "flac": 56225,
+        "opus": 4588,
+        "m4a": 7712,
+        "wav": 98788
+      },
+      "inputLufs": -14.63,
+      "peakDb": -4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_praise_02",
+      "durationSec": 2.63,
+      "bytes": {
+        "flac": 133476,
+        "opus": 10403,
+        "m4a": 16442,
+        "wav": 252136
+      },
+      "inputLufs": -16.42,
+      "peakDb": -1.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_praise_03",
+      "durationSec": 2.07,
+      "bytes": {
+        "flac": 115383,
+        "opus": 8441,
+        "m4a": 14411,
+        "wav": 198226
+      },
+      "inputLufs": -14.14,
+      "peakDb": -3.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_rematch_01",
+      "durationSec": 2.31,
+      "bytes": {
+        "flac": 111235,
+        "opus": 9162,
+        "m4a": 15908,
+        "wav": 221454
+      },
+      "inputLufs": -16.95,
+      "peakDb": -2.8,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_rematch_02",
+      "durationSec": 1.92,
+      "bytes": {
+        "flac": 103299,
+        "opus": 8143,
+        "m4a": 13098,
+        "wav": 183822
+      },
+      "inputLufs": -13.47,
+      "peakDb": -3.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_rematch_loss_01",
+      "durationSec": 2.39,
+      "bytes": {
+        "flac": 119469,
+        "opus": 9485,
+        "m4a": 14871,
+        "wav": 229064
+      },
+      "inputLufs": -15.69,
+      "peakDb": -2.4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_start_01",
+      "durationSec": 2.62,
+      "bytes": {
+        "flac": 122812,
+        "opus": 10118,
+        "m4a": 16533,
+        "wav": 250810
+      },
+      "inputLufs": -14.43,
+      "peakDb": -2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_start_02",
+      "durationSec": 2.74,
+      "bytes": {
+        "flac": 137896,
+        "opus": 10990,
+        "m4a": 18998,
+        "wav": 262208
+      },
+      "inputLufs": -15.02,
+      "peakDb": -2.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_start_03",
+      "durationSec": 2.89,
+      "bytes": {
+        "flac": 138409,
+        "opus": 11608,
+        "m4a": 18727,
+        "wav": 276886
+      },
+      "inputLufs": -14.02,
+      "peakDb": -4.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_surprise_01",
+      "durationSec": 1.72,
+      "bytes": {
+        "flac": 90657,
+        "opus": 6792,
+        "m4a": 11803,
+        "wav": 164166
+      },
+      "inputLufs": -14.11,
+      "peakDb": -4.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_surprise_02",
+      "durationSec": 2.84,
+      "bytes": {
+        "flac": 152453,
+        "opus": 11454,
+        "m4a": 19159,
+        "wav": 271934
+      },
+      "inputLufs": -13.55,
+      "peakDb": -4.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_throw_01",
+      "durationSec": 1.71,
+      "bytes": {
+        "flac": 96369,
+        "opus": 6881,
+        "m4a": 12695,
+        "wav": 163254
+      },
+      "inputLufs": -13.91,
+      "peakDb": -3.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_throw_02",
-      "durationSec": 1.23,
+      "durationSec": 1.57,
       "bytes": {
-        "flac": 29255,
-        "opus": 4953,
-        "m4a": 9080,
-        "wav": 117778
+        "flac": 87397,
+        "opus": 6204,
+        "m4a": 14058,
+        "wav": 149786
       },
-      "inputLufs": -21.24,
-      "peakDb": -3.6,
+      "inputLufs": -13.14,
+      "peakDb": -4,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_throw_after_take_01",
-      "durationSec": 1.28,
+      "durationSec": 2.24,
       "bytes": {
-        "flac": 31126,
-        "opus": 5104,
-        "m4a": 9626,
-        "wav": 121898
+        "flac": 126315,
+        "opus": 10006,
+        "m4a": 14219,
+        "wav": 214538
       },
-      "inputLufs": -20.92,
-      "peakDb": -4.1,
+      "inputLufs": -14.98,
+      "peakDb": -3.4,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_throw_after_take_02",
-      "durationSec": 1.66,
+      "durationSec": 1.87,
       "bytes": {
-        "flac": 37373,
-        "opus": 6602,
-        "m4a": 11815,
-        "wav": 158658
+        "flac": 96584,
+        "opus": 7406,
+        "m4a": 12159,
+        "wav": 179106
       },
-      "inputLufs": -23.28,
-      "peakDb": -4.5,
+      "inputLufs": -13.54,
+      "peakDb": -3.6,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_took_02",
-      "durationSec": 1.84,
+      "durationSec": 1.63,
       "bytes": {
-        "flac": 36690,
-        "opus": 7451,
-        "m4a": 12426,
-        "wav": 175812
+        "flac": 80228,
+        "opus": 6670,
+        "m4a": 11380,
+        "wav": 156222
       },
-      "inputLufs": -19.36,
-      "peakDb": -5.3,
-      "status": "ok",
-      "warnings": []
-    },
-    {
-      "id": "agata_took_03",
-      "durationSec": 2.25,
-      "bytes": {
-        "flac": 47833,
-        "opus": 9088,
-        "m4a": 15290,
-        "wav": 215274
-      },
-      "inputLufs": -23.92,
+      "inputLufs": -13.73,
       "peakDb": -2.9,
       "status": "ok",
       "warnings": []
     },
     {
-      "id": "agata_took_04",
-      "durationSec": 1.66,
+      "id": "agata_took_03",
+      "durationSec": 3.42,
       "bytes": {
-        "flac": 41727,
-        "opus": 6745,
-        "m4a": 11231,
-        "wav": 158342
+        "flac": 140931,
+        "opus": 12648,
+        "m4a": 22532,
+        "wav": 327464
       },
-      "inputLufs": -23.72,
+      "inputLufs": -17.01,
+      "peakDb": -1.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "agata_took_04",
+      "durationSec": 2.87,
+      "bytes": {
+        "flac": 137092,
+        "opus": 11642,
+        "m4a": 21332,
+        "wav": 275054
+      },
+      "inputLufs": -17.11,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_took_annoyed_01",
-      "durationSec": 1.88,
+      "durationSec": 2.27,
       "bytes": {
-        "flac": 50058,
-        "opus": 8368,
-        "m4a": 12961,
-        "wav": 179654
+        "flac": 118875,
+        "opus": 9091,
+        "m4a": 16946,
+        "wav": 217362
       },
-      "inputLufs": -21.33,
-      "peakDb": -3.4,
+      "inputLufs": -16.64,
+      "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_trump_02",
-      "durationSec": 1.22,
+      "durationSec": 1.45,
       "bytes": {
-        "flac": 30559,
-        "opus": 4871,
-        "m4a": 7590,
-        "wav": 116692
+        "flac": 83775,
+        "opus": 6800,
+        "m4a": 10756,
+        "wav": 139104
       },
-      "inputLufs": -19.5,
-      "peakDb": -4.5,
+      "inputLufs": -13.28,
+      "peakDb": -3.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_trump_03",
-      "durationSec": 1.44,
+      "durationSec": 2.07,
       "bytes": {
-        "flac": 34159,
-        "opus": 5734,
-        "m4a": 10231,
-        "wav": 137682
+        "flac": 104445,
+        "opus": 8949,
+        "m4a": 13934,
+        "wav": 198226
       },
-      "inputLufs": -21.93,
-      "peakDb": -4.4,
+      "inputLufs": -14.76,
+      "peakDb": -2.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_trump_azart_01",
-      "durationSec": 1.99,
+      "durationSec": 2.28,
       "bytes": {
-        "flac": 47644,
-        "opus": 8077,
-        "m4a": 14684,
-        "wav": 190822
+        "flac": 121214,
+        "opus": 10546,
+        "m4a": 16213,
+        "wav": 218090
       },
-      "inputLufs": -23.02,
+      "inputLufs": -13.57,
       "peakDb": -3.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_attack",
-      "durationSec": 3,
+      "durationSec": 3.06,
       "bytes": {
-        "flac": 66535,
-        "opus": 11856,
-        "m4a": 18966,
-        "wav": 287052
+        "flac": 128066,
+        "opus": 11390,
+        "m4a": 19846,
+        "wav": 293630
       },
-      "inputLufs": -22.35,
-      "peakDb": -1.6,
+      "inputLufs": -15.55,
+      "peakDb": -1.7,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_bito",
-      "durationSec": 1.93,
+      "durationSec": 2.49,
       "bytes": {
-        "flac": 45130,
-        "opus": 7829,
-        "m4a": 14763,
-        "wav": 184436
+        "flac": 111237,
+        "opus": 9843,
+        "m4a": 18925,
+        "wav": 238472
       },
-      "inputLufs": -22.4,
-      "peakDb": -3.1,
+      "inputLufs": -15.65,
+      "peakDb": -2.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_defend",
-      "durationSec": 3.49,
+      "durationSec": 3.96,
       "bytes": {
-        "flac": 79368,
-        "opus": 14543,
-        "m4a": 23365,
-        "wav": 334430
+        "flac": 203367,
+        "opus": 17519,
+        "m4a": 24548,
+        "wav": 379166
       },
-      "inputLufs": -25.7,
-      "peakDb": -2.2,
+      "inputLufs": -15.22,
+      "peakDb": -1.7,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_done",
-      "durationSec": 3.28,
+      "durationSec": 3.75,
       "bytes": {
-        "flac": 83871,
-        "opus": 13269,
-        "m4a": 22377,
-        "wav": 314550
+        "flac": 175559,
+        "opus": 14954,
+        "m4a": 24524,
+        "wav": 359518
       },
-      "inputLufs": -22.38,
-      "peakDb": -1.9,
+      "inputLufs": -14.85,
+      "peakDb": -1.7,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_intro",
-      "durationSec": 1.95,
+      "durationSec": 2.39,
       "bytes": {
-        "flac": 46350,
-        "opus": 7999,
-        "m4a": 16882,
-        "wav": 186708
+        "flac": 117897,
+        "opus": 9399,
+        "m4a": 17710,
+        "wav": 228748
       },
-      "inputLufs": -25.86,
-      "peakDb": -1.5,
+      "inputLufs": -13.52,
+      "peakDb": -3.2,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_take",
-      "durationSec": 2.52,
+      "durationSec": 2.71,
       "bytes": {
-        "flac": 51416,
-        "opus": 9547,
-        "m4a": 17218,
-        "wav": 241774
+        "flac": 128330,
+        "opus": 10583,
+        "m4a": 19627,
+        "wav": 259178
       },
-      "inputLufs": -22.4,
-      "peakDb": -2.1,
+      "inputLufs": -16.47,
+      "peakDb": -1.7,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_throw",
-      "durationSec": 2.85,
+      "durationSec": 3.16,
       "bytes": {
-        "flac": 69959,
-        "opus": 11670,
-        "m4a": 19308,
-        "wav": 273216
+        "flac": 153717,
+        "opus": 12888,
+        "m4a": 19742,
+        "wav": 302852
       },
-      "inputLufs": -21.48,
+      "inputLufs": -16.68,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_trump",
-      "durationSec": 2.21,
+      "durationSec": 2.72,
       "bytes": {
-        "flac": 46855,
-        "opus": 8930,
-        "m4a": 15181,
-        "wav": 211832
+        "flac": 137441,
+        "opus": 11672,
+        "m4a": 18379,
+        "wav": 260628
       },
-      "inputLufs": -25.81,
-      "peakDb": -4.6,
+      "inputLufs": -14.92,
+      "peakDb": -3.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_tut_wrong",
-      "durationSec": 2.93,
+      "durationSec": 2.66,
       "bytes": {
-        "flac": 64929,
-        "opus": 11894,
-        "m4a": 21039,
-        "wav": 280942
+        "flac": 128392,
+        "opus": 11063,
+        "m4a": 18241,
+        "wav": 254626
       },
-      "inputLufs": -25.4,
+      "inputLufs": -16.53,
       "peakDb": -1.5,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_wait_01",
-      "durationSec": 2.04,
+      "durationSec": 2.86,
       "bytes": {
-        "flac": 44406,
-        "opus": 8074,
-        "m4a": 14015,
-        "wav": 195160
+        "flac": 136563,
+        "opus": 11360,
+        "m4a": 20619,
+        "wav": 274180
       },
-      "inputLufs": -23.3,
-      "peakDb": -1.5,
+      "inputLufs": -15.91,
+      "peakDb": -1.8,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_wait_02",
-      "durationSec": 1.24,
+      "durationSec": 2.1,
       "bytes": {
-        "flac": 25765,
-        "opus": 5556,
-        "m4a": 9633,
-        "wav": 118124
+        "flac": 88984,
+        "opus": 8279,
+        "m4a": 13526,
+        "wav": 201034
       },
-      "inputLufs": -23.79,
-      "peakDb": -4,
+      "inputLufs": -18.25,
+      "peakDb": -3.7,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_win_01",
-      "durationSec": 1.46,
+      "durationSec": 3.02,
       "bytes": {
-        "flac": 35596,
-        "opus": 5940,
-        "m4a": 11026,
-        "wav": 139766
+        "flac": 142186,
+        "opus": 12525,
+        "m4a": 20303,
+        "wav": 288972
       },
-      "inputLufs": -21.6,
-      "peakDb": -1.9,
+      "inputLufs": -14.72,
+      "peakDb": -2.1,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_win_02",
-      "durationSec": 1.12,
+      "durationSec": 2.14,
       "bytes": {
-        "flac": 25430,
-        "opus": 4428,
-        "m4a": 8011,
-        "wav": 106658
+        "flac": 111661,
+        "opus": 8770,
+        "m4a": 14648,
+        "wav": 205076
       },
-      "inputLufs": -21.4,
+      "inputLufs": -12.92,
       "peakDb": -4.6,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_win_03",
-      "durationSec": 1.04,
+      "durationSec": 1.29,
       "bytes": {
-        "flac": 20834,
-        "opus": 4094,
-        "m4a": 7366,
-        "wav": 99712
+        "flac": 70838,
+        "opus": 5568,
+        "m4a": 8698,
+        "wav": 122992
       },
-      "inputLufs": -24.77,
-      "peakDb": -3.4,
+      "inputLufs": -14,
+      "peakDb": -3.9,
       "status": "ok",
       "warnings": []
     },
     {
       "id": "agata_win_04",
-      "durationSec": 2.7,
+      "durationSec": 3.72,
       "bytes": {
-        "flac": 54431,
-        "opus": 10583,
-        "m4a": 18919,
-        "wav": 258188
+        "flac": 188997,
+        "opus": 17123,
+        "m4a": 24449,
+        "wav": 356308
       },
-      "inputLufs": -24.49,
-      "peakDb": -1.9,
+      "inputLufs": -13.43,
+      "peakDb": -4.5,
       "status": "ok",
       "warnings": []
     }

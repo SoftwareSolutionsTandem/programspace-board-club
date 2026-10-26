@@ -29,7 +29,8 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .screen {
   position: absolute; inset: 0; overflow-y: auto;
   padding: calc(16px + var(--safe-top)) calc(16px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(16px + var(--safe-left));
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  /* safe center: если экран ниже содержимого (телефон в альбомной ориентации), верх не уходит за край и прокручивается. */
+  display: flex; flex-direction: column; align-items: center; justify-content: center; justify-content: safe center; gap: 16px;
   background: radial-gradient(ellipse at 50% 30%, #fff1c9 0%, var(--wall) 55%, #e6c08c 100%);
 }
 .title { margin: 0; font-size: clamp(40px, 10vw, 72px); font-weight: 900; letter-spacing: 0.01em; }
@@ -74,7 +75,7 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .progress__fill { height: 100%; width: 0; background: var(--cherry); transition: width 0.2s; }
 
 /* ---------- модальные окна ---------- */
-.modal-backdrop { position: absolute; inset: 0; background: rgba(40, 24, 16, 0.45); display: flex; align-items: center; justify-content: center; padding: 16px; pointer-events: auto; z-index: 20; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(40, 24, 16, 0.45); display: flex; align-items: center; align-items: safe center; justify-content: center; padding: 16px; pointer-events: auto; z-index: 20; }
 .modal { background: var(--cream); border: 3px solid var(--ink); border-radius: 22px; padding: 20px; width: min(440px, 100%); max-height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
 .field { display: flex; flex-direction: column; gap: 4px; font-weight: 800; }
 .field--toggle { flex-direction: row; align-items: center; gap: 10px; min-height: 44px; }
@@ -117,6 +118,17 @@ body { font-family: var(--font); -webkit-tap-highlight-color: transparent; user-
 .result { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 16px; background: rgba(40, 24, 16, 0.4); z-index: 10; padding: 16px; }
 .result > .heading, .result > .subtitle { background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 10px 22px; }
 .result--show { display: flex; }
+/* Итог раздачи домино — у нижнего края, над рукой: открытые кости Матвея и цепочка остаются видны. */
+.result--hand { justify-content: flex-end; gap: 10px; background: rgba(40, 24, 16, 0.18); padding-bottom: calc(20px + var(--safe-bottom, 0px)); }
+.hand-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; background: var(--cream); border: 3px solid var(--ink); border-radius: 18px; padding: 10px 16px; width: min(860px, 100%); box-sizing: border-box; box-shadow: 0 5px 0 var(--ink); }
+.hand-card__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: center; font-weight: 800; font-size: calc(15px * var(--ui-scale, 1)); }
+.hand-card__text p { margin: 0; }
+.hand-card__text .heading { margin: 0; font-size: calc(26px * var(--ui-scale, 1)); }
+/* Клуб: карточки игр в ряд или столбиком. */
+.game-list { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; width: min(720px, 100%); }
+.game-list > .game-card { flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px; }
+.game-list > .game-card > .game-card__main { flex: 1; }
+.game-card__tutorial { align-self: center; }
 /* Низкий экран (телефон боком): панель результата у нижнего края, чтобы лицо Агаты оставалось видно. */
 @media (max-height: 500px) {
   .result { justify-content: flex-end; gap: 10px; padding-bottom: 20px; }

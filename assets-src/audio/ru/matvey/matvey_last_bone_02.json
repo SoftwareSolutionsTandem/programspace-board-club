@@ -1,0 +1,14 @@
+{
+  "id": "matvey_last_bone_02",
+  "text": "Последняя. Готовься.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "b8ae704786dfb1e8f93b306e1164624a0b9a0fcf13c92234f8f38771f6319a0a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.18
+}

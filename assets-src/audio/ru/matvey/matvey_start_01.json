@@ -1,0 +1,14 @@
+{
+  "id": "matvey_start_01",
+  "text": "Мешаю. Бери семь.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "0f3d54204f8d8394aab1bc325ebee3b0c451bd6d63b7896cd496f562df9995b1",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.86
+}

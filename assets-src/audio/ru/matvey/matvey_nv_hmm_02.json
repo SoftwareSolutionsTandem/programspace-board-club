@@ -1,0 +1,14 @@
+{
+  "id": "matvey_nv_hmm_02",
+  "text": "Так-так…",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "57f3c210a9947f84bae87845eb0865c4d3859c671646eabc38c64214c771cbc4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.21
+}

@@ -38,9 +38,9 @@ ROOT = Path(__file__).resolve().parents[2]
 STRESS_MARK = "́"
 
 
-def load_catalog() -> list[dict]:
+def load_catalog(character: str) -> list[dict]:
     # Тексты — только из каталога игры (единый источник).
-    out = subprocess.run(["node", str(ROOT / "tools/voice/export-catalog.mjs")], check=True, capture_output=True, text=True, encoding="utf-8")
+    out = subprocess.run(["node", str(ROOT / "tools/voice/export-catalog.mjs"), "--character", character], check=True, capture_output=True, text=True, encoding="utf-8")
     return json.loads(out.stdout)
 
 
@@ -152,7 +152,7 @@ def main() -> int:
         args.reference_text = args.reference_text or voice.get("referenceText")
     if args.temperature is None:
         args.temperature = voice.get("temperature")
-    catalog = {l["id"]: l for l in load_catalog()}
+    catalog = {l["id"]: l for l in load_catalog(cfg["character"])}
     out_dir = Path(args.out) if args.out else ROOT / "assets-src/audio" / cfg["lang"] / cfg["character"]
     out_dir.mkdir(parents=True, exist_ok=True)
     style = args.stress_style or cfg.get("stressStyle", "plain")

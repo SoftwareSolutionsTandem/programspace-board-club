@@ -1,0 +1,14 @@
+{
+  "id": "matvey_open_double_01",
+  "text": "Дубль у меня. Захожу.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "87ab6e51c95c13c7788a94df327d681869271a054af4ce176f92a7d691091849",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.28
+}

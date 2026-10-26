@@ -7,6 +7,8 @@ export interface Trigger {
   readonly category: LineCategory;
   readonly emotion: Emotion;
   readonly pose?: Pose;
+  /** Жест реакции персонажа по имени (MotionStyle.gestures), если есть. */
+  readonly gesture?: string;
   readonly priority: VoicePriority;
   /** Вероятность высказаться (0…1); результат и приветствие — всегда 1. */
   readonly chance: number;
@@ -15,6 +17,7 @@ export interface Trigger {
 export interface Cue {
   readonly emotion: Emotion;
   readonly pose?: Pose;
+  readonly gesture?: string;
   readonly line?: { readonly id: string; readonly priority: VoicePriority; readonly text: string };
 }
 
@@ -40,7 +43,7 @@ export class Director {
   }
 
   react(trigger: Trigger, now: number): Cue {
-    const base: Cue = trigger.pose ? { emotion: trigger.emotion, pose: trigger.pose } : { emotion: trigger.emotion };
+    const base: Cue = { emotion: trigger.emotion, ...(trigger.pose ? { pose: trigger.pose } : {}), ...(trigger.gesture ? { gesture: trigger.gesture } : {}) };
     const urgent = PRIORITY_RANK[trigger.priority] >= PRIORITY_RANK.greeting;
     if (!urgent && now - this.lastSpokeAt < this.opts.minGapMs) return base;
     const [roll, next] = nextFloat(this.rng);

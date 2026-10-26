@@ -1,0 +1,14 @@
+{
+  "id": "matvey_win_02",
+  "text": "Вот так и забивают козла!",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "b2d6dcad07320b65d29144a0829448cbc5353c3556fd82c40e8ad7b1de137951",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.0
+}

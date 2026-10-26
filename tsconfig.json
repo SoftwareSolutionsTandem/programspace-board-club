@@ -16,7 +16,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "paths": { "@product": ["./src/products/igroteka.json"] }
+    "allowImportingTsExtensions": true,
+    "paths": { "@product": ["./src/products/igroteka.json"], "@product-games": ["./src/products/igroteka.games.ts"] }
   },
   "include": ["src", "tests", "vite.config.ts", "eslint.config.js", "playwright.config.ts"]
 }

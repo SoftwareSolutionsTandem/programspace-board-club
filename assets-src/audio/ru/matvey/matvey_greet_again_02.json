@@ -1,0 +1,14 @@
+{
+  "id": "matvey_greet_again_02",
+  "text": "А, снова за стол? Сыграем.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "975722ddbe497dede5b372d3d5e08ebffb7179e13d55cd8eb84cf7e3e78ebafd",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.6
+}

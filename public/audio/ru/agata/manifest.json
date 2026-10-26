@@ -1,9 +1,9 @@
 {
   "voice": {
-    "id": "agata-qwen3-ru-stress-c",
-    "synthetic": true,
+    "id": "agata-owner-2026-10",
+    "synthetic": false,
     "approvedBy": "owner",
-    "approvedAt": "2026-10-18"
+    "approvedAt": "2026-10-23"
   },
   "lines": {
     "agata_attack_02": {

@@ -15,7 +15,12 @@ export type LineCategory =
   | 'took' | 'playerTook' | 'playerTrump' | 'praise' | 'bito' | 'deckEmpty' | 'wait'
   | 'win' | 'lose' | 'draw' | 'rematch' | 'rematchAfterLoss' | 'farewell'
   | 'nvGiggle' | 'nvHmm' | 'nvSigh' | 'nvAh'
-  | 'tutIntro' | 'tutTrump' | 'tutAttack' | 'tutDefend' | 'tutThrow' | 'tutTake' | 'tutBito' | 'tutWrong' | 'tutDone';
+  | 'tutIntro' | 'tutTrump' | 'tutAttack' | 'tutDefend' | 'tutThrow' | 'tutTake' | 'tutBito' | 'tutWrong' | 'tutDone'
+  // Домино (docs/games/dominoes.md §11).
+  | 'openDouble' | 'play' | 'playDouble' | 'block' | 'drew' | 'drewMany' | 'playerDrew' | 'knock' | 'playerKnock'
+  | 'lastBone' | 'playerLastBone' | 'fish' | 'fishDraw' | 'handWin' | 'handLose' | 'nearTarget' | 'nvGrumble'
+  | 'playerPlay' | 'playerDrewMany' | 'bazaarEmpty' | 'handStart' | 'fishLose' | 'bigDouble'
+  | 'tutMatch' | 'tutEnds' | 'tutBazaar' | 'tutKnock' | 'tutGoal';
 
 export interface VoiceLine {
   /** Имя аудиофайла без расширения, например agata_win_01. */

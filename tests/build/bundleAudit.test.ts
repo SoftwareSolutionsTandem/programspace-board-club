@@ -50,6 +50,10 @@ describe('проверка состава сборки продукта', () => 
     expect(errorsOf((a) => a.report.files[2]!.modules!.push('src/games/chess/rules/engine.ts'))).toEqual([expect.stringContaining('чужой игры «chess»')]);
   });
 
+  it('демо-страница режима разработки в чанке — ошибка', () => {
+    expect(errorsOf((a) => a.report.files[2]!.modules!.push('src/dev/matveyLab.ts'))).toEqual([expect.stringContaining('режима разработки')]);
+  });
+
   it('модуль чужого персонажа и конфиг другого продукта — ошибки', () => {
     const e = errorsOf((a) => a.report.files[2]!.modules!.push('src/characters/boris/lines.ts', 'src/products/igroteka.json'));
     expect(e).toEqual([expect.stringContaining('чужого персонажа «boris»'), expect.stringContaining('конфиг другого продукта')]);

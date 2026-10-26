@@ -1,0 +1,82 @@
+[
+  {
+    "file": "_audition_p0_s4101.flac",
+    "personaIndex": 0,
+    "seed": 4101,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Elderly Russian man, about 75 years old, a grumpy but kind grandfather playing dominoes. Low, deep, hoarse voice with a gravelly rasp. Slow, unhurried speech with pauses, a little grumbling. Natural Russian intonation.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.96,
+    "medianF0Hz": 128.8
+  },
+  {
+    "file": "_audition_p0_s4102.flac",
+    "personaIndex": 0,
+    "seed": 4102,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Elderly Russian man, about 75 years old, a grumpy but kind grandfather playing dominoes. Low, deep, hoarse voice with a gravelly rasp. Slow, unhurried speech with pauses, a little grumbling. Natural Russian intonation.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.88,
+    "medianF0Hz": 110.8
+  },
+  {
+    "file": "_audition_p1_s4101.flac",
+    "personaIndex": 1,
+    "seed": 4101,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Old Russian man in his late seventies. Low bass-baritone, husky and smoky timbre, slightly creaky at the ends of phrases. Calm, measured, slow tempo; dry humor, warm underneath.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 5.92,
+    "medianF0Hz": 84.7
+  },
+  {
+    "file": "_audition_p1_s4102.flac",
+    "personaIndex": 1,
+    "seed": 4102,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Old Russian man in his late seventies. Low bass-baritone, husky and smoky timbre, slightly creaky at the ends of phrases. Calm, measured, slow tempo; dry humor, warm underneath.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 9.04,
+    "medianF0Hz": 77.7
+  },
+  {
+    "file": "_audition_p2_s4101.flac",
+    "personaIndex": 2,
+    "seed": 4101,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Russian grandfather, about 80 years old. Deep, rough, raspy voice, low pitch, speaking slowly and deliberately, gruff but good-natured, with a hint of a chuckle.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.08,
+    "medianF0Hz": 160.8
+  },
+  {
+    "file": "_audition_p2_s4102.flac",
+    "personaIndex": 2,
+    "seed": 4102,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Russian grandfather, about 80 years old. Deep, rough, raspy voice, low pitch, speaking slowly and deliberately, gruff but good-natured, with a hint of a chuckle.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 9.52,
+    "medianF0Hz": 85.7
+  },
+  {
+    "file": "_audition_p3_s4101.flac",
+    "personaIndex": 3,
+    "seed": 4101,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Tall thin elderly Russian man, about 72, with a low, slightly nasal and hoarse voice. Unhurried, drawling, thoughtful manner, softly grumbling, kind at heart.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 6.96,
+    "medianF0Hz": 87.2
+  },
+  {
+    "file": "_audition_p3_s4102.flac",
+    "personaIndex": 3,
+    "seed": 4102,
+    "text": "Ну, здравствуй. Садись, забьём козла. Костяшки ждут.",
+    "instruct": "Tall thin elderly Russian man, about 72, with a low, slightly nasal and hoarse voice. Unhurried, drawling, thoughtful manner, softly grumbling, kind at heart.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "durationSec": 9.04,
+    "medianF0Hz": 98.7
+  }
+]

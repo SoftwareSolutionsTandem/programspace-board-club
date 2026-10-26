@@ -1,0 +1,14 @@
+{
+  "id": "matvey_player_play_01",
+  "text": "Ну-ну.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "602617aa493dfdb87133ab43a9a3bb2451314871951e61c49d726882d7d68dac",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.7
+}

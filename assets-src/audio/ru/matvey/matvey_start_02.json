@@ -1,0 +1,14 @@
+{
+  "id": "matvey_start_02",
+  "text": "Ну-с, начнём. Не спеша.",
+  "source": "запись владельца проекта (живой голос)",
+  "recordedAt": "2026-10-25",
+  "approvedBy": "owner",
+  "approvedAt": "2026-10-25",
+  "archive": "voice_matvey.zip",
+  "sha256": "650ec9e119cfcf12c065b0468d83eed898d4f66dc213d48424850473e18a333c",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.36
+}
