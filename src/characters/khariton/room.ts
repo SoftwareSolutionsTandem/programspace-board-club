@@ -1,5 +1,6 @@
 // Комната Харитона — «Кабинет профессора» (docs/ART_STYLE.md §12): тёмно-зелёные обои в полоску, деревянные панели,
-// книжные шкафы, бюро с лампой под зелёным абажуром, настольным глобусом и латунным прибором, барометр, дощатый пол.
+// книжные шкафы; за Харитоном — дипломы, портрет шахматиста, полочка с песочными часами и латунным конём, люстра;
+// бюро с лампой под зелёным абажуром, настольным глобусом и латунным прибором, барометр, дощатый пол.
 // За окном — ночь. Живое: глобус медленно вращается, звёзды мерцают, пыль в луче лампы, огонёк прибора.
 // Модуль строит SVG-строки и не зависит от DOM.
 import { cycle, hash01, hump, propSvg, wave, type AmbientPose, type RoomArt } from '../../render/ambient';
@@ -153,6 +154,49 @@ function globeOverlay(): string {
 
 // ---------- бюро ----------
 
+// ---------- стена за Харитоном: видна и на телефоне ----------
+// В портретном кадре телефона видна полоса x ≈ 965–1440 выше плеч: дипломы — слева от головы, портрет шахматиста
+// и полочка с песочными часами — справа, люстра — над головой.
+function diploma(x: number, y: number, w: number, h: number): string {
+  const lines = Array.from({ length: 4 }, (_, k) => `<path d="M${x + 16} ${y + 30 + k * 9} H${x + w - 16}" stroke="#B9A47A" stroke-width="1.6"/>`).join('');
+  return `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${BRASS}" ${ol(3)}/>
+    <rect x="${x + 6}" y="${y + 6}" width="${w - 12}" height="${h - 12}" fill="#F2E7C8" ${ol(1.4)}/>
+    <path d="M${x + 20} ${y + 18} H${x + w - 20}" stroke="#7A2E2E" stroke-width="3"/>${lines}
+    <circle cx="${x + w - 22}" cy="${y + h - 20}" r="8" fill="#C5333B" ${ol(1.6)}/><path d="M${x + w - 26} ${y + h - 13} l-3 10 l5 -3 l3 4 Z M${x + w - 18} ${y + h - 13} l3 10 l-5 -3 l-3 4 Z" fill="#C5333B"/></g>`;
+}
+
+function masterAndShelf(): string {
+  const shelfY = 296;
+  return `<g>
+    <ellipse cx="1368" cy="150" rx="42" ry="54" fill="${WOOD_L}" ${ol(3.5)}/>
+    <ellipse cx="1368" cy="150" rx="34" ry="44" fill="#E9DDBE" ${ol(1.6)}/>
+    <path d="M1342 194 C1344 166 1392 166 1394 194 Q1368 202 1342 194 Z" fill="#3E3A36"/>
+    <circle cx="1368" cy="140" r="15" fill="#D9BFA0" ${ol(1.4)}/>
+    <path d="M1353 134 q15 -17 30 0" fill="#5A4A40"/><path d="M1360 152 q8 5 16 0" fill="none" stroke="#6A5040" stroke-width="2"/>
+    <path d="M1360 170 l8 8 l8 -8" fill="#F2E7C8"/>
+    <rect x="1316" y="${shelfY}" width="104" height="10" rx="3" fill="${WOOD_L}" ${ol(3)}/>
+    <path d="M1328 ${shelfY + 10} q4 12 14 14 M1408 ${shelfY + 10} q-4 12 -14 14" fill="none" ${ol(2.6)}/>
+    <g><rect x="1328" y="${shelfY - 6}" width="30" height="6" fill="${WOOD}" ${ol(1.6)}/><rect x="1328" y="${shelfY - 48}" width="30" height="6" fill="${WOOD}" ${ol(1.6)}/>
+      <path d="M1332 ${shelfY - 42} H1354 L1345 ${shelfY - 24} L1354 ${shelfY - 6} H1332 L1341 ${shelfY - 24} Z" fill="#DCEAF2" opacity="0.85" ${ol(1.8)}/>
+      <path d="M1336 ${shelfY - 36} H1350 L1343 ${shelfY - 27} Z M1335 ${shelfY - 6} L1343 ${shelfY - 16} L1351 ${shelfY - 6} Z" fill="#E8C46A"/>
+      <path d="M1330 ${shelfY - 42} V${shelfY - 6} M1356 ${shelfY - 42} V${shelfY - 6}" stroke="${WOOD}" stroke-width="2.4"/></g>
+    <g transform="translate(1392 ${shelfY})"><rect x="-14" y="-8" width="28" height="8" rx="2" fill="${BRASS_D}" ${ol(1.6)}/>
+      <path d="M-10 -8 C-12 -22 -8 -32 0 -40 C8 -44 16 -38 14 -30 C10 -32 6 -30 6 -26 C12 -22 12 -14 10 -8 Z" fill="${BRASS}" ${ol(2)}/>
+      <circle cx="4" cy="-33" r="1.6" fill="#3B2418"/></g></g>`;
+}
+
+// Латунная люстра с тремя рожками над Харитоном: короткая цепь — выше вихра и на компьютере.
+const CHANDELIER = { x: 1200, w: 140, h: 46 };
+function chandelier(): string {
+  const c = CHANDELIER.w / 2;
+  const arm = (dx: number) => `<path d="M${c} 22 Q${c + dx * 0.6} 36 ${c + dx} 26" fill="none" stroke="${BRASS}" stroke-width="4" stroke-linecap="round"/>
+    <rect x="${c + dx - 6}" y="20" width="12" height="7" rx="2" fill="${BRASS_D}" ${ol(1.4)}/>
+    <path d="M${c + dx} 20 C${c + dx - 6} 15 ${c + dx - 4} 7 ${c + dx} 4 C${c + dx + 4} 7 ${c + dx + 6} 15 ${c + dx} 20 Z" fill="#FFF3C8" ${ol(1.6)}/>`;
+  return propSvg(CHANDELIER.w, CHANDELIER.h, `<path d="M${c} 0 V18" stroke="${BRASS_D}" stroke-width="3"/>
+    ${arm(-52)}${arm(0)}${arm(52)}
+    <circle cx="${c}" cy="28" r="8" fill="${BRASS}" ${ol(2)}/><circle cx="${c}" cy="40" r="3.6" fill="${BRASS_D}" ${ol(1.4)}/><path d="M${c} 36 v-2" stroke="${BRASS}" stroke-width="3"/>`);
+}
+
 function bureau(): string {
   const x = 1468, w = 452, top = DESK_Y;
   const g = GAUGE;
@@ -201,6 +245,7 @@ function background(): string {
   ${bookcase(40, 660, 11)}
   ${nightWindow()}${windowFrame(0, 0)}
   <rect x="${WIN.x - 26}" y="${WIN.y + WIN.h + 8}" width="${WIN.w + 52}" height="16" rx="4" fill="${WOOD_L}" ${ol(3.5)}/>
+  ${diploma(994, 96, 98, 76)}${diploma(1000, 188, 88, 68)}${masterAndShelf()}
   ${scoreSlate(BRASS, '#26332C')}
   ${barometer()}${bureau()}${globeStand()}
   ${bookcase(1950, 420, 29)}
@@ -254,6 +299,15 @@ export const KHARITON_ROOM: RoomArt = {
         const spread = (hash01(i, 12) - 0.5) * 2;
         return { dx: spread * (24 + u * 60) + wave(t, 3.75, 4, i), dy: u * 96, alpha: hump(u) * 0.75 };
       },
+    },
+    // Люстра на цепи: чуть покачивается.
+    {
+      key: 'chandelier',
+      box: { x: CHANDELIER.x - CHANDELIER.w / 2, y: 0, w: CHANDELIER.w, h: CHANDELIER.h },
+      pivot: { x: CHANDELIER.x, y: 0 },
+      svg: chandelier(),
+      period: 10.6,
+      motion: (t) => ({ rot: wave(t, 10.6, 0.01) }),
     },
     // Огонёк латунного прибора на бюро: медленно загорается и гаснет.
     {

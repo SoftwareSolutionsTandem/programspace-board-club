@@ -1,5 +1,6 @@
 // Комната Деда Матвея — «Веранда на даче» (docs/ART_STYLE.md §12): стены из сосновой вагонки, большое окно в сад,
-// полка с ламповым радио, щит с инструментами, вешалка с соломенной шляпой, грифельная доска для счёта.
+// полка с ламповым радио, щит с инструментами, вешалка с соломенной шляпой, грифельная доска для счёта; за Матвеем —
+// часы-ходики, связка лука, полочка с банкой огурцов, лампочка под жестяным абажуром.
 // Живое: ветка яблони за окном, дым из трубы соседнего дома, пылинки в солнечном луче, лампа-индикатор радио.
 // Модуль строит SVG-строки и не зависит от DOM.
 import { cycle, hash01, hump, propSvg, wave, type RoomArt } from '../../render/ambient';
@@ -195,6 +196,55 @@ function tools(): string {
     <path d="M${x + 220} ${y + 36} C${x + 206} ${y + 36} ${x + 206} ${y + 60} ${x + 220} ${y + 60} V${y + 200}" fill="none" stroke="#7E8894" stroke-width="9" stroke-linecap="round"/></g>`;
 }
 
+// ---------- стена за Матвеем: видна и на телефоне ----------
+// В портретном кадре телефона видна полоса x ≈ 965–1440 выше плеч: ходики — слева от головы, лук и полочка — справа,
+// лампочка — над головой.
+const CUCKOO = { x: 1022, y: 92 };
+function cuckooClock(): string {
+  const { x, y } = CUCKOO;
+  const cone = (cx: number, cy: number) => `<path d="M${cx} ${cy} C${cx - 9} ${cy + 6} ${cx - 9} ${cy + 26} ${cx} ${cy + 34} C${cx + 9} ${cy + 26} ${cx + 9} ${cy + 6} ${cx} ${cy} Z" fill="#8A5A2E" ${ol(2)}/>` +
+    [8, 16, 24].map((d) => `<path d="M${cx - 6} ${cy + d} l6 4 l6 -4" fill="none" stroke="#5A3A22" stroke-width="1.6"/>`).join('');
+  return `<g>
+    <path d="M${x - 14} ${y + 92} V${y + 196} M${x + 14} ${y + 92} V${y + 176}" stroke="#7E8894" stroke-width="1.6" stroke-dasharray="3 2"/>
+    ${cone(x - 14, y + 196)}${cone(x + 14, y + 176)}
+    <path d="M${x - 46} ${y + 30} L${x} ${y - 6} L${x + 46} ${y + 30} Z" fill="#5A3A22" ${ol(3)}/>
+    <path d="M${x - 34} ${y + 22} L${x} ${y - 2} L${x + 34} ${y + 22}" fill="none" stroke="#C9935A" stroke-width="2"/>
+    <rect x="${x - 36}" y="${y + 28}" width="72" height="64" rx="4" fill="#8C5A31" ${ol(3)}/>
+    <rect x="${x - 9}" y="${y + 4}" width="18" height="16" rx="2" fill="#3A2414" ${ol(1.8)}/><path d="M${x} ${y + 4} V${y + 20}" stroke="#C9935A" stroke-width="1.4"/>
+    <circle cx="${x}" cy="${y + 58}" r="22" fill="#F3EBDD" ${ol(2.6)}/>
+    ${Array.from({ length: 12 }, (_, k) => { const a = (k * Math.PI) / 6; return `<circle cx="${x + Math.sin(a) * 17}" cy="${y + 58 - Math.cos(a) * 17}" r="1.5" fill="#3B2418"/>`; }).join('')}
+    <path d="M${x} ${y + 58} L${x - 8} ${y + 46} M${x} ${y + 58} L${x + 12} ${y + 56}" ${ol(2.4)}/>
+    <path d="M${x - 30} ${y + 92} h60 l-6 8 h-48 Z" fill="#5A3A22" ${ol(2)}/>
+    ${[-24, -8, 8, 24].map((dx) => `<ellipse cx="${x + dx}" cy="${y + 38}" rx="5" ry="3" fill="${LEAF}" transform="rotate(${dx < 0 ? -20 : 20} ${x + dx} ${y + 38})"/>`).join('')}</g>`;
+}
+
+function onionsAndShelf(): string {
+  const onion = (x: number, y: number, r: number) => `<path d="M${x} ${y - r * 1.4} C${x + r * 1.2} ${y - r * 0.6} ${x + r * 1.1} ${y + r} ${x} ${y + r} C${x - r * 1.1} ${y + r} ${x - r * 1.2} ${y - r * 0.6} ${x} ${y - r * 1.4} Z" fill="#C98A3A" ${ol(2)}/>
+    <path d="M${x - r * 0.4} ${y - r * 0.6} Q${x} ${y + r * 0.4} ${x - r * 0.2} ${y + r * 0.9} M${x + r * 0.4} ${y - r * 0.6} Q${x + r * 0.2} ${y + r * 0.4} ${x + r * 0.3} ${y + r * 0.9}" stroke="#9C6228" stroke-width="1.4" fill="none"/>`;
+  const shelfY = 300;
+  return `<g>
+    <circle cx="1352" cy="96" r="3" fill="#5A6470"/>
+    <path d="M1352 98 C1346 140 1358 190 1352 250" stroke="#C9A060" stroke-width="5" fill="none" stroke-linecap="round"/>
+    ${[[1344, 120, 10], [1360, 136, 11], [1344, 156, 11], [1360, 176, 12], [1346, 198, 12], [1360, 220, 11], [1350, 240, 10]].map(([ox, oy, r]) => onion(ox!, oy!, r!)).join('')}
+    <rect x="1384" y="${shelfY}" width="72" height="9" rx="3" fill="${WOOD}" ${ol(3)}/>
+    <path d="M1392 ${shelfY + 9} l4 12 M1448 ${shelfY + 9} l-4 12" ${ol(2.6)}/>
+    <path d="M1392 ${shelfY} V${shelfY - 38} Q1392 ${shelfY - 44} 1398 ${shelfY - 44} H1416 Q1422 ${shelfY - 44} 1422 ${shelfY - 38} V${shelfY} Z" fill="#B9D7A0" opacity="0.85" ${ol(2.2)}/>
+    ${[[1400, -12], [1412, -20], [1402, -28]].map(([cx, dy]) => `<ellipse cx="${cx}" cy="${shelfY + dy!}" rx="4" ry="8" fill="#5E9A4A" ${ol(1.2)}/>`).join('')}
+    <rect x="1390" y="${shelfY - 50}" width="34" height="7" rx="2" fill="#C5333B" ${ol(1.8)}/>
+    <path d="M1430 ${shelfY} V${shelfY - 22} H1450 V${shelfY} Z" fill="#E8E1D0" ${ol(2)}/><path d="M1450 ${shelfY - 18} c7 0 7 10 0 10" fill="none" ${ol(2)}/>
+    <path d="M1432 ${shelfY - 12} h16" stroke="#2F6FA8" stroke-width="3"/></g>`;
+}
+
+// Лампочка под жестяным абажуром над Матвеем: короткий шнур — выше кепки и на компьютере.
+const BULB = { x: 1200, w: 90, h: 46 };
+function bulbLamp(): string {
+  const c = BULB.w / 2;
+  return propSvg(BULB.w, BULB.h, `<path d="M${c} 0 V8" stroke="#3B2418" stroke-width="2.4"/>
+    <path d="M${c - 8} 6 H${c + 8} L${BULB.w - 6} 28 H6 Z" fill="#7E8894" ${ol(2.6)}/>
+    <path d="M14 28 Q${c} 22 ${BULB.w - 14} 28" fill="none" stroke="#A9B2BC" stroke-width="2"/>
+    <circle cx="${c}" cy="35" r="9" fill="#FFF3B0" ${ol(2)}/><circle cx="${c - 3}" cy="32" r="2.6" fill="#FFFFFF"/>`);
+}
+
 function hooks(): string {
   return `<g>
     <rect x="80" y="130" width="300" height="20" rx="5" fill="${WOOD}" ${ol(3.5)}/>
@@ -230,6 +280,7 @@ function background(): string {
   <path d="M${x - 18} ${SILL_Y + 14} H${x + w + 18}" stroke="#3B2418" stroke-opacity="0.25" stroke-width="5"/>
   <path d="M${x + 60} ${y + 20} L${x + w - 20} ${y + 20} L${x + w + 220} 470 L${x + 300} 470 Z" fill="url(#mvBeam)"/>
   ${hooks()}
+  ${cuckooClock()}${onionsAndShelf()}
   ${scoreSlate('#C2955A', '#2E3B36')}
   ${radioCabinet()}${tools()}
   <g><rect x="2140" y="150" width="190" height="16" rx="4" fill="${WOOD}" ${ol(3)}/>
@@ -294,6 +345,24 @@ export const MATVEY_ROOM: RoomArt = {
         const lane = hash01(i, 4);
         return { dx: lane * 180 + u * 160 + wave(t, 5.5, 6, i), dy: lane * 60 + u * 230 + wave(t, 4.4, 5, i * 2), alpha: hump(u) * (0.45 + 0.4 * hash01(i, 5)) };
       },
+    },
+    // Маятник ходиков.
+    {
+      key: 'cuckoo',
+      box: { x: CUCKOO.x - 8, y: CUCKOO.y + 94, w: 16, h: 80 },
+      pivot: { x: CUCKOO.x, y: CUCKOO.y + 96 },
+      svg: propSvg(16, 80, '<path d="M8 2 V64" stroke="#C9A24A" stroke-width="2.4"/><circle cx="8" cy="70" r="7" fill="#E8AB30" stroke="#3B2418" stroke-width="2"/><circle cx="6" cy="68" r="2" fill="#FFF1C9"/>'),
+      period: 2.2,
+      motion: (t) => ({ rot: wave(t, 2.2, 0.09) }),
+    },
+    // Лампочка на шнуре чуть покачивается.
+    {
+      key: 'bulb',
+      box: { x: BULB.x - BULB.w / 2, y: 0, w: BULB.w, h: BULB.h },
+      pivot: { x: BULB.x, y: 0 },
+      svg: bulbLamp(),
+      period: 8.3,
+      motion: (t) => ({ rot: wave(t, 8.3, 0.014) }),
     },
     // Индикатор работы приёмника: светящаяся шкала мягко пульсирует.
     {

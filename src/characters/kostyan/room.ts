@@ -1,6 +1,6 @@
 // Комната Костяна — «Комната с постерами» (docs/ART_STYLE.md §12): сине-фиолетовая стена, афиши рок-фестиваля и
 // скейт-контеста, светодиодная лента под потолком, классическая гитара на стойке, телевизор на тумбе с приставкой,
-// скейт, кровать, дощатый пол, окно на вечерний город.
+// скейт, кровать, дощатый пол, окно на вечерний город; за Костяном — гитара на крючке, полочка с кубком, пластинка, гирлянда.
 // Живое: лента меняет оттенок, гитара чуть покачивается, музыкальный канал по телевизору, огни города и самолёт.
 // Модуль строит SVG-строки и не зависит от DOM.
 import { cycle, hash01, hueTint, propSvg, wave, type RoomArt } from '../../render/ambient';
@@ -63,6 +63,21 @@ function guitar(): string {
     <path d="M${cx - 5} ${base - 206} V${base - 26} M${cx - 3} ${base - 206} V${base - 26} M${cx - 1} ${base - 206} V${base - 26} M${cx + 1} ${base - 206} V${base - 26} M${cx + 3} ${base - 206} V${base - 26} M${cx + 5} ${base - 206} V${base - 26}" stroke="#F4F0E6" stroke-width="0.7" opacity="0.9"/>
     <path d="M${cx - 34} ${base - 40} C${cx - 36} ${base - 60} ${cx - 26} ${base - 72} ${cx - 22} ${base - 78}" stroke="#FFF3D6" stroke-width="2.4" fill="none" opacity="0.6" stroke-linecap="round"/>`);
 }
+
+// Гирлянда над Костяном: провод провисает между двумя гвоздиками, лампочки мерцают вразнобой.
+const GARLAND = { x0: 946, x1: 1454, y: 38, sag: 26, n: 11 };
+const garlandAt = (u: number) => ({ x: GARLAND.x0 + (GARLAND.x1 - GARLAND.x0) * u, y: GARLAND.y + GARLAND.sag * 4 * u * (1 - u) });
+function garlandWire(): string {
+  const pts = Array.from({ length: 21 }, (_, k) => garlandAt(k / 20));
+  return `<path d="M${pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' L')}" fill="none" stroke="#1A1A26" stroke-width="2.4"/>
+    <circle cx="${GARLAND.x0}" cy="${GARLAND.y}" r="3" fill="#C9CED6"/><circle cx="${GARLAND.x1}" cy="${GARLAND.y}" r="3" fill="#C9CED6"/>`;
+}
+
+/** Виниловая пластинка на стене. */
+const vinyl = (x: number, y: number, r: number): string => `<g><circle cx="${x}" cy="${y}" r="${r}" fill="#1A1A26" ${ol(2.4)}/>
+  ${[0.8, 0.65, 0.5].map((k) => `<circle cx="${x}" cy="${y}" r="${r * k}" fill="none" stroke="#3A3A4A" stroke-width="1.2"/>`).join('')}
+  <circle cx="${x}" cy="${y}" r="${r * 0.32}" fill="${NEON}"/><circle cx="${x}" cy="${y}" r="2.4" fill="#F7EEDC"/>
+  <path d="M${x - r * 0.6} ${y - r * 0.5} q${r * 0.3} ${-r * 0.2} ${r * 0.5} ${-r * 0.2}" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.35"/></g>`;
 
 /** Настенный крючок для гитары. */
 const guitarHook = (): string => `<g><rect x="${GUITAR.x - 9}" y="${GUITAR.top - 4}" width="18" height="14" rx="3" fill="#2A2A36" ${ol(2.4)}/>
@@ -187,7 +202,7 @@ function background(): string {
   <rect x="${WIN.x - 20}" y="${WIN.y + WIN.h + 6}" width="${WIN.w + 40}" height="16" rx="4" fill="#E8E4F4" ${ol(3)}/>
   <path d="M${WIN.x + 20} ${WIN.y + WIN.h + 6} L${WIN.x + 26} ${WIN.y + WIN.h - 24} L${WIN.x + 60} ${WIN.y + WIN.h - 24} L${WIN.x + 66} ${WIN.y + WIN.h + 6} Z" fill="#E8E4F4" ${ol(2.5)}/>
   <path d="M${WIN.x + 43} ${WIN.y + WIN.h - 24} C${WIN.x + 30} ${WIN.y + WIN.h - 60} ${WIN.x + 50} ${WIN.y + WIN.h - 64} ${WIN.x + 43} ${WIN.y + WIN.h - 24} M${WIN.x + 43} ${WIN.y + WIN.h - 24} C${WIN.x + 56} ${WIN.y + WIN.h - 56} ${WIN.x + 70} ${WIN.y + WIN.h - 50} ${WIN.x + 43} ${WIN.y + WIN.h - 24}" fill="#5B9A4E" ${ol(2)}/>
-  ${guitarHook()}${trophyShelf()}
+  ${guitarHook()}${trophyShelf()}${vinyl(1384, 116, 28)}${garlandWire()}
   ${scoreSlate(NEON, '#1E1A3A')}
   ${tvStand()}${tvScene()}
   ${skatePoster()}
@@ -246,6 +261,22 @@ export const KOSTYAN_ROOM: RoomArt = {
       },
     },
     { key: 'blinds', box: { x: WIN.x - 10, y: WIN.y - 10, w: WIN.w + 20, h: WIN.h + 20 }, svg: propSvg(WIN.w + 20, WIN.h + 20, blinds(WIN.x - 10, WIN.y - 10)) },
+    // Лампочки гирлянды мерцают вразнобой, мягко.
+    {
+      key: 'garland',
+      box: { x: GARLAND.x0 - 5, y: GARLAND.y, w: 10, h: 14 },
+      pivot: { x: GARLAND.x0, y: GARLAND.y },
+      svg: propSvg(10, 14, '<rect x="3" y="0" width="4" height="4" fill="#1A1A26"/><ellipse cx="5" cy="9" rx="4.4" ry="5" fill="#FFFFFF"/><ellipse cx="3.8" cy="7.6" rx="1.4" ry="2" fill="#FFFFFF" opacity="0.8"/>'),
+      count: GARLAND.n,
+      period: 8.4,
+      reach: GARLAND.x1 - GARLAND.x0 + 20,
+      motion: (t, i) => {
+        const p = garlandAt((i + 0.5) / GARLAND.n);
+        const per = 8.4 / (1 + (i % 3));
+        const tints = [0xff4fa0, 0xf4c542, 0x3fe0e8, 0x9bff8a]; // розовый, жёлтый, бирюзовый, салатовый
+        return { dx: p.x - GARLAND.x0, dy: p.y - GARLAND.y, tint: tints[i % tints.length], alpha: 0.6 + wave(t, per, 0.35, hash01(i, 21) * 6) };
+      },
+    },
     // Гитара на крючке: едва заметно покачивается.
     {
       key: 'guitar',

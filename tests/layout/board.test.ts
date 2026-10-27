@@ -65,3 +65,18 @@ describe('масштаб как за карточным столом', () => {
     }
   });
 });
+
+describe('телефон в портрете: комната видна по бокам от персонажа (D62)', () => {
+  it.each([[390, 844], [360, 740], [430, 932]] as const)('%i×%i', (W, H) => {
+    const vp = { width: W, height: H, pointer: 'coarse' as const };
+    for (const s of [computeLayout(vp), computeBoardLayout(vp, { pieceRise: 1 })]) {
+      const b = s.background;
+      // Видимая полоса фона (единицы фона) — заметно шире прежних ≈ 416 на 390×844.
+      expect(W / b.scale).toBeGreaterThan(420);
+      // Стена доходит до верха экрана.
+      expect(b.y).toBeLessThanOrEqual(0);
+      // Персонаж не во всю ширину: по бокам остаётся комната.
+      expect(s.character.bounds.w).toBeLessThan(W * 0.85);
+    }
+  });
+});

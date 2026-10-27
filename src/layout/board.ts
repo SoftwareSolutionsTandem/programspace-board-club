@@ -3,7 +3,7 @@
 // Дальний край доски — перед персонажем (его руки лежат на столе за ней), ближний — у игрока; под доской —
 // взятые фигуры. Чистые функции: размеры окна → координаты (CSS-пиксели).
 import { boardBounds, type IsoBoard } from './iso';
-import { BG_DESIGN, computeLayout, FIGURE, MIN_TOUCH, type LayoutSpec, type Point, type Rect, type Viewport } from './layout';
+import { backgroundScale, BG_DESIGN, computeLayout, FIGURE, MIN_TOUCH, PORTRAIT_FIGURE, type LayoutSpec, type Point, type Rect, type Viewport } from './layout';
 
 /** Высота ближнего ряда к ширине клетки: взгляд сверху-сбоку (1 — строго сверху). */
 export const TILT = 0.7;
@@ -92,6 +92,8 @@ export function computeBoardLayout(vp: Viewport, opts: { pieceRise?: number } = 
   const topMargin = Math.max((vp.safe?.top ?? 0) + 6, H * 0.03);
   let scale = (farY - topMargin) / (anchorLocal - FIGURE.headTop);
   scale = Math.min(scale, cx / FIGURE.centerX, (W - cx) / (FIGURE.width - FIGURE.centerX), base.kind === 'landscape' ? 1.25 : 2);
+  // Телефон: как за карточным столом — персонаж чуть меньше, по бокам от головы видна комната.
+  if (base.kind === 'portrait') scale *= PORTRAIT_FIGURE;
   const charY = farY + 2;
   const charBounds: Rect = { x: cx - FIGURE.centerX * scale, y: charY - (anchorLocal - FIGURE.headTop) * scale, w: FIGURE.width * scale, h: (anchorLocal - FIGURE.headTop) * scale };
   const farHalf = Math.max(portraitish ? W / 2 + 24 : Math.min(W * 0.34, safe.w * 0.48), bb.w / 2 + 16);
@@ -99,7 +101,7 @@ export function computeBoardLayout(vp: Viewport, opts: { pieceRise?: number } = 
   const spread = portraitish ? 0.12 : 0.9;
   const nearHalf = farHalf + (tableNearY - farY) * spread;
   const table = { farY, farLeft: cx - farHalf, farRight: cx + farHalf, nearY: tableNearY, nearLeft: cx - nearHalf, nearRight: cx + nearHalf };
-  const bgScale = Math.max(H / BG_DESIGN.height, (farY + 40) / BG_DESIGN.tableY);
+  const bgScale = backgroundScale(base.kind, H, farY);
   const background = { scale: bgScale, x: cx - BG_DESIGN.centerX * bgScale, y: farY - BG_DESIGN.tableY * bgScale };
 
   // Взятые фигуры: под передней гранью доски — от левого края вправо (взял игрок) и от правого влево (взял персонаж);

@@ -59,6 +59,18 @@ export const BG_DESIGN = { width: 2400, height: 900, centerX: 1200, tableY: 470 
 /** Координаты фигуры персонажа в единицах рига (docs/ART_STYLE.md §5). */
 export const FIGURE = { width: 430, centerX: 210, headTop: -16, waistY: 383, bustY: 300 } as const;
 
+/** Доля масштаба персонажа на телефоне в портрете: лицо и руки крупные, но по бокам видна комната. */
+export const PORTRAIT_FIGURE = 0.84;
+
+/**
+ * Масштаб фона. Обычно — «cover» по высоте окна. На телефоне в портрете фон отдалён: достаточно, чтобы стена
+ * доставала до верха экрана (ниже дальнего края всё закрыто столом), — так в узкий кадр помещается больше комнаты.
+ */
+export function backgroundScale(kind: LayoutKind, H: number, farY: number): number {
+  if (kind === 'portrait') return (farY + 16) / BG_DESIGN.tableY;
+  return Math.max(H / BG_DESIGN.height, (farY + 40) / BG_DESIGN.tableY);
+}
+
 export const CARD_RATIO = 1.43;
 export const MIN_TOUCH = 44;
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
@@ -136,6 +148,8 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   // Ширина фигуры не больше доступной; на широком экране — не гигантская.
   // Фигура несимметрична относительно центра (centerX): ограничиваем каждую половину.
   scale = Math.min(scale, cx / FIGURE.centerX, (W - cx) / (FIGURE.width - FIGURE.centerX), kind === 'landscape' ? 1.25 : 2);
+  // Телефон: персонаж чуть меньше — по бокам от головы и над ней видна комната (docs/LAYOUT.md §3.1).
+  if (kind === 'portrait') scale *= PORTRAIT_FIGURE;
   const charY = farY + 2;
   const charBounds: Rect = { x: cx - FIGURE.centerX * scale, y: charY - (anchorLocal - FIGURE.headTop) * scale, w: FIGURE.width * scale, h: (anchorLocal - FIGURE.headTop) * scale };
 
@@ -180,7 +194,7 @@ export function computeLayout(vp: Viewport): LayoutSpec {
   const pairs = { x: pairsLeft + tw / 2, y: playTop + th / 2 + 2, cols, pitchX, pitchY };
 
   // --- Фон кафе: «cover» по высоте, центр — за персонажем, стол фона совпадает с дальним краем ---
-  const bgScale = Math.max(H / BG_DESIGN.height, (farY + 40) / BG_DESIGN.tableY);
+  const bgScale = backgroundScale(kind, H, farY);
   const background = { scale: bgScale, x: cx - BG_DESIGN.centerX * bgScale, y: farY - BG_DESIGN.tableY * bgScale };
 
   return {
