@@ -24,7 +24,10 @@ export type LineCategory =
   // Шахматы и шашки (docs/games/chess.md §8, docs/games/checkers.md §8).
   | 'boardMove' | 'boardCapture' | 'boardLostPiece' | 'check' | 'inCheck' | 'castle' | 'playerCastle' | 'promote' | 'playerPromote'
   | 'multiCapture' | 'playerMultiCapture' | 'crown' | 'playerCrown' | 'mustCapture' | 'ahead' | 'behind' | 'playerResign'
-  | 'tutMove' | 'tutCapture' | 'tutCheck' | 'tutCrown';
+  | 'tutMove' | 'tutCapture' | 'tutCheck' | 'tutCrown'
+  // Живость доски: дебют, долгое раздумье, шах ферзём или конём, крупная добыча, эндшпиль, серия, «почти дамка», зевок.
+  | 'opening' | 'waitLong' | 'checkQueen' | 'checkKnight' | 'eureka' | 'endgame' | 'streak' | 'nearCrown' | 'playerNearCrown'
+  | 'playerBlunder';
 
 export interface VoiceLine {
   /** Имя аудиофайла без расширения, например agata_win_01. */

@@ -46,6 +46,8 @@ export interface ReactionContext<E, V> {
   /** Перевес персонажа до хода и после. */
   readonly leadBefore: number;
   readonly leadAfter: number;
+  /** Сколько полуходов сделано в партии с учётом этого хода (первый ход партии — 1). */
+  readonly ply: number;
 }
 
 export interface TutorialContext<V, A> {
@@ -335,7 +337,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   private async afterMove(events: readonly E[], before: V, anim: MoveAnim | null, mover: 'human' | 'opponent'): Promise<void> {
     const after = this.view();
     const me = this.match.opponent;
-    const trig = this.spec.reaction({ events, mover, before, after, leadBefore: this.spec.lead(before, me), leadAfter: this.spec.lead(after, me) });
+    const trig = this.spec.reaction({ events, mover, before, after, leadBefore: this.spec.lead(before, me), leadAfter: this.spec.lead(after, me), ply: this.plies });
     if (mover === 'human' && !trig) this.scene.rig.setPose('idle');
     const gesture = trig ? this.cue(trig, true) : undefined;
     if (anim) {
@@ -382,7 +384,12 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   private armIdle(): void {
     this.clearIdle();
     this.idleTimer = setTimeout(() => {
-      if (!this.paused && !this.match.over && this.match.turn() === this.match.human) this.cue({ category: 'wait', emotion: 'think', priority: 'idle', chance: 0.7 });
+      if (this.paused || this.match.over || this.match.turn() !== this.match.human) return;
+      this.cue({ category: 'wait', emotion: 'think', priority: 'idle', chance: 0.7 });
+      // Игрок думает очень долго — второй, последний за этот ход, оклик (подначка или шутка).
+      this.idleTimer = setTimeout(() => {
+        if (!this.paused && !this.match.over && this.match.turn() === this.match.human) this.cue({ category: 'waitLong', emotion: 'sly', priority: 'idle', chance: 0.8 });
+      }, 35_000);
     }, 25_000);
   }
 
