@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_promote_02",
+  "text": "Ещё один ферзь на доске? Ну-ну.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "c98014dc36e28762428b54c7965fa9b350ad7af151a3add544105bc6014f1efe",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.23
+}

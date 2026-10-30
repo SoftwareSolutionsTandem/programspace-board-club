@@ -1,0 +1,14 @@
+{
+  "id": "khariton_greet_first_03",
+  "text": "Добро пожаловать в кабинет. Ваши — белые.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "29fe7c20357eab7174a26c7617388fb84c78812738b168d39dc373f65192dfab",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.95
+}

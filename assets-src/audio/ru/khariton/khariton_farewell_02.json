@@ -1,0 +1,14 @@
+{
+  "id": "khariton_farewell_02",
+  "text": "Заходите. Доска всегда расставлена.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "b45e4832f6228531e8a2d5af8dfebfbb9d9baea868078a5001a7d17e3d0204fa",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.4
+}

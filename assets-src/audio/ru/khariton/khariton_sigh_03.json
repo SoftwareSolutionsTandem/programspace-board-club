@@ -1,0 +1,14 @@
+{
+  "id": "khariton_sigh_03",
+  "text": "М-да…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "4ba92e266ceaf74568fffcfb4445970201338fcf816e093f4d571b0b85e9820f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.63
+}

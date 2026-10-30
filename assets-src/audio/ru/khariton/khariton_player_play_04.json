@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_play_04",
+  "text": "Любопытно… очень любопытно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "0d45b60c230c8711ad5985af7537982bd26f1b41334169f43f47964e0de936a6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.2
+}

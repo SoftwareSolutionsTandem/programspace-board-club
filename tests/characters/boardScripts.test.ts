@@ -10,9 +10,10 @@ import type { VoiceLine } from '../../src/characters/types';
 import { createRng } from '../../src/core/rng';
 
 const ROOT = join(import.meta.dirname, '../..');
-const CASES: readonly { name: string; id: string; game: string; lines: readonly VoiceLine[] }[] = [
-  { name: 'Харитона', id: 'khariton', game: 'chess', lines: KHARITON_LINES },
-  { name: 'Костяна', id: 'kostyan', game: 'checkers', lines: KOSTYAN_LINES },
+// voiced — записи голоса подключены (Харитон, D63); у Костяна записей пока нет (D57).
+const CASES: readonly { name: string; id: string; game: string; lines: readonly VoiceLine[]; voiced: boolean }[] = [
+  { name: 'Харитона', id: 'khariton', game: 'chess', lines: KHARITON_LINES, voiced: true },
+  { name: 'Костяна', id: 'kostyan', game: 'checkers', lines: KOSTYAN_LINES, voiced: false },
 ];
 
 for (const c of CASES) {
@@ -38,10 +39,21 @@ for (const c of CASES) {
       for (const l of c.lines) expect(rows.get(l.id), l.id).toMatchObject({ text: l.text, category: l.category, file: `${l.id}.flac` });
     });
 
-    it('записей нет — и сценарий честно это говорит; файлов и папки голоса нет', () => {
+    it(c.voiced ? 'записи есть у каждой реплики — сценарий, манифест и продукт это подтверждают' : 'записей нет — и сценарий честно это говорит; файлов и папки голоса нет', () => {
+      const product = JSON.parse(readFileSync(join(ROOT, `src/products/${c.game}.json`), 'utf8')) as { publicAssets: string[] };
+      if (c.voiced) {
+        const manifest = JSON.parse(readFileSync(join(ROOT, `public/audio/ru/${c.id}/manifest.json`), 'utf8')) as { lines: Record<string, unknown> };
+        for (const [id, r] of rows) {
+          expect(r.status, id).toBe('записано');
+          expect(manifest.lines[id], id).toBeDefined();
+          expect(existsSync(join(ROOT, `assets-src/audio/ru/${c.id}/${r.file}`)), r.file).toBe(true);
+        }
+        expect(doc).toContain(`записано ${c.lines.length} из ${c.lines.length}`);
+        expect(product.publicAssets).toContain(`audio/ru/${c.id}`);
+        return;
+      }
       for (const r of rows.values()) expect(r.status).toBe('нет записи');
       expect(existsSync(join(ROOT, `public/audio/ru/${c.id}`))).toBe(false);
-      const product = JSON.parse(readFileSync(join(ROOT, `src/products/${c.game}.json`), 'utf8')) as { publicAssets: string[] };
       expect(product.publicAssets).not.toContain(`audio/ru/${c.id}`);
     });
 

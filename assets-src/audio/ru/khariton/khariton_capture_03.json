@@ -1,0 +1,14 @@
+{
+  "id": "khariton_capture_03",
+  "text": "Благодарю за подарок.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e36dd75a477003378a2cf04bb06a3a5960698a066b7bd861a8b3f69f16650aa8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.72
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_endgame_02",
+  "text": "Ферзи ушли. Начинается тонкая работа.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "822e9daaf397d56f82e6ed8c12d686fdb79428d0d00de74a990886fcaf0315ff",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.41
+}

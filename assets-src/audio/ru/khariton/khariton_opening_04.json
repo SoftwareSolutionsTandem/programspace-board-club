@@ -1,0 +1,14 @@
+{
+  "id": "khariton_opening_04",
+  "text": "Знакомый дебют… Очень знакомый.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "be91c057bf71206fc60547642a93356d3cbbf1c79463f12ec3e0bdef61e6f8aa",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.13
+}

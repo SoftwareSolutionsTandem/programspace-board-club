@@ -1,0 +1,14 @@
+{
+  "id": "khariton_move_07",
+  "text": "Прошу, коллега, ваша очередь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "87dc083ff4351b5b0bf0bfa1db480b91e3b2ef32ac631188055faf64799bb02c",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.83
+}

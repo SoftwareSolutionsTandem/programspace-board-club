@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_play_02",
+  "text": "Так-так-так.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "1b7f2007d4c5eb051ac577a295fd0c716d1febbfabe50291b43731039c5fa7a1",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.39
+}

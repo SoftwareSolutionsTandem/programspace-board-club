@@ -1,0 +1,14 @@
+{
+  "id": "khariton_lost_piece_01",
+  "text": "Ах ты ж… Проглядел.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "ce20f31f16c07f3fe67448779ad00b25ad609ed5bfac453b083d83a4f82c5b89",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.0
+}

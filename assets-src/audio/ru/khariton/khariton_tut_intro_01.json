@@ -1,0 +1,14 @@
+{
+  "id": "khariton_tut_intro_01",
+  "text": "Давайте я покажу. Ваши — белые, вы ходите первыми.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "a804039b30e95d625e9148fc175bafe6621c35e0d4fe37dd5dd177cd65ed97c8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 7.0
+}

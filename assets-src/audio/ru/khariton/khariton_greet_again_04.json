@@ -1,0 +1,14 @@
+{
+  "id": "khariton_greet_again_04",
+  "text": "А, мой любимый соперник! Сыграем?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e09c9a6c59e1708db16ba6fc0d7dd6ff1c208712f75844134fdc864810a653d3",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.5
+}

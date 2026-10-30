@@ -1,0 +1,14 @@
+{
+  "id": "khariton_rematch_03",
+  "text": "Ещё одну! Я только разогрелся.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "c294243f7408984db97be425cd022bcfde0b1f8f599df5b29f4c258223e12e44",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.72
+}

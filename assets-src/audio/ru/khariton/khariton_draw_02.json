@@ -1,0 +1,14 @@
+{
+  "id": "khariton_draw_02",
+  "text": "Пат… Какая ирония.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e3b8999681d8fb18124ab72fea961e5248fc31f556a3f9e59e5533467cd91928",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.83
+}

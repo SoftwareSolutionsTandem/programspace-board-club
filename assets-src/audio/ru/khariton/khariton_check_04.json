@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_04",
+  "text": "Шах. Прошу прощения за беспокойство.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "eb6244a9eb3dc3a0fd9a1a2914e31d340462ef9657afe446cadb119977feeaed",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.15
+}

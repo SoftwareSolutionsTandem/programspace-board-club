@@ -4,9 +4,11 @@
 `tests/characters/boardScripts.test.ts` сверяет этот документ с каталогом: каждый ID, текст и категория
 должны совпадать. Меняешь реплику — меняй оба места.
 
-**Статус: записей нет (0 из 130).** Голос персонажа ещё не записан: папки `public/audio/ru/khariton/`
-нет, продукт её не подключает, и реплики не выбираются (`Director.available`) — персонаж отвечает мимикой и
-жестом. Синтез и TTS не используются (D51); пустые файлы и заглушки за озвучку не выдаются.
+**Статус: записано 130 из 130** (архив владельца `audio_chess.zip`, 2026-10-30; прослушивание и одобрение
+владельцем — ожидается, D63). Исходники — `assets-src/audio/ru/khariton/<ID>.flac` (побайтно как в архиве) и
+`<ID>.json`; в игре — `public/audio/ru/khariton/<ID>.opus` и `.m4a` с `manifest.json` (сборка
+`node tools/audio/build-voice.mjs --character khariton`, docs/AUDIO.md §19). Голос входит в «Шахматы» и «Игротеку».
+Синтез и TTS не используются (D51); пустые файлы и заглушки за озвучку не выдаются.
 
 ## 0. Характер и подача
 
@@ -42,10 +44,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_greet_first_01` | А, новый коллега! Прошу, прошу. Шахматы ждут. | тепло (`warm`) | радушно, чуть торжественно | `greeting` | `khariton_greet_first_01.flac` | нет записи |
-| `khariton_greet_first_02` | Харитон, к вашим услугам. Сыграем партию? | азарт (`azart`) | учтиво, с огоньком | `greeting` | `khariton_greet_first_02.flac` | нет записи |
-| `khariton_greet_first_03` | Добро пожаловать в кабинет. Ваши — белые. | тепло (`warm`) | радушно, с жестом к доске | `greeting` | `khariton_greet_first_03.flac` | нет записи |
-| `khariton_greet_first_04` | Профессор Харитон. Немного мечтатель. | хитро (`sly`) | представляясь, с самоиронией | `greeting` | `khariton_greet_first_04.flac` | нет записи |
+| `khariton_greet_first_01` | А, новый коллега! Прошу, прошу. Шахматы ждут. | тепло (`warm`) | радушно, чуть торжественно | `greeting` | `khariton_greet_first_01.flac` | записано |
+| `khariton_greet_first_02` | Харитон, к вашим услугам. Сыграем партию? | азарт (`azart`) | учтиво, с огоньком | `greeting` | `khariton_greet_first_02.flac` | записано |
+| `khariton_greet_first_03` | Добро пожаловать в кабинет. Ваши — белые. | тепло (`warm`) | радушно, с жестом к доске | `greeting` | `khariton_greet_first_03.flac` | записано |
+| `khariton_greet_first_04` | Профессор Харитон. Немного мечтатель. | хитро (`sly`) | представляясь, с самоиронией | `greeting` | `khariton_greet_first_04.flac` | записано |
 
 ### Повторная встреча — `greetAgain`
 
@@ -54,10 +56,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_greet_again_01` | Рад снова видеть, коллега! | тепло (`warm`) | тепло | `greeting` | `khariton_greet_again_01.flac` | нет записи |
-| `khariton_greet_again_02` | Вернулись за реваншем? Похвально. | хитро (`sly`) | с лукавой улыбкой | `greeting` | `khariton_greet_again_02.flac` | нет записи |
-| `khariton_greet_again_03` | Коллега! Как раз расставил фигуры. | азарт (`azart`) | обрадованно | `greeting` | `khariton_greet_again_03.flac` | нет записи |
-| `khariton_greet_again_04` | А, мой любимый соперник! Сыграем? | тепло (`warm`) | тепло, с улыбкой | `greeting` | `khariton_greet_again_04.flac` | нет записи |
+| `khariton_greet_again_01` | Рад снова видеть, коллега! | тепло (`warm`) | тепло | `greeting` | `khariton_greet_again_01.flac` | записано |
+| `khariton_greet_again_02` | Вернулись за реваншем? Похвально. | хитро (`sly`) | с лукавой улыбкой | `greeting` | `khariton_greet_again_02.flac` | записано |
+| `khariton_greet_again_03` | Коллега! Как раз расставил фигуры. | азарт (`azart`) | обрадованно | `greeting` | `khariton_greet_again_03.flac` | записано |
+| `khariton_greet_again_04` | А, мой любимый соперник! Сыграем? | тепло (`warm`) | тепло, с улыбкой | `greeting` | `khariton_greet_again_04.flac` | записано |
 
 ### Начало партии — `gameStart`
 
@@ -66,11 +68,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_start_01` | Итак… начнём. | раздумье (`think`) | сосредоточенно, потирая руки | `reaction` | `khariton_start_01.flac` | нет записи |
-| `khariton_start_02` | Фигуры расставлены. Прошу. | тепло (`warm`) | приглашающе | `reaction` | `khariton_start_02.flac` | нет записи |
-| `khariton_start_03` | Шестьдесят четыре клетки — и целый мир! | азарт (`azart`) | восторженно, нараспев | `reaction` | `khariton_start_03.flac` | нет записи |
-| `khariton_start_04` | Ну-с, посмотрим, что вы приготовили. | хитро (`sly`) | с хитринкой | `reaction` | `khariton_start_04.flac` | нет записи |
-| `khariton_start_05` | Тишина… Мысль… Первый ход. | раздумье (`think`) | нараспев, полушёпотом | `reaction` | `khariton_start_05.flac` | нет записи |
+| `khariton_start_01` | Итак… начнём. | раздумье (`think`) | сосредоточенно, потирая руки | `reaction` | `khariton_start_01.flac` | записано |
+| `khariton_start_02` | Фигуры расставлены. Прошу. | тепло (`warm`) | приглашающе | `reaction` | `khariton_start_02.flac` | записано |
+| `khariton_start_03` | Шестьдесят четыре клетки — и целый мир! | азарт (`azart`) | восторженно, нараспев | `reaction` | `khariton_start_03.flac` | записано |
+| `khariton_start_04` | Ну-с, посмотрим, что вы приготовили. | хитро (`sly`) | с хитринкой | `reaction` | `khariton_start_04.flac` | записано |
+| `khariton_start_05` | Тишина… Мысль… Первый ход. | раздумье (`think`) | нараспев, полушёпотом | `reaction` | `khariton_start_05.flac` | записано |
 
 ### Первый ход игрока в партии — `opening`
 
@@ -79,10 +81,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_opening_01` | Классика. Уважаю классику. | тепло (`warm`) | одобрительно | `reaction` | `khariton_opening_01.flac` | нет записи |
-| `khariton_opening_02` | Ах, вот как вы начинаете! | удивление (`surprise`) | оживлённо | `reaction` | `khariton_opening_02.flac` | нет записи |
-| `khariton_opening_03` | Смелое начало. Мне нравится. | азарт (`azart`) | с интересом | `reaction` | `khariton_opening_03.flac` | нет записи |
-| `khariton_opening_04` | Знакомый дебют… Очень знакомый. | хитро (`sly`) | прищурившись, многозначительно | `reaction` | `khariton_opening_04.flac` | нет записи |
+| `khariton_opening_01` | Классика. Уважаю классику. | тепло (`warm`) | одобрительно | `reaction` | `khariton_opening_01.flac` | записано |
+| `khariton_opening_02` | Ах, вот как вы начинаете! | удивление (`surprise`) | оживлённо | `reaction` | `khariton_opening_02.flac` | записано |
+| `khariton_opening_03` | Смелое начало. Мне нравится. | азарт (`azart`) | с интересом | `reaction` | `khariton_opening_03.flac` | записано |
+| `khariton_opening_04` | Знакомый дебют… Очень знакомый. | хитро (`sly`) | прищурившись, многозначительно | `reaction` | `khariton_opening_04.flac` | записано |
 
 ### Обычный ход Харитона — `boardMove`
 
@@ -91,13 +93,13 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_move_01` | Вот так, пожалуй. | раздумье (`think`) | вполголоса, сам себе | `reaction` | `khariton_move_01.flac` | нет записи |
-| `khariton_move_02` | Посмотрим, что вы на это скажете. | хитро (`sly`) | с хитринкой | `reaction` | `khariton_move_02.flac` | нет записи |
-| `khariton_move_03` | Логично. Вполне логично. | раздумье (`think`) | бормочет | `reaction` | `khariton_move_03.flac` | нет записи |
-| `khariton_move_04` | Ваш ход, коллега. | тепло (`warm`) | вежливо | `reaction` | `khariton_move_04.flac` | нет записи |
-| `khariton_move_05` | Так… нет… да, вот так. | раздумье (`think`) | рассуждая вслух | `reaction` | `khariton_move_05.flac` | нет записи |
-| `khariton_move_06` | Скромный ход. С далеко идущими планами. | хитро (`sly`) | загадочно | `reaction` | `khariton_move_06.flac` | нет записи |
-| `khariton_move_07` | Прошу, коллега, ваша очередь. | тепло (`warm`) | учтиво | `reaction` | `khariton_move_07.flac` | нет записи |
+| `khariton_move_01` | Вот так, пожалуй. | раздумье (`think`) | вполголоса, сам себе | `reaction` | `khariton_move_01.flac` | записано |
+| `khariton_move_02` | Посмотрим, что вы на это скажете. | хитро (`sly`) | с хитринкой | `reaction` | `khariton_move_02.flac` | записано |
+| `khariton_move_03` | Логично. Вполне логично. | раздумье (`think`) | бормочет | `reaction` | `khariton_move_03.flac` | записано |
+| `khariton_move_04` | Ваш ход, коллега. | тепло (`warm`) | вежливо | `reaction` | `khariton_move_04.flac` | записано |
+| `khariton_move_05` | Так… нет… да, вот так. | раздумье (`think`) | рассуждая вслух | `reaction` | `khariton_move_05.flac` | записано |
+| `khariton_move_06` | Скромный ход. С далеко идущими планами. | хитро (`sly`) | загадочно | `reaction` | `khariton_move_06.flac` | записано |
+| `khariton_move_07` | Прошу, коллега, ваша очередь. | тепло (`warm`) | учтиво | `reaction` | `khariton_move_07.flac` | записано |
 
 ### Харитона берёт фигуру — `boardCapture`
 
@@ -106,10 +108,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_capture_01` | Это я, с вашего позволения, заберу. | хитро (`sly`) | учтиво-ехидно | `reaction` | `khariton_capture_01.flac` | нет записи |
-| `khariton_capture_02` | Беру! | азарт (`azart`) | коротко, с удовольствием | `reaction` | `khariton_capture_02.flac` | нет записи |
-| `khariton_capture_03` | Благодарю за подарок. | хитро (`sly`) | с лёгким поклоном в голосе | `reaction` | `khariton_capture_03.flac` | нет записи |
-| `khariton_capture_04` | Простите, но это было неизбежно. | тепло (`warm`) | извиняющимся тоном | `reaction` | `khariton_capture_04.flac` | нет записи |
+| `khariton_capture_01` | Это я, с вашего позволения, заберу. | хитро (`sly`) | учтиво-ехидно | `reaction` | `khariton_capture_01.flac` | записано |
+| `khariton_capture_02` | Беру! | азарт (`azart`) | коротко, с удовольствием | `reaction` | `khariton_capture_02.flac` | записано |
+| `khariton_capture_03` | Благодарю за подарок. | хитро (`sly`) | с лёгким поклоном в голосе | `reaction` | `khariton_capture_03.flac` | записано |
+| `khariton_capture_04` | Простите, но это было неизбежно. | тепло (`warm`) | извиняющимся тоном | `reaction` | `khariton_capture_04.flac` | записано |
 
 ### Харитон берёт ферзя или ладью («эврика») — `eureka`
 
@@ -118,10 +120,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_eureka_01` | Эврика! Вот она, комбинация! | азарт (`azart`) | восторженно, вскинув палец | `reaction` | `khariton_eureka_01.flac` | нет записи |
-| `khariton_eureka_02` | Какая удача… простите, какой расчёт! | смех (`laugh`) | смеясь, поправляясь | `reaction` | `khariton_eureka_02.flac` | нет записи |
-| `khariton_eureka_03` | Ага! Попалась, голубушка. | хитро (`sly`) | довольно, вполголоса | `reaction` | `khariton_eureka_03.flac` | нет записи |
-| `khariton_eureka_04` | Крупная добыча! Благодарю. | азарт (`azart`) | торжествуя, но учтиво | `reaction` | `khariton_eureka_04.flac` | нет записи |
+| `khariton_eureka_01` | Эврика! Вот она, комбинация! | азарт (`azart`) | восторженно, вскинув палец | `reaction` | `khariton_eureka_01.flac` | записано |
+| `khariton_eureka_02` | Какая удача… простите, какой расчёт! | смех (`laugh`) | смеясь, поправляясь | `reaction` | `khariton_eureka_02.flac` | записано |
+| `khariton_eureka_03` | Ага! Попалась, голубушка. | хитро (`sly`) | довольно, вполголоса | `reaction` | `khariton_eureka_03.flac` | записано |
+| `khariton_eureka_04` | Крупная добыча! Благодарю. | азарт (`azart`) | торжествуя, но учтиво | `reaction` | `khariton_eureka_04.flac` | записано |
 
 ### Харитон объявляет шах — `check`
 
@@ -130,10 +132,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_check_01` | Шах! | азарт (`azart`) | звонко, торжественно | `reaction` | `khariton_check_01.flac` | нет записи |
-| `khariton_check_02` | Шах вашему величеству. | хитро (`sly`) | церемонно | `reaction` | `khariton_check_02.flac` | нет записи |
-| `khariton_check_03` | А вот и шах! | азарт (`azart`) | с азартом | `reaction` | `khariton_check_03.flac` | нет записи |
-| `khariton_check_04` | Шах. Прошу прощения за беспокойство. | хитро (`sly`) | церемонно-вежливо | `reaction` | `khariton_check_04.flac` | нет записи |
+| `khariton_check_01` | Шах! | азарт (`azart`) | звонко, торжественно | `reaction` | `khariton_check_01.flac` | записано |
+| `khariton_check_02` | Шах вашему величеству. | хитро (`sly`) | церемонно | `reaction` | `khariton_check_02.flac` | записано |
+| `khariton_check_03` | А вот и шах! | азарт (`azart`) | с азартом | `reaction` | `khariton_check_03.flac` | записано |
+| `khariton_check_04` | Шах. Прошу прощения за беспокойство. | хитро (`sly`) | церемонно-вежливо | `reaction` | `khariton_check_04.flac` | записано |
 
 ### Шах ферзём — `checkQueen`
 
@@ -142,9 +144,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_check_queen_01` | Ферзь объявляет шах! | азарт (`azart`) | торжественно | `reaction` | `khariton_check_queen_01.flac` | нет записи |
-| `khariton_check_queen_02` | Ферзь передаёт привет вашему королю. | хитро (`sly`) | галантно-ехидно | `reaction` | `khariton_check_queen_02.flac` | нет записи |
-| `khariton_check_queen_03` | Шах ферзём. Изящно, не правда ли? | тепло (`warm`) | любуясь | `reaction` | `khariton_check_queen_03.flac` | нет записи |
+| `khariton_check_queen_01` | Ферзь объявляет шах! | азарт (`azart`) | торжественно | `reaction` | `khariton_check_queen_01.flac` | записано |
+| `khariton_check_queen_02` | Ферзь передаёт привет вашему королю. | хитро (`sly`) | галантно-ехидно | `reaction` | `khariton_check_queen_02.flac` | записано |
+| `khariton_check_queen_03` | Шах ферзём. Изящно, не правда ли? | тепло (`warm`) | любуясь | `reaction` | `khariton_check_queen_03.flac` | записано |
 
 ### Шах конём — `checkKnight`
 
@@ -153,9 +155,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_check_knight_01` | Конь скачет — шах! | азарт (`azart`) | азартно, бойко | `reaction` | `khariton_check_knight_01.flac` | нет записи |
-| `khariton_check_knight_02` | Шах конём. Его не загородишь. | хитро (`sly`) | со знанием дела | `reaction` | `khariton_check_knight_02.flac` | нет записи |
-| `khariton_check_knight_03` | Конь — коварное животное. Шах! | смех (`laugh`) | посмеиваясь | `reaction` | `khariton_check_knight_03.flac` | нет записи |
+| `khariton_check_knight_01` | Конь скачет — шах! | азарт (`azart`) | азартно, бойко | `reaction` | `khariton_check_knight_01.flac` | записано |
+| `khariton_check_knight_02` | Шах конём. Его не загородишь. | хитро (`sly`) | со знанием дела | `reaction` | `khariton_check_knight_02.flac` | записано |
+| `khariton_check_knight_03` | Конь — коварное животное. Шах! | смех (`laugh`) | посмеиваясь | `reaction` | `khariton_check_knight_03.flac` | записано |
 
 ### Харитон рокируется — `castle`
 
@@ -164,9 +166,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_castle_01` | Король — в укрытие. | тепло (`warm`) | спокойно, деловито | `reaction` | `khariton_castle_01.flac` | нет записи |
-| `khariton_castle_02` | Рокировка. Безопасность прежде всего. | раздумье (`think`) | наставительно | `reaction` | `khariton_castle_02.flac` | нет записи |
-| `khariton_castle_03` | Длинная или короткая — главное, вовремя. | раздумье (`think`) | наставительно | `reaction` | `khariton_castle_03.flac` | нет записи |
+| `khariton_castle_01` | Король — в укрытие. | тепло (`warm`) | спокойно, деловито | `reaction` | `khariton_castle_01.flac` | записано |
+| `khariton_castle_02` | Рокировка. Безопасность прежде всего. | раздумье (`think`) | наставительно | `reaction` | `khariton_castle_02.flac` | записано |
+| `khariton_castle_03` | Длинная или короткая — главное, вовремя. | раздумье (`think`) | наставительно | `reaction` | `khariton_castle_03.flac` | записано |
 
 ### Превращение пешки Харитона — `promote`
 
@@ -175,9 +177,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_promote_01` | Пешка становится ферзём! Чудо превращения! | азарт (`azart`) | восторженно | `reaction` | `khariton_promote_01.flac` | нет записи |
-| `khariton_promote_02` | Скромная пешка дошла до конца. Браво ей. | хитро (`sly`) | гордо | `reaction` | `khariton_promote_02.flac` | нет записи |
-| `khariton_promote_03` | Ещё один ферзь! Дамы, знакомьтесь. | смех (`laugh`) | весело, театрально | `reaction` | `khariton_promote_03.flac` | нет записи |
+| `khariton_promote_01` | Пешка становится ферзём! Чудо превращения! | азарт (`azart`) | восторженно | `reaction` | `khariton_promote_01.flac` | записано |
+| `khariton_promote_02` | Скромная пешка дошла до конца. Браво ей. | хитро (`sly`) | гордо | `reaction` | `khariton_promote_02.flac` | записано |
+| `khariton_promote_03` | Ещё один ферзь! Дамы, знакомьтесь. | смех (`laugh`) | весело, театрально | `reaction` | `khariton_promote_03.flac` | записано |
 
 ### Вышел вперёд по материалу — `ahead`
 
@@ -186,9 +188,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_ahead_01` | Перевес, кажется, на моей стороне. | хитро (`sly`) | деликатно, не хвастаясь | `reaction` | `khariton_ahead_01.flac` | нет записи |
-| `khariton_ahead_02` | Материал — мой. Но партия ещё не кончена. | тепло (`warm`) | рассудительно | `reaction` | `khariton_ahead_02.flac` | нет записи |
-| `khariton_ahead_03` | Позиция приятная. Но я не расслабляюсь. | раздумье (`think`) | сдержанно | `reaction` | `khariton_ahead_03.flac` | нет записи |
+| `khariton_ahead_01` | Перевес, кажется, на моей стороне. | хитро (`sly`) | деликатно, не хвастаясь | `reaction` | `khariton_ahead_01.flac` | записано |
+| `khariton_ahead_02` | Материал — мой. Но партия ещё не кончена. | тепло (`warm`) | рассудительно | `reaction` | `khariton_ahead_02.flac` | записано |
+| `khariton_ahead_03` | Позиция приятная. Но я не расслабляюсь. | раздумье (`think`) | сдержанно | `reaction` | `khariton_ahead_03.flac` | записано |
 
 ### Начался эндшпиль — `endgame`
 
@@ -197,9 +199,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_endgame_01` | Эндшпиль. Теперь каждая пешка — на вес золота. | раздумье (`think`) | серьёзно, неспешно | `reaction` | `khariton_endgame_01.flac` | нет записи |
-| `khariton_endgame_02` | Ферзи ушли. Начинается тонкая работа. | раздумье (`think`) | сосредоточенно | `reaction` | `khariton_endgame_02.flac` | нет записи |
-| `khariton_endgame_03` | Король, на выход! Эндшпиль — его время. | азарт (`azart`) | воодушевлённо | `reaction` | `khariton_endgame_03.flac` | нет записи |
+| `khariton_endgame_01` | Эндшпиль. Теперь каждая пешка — на вес золота. | раздумье (`think`) | серьёзно, неспешно | `reaction` | `khariton_endgame_01.flac` | записано |
+| `khariton_endgame_02` | Ферзи ушли. Начинается тонкая работа. | раздумье (`think`) | сосредоточенно | `reaction` | `khariton_endgame_02.flac` | записано |
+| `khariton_endgame_03` | Король, на выход! Эндшпиль — его время. | азарт (`azart`) | воодушевлённо | `reaction` | `khariton_endgame_03.flac` | записано |
 
 ### Тихий ход соперника — `playerPlay`
 
@@ -208,11 +210,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_player_play_01` | Хм. Интересно… | раздумье (`think`) | задумчиво | `reaction` | `khariton_player_play_01.flac` | нет записи |
-| `khariton_player_play_02` | Так-так-так. | раздумье (`think`) | быстро, вполголоса | `reaction` | `khariton_player_play_02.flac` | нет записи |
-| `khariton_player_play_03` | Неожиданно! | удивление (`surprise`) | приподняв брови | `reaction` | `khariton_player_play_03.flac` | нет записи |
-| `khariton_player_play_04` | Любопытно… очень любопытно. | раздумье (`think`) | протяжно | `reaction` | `khariton_player_play_04.flac` | нет записи |
-| `khariton_player_play_05` | Так-так. Что же вы задумали? | хитро (`sly`) | с прищуром | `reaction` | `khariton_player_play_05.flac` | нет записи |
+| `khariton_player_play_01` | Хм. Интересно… | раздумье (`think`) | задумчиво | `reaction` | `khariton_player_play_01.flac` | записано |
+| `khariton_player_play_02` | Так-так-так. | раздумье (`think`) | быстро, вполголоса | `reaction` | `khariton_player_play_02.flac` | записано |
+| `khariton_player_play_03` | Неожиданно! | удивление (`surprise`) | приподняв брови | `reaction` | `khariton_player_play_03.flac` | записано |
+| `khariton_player_play_04` | Любопытно… очень любопытно. | раздумье (`think`) | протяжно | `reaction` | `khariton_player_play_04.flac` | записано |
+| `khariton_player_play_05` | Так-так. Что же вы задумали? | хитро (`sly`) | с прищуром | `reaction` | `khariton_player_play_05.flac` | записано |
 
 ### Потерял фигуру — `boardLostPiece`
 
@@ -221,10 +223,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_lost_piece_01` | Ах ты ж… Проглядел. | досада (`annoyed`) | досадливо, на себя | `reaction` | `khariton_lost_piece_01.flac` | нет записи |
-| `khariton_lost_piece_02` | Позвольте! Это была моя фигура. | удивление (`surprise`) | театрально-возмущённо | `reaction` | `khariton_lost_piece_02.flac` | нет записи |
-| `khariton_lost_piece_03` | Жаль. Хорошая была фигура. | огорчение (`sad`) | со вздохом | `reaction` | `khariton_lost_piece_03.flac` | нет записи |
-| `khariton_lost_piece_04` | Ох. Это была моя лучшая фигура… ну, одна из. | смех (`laugh`) | с самоиронией | `reaction` | `khariton_lost_piece_04.flac` | нет записи |
+| `khariton_lost_piece_01` | Ах ты ж… Проглядел. | досада (`annoyed`) | досадливо, на себя | `reaction` | `khariton_lost_piece_01.flac` | записано |
+| `khariton_lost_piece_02` | Позвольте! Это была моя фигура. | удивление (`surprise`) | театрально-возмущённо | `reaction` | `khariton_lost_piece_02.flac` | записано |
+| `khariton_lost_piece_03` | Жаль. Хорошая была фигура. | огорчение (`sad`) | со вздохом | `reaction` | `khariton_lost_piece_03.flac` | записано |
+| `khariton_lost_piece_04` | Ох. Это была моя лучшая фигура… ну, одна из. | смех (`laugh`) | с самоиронией | `reaction` | `khariton_lost_piece_04.flac` | записано |
 
 ### Шах Харитону — `inCheck`
 
@@ -233,9 +235,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_in_check_01` | Шах? Мне? Однако! | удивление (`surprise`) | изумлённо | `reaction` | `khariton_in_check_01.flac` | нет записи |
-| `khariton_in_check_02` | Шах… Где же мой король спрячется? | раздумье (`think`) | озабоченно | `reaction` | `khariton_in_check_02.flac` | нет записи |
-| `khariton_in_check_03` | Шах. Хм. Без паники, профессор. | раздумье (`think`) | сам себе, успокаивая | `reaction` | `khariton_in_check_03.flac` | нет записи |
+| `khariton_in_check_01` | Шах? Мне? Однако! | удивление (`surprise`) | изумлённо | `reaction` | `khariton_in_check_01.flac` | записано |
+| `khariton_in_check_02` | Шах… Где же мой король спрячется? | раздумье (`think`) | озабоченно | `reaction` | `khariton_in_check_02.flac` | записано |
+| `khariton_in_check_03` | Шах. Хм. Без паники, профессор. | раздумье (`think`) | сам себе, успокаивая | `reaction` | `khariton_in_check_03.flac` | записано |
 
 ### Превращение пешки соперника — `playerPromote`
 
@@ -244,9 +246,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_player_promote_01` | Новый ферзь? Ну, это серьёзно. | удивление (`surprise`) | насторожённо | `reaction` | `khariton_player_promote_01.flac` | нет записи |
-| `khariton_player_promote_02` | Ещё один ферзь на доске? Ну-ну. | хитро (`sly`) | насторожённо-шутливо | `reaction` | `khariton_player_promote_02.flac` | нет записи |
-| `khariton_player_promote_03` | Пешка в ферзи! Вот это путь. | удивление (`surprise`) | с восхищением | `reaction` | `khariton_player_promote_03.flac` | нет записи |
+| `khariton_player_promote_01` | Новый ферзь? Ну, это серьёзно. | удивление (`surprise`) | насторожённо | `reaction` | `khariton_player_promote_01.flac` | записано |
+| `khariton_player_promote_02` | Ещё один ферзь на доске? Ну-ну. | хитро (`sly`) | насторожённо-шутливо | `reaction` | `khariton_player_promote_02.flac` | записано |
+| `khariton_player_promote_03` | Пешка в ферзи! Вот это путь. | удивление (`surprise`) | с восхищением | `reaction` | `khariton_player_promote_03.flac` | записано |
 
 ### Рокировка соперника — `playerCastle`
 
@@ -255,9 +257,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_player_castle_01` | Рокировка. Правильно, правильно. | тепло (`warm`) | одобрительно | `reaction` | `khariton_player_castle_01.flac` | нет записи |
-| `khariton_player_castle_02` | Король в безопасности. Разумно. | тепло (`warm`) | одобрительно | `reaction` | `khariton_player_castle_02.flac` | нет записи |
-| `khariton_player_castle_03` | Рокировка… Значит, вы не торопитесь. | раздумье (`think`) | задумчиво | `reaction` | `khariton_player_castle_03.flac` | нет записи |
+| `khariton_player_castle_01` | Рокировка. Правильно, правильно. | тепло (`warm`) | одобрительно | `reaction` | `khariton_player_castle_01.flac` | записано |
+| `khariton_player_castle_02` | Король в безопасности. Разумно. | тепло (`warm`) | одобрительно | `reaction` | `khariton_player_castle_02.flac` | записано |
+| `khariton_player_castle_03` | Рокировка… Значит, вы не торопитесь. | раздумье (`think`) | задумчиво | `reaction` | `khariton_player_castle_03.flac` | записано |
 
 ### Отстаёт по материалу — `behind`
 
@@ -266,9 +268,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_behind_01` | Так. Материала у меня меньше. Неприятно. | досада (`annoyed`) | сухо, собираясь | `reaction` | `khariton_behind_01.flac` | нет записи |
-| `khariton_behind_02` | Придётся защищаться с выдумкой. | раздумье (`think`) | серьёзно | `reaction` | `khariton_behind_02.flac` | нет записи |
-| `khariton_behind_03` | Признаю, позиция у вас лучше. Пока. | огорчение (`sad`) | честно, с ноткой упрямства | `reaction` | `khariton_behind_03.flac` | нет записи |
+| `khariton_behind_01` | Так. Материала у меня меньше. Неприятно. | досада (`annoyed`) | сухо, собираясь | `reaction` | `khariton_behind_01.flac` | записано |
+| `khariton_behind_02` | Придётся защищаться с выдумкой. | раздумье (`think`) | серьёзно | `reaction` | `khariton_behind_02.flac` | записано |
+| `khariton_behind_03` | Признаю, позиция у вас лучше. Пока. | огорчение (`sad`) | честно, с ноткой упрямства | `reaction` | `khariton_behind_03.flac` | записано |
 
 ### Похвала сильному ходу соперника — `praise`
 
@@ -277,10 +279,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_praise_01` | Браво! Красивый ход. | удивление (`surprise`) | искренне восхищённо | `reaction` | `khariton_praise_01.flac` | нет записи |
-| `khariton_praise_02` | Вот это я понимаю — шахматы! | тепло (`warm`) | с уважением | `reaction` | `khariton_praise_02.flac` | нет записи |
-| `khariton_praise_03` | Изумительно! Позвольте, я это запомню. | удивление (`surprise`) | восхищённо | `reaction` | `khariton_praise_03.flac` | нет записи |
-| `khariton_praise_04` | Сильно, коллега. Очень сильно. | тепло (`warm`) | с уважением, негромко | `reaction` | `khariton_praise_04.flac` | нет записи |
+| `khariton_praise_01` | Браво! Красивый ход. | удивление (`surprise`) | искренне восхищённо | `reaction` | `khariton_praise_01.flac` | записано |
+| `khariton_praise_02` | Вот это я понимаю — шахматы! | тепло (`warm`) | с уважением | `reaction` | `khariton_praise_02.flac` | записано |
+| `khariton_praise_03` | Изумительно! Позвольте, я это запомню. | удивление (`surprise`) | восхищённо | `reaction` | `khariton_praise_03.flac` | записано |
+| `khariton_praise_04` | Сильно, коллега. Очень сильно. | тепло (`warm`) | с уважением, негромко | `reaction` | `khariton_praise_04.flac` | записано |
 
 ### Раздумье над ходом — `nvHmm`
 
@@ -289,10 +291,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_hmm_01` | Хм-м… | раздумье (`think`) | протяжно, задумчиво | `idle` | `khariton_hmm_01.flac` | нет записи |
-| `khariton_hmm_02` | Так… если конь сюда… | раздумье (`think`) | сам себе, тихо | `idle` | `khariton_hmm_02.flac` | нет записи |
-| `khariton_hmm_03` | Любопытная позиция. | раздумье (`think`) | вполголоса | `idle` | `khariton_hmm_03.flac` | нет записи |
-| `khariton_hmm_04` | Хм… а если ладьёй? | раздумье (`think`) | сам себе | `idle` | `khariton_hmm_04.flac` | нет записи |
+| `khariton_hmm_01` | Хм-м… | раздумье (`think`) | протяжно, задумчиво | `idle` | `khariton_hmm_01.flac` | записано |
+| `khariton_hmm_02` | Так… если конь сюда… | раздумье (`think`) | сам себе, тихо | `idle` | `khariton_hmm_02.flac` | записано |
+| `khariton_hmm_03` | Любопытная позиция. | раздумье (`think`) | вполголоса | `idle` | `khariton_hmm_03.flac` | записано |
+| `khariton_hmm_04` | Хм… а если ладьёй? | раздумье (`think`) | сам себе | `idle` | `khariton_hmm_04.flac` | записано |
 
 ### Игрок долго думает — `wait`
 
@@ -301,10 +303,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_wait_01` | Не торопитесь. Шахматы любят тишину. | тепло (`warm`) | мягко | `idle` | `khariton_wait_01.flac` | нет записи |
-| `khariton_wait_02` | Думайте, думайте. Я подожду. | хитро (`sly`) | с улыбкой | `idle` | `khariton_wait_02.flac` | нет записи |
-| `khariton_wait_03` | Шахматы — это терпение. У нас его много. | тепло (`warm`) | мягко, философски | `idle` | `khariton_wait_03.flac` | нет записи |
-| `khariton_wait_04` | Хорошая мысль созревает не сразу. | раздумье (`think`) | понимающе | `idle` | `khariton_wait_04.flac` | нет записи |
+| `khariton_wait_01` | Не торопитесь. Шахматы любят тишину. | тепло (`warm`) | мягко | `idle` | `khariton_wait_01.flac` | записано |
+| `khariton_wait_02` | Думайте, думайте. Я подожду. | хитро (`sly`) | с улыбкой | `idle` | `khariton_wait_02.flac` | записано |
+| `khariton_wait_03` | Шахматы — это терпение. У нас его много. | тепло (`warm`) | мягко, философски | `idle` | `khariton_wait_03.flac` | записано |
+| `khariton_wait_04` | Хорошая мысль созревает не сразу. | раздумье (`think`) | понимающе | `idle` | `khariton_wait_04.flac` | записано |
 
 ### Игрок думает очень долго — `waitLong`
 
@@ -313,9 +315,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_wait_long_01` | Коллега, вы там не уснули? Шучу, думайте. | хитро (`sly`) | шутливо, мягко | `idle` | `khariton_wait_long_01.flac` | нет записи |
-| `khariton_wait_long_02` | Знаете, однажды я думал над ходом сорок минут. | смех (`laugh`) | смеясь, вспоминая | `idle` | `khariton_wait_long_02.flac` | нет записи |
-| `khariton_wait_long_03` | Чай остывает… но партия важнее. | тепло (`warm`) | благодушно, со вздохом | `idle` | `khariton_wait_long_03.flac` | нет записи |
+| `khariton_wait_long_01` | Коллега, вы там не уснули? Шучу, думайте. | хитро (`sly`) | шутливо, мягко | `idle` | `khariton_wait_long_01.flac` | записано |
+| `khariton_wait_long_02` | Знаете, однажды я думал над ходом сорок минут. | смех (`laugh`) | смеясь, вспоминая | `idle` | `khariton_wait_long_02.flac` | записано |
+| `khariton_wait_long_03` | Чай остывает… но партия важнее. | тепло (`warm`) | благодушно, со вздохом | `idle` | `khariton_wait_long_03.flac` | записано |
 
 ### Победа Харитона — `win`
 
@@ -324,10 +326,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_win_01` | Мат! Прекрасная была партия. | азарт (`azart`) | торжественно, но тепло | `result` | `khariton_win_01.flac` | нет записи |
-| `khariton_win_02` | Эврика! Мат, коллега. | смех (`laugh`) | радостно | `result` | `khariton_win_02.flac` | нет записи |
-| `khariton_win_03` | Мат. Благодарю за игру. | тепло (`warm`) | учтиво | `result` | `khariton_win_03.flac` | нет записи |
-| `khariton_win_04` | Мат! Красивая точка в красивой партии. | азарт (`azart`) | торжественно | `result` | `khariton_win_04.flac` | нет записи |
+| `khariton_win_01` | Мат! Прекрасная была партия. | азарт (`azart`) | торжественно, но тепло | `result` | `khariton_win_01.flac` | записано |
+| `khariton_win_02` | Эврика! Мат, коллега. | смех (`laugh`) | радостно | `result` | `khariton_win_02.flac` | записано |
+| `khariton_win_03` | Мат. Благодарю за игру. | тепло (`warm`) | учтиво | `result` | `khariton_win_03.flac` | записано |
+| `khariton_win_04` | Мат! Красивая точка в красивой партии. | азарт (`azart`) | торжественно | `result` | `khariton_win_04.flac` | записано |
 
 ### Игрок сдался — `playerResign`
 
@@ -336,9 +338,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_player_resign_01` | Сдаётесь? Достойное решение. | тепло (`warm`) | уважительно | `result` | `khariton_player_resign_01.flac` | нет записи |
-| `khariton_player_resign_02` | Мудрое решение. Сыграем ещё? | тепло (`warm`) | уважительно, приглашая | `result` | `khariton_player_resign_02.flac` | нет записи |
-| `khariton_player_resign_03` | Жаль, позиция была живая. Но — уважаю. | огорчение (`sad`) | с сожалением | `result` | `khariton_player_resign_03.flac` | нет записи |
+| `khariton_player_resign_01` | Сдаётесь? Достойное решение. | тепло (`warm`) | уважительно | `result` | `khariton_player_resign_01.flac` | записано |
+| `khariton_player_resign_02` | Мудрое решение. Сыграем ещё? | тепло (`warm`) | уважительно, приглашая | `result` | `khariton_player_resign_02.flac` | записано |
+| `khariton_player_resign_03` | Жаль, позиция была живая. Но — уважаю. | огорчение (`sad`) | с сожалением | `result` | `khariton_player_resign_03.flac` | записано |
 
 ### Поражение Харитона — `lose`
 
@@ -347,21 +349,29 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_lose_01` | Мат… мне? Великолепно сыграно! | удивление (`surprise`) | изумлённо, потом восхищённо | `result` | `khariton_lose_01.flac` | нет записи |
-| `khariton_lose_02` | Признаю поражение. Браво, коллега. | огорчение (`sad`) | с лёгким поклоном | `result` | `khariton_lose_02.flac` | нет записи |
-| `khariton_lose_03` | Ха! Меня переиграли. Как приятно! | смех (`laugh`) | смеясь над собой | `result` | `khariton_lose_03.flac` | нет записи |
-| `khariton_lose_04` | Мат? Ну-ка, ну-ка… Да, мат. Браво! | смех (`laugh`) | проверяя, потом смеясь | `result` | `khariton_lose_04.flac` | нет записи |
+| `khariton_lose_01` | Мат… мне? Великолепно сыграно! | удивление (`surprise`) | изумлённо, потом восхищённо | `result` | `khariton_lose_01.flac` | записано |
+| `khariton_lose_02` | Признаю поражение. Браво, коллега. | огорчение (`sad`) | с лёгким поклоном | `result` | `khariton_lose_02.flac` | записано |
+| `khariton_lose_03` | Ха! Меня переиграли. Как приятно! | смех (`laugh`) | смеясь над собой | `result` | `khariton_lose_03.flac` | записано |
+| `khariton_lose_04` | Мат? Ну-ка, ну-ка… Да, мат. Браво! | смех (`laugh`) | проверяя, потом смеясь | `result` | `khariton_lose_04.flac` | записано |
 
 ### Ничья — `draw`
 
-- Условие: пат, повторение, 50 ходов / ходы дамками, нехватка материала.
+- Условие: ничья повторением позиции, по правилу 50 ходов или из-за нехватки материала (пат — `stalemate`).
 - Приоритет: `result`; шанс: 1 (срочная); жест: `shrug`; статус привязки: подключено к событию.
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_draw_01` | Ничья. Мир на доске. | тепло (`warm`) | спокойно, философски | `result` | `khariton_draw_01.flac` | нет записи |
-| `khariton_draw_02` | Пат… Какая ирония. | раздумье (`think`) | задумчиво, с улыбкой | `result` | `khariton_draw_02.flac` | нет записи |
-| `khariton_draw_03` | Ничья — тоже искусство. Благодарю. | тепло (`warm`) | с поклоном в голосе | `result` | `khariton_draw_03.flac` | нет записи |
+| `khariton_draw_01` | Ничья. Мир на доске. | тепло (`warm`) | спокойно, философски | `result` | `khariton_draw_01.flac` | записано |
+| `khariton_draw_03` | Ничья — тоже искусство. Благодарю. | тепло (`warm`) | с поклоном в голосе | `result` | `khariton_draw_03.flac` | записано |
+
+### Пат — `stalemate`
+
+- Условие: ничья патом (`result.kind = 'stalemate'`); ID `khariton_draw_02` сохранён — запись та же.
+- Приоритет: `result`; шанс: 1 (срочная); жест: `shrug`; статус привязки: подключено к событию.
+
+| ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
+|---|---|---|---|---|---|---|
+| `khariton_draw_02` | Пат… Какая ирония. | раздумье (`think`) | задумчиво, с улыбкой | `result` | `khariton_draw_02.flac` | записано |
 
 ### Предложение сыграть ещё (персонаж выиграл или ничья) — `rematch`
 
@@ -370,9 +380,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_rematch_01` | Ещё партию? Теперь — другими цветами. | тепло (`warm`) | приглашающе | `greeting` | `khariton_rematch_01.flac` | нет записи |
-| `khariton_rematch_02` | Реванш, коллега? | хитро (`sly`) | с улыбкой | `greeting` | `khariton_rematch_02.flac` | нет записи |
-| `khariton_rematch_03` | Ещё одну! Я только разогрелся. | азарт (`azart`) | бодро | `greeting` | `khariton_rematch_03.flac` | нет записи |
+| `khariton_rematch_01` | Ещё партию? Теперь — другими цветами. | тепло (`warm`) | приглашающе | `greeting` | `khariton_rematch_01.flac` | записано |
+| `khariton_rematch_02` | Реванш, коллега? | хитро (`sly`) | с улыбкой | `greeting` | `khariton_rematch_02.flac` | записано |
+| `khariton_rematch_03` | Ещё одну! Я только разогрелся. | азарт (`azart`) | бодро | `greeting` | `khariton_rematch_03.flac` | записано |
 
 ### Предложение реванша (персонаж проиграл) — `rematchAfterLoss`
 
@@ -381,9 +391,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_rematch_after_loss_01` | Требую реванша! Исключительно научный интерес. | азарт (`azart`) | шутливо-напыщенно | `greeting` | `khariton_rematch_after_loss_01.flac` | нет записи |
-| `khariton_rematch_after_loss_02` | Реванш, коллега? Я кое-что придумал. | хитро (`sly`) | заговорщицки | `greeting` | `khariton_rematch_after_loss_02.flac` | нет записи |
-| `khariton_rematch_after_loss_03` | Позвольте отыграться. Ради науки. | смех (`laugh`) | шутливо-серьёзно | `greeting` | `khariton_rematch_after_loss_03.flac` | нет записи |
+| `khariton_rematch_after_loss_01` | Требую реванша! Исключительно научный интерес. | азарт (`azart`) | шутливо-напыщенно | `greeting` | `khariton_rematch_after_loss_01.flac` | записано |
+| `khariton_rematch_after_loss_02` | Реванш, коллега? Я кое-что придумал. | хитро (`sly`) | заговорщицки | `greeting` | `khariton_rematch_after_loss_02.flac` | записано |
+| `khariton_rematch_after_loss_03` | Позвольте отыграться. Ради науки. | смех (`laugh`) | шутливо-серьёзно | `greeting` | `khariton_rematch_after_loss_03.flac` | записано |
 
 ### Выход в клуб — `farewell`
 
@@ -392,9 +402,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_farewell_01` | До новых партий, коллега! | тепло (`warm`) | тепло | `greeting` | `khariton_farewell_01.flac` | нет записи |
-| `khariton_farewell_02` | Заходите. Доска всегда расставлена. | тепло (`warm`) | радушно | `greeting` | `khariton_farewell_02.flac` | нет записи |
-| `khariton_farewell_03` | Берегите королей, коллега! | тепло (`warm`) | тепло, на прощание | `greeting` | `khariton_farewell_03.flac` | нет записи |
+| `khariton_farewell_01` | До новых партий, коллега! | тепло (`warm`) | тепло | `greeting` | `khariton_farewell_01.flac` | записано |
+| `khariton_farewell_02` | Заходите. Доска всегда расставлена. | тепло (`warm`) | радушно | `greeting` | `khariton_farewell_02.flac` | записано |
+| `khariton_farewell_03` | Берегите королей, коллега! | тепло (`warm`) | тепло, на прощание | `greeting` | `khariton_farewell_03.flac` | записано |
 
 ### Обучение: вступление — `tutIntro`
 
@@ -403,7 +413,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_intro_01` | Давайте я покажу. Ваши — белые, вы ходите первыми. | тепло (`warm`) | неспешно, по-учительски | `greeting` | `khariton_tut_intro_01.flac` | нет записи |
+| `khariton_tut_intro_01` | Давайте я покажу. Ваши — белые, вы ходите первыми. | тепло (`warm`) | неспешно, по-учительски | `greeting` | `khariton_tut_intro_01.flac` | записано |
 
 ### Обучение: как ходить — `tutMove`
 
@@ -412,7 +422,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_move_01` | Нажмите на фигуру, затем — на подсвеченную клетку. | тепло (`warm`) | ясно, не спеша | `greeting` | `khariton_tut_move_01.flac` | нет записи |
+| `khariton_tut_move_01` | Нажмите на фигуру, затем — на подсвеченную клетку. | тепло (`warm`) | ясно, не спеша | `greeting` | `khariton_tut_move_01.flac` | записано |
 
 ### Обучение: взятие — `tutCapture`
 
@@ -421,7 +431,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_capture_01` | Красный ободок — там можно взять фигуру. | хитро (`sly`) | подсказывая | `greeting` | `khariton_tut_capture_01.flac` | нет записи |
+| `khariton_tut_capture_01` | Красный ободок — там можно взять фигуру. | хитро (`sly`) | подсказывая | `greeting` | `khariton_tut_capture_01.flac` | записано |
 
 ### Обучение: шах — `tutCheck`
 
@@ -430,7 +440,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_check_01` | Король под шахом подсвечен. Сначала спасите его. | раздумье (`think`) | серьёзно | `greeting` | `khariton_tut_check_01.flac` | нет записи |
+| `khariton_tut_check_01` | Король под шахом подсвечен. Сначала спасите его. | раздумье (`think`) | серьёзно | `greeting` | `khariton_tut_check_01.flac` | записано |
 
 ### Обучение: цель партии — `tutGoal`
 
@@ -439,7 +449,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_goal_01` | Цель — мат: королю некуда деться. | тепло (`warm`) | наставительно | `greeting` | `khariton_tut_goal_01.flac` | нет записи |
+| `khariton_tut_goal_01` | Цель — мат: королю некуда деться. | тепло (`warm`) | наставительно | `greeting` | `khariton_tut_goal_01.flac` | записано |
 
 ### Обучение: неверное касание — `tutWrong`
 
@@ -448,8 +458,8 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_wrong_01` | Так эта фигура не ходит. Посмотрите на точки. | раздумье (`think`) | мягко поправляя | `greeting` | `khariton_tut_wrong_01.flac` | нет записи |
-| `khariton_tut_wrong_02` | Эта фигура сейчас не ходит. Попробуйте другую. | тепло (`warm`) | терпеливо | `greeting` | `khariton_tut_wrong_02.flac` | нет записи |
+| `khariton_tut_wrong_01` | Так эта фигура не ходит. Посмотрите на точки. | раздумье (`think`) | мягко поправляя | `greeting` | `khariton_tut_wrong_01.flac` | записано |
+| `khariton_tut_wrong_02` | Эта фигура сейчас не ходит. Попробуйте другую. | тепло (`warm`) | терпеливо | `greeting` | `khariton_tut_wrong_02.flac` | записано |
 
 ### Обучение: конец — `tutDone`
 
@@ -458,7 +468,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_tut_done_01` | Превосходно! Теперь — настоящая партия. | азарт (`azart`) | воодушевлённо | `greeting` | `khariton_tut_done_01.flac` | нет записи |
+| `khariton_tut_done_01` | Превосходно! Теперь — настоящая партия. | азарт (`azart`) | воодушевлённо | `greeting` | `khariton_tut_done_01.flac` | записано |
 
 ### Смешок — `nvGiggle`
 
@@ -467,9 +477,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_giggle_01` | Хе-хе. | смех (`laugh`) | коротко, довольно | `reaction` | `khariton_giggle_01.flac` | нет записи |
-| `khariton_giggle_02` | Хи-хи. Простите. | смех (`laugh`) | сдерживая смех | `reaction` | `khariton_giggle_02.flac` | нет записи |
-| `khariton_giggle_03` | Хо-хо! | смех (`laugh`) | добродушно, басовито | `reaction` | `khariton_giggle_03.flac` | нет записи |
+| `khariton_giggle_01` | Хе-хе. | смех (`laugh`) | коротко, довольно | `reaction` | `khariton_giggle_01.flac` | записано |
+| `khariton_giggle_02` | Хи-хи. Простите. | смех (`laugh`) | сдерживая смех | `reaction` | `khariton_giggle_02.flac` | записано |
+| `khariton_giggle_03` | Хо-хо! | смех (`laugh`) | добродушно, басовито | `reaction` | `khariton_giggle_03.flac` | записано |
 
 ### Вздох — `nvSigh`
 
@@ -478,9 +488,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_sigh_01` | Эх… | огорчение (`sad`) | вздох | `reaction` | `khariton_sigh_01.flac` | нет записи |
-| `khariton_sigh_02` | Ох-хо-хо… | огорчение (`sad`) | протяжный вздох | `reaction` | `khariton_sigh_02.flac` | нет записи |
-| `khariton_sigh_03` | М-да… | огорчение (`sad`) | тихо, озадаченно | `reaction` | `khariton_sigh_03.flac` | нет записи |
+| `khariton_sigh_01` | Эх… | огорчение (`sad`) | вздох | `reaction` | `khariton_sigh_01.flac` | записано |
+| `khariton_sigh_02` | Ох-хо-хо… | огорчение (`sad`) | протяжный вздох | `reaction` | `khariton_sigh_02.flac` | записано |
+| `khariton_sigh_03` | М-да… | огорчение (`sad`) | тихо, озадаченно | `reaction` | `khariton_sigh_03.flac` | записано |
 
 ### Возглас удивления — `nvAh`
 
@@ -489,6 +499,6 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `khariton_ah_01` | О! | удивление (`surprise`) | удивлённо | `reaction` | `khariton_ah_01.flac` | нет записи |
-| `khariton_ah_02` | Ах! | удивление (`surprise`) | коротко | `reaction` | `khariton_ah_02.flac` | нет записи |
-| `khariton_ah_03` | Ого! | удивление (`surprise`) | приподняв брови | `reaction` | `khariton_ah_03.flac` | нет записи |
+| `khariton_ah_01` | О! | удивление (`surprise`) | удивлённо | `reaction` | `khariton_ah_01.flac` | записано |
+| `khariton_ah_02` | Ах! | удивление (`surprise`) | коротко | `reaction` | `khariton_ah_02.flac` | записано |
+| `khariton_ah_03` | Ого! | удивление (`surprise`) | приподняв брови | `reaction` | `khariton_ah_03.flac` | записано |

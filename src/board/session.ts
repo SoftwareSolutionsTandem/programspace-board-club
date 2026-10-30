@@ -100,6 +100,16 @@ export interface BoardGameSpec<S, A extends { readonly type: string; readonly co
 
 const PROMOTION_ORDER = ['q', 'r', 'b', 'n'];
 
+/**
+ * Чьими словами персонаж встречает итог: победа игрока — поражение персонажа (`lose`), и наоборот. Пат — свои
+ * слова («Пат… Какая ирония»): при ничьей повторением или по 50 ходам они были бы неправдой. Сдачу игрока
+ * озвучивает `playerResign`, здесь она не встречается.
+ */
+export function resultCategory(humanWon: boolean, draw: boolean, reason: string | null): LineCategory {
+  if (draw) return reason === 'stalemate' ? 'stalemate' : 'draw';
+  return humanWon ? 'lose' : 'win';
+}
+
 export class BoardSession<S, A extends { readonly type: string; readonly color: Side }, E, V, Err, L> implements GameSession {
   readonly scene: BoardScene;
   readonly match: BoardMatch<S, A, E, V, Err, L>;
@@ -683,9 +693,10 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.host.audio.sfx(won ? 'win' : draw ? 'bito' : 'lose');
     // Персонаж: победа — поза торжества; поражение — огорчение и учтивый жест; ничья — пожать плечами.
     if (!resigned) {
-      if (draw) this.cue({ category: 'draw', emotion: 'warm', gesture: this.spec.gestures.draw, priority: 'result', chance: 1 });
-      else if (won) this.cue({ category: 'lose', emotion: 'sad', gesture: this.spec.gestures.lose, priority: 'result', chance: 1 });
-      else this.cue({ category: 'win', emotion: 'azart', pose: 'victory', priority: 'result', chance: 1 });
+      const category = resultCategory(won, draw, reason);
+      if (draw) this.cue({ category, emotion: 'warm', gesture: this.spec.gestures.draw, priority: 'result', chance: 1 });
+      else if (won) this.cue({ category, emotion: 'sad', gesture: this.spec.gestures.lose, priority: 'result', chance: 1 });
+      else this.cue({ category, emotion: 'azart', pose: 'victory', priority: 'result', chance: 1 });
     } else this.scene.rig.setPose('victory');
     this.refresh();
     this.later(() => {

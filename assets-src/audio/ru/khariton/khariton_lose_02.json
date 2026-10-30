@@ -1,0 +1,14 @@
+{
+  "id": "khariton_lose_02",
+  "text": "Признаю поражение. Браво, коллега.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "44d090fc61fc0f717979a6b0a2f0e6a64d3df0d0d003ebc954bcc07fb2e9c1ba",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.9
+}

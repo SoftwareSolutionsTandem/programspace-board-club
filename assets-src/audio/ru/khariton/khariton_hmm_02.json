@@ -1,0 +1,14 @@
+{
+  "id": "khariton_hmm_02",
+  "text": "Так… если конь сюда…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "757c47bcb68f95e36aa7d55f7b5b2720e1667fd3fb48a6b59cec1f91374c0e17",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.81
+}

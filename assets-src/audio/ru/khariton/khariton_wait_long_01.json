@@ -1,0 +1,14 @@
+{
+  "id": "khariton_wait_long_01",
+  "text": "Коллега, вы там не уснули? Шучу, думайте.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "32917b41a3621f62dfaff622cdf705a692aeda0656d5047e460b165046aa0609",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.48
+}

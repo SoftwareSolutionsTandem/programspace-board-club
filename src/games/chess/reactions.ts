@@ -31,9 +31,11 @@ export function reactionFor(ctx: ReactionContext<ChessEvent, PlayerView>): Trigg
   const crossed = (k: number) => ctx.leadBefore < k && ctx.leadAfter >= k;
   const fell = (k: number) => ctx.leadBefore > -k && ctx.leadAfter <= -k;
   const bigCapture = moved.captured !== null && 'qr'.includes(moved.captured.toLowerCase());
+  // Реплики о превращении говорят о ферзе: превращение в коня, слона или ладью их не вызывает.
+  const queenPromotion = moved.promotion !== null && kindOf(moved.promotion) === 'q';
   const enteredEndgame = !isEndgame(ctx.before.board) && isEndgame(ctx.after.board);
   if (ctx.mover === 'opponent') {
-    if (moved.promotion) return { category: 'promote', emotion: 'azart', gesture: 'eureka', priority: 'reaction', chance: 0.9 };
+    if (queenPromotion) return { category: 'promote', emotion: 'azart', gesture: 'eureka', priority: 'reaction', chance: 0.9 };
     if (moved.check) {
       const kind = kindOf(moved.piece);
       // Шах ферзём или конём — у Харитона на них отдельные слова.
@@ -52,7 +54,7 @@ export function reactionFor(ctx: ReactionContext<ChessEvent, PlayerView>): Trigg
     return { category: 'boardMove', emotion: 'think', priority: 'reaction', chance: 0.18 };
   }
   // Ход игрока.
-  if (moved.promotion) return { category: 'playerPromote', emotion: 'surprise', gesture: 'surprised', priority: 'reaction', chance: 0.9 };
+  if (queenPromotion) return { category: 'playerPromote', emotion: 'surprise', gesture: 'surprised', priority: 'reaction', chance: 0.9 };
   if (moved.check && bigCapture) return { category: 'praise', emotion: 'surprise', gesture: 'applause', priority: 'reaction', chance: 0.9 };
   if (moved.check) return { category: 'inCheck', emotion: 'surprise', gesture: 'surprised', priority: 'reaction', chance: 0.75 };
   if (fell(LEAD_NOTICE)) return { category: 'behind', emotion: 'annoyed', gesture: 'facepalm', priority: 'reaction', chance: 0.6 };

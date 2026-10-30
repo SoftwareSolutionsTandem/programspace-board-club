@@ -1,0 +1,14 @@
+{
+  "id": "khariton_lose_04",
+  "text": "Мат? Ну-ка, ну-ка… Да, мат. Браво!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "cc7e8e67eb14ded63681fbadc0423e04ecc7a8fb9bebd5e5b1a33a4e5801e20b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.25
+}

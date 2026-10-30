@@ -1,0 +1,14 @@
+{
+  "id": "khariton_praise_04",
+  "text": "Сильно, коллега. Очень сильно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "86f66e2ab1a3e00e0e46a909d575f9fb9bae341393d68873fa641b3c2422e591",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.65
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_move_06",
+  "text": "Скромный ход. С далеко идущими планами.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "a643bd1f3fd573a9c8b8a177c50ca6a5e72592f98fc008d60ace5ab802c2adc0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.13
+}

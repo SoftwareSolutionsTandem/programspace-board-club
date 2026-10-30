@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_play_03",
+  "text": "Неожиданно!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "9839b8be542f8221b7b7762e60cd6dbf774991f6771643ed71236b02425391c3",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.75
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_start_04",
+  "text": "Ну-с, посмотрим, что вы приготовили.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "2956b81433e5f87e900caa181271c77cdffb639d29d2e4cf089051c52fa5a063",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.37
+}

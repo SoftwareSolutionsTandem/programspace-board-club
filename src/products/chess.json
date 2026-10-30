@@ -1,5 +1,5 @@
 {
-  "$comment": "Самостоятельные «Шахматы» с Харитоном. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голоса Харитона ещё нет: папки audio/ru/khariton в составе нет, реплики молчат (docs/voice/khariton-script.md).",
+  "$comment": "Самостоятельные «Шахматы» с Харитоном. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голос Харитона — записи из архива владельца audio_chess.zip (docs/AUDIO.md §19, D63).",
   "id": "chess",
   "version": "0.1.0",
   "strings": {
@@ -7,8 +7,17 @@
     "start.subtitle": "Партия с профессором Харитоном"
   },
   "storageKey": "chess.settings",
-  "games": ["chess"],
-  "characters": ["khariton"],
-  "publicAssets": [],
-  "icon": { "file": "public/favicon.svg", "status": "temporary" }
+  "games": [
+    "chess"
+  ],
+  "characters": [
+    "khariton"
+  ],
+  "publicAssets": [
+    "audio/ru/khariton"
+  ],
+  "icon": {
+    "file": "public/favicon.svg",
+    "status": "temporary"
+  }
 }

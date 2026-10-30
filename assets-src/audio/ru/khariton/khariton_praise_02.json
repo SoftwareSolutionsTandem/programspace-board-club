@@ -1,0 +1,14 @@
+{
+  "id": "khariton_praise_02",
+  "text": "Вот это я понимаю — шахматы!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "9c6c5455c56d9d7efca3bfa69d9d7639120cee5edc93a4abba95a8206f6d262d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.45
+}

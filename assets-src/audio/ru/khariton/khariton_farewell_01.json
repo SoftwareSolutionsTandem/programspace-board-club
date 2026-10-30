@@ -1,0 +1,14 @@
+{
+  "id": "khariton_farewell_01",
+  "text": "До новых партий, коллега!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "83badfaa2576f0b69bd7defcd585302110cea3f9b8f12741de24b02ffedcf80e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.67
+}

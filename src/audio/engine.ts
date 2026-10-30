@@ -121,8 +121,14 @@ export class AudioEngine implements VoicePlayer {
     return ids.filter((id) => this.hasLine(id)).length;
   }
 
-  /** Предзагрузка реплик выбранного персонажа; повреждённые файлы помечаются недоступными. */
+  /**
+   * Предзагрузка реплик выбранного персонажа; повреждённые файлы помечаются недоступными. Декодированные реплики
+   * других персонажей освобождаются: голос в памяти — несжатый (Харитон ≈ 90 МБ), и «Игротека» не копит голоса
+   * всех столов, за которыми игрок уже сидел. При возврате к столу файлы берутся из кэша браузера.
+   */
   async preload(ids: readonly string[]): Promise<void> {
+    const keep = new Set(ids);
+    for (const id of [...this.buffers.keys()]) if (!keep.has(id)) this.buffers.delete(id);
     await Promise.all(ids.filter((id) => this.manifest.lines[id]).map((id) => this.load(id)));
   }
 
@@ -173,6 +179,13 @@ export class AudioEngine implements VoicePlayer {
         src.stop(t + fadeMs / 1000);
       },
     };
+  }
+
+  /** Отладка и e2e: сколько реплик сейчас декодировано в памяти. */
+  get decodedCount(): number {
+    let n = 0;
+    for (const b of this.buffers.values()) if (b) n++;
+    return n;
   }
 
   /** Громкость голоса 0…1 — для открытия рта, когда нет готовой разметки фонем. */

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_in_check_02",
+  "text": "Шах… Где же мой король спрячется?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "c32dc3d9baf87a5024b1b23621083f70e9f613d619da90d676af7989d5e74006",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.85
+}

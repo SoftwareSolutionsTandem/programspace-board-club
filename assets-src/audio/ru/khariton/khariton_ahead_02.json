@@ -1,0 +1,14 @@
+{
+  "id": "khariton_ahead_02",
+  "text": "Материал — мой. Но партия ещё не кончена.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "81a4e6b5a9801ec891b27feb34a4ef3e99d0ff97ff7bcaade474e8ed98247b3f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.83
+}

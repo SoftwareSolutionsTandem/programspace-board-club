@@ -1,0 +1,14 @@
+{
+  "id": "khariton_promote_02",
+  "text": "Скромная пешка дошла до конца. Браво ей.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e2731955ac9c449aebafd66791b541da12efc19a232f0064520bd8630845cfa9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.4
+}

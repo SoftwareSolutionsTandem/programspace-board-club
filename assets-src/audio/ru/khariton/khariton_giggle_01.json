@@ -1,0 +1,14 @@
+{
+  "id": "khariton_giggle_01",
+  "text": "Хе-хе.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "00cb7d8c3da4565db359378901d7593a220a91d482120068f8ea76e4a92b3226",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.09
+}

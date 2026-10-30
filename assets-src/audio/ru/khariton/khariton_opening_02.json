@@ -1,0 +1,14 @@
+{
+  "id": "khariton_opening_02",
+  "text": "Ах, вот как вы начинаете!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "8d58733a2c39e6955e031be3740887b4e995e86d614b13423209b28a3cecdc7c",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.32
+}

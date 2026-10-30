@@ -1,0 +1,14 @@
+{
+  "id": "khariton_farewell_03",
+  "text": "Берегите королей, коллега!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "31dfd1ada48b2ea066e65c9b38b562ccaf2acc1955ea4a10f6e02f0e218eac23",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.02
+}

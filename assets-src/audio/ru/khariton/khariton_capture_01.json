@@ -1,0 +1,14 @@
+{
+  "id": "khariton_capture_01",
+  "text": "Это я, с вашего позволения, заберу.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "5474b0a59ac66cab17cce27e3a6c31f069d952592986d9c57a705dcc7cc320d9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.9
+}

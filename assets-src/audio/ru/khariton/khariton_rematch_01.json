@@ -1,0 +1,14 @@
+{
+  "id": "khariton_rematch_01",
+  "text": "Ещё партию? Теперь — другими цветами.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "456f172809bd0b46640bb729e8ae3aaa4ea5048191c060134d34d2e045392446",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.93
+}

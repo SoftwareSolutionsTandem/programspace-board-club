@@ -1,0 +1,14 @@
+{
+  "id": "khariton_tut_move_01",
+  "text": "Нажмите на фигуру, затем — на подсвеченную клетку.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "59ed57108f42426f8d76e7f60cf162c5da03cd0241b3ec79837890956dd4eb2d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.7
+}

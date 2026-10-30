@@ -1,0 +1,14 @@
+{
+  "id": "khariton_greet_again_03",
+  "text": "Коллега! Как раз расставил фигуры.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "424e1fb70f76c1a4ce4772ddb071be2b26114f58bf8c17a490e8d6c5bc8cb667",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.65
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_behind_02",
+  "text": "Придётся защищаться с выдумкой.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "1b458d79fc5e1d35429dd26fa4d76518f71e0566a37fef8272e2abe239de49b5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.93
+}

@@ -1,0 +1,1963 @@
+{
+  "target": {
+    "lufs": -16,
+    "truePeak": -1.5,
+    "lra": 11,
+    "opusKbps": 32,
+    "aacKbps": 48
+  },
+  "results": [
+    {
+      "id": "khariton_ah_01",
+      "durationSec": 0.67,
+      "bytes": {
+        "flac": 33770,
+        "opus": 2594,
+        "m4a": 4953,
+        "wav": 63438
+      },
+      "inputLufs": -23.4,
+      "gainDb": 7.4,
+      "peakDb": -3.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_ah_02",
+      "durationSec": 0.67,
+      "bytes": {
+        "flac": 35570,
+        "opus": 2642,
+        "m4a": 5071,
+        "wav": 64138
+      },
+      "inputLufs": -26.74,
+      "gainDb": 10.74,
+      "peakDb": -2.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_ah_03",
+      "durationSec": 1.56,
+      "bytes": {
+        "flac": 56486,
+        "opus": 6019,
+        "m4a": 11539,
+        "wav": 149186
+      },
+      "inputLufs": -20.39,
+      "gainDb": 4.39,
+      "peakDb": -1.8,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_ahead_01",
+      "durationSec": 2.63,
+      "bytes": {
+        "flac": 130486,
+        "opus": 10749,
+        "m4a": 17598,
+        "wav": 251726
+      },
+      "inputLufs": -17.92,
+      "gainDb": -0.46,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_ahead_02",
+      "durationSec": 5,
+      "bytes": {
+        "flac": 203532,
+        "opus": 19828,
+        "m4a": 32466,
+        "wav": 479096
+      },
+      "inputLufs": -20.24,
+      "gainDb": -0.34,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_ahead_03",
+      "durationSec": 4.77,
+      "bytes": {
+        "flac": 196532,
+        "opus": 18602,
+        "m4a": 30774,
+        "wav": 457038
+      },
+      "inputLufs": -19.83,
+      "gainDb": 2,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_behind_01",
+      "durationSec": 6.76,
+      "bytes": {
+        "flac": 279658,
+        "opus": 26961,
+        "m4a": 44002,
+        "wav": 648508
+      },
+      "inputLufs": -18.62,
+      "gainDb": -0.15,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_behind_02",
+      "durationSec": 3.09,
+      "bytes": {
+        "flac": 146895,
+        "opus": 12313,
+        "m4a": 21168,
+        "wav": 296308
+      },
+      "inputLufs": -21.46,
+      "gainDb": 3.08,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_behind_03",
+      "durationSec": 5.55,
+      "bytes": {
+        "flac": 225222,
+        "opus": 22336,
+        "m4a": 36929,
+        "wav": 532594
+      },
+      "inputLufs": -25.76,
+      "gainDb": 6.38,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_capture_01",
+      "durationSec": 4.07,
+      "bytes": {
+        "flac": 188557,
+        "opus": 16613,
+        "m4a": 27723,
+        "wav": 389838
+      },
+      "inputLufs": -19.77,
+      "gainDb": 2.16,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_capture_02",
+      "durationSec": 1,
+      "bytes": {
+        "flac": 43228,
+        "opus": 3680,
+        "m4a": 7099,
+        "wav": 95004
+      },
+      "inputLufs": -18.53,
+      "gainDb": 2.53,
+      "peakDb": -1.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_capture_03",
+      "durationSec": 1.88,
+      "bytes": {
+        "flac": 92436,
+        "opus": 7636,
+        "m4a": 13595,
+        "wav": 180394
+      },
+      "inputLufs": -19.71,
+      "gainDb": 1.25,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_capture_04",
+      "durationSec": 2.63,
+      "bytes": {
+        "flac": 120081,
+        "opus": 10756,
+        "m4a": 17079,
+        "wav": 251726
+      },
+      "inputLufs": -20.64,
+      "gainDb": -0.36,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_castle_01",
+      "durationSec": 2.91,
+      "bytes": {
+        "flac": 129091,
+        "opus": 11624,
+        "m4a": 19222,
+        "wav": 278474
+      },
+      "inputLufs": -18.49,
+      "gainDb": 0.21,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_castle_02",
+      "durationSec": 3.56,
+      "bytes": {
+        "flac": 159025,
+        "opus": 14145,
+        "m4a": 23863,
+        "wav": 340890
+      },
+      "inputLufs": -20.58,
+      "gainDb": 3.21,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_castle_03",
+      "durationSec": 5.27,
+      "bytes": {
+        "flac": 216674,
+        "opus": 21599,
+        "m4a": 34454,
+        "wav": 505038
+      },
+      "inputLufs": -20.09,
+      "gainDb": 1.31,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_01",
+      "durationSec": 1.07,
+      "bytes": {
+        "flac": 53593,
+        "opus": 4053,
+        "m4a": 7644,
+        "wav": 101838
+      },
+      "inputLufs": -16.43,
+      "gainDb": -0.94,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_02",
+      "durationSec": 2.3,
+      "bytes": {
+        "flac": 110779,
+        "opus": 9230,
+        "m4a": 15175,
+        "wav": 220518
+      },
+      "inputLufs": -17.86,
+      "gainDb": 0.99,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_03",
+      "durationSec": 2.76,
+      "bytes": {
+        "flac": 126633,
+        "opus": 11045,
+        "m4a": 18735,
+        "wav": 264758
+      },
+      "inputLufs": -17.87,
+      "gainDb": 0.02,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_04",
+      "durationSec": 3.32,
+      "bytes": {
+        "flac": 147799,
+        "opus": 13167,
+        "m4a": 22395,
+        "wav": 318256
+      },
+      "inputLufs": -21.56,
+      "gainDb": 1.23,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_knight_01",
+      "durationSec": 2.35,
+      "bytes": {
+        "flac": 113675,
+        "opus": 9355,
+        "m4a": 15679,
+        "wav": 224976
+      },
+      "inputLufs": -19.52,
+      "gainDb": 1.88,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_knight_02",
+      "durationSec": 3.56,
+      "bytes": {
+        "flac": 167029,
+        "opus": 14871,
+        "m4a": 24804,
+        "wav": 340890
+      },
+      "inputLufs": -21.22,
+      "gainDb": 2,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_knight_03",
+      "durationSec": 5.02,
+      "bytes": {
+        "flac": 208204,
+        "opus": 19850,
+        "m4a": 32984,
+        "wav": 481038
+      },
+      "inputLufs": -19.26,
+      "gainDb": 0.92,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_queen_01",
+      "durationSec": 2.26,
+      "bytes": {
+        "flac": 119365,
+        "opus": 8844,
+        "m4a": 15133,
+        "wav": 216060
+      },
+      "inputLufs": -18.96,
+      "gainDb": 1.52,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_queen_02",
+      "durationSec": 2.95,
+      "bytes": {
+        "flac": 138328,
+        "opus": 11866,
+        "m4a": 20651,
+        "wav": 282932
+      },
+      "inputLufs": -20.26,
+      "gainDb": 0.74,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_check_queen_03",
+      "durationSec": 3.42,
+      "bytes": {
+        "flac": 156210,
+        "opus": 13708,
+        "m4a": 22622,
+        "wav": 327438
+      },
+      "inputLufs": -19.55,
+      "gainDb": 0.36,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_draw_01",
+      "durationSec": 3.87,
+      "bytes": {
+        "flac": 177056,
+        "opus": 15269,
+        "m4a": 24518,
+        "wav": 370638
+      },
+      "inputLufs": -17.32,
+      "gainDb": 0,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_draw_02",
+      "durationSec": 3,
+      "bytes": {
+        "flac": 126268,
+        "opus": 11977,
+        "m4a": 20158,
+        "wav": 287392
+      },
+      "inputLufs": -21.89,
+      "gainDb": 1.85,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_draw_03",
+      "durationSec": 3.88,
+      "bytes": {
+        "flac": 165913,
+        "opus": 15554,
+        "m4a": 27850,
+        "wav": 372098
+      },
+      "inputLufs": -20.52,
+      "gainDb": -0.21,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_endgame_01",
+      "durationSec": 4.25,
+      "bytes": {
+        "flac": 192831,
+        "opus": 17173,
+        "m4a": 29267,
+        "wav": 407764
+      },
+      "inputLufs": -21.25,
+      "gainDb": -0.39,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_endgame_02",
+      "durationSec": 4.58,
+      "bytes": {
+        "flac": 202490,
+        "opus": 18555,
+        "m4a": 30781,
+        "wav": 438970
+      },
+      "inputLufs": -20.47,
+      "gainDb": 1.86,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_endgame_03",
+      "durationSec": 5.69,
+      "bytes": {
+        "flac": 269364,
+        "opus": 23287,
+        "m4a": 38457,
+        "wav": 545968
+      },
+      "inputLufs": -19.1,
+      "gainDb": 0.88,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_eureka_01",
+      "durationSec": 4.12,
+      "bytes": {
+        "flac": 187532,
+        "opus": 16718,
+        "m4a": 27394,
+        "wav": 394638
+      },
+      "inputLufs": -17.85,
+      "gainDb": -1.05,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_eureka_02",
+      "durationSec": 5,
+      "bytes": {
+        "flac": 218550,
+        "opus": 19758,
+        "m4a": 34134,
+        "wav": 479096
+      },
+      "inputLufs": -18.96,
+      "gainDb": -0.98,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_eureka_03",
+      "durationSec": 4.02,
+      "bytes": {
+        "flac": 179503,
+        "opus": 15946,
+        "m4a": 27587,
+        "wav": 385038
+      },
+      "inputLufs": -16.32,
+      "gainDb": -0.69,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_eureka_04",
+      "durationSec": 2.62,
+      "bytes": {
+        "flac": 115407,
+        "opus": 10439,
+        "m4a": 18509,
+        "wav": 250638
+      },
+      "inputLufs": -21.6,
+      "gainDb": 4.37,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_farewell_01",
+      "durationSec": 1.84,
+      "bytes": {
+        "flac": 90562,
+        "opus": 8502,
+        "m4a": 12813,
+        "wav": 175936
+      },
+      "inputLufs": -18.5,
+      "gainDb": 1.7,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_farewell_02",
+      "durationSec": 4.57,
+      "bytes": {
+        "flac": 200649,
+        "opus": 18095,
+        "m4a": 31440,
+        "wav": 437838
+      },
+      "inputLufs": -18.18,
+      "gainDb": -0.71,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_farewell_03",
+      "durationSec": 3.18,
+      "bytes": {
+        "flac": 128513,
+        "opus": 12385,
+        "m4a": 21552,
+        "wav": 304882
+      },
+      "inputLufs": -19.37,
+      "gainDb": 3.37,
+      "peakDb": -2.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_giggle_01",
+      "durationSec": 2.25,
+      "bytes": {
+        "flac": 92916,
+        "opus": 8665,
+        "m4a": 14697,
+        "wav": 215718
+      },
+      "inputLufs": -23.09,
+      "gainDb": 1.01,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_giggle_02",
+      "durationSec": 2.4,
+      "bytes": {
+        "flac": 106744,
+        "opus": 9418,
+        "m4a": 16539,
+        "wav": 229434
+      },
+      "inputLufs": -30.02,
+      "gainDb": 12.59,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_giggle_03",
+      "durationSec": 1.14,
+      "bytes": {
+        "flac": 57913,
+        "opus": 4556,
+        "m4a": 7846,
+        "wav": 109062
+      },
+      "inputLufs": -17.05,
+      "gainDb": 0.75,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_again_01",
+      "durationSec": 2.35,
+      "bytes": {
+        "flac": 108405,
+        "opus": 9547,
+        "m4a": 15745,
+        "wav": 224976
+      },
+      "inputLufs": -21.02,
+      "gainDb": 3.66,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_again_02",
+      "durationSec": 3.65,
+      "bytes": {
+        "flac": 153027,
+        "opus": 14502,
+        "m4a": 23374,
+        "wav": 349806
+      },
+      "inputLufs": -18.47,
+      "gainDb": -0.56,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_again_03",
+      "durationSec": 4.82,
+      "bytes": {
+        "flac": 211461,
+        "opus": 19074,
+        "m4a": 34603,
+        "wav": 461838
+      },
+      "inputLufs": -18.42,
+      "gainDb": -0.73,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_again_04",
+      "durationSec": 4.67,
+      "bytes": {
+        "flac": 199512,
+        "opus": 18620,
+        "m4a": 30212,
+        "wav": 447438
+      },
+      "inputLufs": -20.28,
+      "gainDb": 2.72,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_first_01",
+      "durationSec": 5.78,
+      "bytes": {
+        "flac": 241147,
+        "opus": 22936,
+        "m4a": 37881,
+        "wav": 554544
+      },
+      "inputLufs": -18.35,
+      "gainDb": -0.83,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_first_02",
+      "durationSec": 4.12,
+      "bytes": {
+        "flac": 177261,
+        "opus": 16490,
+        "m4a": 27086,
+        "wav": 394638
+      },
+      "inputLufs": -20.68,
+      "gainDb": 0.94,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_first_03",
+      "durationSec": 4.11,
+      "bytes": {
+        "flac": 175742,
+        "opus": 16914,
+        "m4a": 28056,
+        "wav": 394388
+      },
+      "inputLufs": -21.48,
+      "gainDb": 0.7,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_greet_first_04",
+      "durationSec": 3.88,
+      "bytes": {
+        "flac": 173393,
+        "opus": 15524,
+        "m4a": 25685,
+        "wav": 372098
+      },
+      "inputLufs": -19.63,
+      "gainDb": -0.4,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_hmm_01",
+      "durationSec": 1.6,
+      "bytes": {
+        "flac": 62955,
+        "opus": 5955,
+        "m4a": 10788,
+        "wav": 153302
+      },
+      "inputLufs": -23.98,
+      "gainDb": 7.98,
+      "peakDb": -1.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_hmm_02",
+      "durationSec": 3.97,
+      "bytes": {
+        "flac": 157975,
+        "opus": 15979,
+        "m4a": 26320,
+        "wav": 381014
+      },
+      "inputLufs": -30.56,
+      "gainDb": 9.89,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_hmm_03",
+      "durationSec": 2.92,
+      "bytes": {
+        "flac": 121808,
+        "opus": 11561,
+        "m4a": 19995,
+        "wav": 279438
+      },
+      "inputLufs": -25.27,
+      "gainDb": 3.87,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_hmm_04",
+      "durationSec": 3.97,
+      "bytes": {
+        "flac": 154282,
+        "opus": 15503,
+        "m4a": 25432,
+        "wav": 381014
+      },
+      "inputLufs": -22.69,
+      "gainDb": 4.05,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_in_check_01",
+      "durationSec": 3.37,
+      "bytes": {
+        "flac": 148909,
+        "opus": 13479,
+        "m4a": 21934,
+        "wav": 323056
+      },
+      "inputLufs": -17.04,
+      "gainDb": -0.06,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_in_check_02",
+      "durationSec": 4.02,
+      "bytes": {
+        "flac": 167459,
+        "opus": 16124,
+        "m4a": 26801,
+        "wav": 385472
+      },
+      "inputLufs": -24.6,
+      "gainDb": 4.63,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_in_check_03",
+      "durationSec": 3.97,
+      "bytes": {
+        "flac": 172730,
+        "opus": 15687,
+        "m4a": 26905,
+        "wav": 381014
+      },
+      "inputLufs": -22.51,
+      "gainDb": 2.09,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lose_01",
+      "durationSec": 5.17,
+      "bytes": {
+        "flac": 221180,
+        "opus": 20564,
+        "m4a": 33294,
+        "wav": 495438
+      },
+      "inputLufs": -22.02,
+      "gainDb": 5.33,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lose_02",
+      "durationSec": 4.07,
+      "bytes": {
+        "flac": 171599,
+        "opus": 16751,
+        "m4a": 27802,
+        "wav": 389930
+      },
+      "inputLufs": -19.49,
+      "gainDb": -0.18,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lose_03",
+      "durationSec": 5,
+      "bytes": {
+        "flac": 200970,
+        "opus": 19873,
+        "m4a": 32614,
+        "wav": 479096
+      },
+      "inputLufs": -20.38,
+      "gainDb": 0.08,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lose_04",
+      "durationSec": 5.42,
+      "bytes": {
+        "flac": 207639,
+        "opus": 21149,
+        "m4a": 35475,
+        "wav": 519438
+      },
+      "inputLufs": -19.08,
+      "gainDb": 0.24,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lost_piece_01",
+      "durationSec": 3.16,
+      "bytes": {
+        "flac": 135556,
+        "opus": 12509,
+        "m4a": 20959,
+        "wav": 303174
+      },
+      "inputLufs": -21.17,
+      "gainDb": 3.26,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lost_piece_02",
+      "durationSec": 3.74,
+      "bytes": {
+        "flac": 160569,
+        "opus": 15333,
+        "m4a": 24524,
+        "wav": 358722
+      },
+      "inputLufs": -21.8,
+      "gainDb": 2.81,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lost_piece_03",
+      "durationSec": 3.84,
+      "bytes": {
+        "flac": 168997,
+        "opus": 15568,
+        "m4a": 23610,
+        "wav": 367640
+      },
+      "inputLufs": -17.57,
+      "gainDb": 0.84,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_lost_piece_04",
+      "durationSec": 5.79,
+      "bytes": {
+        "flac": 227295,
+        "opus": 23144,
+        "m4a": 36812,
+        "wav": 554884
+      },
+      "inputLufs": -22.97,
+      "gainDb": 3.58,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_01",
+      "durationSec": 1.75,
+      "bytes": {
+        "flac": 78982,
+        "opus": 6899,
+        "m4a": 12130,
+        "wav": 167018
+      },
+      "inputLufs": -19.45,
+      "gainDb": -0.54,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_02",
+      "durationSec": 3.7,
+      "bytes": {
+        "flac": 166927,
+        "opus": 14908,
+        "m4a": 24963,
+        "wav": 354264
+      },
+      "inputLufs": -21.29,
+      "gainDb": 0.7,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_03",
+      "durationSec": 3.04,
+      "bytes": {
+        "flac": 126027,
+        "opus": 12217,
+        "m4a": 20699,
+        "wav": 291508
+      },
+      "inputLufs": -27.55,
+      "gainDb": 5.51,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_04",
+      "durationSec": 1.75,
+      "bytes": {
+        "flac": 84007,
+        "opus": 7206,
+        "m4a": 12313,
+        "wav": 167018
+      },
+      "inputLufs": -23.37,
+      "gainDb": 4.86,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_05",
+      "durationSec": 4.87,
+      "bytes": {
+        "flac": 194600,
+        "opus": 19042,
+        "m4a": 32372,
+        "wav": 466638
+      },
+      "inputLufs": -22.92,
+      "gainDb": 1.08,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_06",
+      "durationSec": 4.3,
+      "bytes": {
+        "flac": 173396,
+        "opus": 17305,
+        "m4a": 28131,
+        "wav": 412222
+      },
+      "inputLufs": -23.94,
+      "gainDb": 2.83,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_move_07",
+      "durationSec": 3,
+      "bytes": {
+        "flac": 137036,
+        "opus": 12097,
+        "m4a": 21003,
+        "wav": 287050
+      },
+      "inputLufs": -23.26,
+      "gainDb": 0.9,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_opening_01",
+      "durationSec": 3.37,
+      "bytes": {
+        "flac": 138203,
+        "opus": 13168,
+        "m4a": 22469,
+        "wav": 322638
+      },
+      "inputLufs": -21.12,
+      "gainDb": 2.37,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_opening_02",
+      "durationSec": 2.49,
+      "bytes": {
+        "flac": 117430,
+        "opus": 10064,
+        "m4a": 17726,
+        "wav": 238350
+      },
+      "inputLufs": -20.8,
+      "gainDb": 1.8,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_opening_03",
+      "durationSec": 3.09,
+      "bytes": {
+        "flac": 142236,
+        "opus": 12427,
+        "m4a": 19638,
+        "wav": 295966
+      },
+      "inputLufs": -16.44,
+      "gainDb": 0.44,
+      "peakDb": -2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_opening_04",
+      "durationSec": 4.3,
+      "bytes": {
+        "flac": 168207,
+        "opus": 16937,
+        "m4a": 29480,
+        "wav": 411880
+      },
+      "inputLufs": -22.63,
+      "gainDb": 2.05,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_castle_01",
+      "durationSec": 4.16,
+      "bytes": {
+        "flac": 175916,
+        "opus": 16981,
+        "m4a": 27572,
+        "wav": 398846
+      },
+      "inputLufs": -24.8,
+      "gainDb": 5.05,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_castle_02",
+      "durationSec": 4.81,
+      "bytes": {
+        "flac": 197482,
+        "opus": 19346,
+        "m4a": 30834,
+        "wav": 461262
+      },
+      "inputLufs": -21.99,
+      "gainDb": 1.89,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_castle_03",
+      "durationSec": 4.53,
+      "bytes": {
+        "flac": 187873,
+        "opus": 17972,
+        "m4a": 29166,
+        "wav": 434512
+      },
+      "inputLufs": -21.16,
+      "gainDb": 1.11,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_play_01",
+      "durationSec": 2.87,
+      "bytes": {
+        "flac": 114880,
+        "opus": 11351,
+        "m4a": 19147,
+        "wav": 274638
+      },
+      "inputLufs": -23.74,
+      "gainDb": 7.49,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_play_02",
+      "durationSec": 1.56,
+      "bytes": {
+        "flac": 69832,
+        "opus": 6261,
+        "m4a": 12035,
+        "wav": 149186
+      },
+      "inputLufs": -24.49,
+      "gainDb": 4.54,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_play_03",
+      "durationSec": 1.92,
+      "bytes": {
+        "flac": 94782,
+        "opus": 7490,
+        "m4a": 12651,
+        "wav": 183438
+      },
+      "inputLufs": -15.06,
+      "gainDb": -0.94,
+      "peakDb": -2.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_play_04",
+      "durationSec": 3.37,
+      "bytes": {
+        "flac": 147254,
+        "opus": 13882,
+        "m4a": 23524,
+        "wav": 323056
+      },
+      "inputLufs": -21.42,
+      "gainDb": 2.4,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_play_05",
+      "durationSec": 4.37,
+      "bytes": {
+        "flac": 192634,
+        "opus": 17240,
+        "m4a": 29943,
+        "wav": 418638
+      },
+      "inputLufs": -21.8,
+      "gainDb": 3.32,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_promote_01",
+      "durationSec": 3.92,
+      "bytes": {
+        "flac": 165977,
+        "opus": 16555,
+        "m4a": 25260,
+        "wav": 375438
+      },
+      "inputLufs": -22.36,
+      "gainDb": 1.94,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_promote_02",
+      "durationSec": 4.39,
+      "bytes": {
+        "flac": 187322,
+        "opus": 17599,
+        "m4a": 31174,
+        "wav": 421138
+      },
+      "inputLufs": -21.82,
+      "gainDb": 4.83,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_promote_03",
+      "durationSec": 3.84,
+      "bytes": {
+        "flac": 173132,
+        "opus": 15411,
+        "m4a": 25515,
+        "wav": 367640
+      },
+      "inputLufs": -20.06,
+      "gainDb": 0.24,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_resign_01",
+      "durationSec": 3.23,
+      "bytes": {
+        "flac": 150627,
+        "opus": 12814,
+        "m4a": 21071,
+        "wav": 309682
+      },
+      "inputLufs": -17.42,
+      "gainDb": 1.02,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_resign_02",
+      "durationSec": 3.65,
+      "bytes": {
+        "flac": 158783,
+        "opus": 14637,
+        "m4a": 24135,
+        "wav": 349806
+      },
+      "inputLufs": -17.87,
+      "gainDb": -0.2,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_player_resign_03",
+      "durationSec": 5.17,
+      "bytes": {
+        "flac": 206483,
+        "opus": 20744,
+        "m4a": 33904,
+        "wav": 495438
+      },
+      "inputLufs": -22.18,
+      "gainDb": 2.19,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_praise_01",
+      "durationSec": 3,
+      "bytes": {
+        "flac": 133424,
+        "opus": 11636,
+        "m4a": 20086,
+        "wav": 287050
+      },
+      "inputLufs": -21.02,
+      "gainDb": 0.69,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_praise_02",
+      "durationSec": 3.62,
+      "bytes": {
+        "flac": 152101,
+        "opus": 14469,
+        "m4a": 24250,
+        "wav": 346638
+      },
+      "inputLufs": -19.79,
+      "gainDb": 1.02,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_praise_03",
+      "durationSec": 4.76,
+      "bytes": {
+        "flac": 206470,
+        "opus": 19203,
+        "m4a": 30952,
+        "wav": 456804
+      },
+      "inputLufs": -19.11,
+      "gainDb": 0.4,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_praise_04",
+      "durationSec": 3.82,
+      "bytes": {
+        "flac": 177647,
+        "opus": 15005,
+        "m4a": 26129,
+        "wav": 365930
+      },
+      "inputLufs": -16.14,
+      "gainDb": -0.62,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_promote_01",
+      "durationSec": 4.48,
+      "bytes": {
+        "flac": 204180,
+        "opus": 18403,
+        "m4a": 29104,
+        "wav": 429712
+      },
+      "inputLufs": -19.4,
+      "gainDb": 0.47,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_promote_02",
+      "durationSec": 4.57,
+      "bytes": {
+        "flac": 209271,
+        "opus": 18476,
+        "m4a": 31712,
+        "wav": 437838
+      },
+      "inputLufs": -16.36,
+      "gainDb": -0.54,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_promote_03",
+      "durationSec": 4.74,
+      "bytes": {
+        "flac": 200416,
+        "opus": 18806,
+        "m4a": 31088,
+        "wav": 454754
+      },
+      "inputLufs": -18.66,
+      "gainDb": 0.13,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_rematch_01",
+      "durationSec": 4.1,
+      "bytes": {
+        "flac": 175417,
+        "opus": 16242,
+        "m4a": 28313,
+        "wav": 393022
+      },
+      "inputLufs": -23.97,
+      "gainDb": 2.59,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_rematch_02",
+      "durationSec": 2.4,
+      "bytes": {
+        "flac": 108073,
+        "opus": 9346,
+        "m4a": 15806,
+        "wav": 229434
+      },
+      "inputLufs": -15.81,
+      "gainDb": -0.19,
+      "peakDb": -1.8,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_rematch_03",
+      "durationSec": 3.88,
+      "bytes": {
+        "flac": 168810,
+        "opus": 15773,
+        "m4a": 26292,
+        "wav": 372098
+      },
+      "inputLufs": -18.88,
+      "gainDb": 0.46,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_rematch_after_loss_01",
+      "durationSec": 4.37,
+      "bytes": {
+        "flac": 198243,
+        "opus": 18228,
+        "m4a": 29240,
+        "wav": 418638
+      },
+      "inputLufs": -18.19,
+      "gainDb": -0.11,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_rematch_after_loss_02",
+      "durationSec": 3.6,
+      "bytes": {
+        "flac": 156595,
+        "opus": 14670,
+        "m4a": 23730,
+        "wav": 345348
+      },
+      "inputLufs": -19.8,
+      "gainDb": 1.31,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_rematch_after_loss_03",
+      "durationSec": 3.92,
+      "bytes": {
+        "flac": 188221,
+        "opus": 15927,
+        "m4a": 27333,
+        "wav": 376214
+      },
+      "inputLufs": -16.89,
+      "gainDb": -1,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_sigh_01",
+      "durationSec": 1.56,
+      "bytes": {
+        "flac": 71161,
+        "opus": 6276,
+        "m4a": 10983,
+        "wav": 148844
+      },
+      "inputLufs": -20.41,
+      "gainDb": 4.41,
+      "peakDb": -2.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_sigh_02",
+      "durationSec": 1.6,
+      "bytes": {
+        "flac": 70328,
+        "opus": 6366,
+        "m4a": 10765,
+        "wav": 153302
+      },
+      "inputLufs": -18.41,
+      "gainDb": -0.87,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_sigh_03",
+      "durationSec": 1.79,
+      "bytes": {
+        "flac": 81225,
+        "opus": 8018,
+        "m4a": 12872,
+        "wav": 171478
+      },
+      "inputLufs": -26.27,
+      "gainDb": 8.52,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_start_01",
+      "durationSec": 3.22,
+      "bytes": {
+        "flac": 125367,
+        "opus": 12152,
+        "m4a": 20691,
+        "wav": 308238
+      },
+      "inputLufs": -16.31,
+      "gainDb": -1.01,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_start_02",
+      "durationSec": 3.05,
+      "bytes": {
+        "flac": 124848,
+        "opus": 11929,
+        "m4a": 20627,
+        "wav": 291850
+      },
+      "inputLufs": -18.37,
+      "gainDb": 0.92,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_start_03",
+      "durationSec": 4.67,
+      "bytes": {
+        "flac": 214982,
+        "opus": 18865,
+        "m4a": 31031,
+        "wav": 447888
+      },
+      "inputLufs": -19.86,
+      "gainDb": 1,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_start_04",
+      "durationSec": 4.53,
+      "bytes": {
+        "flac": 197341,
+        "opus": 18119,
+        "m4a": 29289,
+        "wav": 434512
+      },
+      "inputLufs": -20.77,
+      "gainDb": 0.96,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_start_05",
+      "durationSec": 5.77,
+      "bytes": {
+        "flac": 256559,
+        "opus": 23057,
+        "m4a": 37216,
+        "wav": 553038
+      },
+      "inputLufs": -18.13,
+      "gainDb": 0.41,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_capture_01",
+      "durationSec": 4.34,
+      "bytes": {
+        "flac": 178895,
+        "opus": 17671,
+        "m4a": 29170,
+        "wav": 416338
+      },
+      "inputLufs": -21.99,
+      "gainDb": 1.85,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_check_01",
+      "durationSec": 4.9,
+      "bytes": {
+        "flac": 231195,
+        "opus": 19870,
+        "m4a": 34094,
+        "wav": 470178
+      },
+      "inputLufs": -21.13,
+      "gainDb": 0.62,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_done_01",
+      "durationSec": 4.16,
+      "bytes": {
+        "flac": 185619,
+        "opus": 16755,
+        "m4a": 27268,
+        "wav": 398846
+      },
+      "inputLufs": -21.49,
+      "gainDb": -0.24,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_goal_01",
+      "durationSec": 3.42,
+      "bytes": {
+        "flac": 147069,
+        "opus": 13535,
+        "m4a": 22330,
+        "wav": 327516
+      },
+      "inputLufs": -21.61,
+      "gainDb": 1.73,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_intro_01",
+      "durationSec": 7.17,
+      "bytes": {
+        "flac": 290342,
+        "opus": 28702,
+        "m4a": 47831,
+        "wav": 687438
+      },
+      "inputLufs": -22.31,
+      "gainDb": -0.03,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_move_01",
+      "durationSec": 4.87,
+      "bytes": {
+        "flac": 214117,
+        "opus": 19850,
+        "m4a": 32419,
+        "wav": 466638
+      },
+      "inputLufs": -18.2,
+      "gainDb": -0.47,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_wrong_01",
+      "durationSec": 3.79,
+      "bytes": {
+        "flac": 160498,
+        "opus": 15289,
+        "m4a": 25674,
+        "wav": 363182
+      },
+      "inputLufs": -22.05,
+      "gainDb": 5.07,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_tut_wrong_02",
+      "durationSec": 4.16,
+      "bytes": {
+        "flac": 191327,
+        "opus": 17048,
+        "m4a": 28370,
+        "wav": 398846
+      },
+      "inputLufs": -21.39,
+      "gainDb": 0.25,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_01",
+      "durationSec": 4.53,
+      "bytes": {
+        "flac": 179133,
+        "opus": 18160,
+        "m4a": 29841,
+        "wav": 434512
+      },
+      "inputLufs": -22.09,
+      "gainDb": 0.91,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_02",
+      "durationSec": 4.11,
+      "bytes": {
+        "flac": 156482,
+        "opus": 16528,
+        "m4a": 27037,
+        "wav": 394046
+      },
+      "inputLufs": -23.24,
+      "gainDb": 4.07,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_03",
+      "durationSec": 5,
+      "bytes": {
+        "flac": 195602,
+        "opus": 19664,
+        "m4a": 32744,
+        "wav": 479096
+      },
+      "inputLufs": -21.45,
+      "gainDb": -0.64,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_04",
+      "durationSec": 4.37,
+      "bytes": {
+        "flac": 200398,
+        "opus": 17939,
+        "m4a": 27651,
+        "wav": 418638
+      },
+      "inputLufs": -18.8,
+      "gainDb": 1.25,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_long_01",
+      "durationSec": 3.65,
+      "bytes": {
+        "flac": 156369,
+        "opus": 14722,
+        "m4a": 23943,
+        "wav": 349806
+      },
+      "inputLufs": -22.69,
+      "gainDb": 3.1,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_long_02",
+      "durationSec": 4.82,
+      "bytes": {
+        "flac": 211433,
+        "opus": 19558,
+        "m4a": 31415,
+        "wav": 461838
+      },
+      "inputLufs": -17.7,
+      "gainDb": -0.53,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_wait_long_03",
+      "durationSec": 5.22,
+      "bytes": {
+        "flac": 226514,
+        "opus": 20860,
+        "m4a": 34028,
+        "wav": 500238
+      },
+      "inputLufs": -20.62,
+      "gainDb": -0.43,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_win_01",
+      "durationSec": 3.19,
+      "bytes": {
+        "flac": 142088,
+        "opus": 12863,
+        "m4a": 21764,
+        "wav": 305224
+      },
+      "inputLufs": -18.65,
+      "gainDb": -0.63,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_win_02",
+      "durationSec": 3.82,
+      "bytes": {
+        "flac": 153659,
+        "opus": 15056,
+        "m4a": 26263,
+        "wav": 365838
+      },
+      "inputLufs": -17.98,
+      "gainDb": 0.02,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_win_03",
+      "durationSec": 2.67,
+      "bytes": {
+        "flac": 114449,
+        "opus": 10793,
+        "m4a": 17772,
+        "wav": 256184
+      },
+      "inputLufs": -20.54,
+      "gainDb": 2.05,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "khariton_win_04",
+      "durationSec": 5.83,
+      "bytes": {
+        "flac": 251085,
+        "opus": 23480,
+        "m4a": 38085,
+        "wav": 559344
+      },
+      "inputLufs": -19.07,
+      "gainDb": -0.73,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    }
+  ],
+  "missing": [],
+  "unknown": []
+}

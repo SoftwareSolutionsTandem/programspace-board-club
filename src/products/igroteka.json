@@ -18,7 +18,8 @@
   ],
   "publicAssets": [
     "audio/ru/agata",
-    "audio/ru/matvey"
+    "audio/ru/matvey",
+    "audio/ru/khariton"
   ],
   "icon": {
     "file": "public/favicon.svg",

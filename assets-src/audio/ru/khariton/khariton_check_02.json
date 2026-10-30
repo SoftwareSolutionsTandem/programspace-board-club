@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_02",
+  "text": "Шах вашему величеству.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "ba9512d791fa8658ce8d18934294e51981b392e5d08b5b69f72015d08ac5dfd0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.14
+}

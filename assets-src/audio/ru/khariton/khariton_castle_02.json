@@ -1,0 +1,14 @@
+{
+  "id": "khariton_castle_02",
+  "text": "Рокировка. Безопасность прежде всего.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "9382d4722cd2869e5f97e358161cfb6ffbe3cb727308c190aff28846fa98b629",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.39
+}

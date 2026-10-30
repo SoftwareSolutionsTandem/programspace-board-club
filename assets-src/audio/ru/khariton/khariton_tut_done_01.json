@@ -1,0 +1,14 @@
+{
+  "id": "khariton_tut_done_01",
+  "text": "Превосходно! Теперь — настоящая партия.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "3b66de177cecd8e7a7e8951925148355fc2d57685bfa6db86057aeef7fcf4728",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.99
+}

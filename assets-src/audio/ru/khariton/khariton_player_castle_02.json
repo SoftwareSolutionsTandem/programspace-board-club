@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_castle_02",
+  "text": "Король в безопасности. Разумно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "3992c6021f2d89930f0af34ca784581598c9643b4fdaffa256770a860b76c06e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.64
+}

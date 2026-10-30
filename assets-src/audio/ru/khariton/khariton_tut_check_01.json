@@ -1,0 +1,14 @@
+{
+  "id": "khariton_tut_check_01",
+  "text": "Король под шахом подсвечен. Сначала спасите его.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "822e001c4c66c21bd6abe546b5c7c669f6c0ff4de148b16270bf5ae672ae7a7b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.74
+}

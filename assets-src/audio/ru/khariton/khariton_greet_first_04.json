@@ -1,0 +1,14 @@
+{
+  "id": "khariton_greet_first_04",
+  "text": "Профессор Харитон. Немного мечтатель.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "37f12198d82591f1fd246b2ef627e808663a55af0db48a1ffc61dbc6651b1931",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.72
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_win_02",
+  "text": "Эврика! Мат, коллега.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "7d51fe383ba3182b8809ceed6c0524231fefa04f6ec729e32268d82062074ce9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.65
+}

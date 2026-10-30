@@ -1,0 +1,14 @@
+{
+  "id": "khariton_in_check_01",
+  "text": "Шах? Мне? Однако!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "19b4accf348f106fbfbee8935c4e5dceb760c0a4060c9f66b57ce061443d3ba0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.2
+}

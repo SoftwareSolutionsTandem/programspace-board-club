@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_play_05",
+  "text": "Так-так. Что же вы задумали?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "c4d2f9c12e329be9cfe8ebe0efb6e44c6595cd6062ce65424e4b98b6efde95ec",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.2
+}

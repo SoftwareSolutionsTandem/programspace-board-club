@@ -1,0 +1,14 @@
+{
+  "id": "khariton_lose_03",
+  "text": "Ха! Меня переиграли. Как приятно!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "b5b9b11a229cd8265ff57b5a25528b1dc959712040e0d50469813962c2f2c5bc",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.83
+}

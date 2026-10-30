@@ -1,0 +1,14 @@
+{
+  "id": "khariton_greet_again_01",
+  "text": "Рад снова видеть, коллега!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "1d711b07e845a18629d889b32103c9a26b8dc4964e7b248add221d13497bf94f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.18
+}

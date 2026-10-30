@@ -1,0 +1,14 @@
+{
+  "id": "khariton_hmm_04",
+  "text": "Хм… а если ладьёй?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "6dfc2ea64da0b8366be41609360a3733444bac1b1ef6506b93309b92978ec71a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.81
+}

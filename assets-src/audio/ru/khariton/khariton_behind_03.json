@@ -1,0 +1,14 @@
+{
+  "id": "khariton_behind_03",
+  "text": "Признаю, позиция у вас лучше. Пока.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "83b8776b9057c9db344a4fad61b38a042055491471d0d4ee3375c3e78a8e00b7",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.39
+}

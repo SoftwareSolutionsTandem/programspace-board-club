@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_queen_02",
+  "text": "Ферзь передаёт привет вашему королю.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "f2bc5961d9f96444f99fd81652ed420a22bd1899f6ffbd35e1339589ff6715af",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.79
+}

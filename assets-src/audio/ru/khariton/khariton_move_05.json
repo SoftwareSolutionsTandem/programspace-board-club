@@ -1,0 +1,14 @@
+{
+  "id": "khariton_move_05",
+  "text": "Так… нет… да, вот так.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "7f654ed7c11e8eed9409282c0645310ad9aa5662b0b713e579c3b1c712e7196d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.7
+}

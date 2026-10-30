@@ -1,0 +1,14 @@
+{
+  "id": "khariton_tut_wrong_01",
+  "text": "Так эта фигура не ходит. Посмотрите на точки.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "52a871ee8357602f287705d69c051ca99dcc1e388a23e51203ef2e7835164693",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.62
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_promote_03",
+  "text": "Пешка в ферзи! Вот это путь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "31fda2ec5c47c96432655baae6eee2b9429b83303a9847ce679916165c89bf51",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.67
+}

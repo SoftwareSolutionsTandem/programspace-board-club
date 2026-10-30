@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_03",
+  "text": "А вот и шах!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "027fdc27dc9fc90482becb6415c244dfa40d848b85a0a16827ed20c1b971624c",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.6
+}

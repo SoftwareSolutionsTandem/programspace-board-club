@@ -1,0 +1,14 @@
+{
+  "id": "khariton_lost_piece_04",
+  "text": "Ох. Это была моя лучшая фигура… ну, одна из.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "34a9c4b6467c10281f7a93e0b2dc13e1bb918a3515f6c2f5408310351c658dd2",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.62
+}

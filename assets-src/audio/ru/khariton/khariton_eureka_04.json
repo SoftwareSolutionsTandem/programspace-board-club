@@ -1,0 +1,14 @@
+{
+  "id": "khariton_eureka_04",
+  "text": "Крупная добыча! Благодарю.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "d6957028c44081da2f5e2ccf63cd5412ab69f20c4c687181039029ebbbf758ec",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.45
+}

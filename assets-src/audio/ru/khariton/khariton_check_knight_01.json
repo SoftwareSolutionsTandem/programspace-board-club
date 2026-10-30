@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_knight_01",
+  "text": "Конь скачет — шах!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "0c49e78bcf885e44bfa1637817eae0e8a6c4fc40f10cbdeee3c482b59d69aa60",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.18
+}

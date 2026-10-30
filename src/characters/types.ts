@@ -27,7 +27,9 @@ export type LineCategory =
   | 'tutMove' | 'tutCapture' | 'tutCheck' | 'tutCrown'
   // Живость доски: дебют, долгое раздумье, шах ферзём или конём, крупная добыча, эндшпиль, серия, «почти дамка», зевок.
   | 'opening' | 'waitLong' | 'checkQueen' | 'checkKnight' | 'eureka' | 'endgame' | 'streak' | 'nearCrown' | 'playerNearCrown'
-  | 'playerBlunder';
+  | 'playerBlunder'
+  // Итог: пат — отдельные слова (у шахмат), прочие ничьи — `draw`.
+  | 'stalemate';
 
 export interface VoiceLine {
   /** Имя аудиофайла без расширения, например agata_win_01. */

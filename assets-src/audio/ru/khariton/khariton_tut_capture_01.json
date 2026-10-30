@@ -1,0 +1,14 @@
+{
+  "id": "khariton_tut_capture_01",
+  "text": "Красный ободок — там можно взять фигуру.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e293a96d9987325ab6442fedb66e75462752cfc0eda8b5604fe385d80ba3f0db",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.18
+}

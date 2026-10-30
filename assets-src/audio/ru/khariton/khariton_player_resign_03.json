@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_resign_03",
+  "text": "Жаль, позиция была живая. Но — уважаю.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "6268618f77fc343ad87b1aeb25d4089c07db0cd626a37e06f1aa7199c5edf9a9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.0
+}

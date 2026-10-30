@@ -1,0 +1,14 @@
+{
+  "id": "khariton_wait_01",
+  "text": "Не торопитесь. Шахматы любят тишину.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "5ef9237928a248a5d01079fd84b95a80b5a5c29aa2e5f9639041833f57b6afa9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.37
+}

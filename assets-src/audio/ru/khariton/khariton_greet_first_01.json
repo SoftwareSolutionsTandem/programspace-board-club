@@ -1,0 +1,14 @@
+{
+  "id": "khariton_greet_first_01",
+  "text": "А, новый коллега! Прошу, прошу. Шахматы ждут.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "a3d712972ec8241aca217fd5a244d1430538b165854c7d013ef0afcb1e9cb866",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.62
+}

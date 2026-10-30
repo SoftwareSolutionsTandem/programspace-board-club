@@ -1,0 +1,14 @@
+{
+  "id": "khariton_wait_03",
+  "text": "Шахматы — это терпение. У нас его много.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "3a297d1a04bdade257a5786ac17cf2224f6792dc1b878147b6693483b9a195b5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.83
+}

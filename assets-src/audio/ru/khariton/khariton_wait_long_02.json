@@ -1,0 +1,14 @@
+{
+  "id": "khariton_wait_long_02",
+  "text": "Знаете, однажды я думал над ходом сорок минут.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "6822e6dbd4a03f369ef8eeddc12501eecc53ede164094641090899dd04491a3a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.65
+}

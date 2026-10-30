@@ -1,0 +1,14 @@
+{
+  "id": "khariton_rematch_02",
+  "text": "Реванш, коллега?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "a0033dfb31a0e275a724159311f535ebdc394a6e6a6884612cfaee67253fd0f0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.23
+}

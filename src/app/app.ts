@@ -271,6 +271,6 @@ export class App {
 
   /** Отладка и e2e: только то, что видит игрок (без скрытых карт соперника). */
   debug() {
-    return { screen: this.screen, game: this.game.id, layout: this.layoutSpec, settings: this.settingsState, session: this.session?.debug() ?? null };
+    return { screen: this.screen, game: this.game.id, layout: this.layoutSpec, settings: this.settingsState, decodedVoice: this.audio.decodedCount, session: this.session?.debug() ?? null };
   }
 }

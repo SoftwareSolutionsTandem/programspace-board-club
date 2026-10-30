@@ -116,7 +116,7 @@ export const KHARITON_LINES: readonly VoiceLine[] = [
   L('khariton_lose_03', 'lose', 'laugh', 'Ха! Меня переиграли. Как приятно!', 'смеясь над собой'),
   L('khariton_lose_04', 'lose', 'laugh', 'Мат? Ну-ка, ну-ка… Да, мат. Браво!', 'проверяя, потом смеясь'),
   L('khariton_draw_01', 'draw', 'warm', 'Ничья. Мир на доске.', 'спокойно, философски'),
-  L('khariton_draw_02', 'draw', 'think', 'Пат… Какая ирония.', 'задумчиво, с улыбкой'),
+  L('khariton_draw_02', 'stalemate', 'think', 'Пат… Какая ирония.', 'задумчиво, с улыбкой'),
   L('khariton_draw_03', 'draw', 'warm', 'Ничья — тоже искусство. Благодарю.', 'с поклоном в голосе'),
   L('khariton_rematch_01', 'rematch', 'warm', 'Ещё партию? Теперь — другими цветами.', 'приглашающе'),
   L('khariton_rematch_02', 'rematch', 'sly', 'Реванш, коллега?', 'с улыбкой'),

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_capture_02",
+  "text": "Беру!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "055ef500888f20237d0ea8350c0b3e34f4321d9e53d82b7d37cb61dae4017be6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.83
+}

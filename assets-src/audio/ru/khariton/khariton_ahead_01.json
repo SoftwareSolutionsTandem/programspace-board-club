@@ -1,0 +1,14 @@
+{
+  "id": "khariton_ahead_01",
+  "text": "Перевес, кажется, на моей стороне.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "7ebaea8c7021ea4f4bdaa4ca48365d87b1747e33d5233b5761868178975a1a0f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.46
+}

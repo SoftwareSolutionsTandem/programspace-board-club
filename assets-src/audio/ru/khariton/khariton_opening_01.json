@@ -1,0 +1,14 @@
+{
+  "id": "khariton_opening_01",
+  "text": "Классика. Уважаю классику.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e5c26d0e920119a87441c62fc96711c5c6531825c4788b2931f38d488c245d95",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.2
+}

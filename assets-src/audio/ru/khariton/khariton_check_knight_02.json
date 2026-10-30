@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_knight_02",
+  "text": "Шах конём. Его не загородишь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "04d38938ea5ff6317fb6528ad88e1161f0774f29c38ea72e8cdfacfa961d9b75",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.39
+}

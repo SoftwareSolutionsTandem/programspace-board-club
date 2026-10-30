@@ -1,0 +1,14 @@
+{
+  "id": "khariton_player_promote_01",
+  "text": "Новый ферзь? Ну, это серьёзно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "afffede1758c74a0cbdd9c5846e21e74aab548bf0bbc69e5a340c1706c5e3d05",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.75
+}

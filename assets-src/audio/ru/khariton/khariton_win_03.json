@@ -1,0 +1,14 @@
+{
+  "id": "khariton_win_03",
+  "text": "Мат. Благодарю за игру.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "ce1b238db808b434884095904a0619d70e34ab773720b35b262335d2f87c573a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.51
+}

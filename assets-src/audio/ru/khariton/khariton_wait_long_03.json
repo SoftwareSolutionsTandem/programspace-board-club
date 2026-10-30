@@ -1,0 +1,14 @@
+{
+  "id": "khariton_wait_long_03",
+  "text": "Чай остывает… но партия важнее.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "08994cd4340ca39f77e89c449dcdfcf1c1d8b39abd93de1556041db1c1e27611",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.05
+}

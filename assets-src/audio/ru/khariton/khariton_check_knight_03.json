@@ -1,0 +1,14 @@
+{
+  "id": "khariton_check_knight_03",
+  "text": "Конь — коварное животное. Шах!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "aa854238c1610dd26b66fa3828694753e3e2d9048e296faec72e321ab9150b18",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.85
+}

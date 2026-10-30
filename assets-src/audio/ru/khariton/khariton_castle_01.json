@@ -1,0 +1,14 @@
+{
+  "id": "khariton_castle_01",
+  "text": "Король — в укрытие.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "8749c8aa933264fbdad9be4f08f491458d9f8e031643cec3f08fd9dd83c76d2a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.74
+}

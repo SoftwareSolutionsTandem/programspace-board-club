@@ -1,0 +1,14 @@
+{
+  "id": "khariton_praise_03",
+  "text": "Изумительно! Позвольте, я это запомню.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "4677f8580f64177132cd49c3750680adecd10613fc32bc6d4ea092436b0b2cda",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.6
+}

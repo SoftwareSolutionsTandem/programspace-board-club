@@ -1,0 +1,14 @@
+{
+  "id": "khariton_ah_01",
+  "text": "О!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "1213026d7d2d0099523286e3df6163b89f0fccac79c63eaeccb9f824c7fdcbb8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.5
+}

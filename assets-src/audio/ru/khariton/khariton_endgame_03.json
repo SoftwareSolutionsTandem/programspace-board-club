@@ -1,0 +1,14 @@
+{
+  "id": "khariton_endgame_03",
+  "text": "Король, на выход! Эндшпиль — его время.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "2a0edcf3fd59830857cbe47caaf6093f391988a18821bf99356480c23606b6e6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.53
+}

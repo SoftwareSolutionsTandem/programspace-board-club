@@ -1,0 +1,14 @@
+{
+  "id": "khariton_giggle_02",
+  "text": "Хи-хи. Простите.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "245a31df152bdbedc63cece7e734a5e2b4114bc7847465535da996078fad08d1",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.23
+}

@@ -1,0 +1,14 @@
+{
+  "id": "khariton_praise_01",
+  "text": "Браво! Красивый ход.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "4c7d68583d9f15f7acaefb8f5e32ab35a9534d838f32703e7472fae874063505",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.83
+}

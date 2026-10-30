@@ -1,0 +1,14 @@
+{
+  "id": "khariton_move_02",
+  "text": "Посмотрим, что вы на это скажете.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "ec01bbb1e306898a5c80d9633ea39f9d2c2864443133c543cb2d9a3eebe5139e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.53
+}

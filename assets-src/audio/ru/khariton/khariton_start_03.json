@@ -1,0 +1,14 @@
+{
+  "id": "khariton_start_03",
+  "text": "Шестьдесят четыре клетки — и целый мир!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "0e66ca6c8867c25a973e680ce42ade2adf89b6fc44808b0c3d914a7fe3d70a1a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.5
+}

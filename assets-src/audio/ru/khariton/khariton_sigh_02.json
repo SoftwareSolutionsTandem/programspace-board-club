@@ -1,0 +1,14 @@
+{
+  "id": "khariton_sigh_02",
+  "text": "Ох-хо-хо…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "e0700f985dc50fce83cf73cce9b1341b378dd99ddfaa82334b334026d8020aed",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.44
+}

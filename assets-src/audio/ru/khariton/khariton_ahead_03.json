@@ -1,0 +1,14 @@
+{
+  "id": "khariton_ahead_03",
+  "text": "Позиция приятная. Но я не расслабляюсь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "be691ee2a429a2977b0f6b9cb4d933998c9cba0f48e4b37cd2eb99c954ef37ab",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.6
+}

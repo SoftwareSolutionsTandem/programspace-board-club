@@ -1,0 +1,14 @@
+{
+  "id": "khariton_hmm_03",
+  "text": "Любопытная позиция.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "c263e0738b0ac4f27416dbda477c656a72f4e75069dec3c44a6f583826e8b3d6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.75
+}

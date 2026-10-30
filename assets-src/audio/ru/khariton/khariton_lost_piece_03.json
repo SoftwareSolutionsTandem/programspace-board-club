@@ -1,0 +1,14 @@
+{
+  "id": "khariton_lost_piece_03",
+  "text": "Жаль. Хорошая была фигура.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_chess.zip)",
+  "providedAt": "2026-10-30",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_chess.zip",
+  "sha256": "a28695fc05a00ccb7f59fb6a20ee7bb50229329a3f73efef683437197d95081f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.67
+}
