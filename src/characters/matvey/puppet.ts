@@ -4,7 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, MATVEY_PIECES as P, MOUTHS, type MouthShape } from './art';
-import { seedSvg, teaGlassSvg } from '../props';
+import { newspaperSvg, seedSvg, sugarSvg, teaGlassSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -62,6 +62,9 @@ export const MATVEY_PUPPET: PuppetArt = {
   props: {
     tea: { ...part('prop:tea', { x: -26, y: -33, w: 52, h: 56 }, () => teaGlassSvg(P.colors.outline, '#B9BEC6', '#8A919C', '#B5621E')), grip: { x: -4, y: -26 }, rot: 0 },
     seed: { ...part('prop:seed', { x: -8, y: -10, w: 16, h: 20 }, () => seedSvg(P.colors.outline)), grip: { x: -14, y: -14 }, rot: 0, above: true },
+    // LIFE-2: газета, кусок сахара.
+    newspaper: { ...part('prop:newspaper', { x: -68, y: -53, w: 136, h: 106 }, () => `<g transform="scale(1.85)">${newspaperSvg(P.colors.outline, '#F1ECDD', '#4A4F57')}</g>`), grip: { x: -42, y: -30 }, rot: 0 },
+    sugar: { ...part('prop:sugar', { x: -9, y: -10, w: 19, h: 20 }, () => sugarSvg(P.colors.outline)), grip: { x: -14, y: -14 }, rot: 0, above: true },
   },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,

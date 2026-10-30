@@ -4,7 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, KOSTYAN_PIECES as P, MOUTHS, type MouthShape } from './art';
-import { phoneBackSvg, phoneSvg } from '../props';
+import { cubeSvg, phoneBackSvg, phoneSvg, sodaSvg, spinnerSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -58,6 +58,10 @@ export const KOSTYAN_PUPPET: PuppetArt = {
   props: {
     phone: { ...part('prop:phone', { x: -16, y: -26, w: 32, h: 52 }, () => phoneSvg(P.colors.outline, '#2E3240', '#BFE6F2', P.colors.band)), grip: { x: -6, y: -18 }, rot: 0 },
     phoneBack: { ...part('prop:phoneBack', { x: -16, y: -26, w: 32, h: 52 }, () => phoneBackSvg(P.colors.outline, '#2E3240', P.colors.band)), grip: { x: -6, y: -18 }, rot: 0 },
+    // LIFE-2: газировка, спиннер, кубик Рубика.
+    soda: { ...part('prop:soda', { x: -13, y: -22, w: 26, h: 43 }, () => sodaSvg(P.colors.outline, '#D63A3A', '#F4F1E8')), grip: { x: -6, y: -18 }, rot: 0 },
+    spinner: { ...part('prop:spinner', { x: -29, y: -29, w: 58, h: 58 }, () => `<g transform="scale(1.4)">${spinnerSvg(P.colors.outline, P.colors.band, '#E8EBF0')}</g>`), grip: { x: -2, y: -26 }, rot: 0, above: true },
+    cube: { ...part('prop:cube', { x: -21, y: -21, w: 42, h: 42 }, () => `<g transform="scale(1.3)">${cubeSvg(P.colors.outline)}</g>`), grip: { x: -4, y: -22 }, rot: 0, above: true },
   },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,

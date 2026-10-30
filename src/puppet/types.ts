@@ -20,6 +20,8 @@ export const CHANNELS = [
   'hatRot', 'hatX', 'hatY',
   // Очки сняты (больше 0,5 — очков на лице нет: они в руке как реквизит).
   'glassesOff',
+  // Поворот реквизита в левой и правой кисти (градусы) — крутить спиннер, вертеть фигурку, листать газету.
+  'propRotL', 'propRotR',
 ] as const;
 export type Channel = (typeof CHANNELS)[number];
 export type Pose = Partial<Record<Channel, number>>;
@@ -109,19 +111,32 @@ export type BaseState = 'idle' | 'think' | 'took' | 'victory';
 export type Mood = 'ahead' | 'behind' | 'even';
 
 /**
+ * Уровень активности (docs/ART_STYLE.md §5.6): habit — короткая привычка без слов (1–2,5 с), часто и в любую паузу;
+ * scene — бытовая сценка с репликой; special — редкая длинная сценка, когда игрок думает долго.
+ */
+export type LifeTier = 'habit' | 'scene' | 'special';
+
+/** Что персонаж «замечает» в игре: игрок ходит быстро, долго думает, партия затянулась. */
+export type LifeTag = 'playerFast' | 'playerSlow' | 'longGame';
+
+/**
  * Сценка — законченное бытовое действие персонажа в паузе (docs/ART_STYLE.md §5.6): заметил, достал, сделал,
  * отреагировал, сказал, вернулся. Реплика — категория `scene_<id>`, звучит на маркере say; без записи сценка идёт молча.
  */
 export interface SceneDef {
   readonly id: string;
   readonly gesture: GestureDef;
+  /** Уровень: привычка, сценка (по умолчанию) или особая сценка. */
+  readonly tier?: LifeTier;
+  /** Сценка — ответ на то, что персонаж заметил в игре: играет, только когда этот признак есть, и тогда — в первую очередь. */
+  readonly tag?: LifeTag;
   /** Сколько игрок уже думает над ходом (мс), прежде чем сценка уместна (задремать — только при долгом ожидании). */
   readonly minWaitMs?: number;
   /** В каком настроении партии сценка уместна (по умолчанию — в любом). */
   readonly moods?: readonly Mood[];
   /** Вес при выборе (по умолчанию 1). */
   readonly weight?: number;
-  /** Не повторять раньше чем через (мс), по умолчанию 4 минуты. */
+  /** Не повторять раньше чем через (мс); по умолчанию: привычка — 40 с, сценка — 150 с, особая — 5 минут. */
   readonly cooldownMs?: number;
   /** Лицо на время сценки. */
   readonly emotion?: Emotion;

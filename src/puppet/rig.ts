@@ -592,7 +592,9 @@ export class PuppetRig {
       const hr = left ? (v.lHandRot - rest.lHandRot) * DEG : (v.rHandRot - rest.rHandRot) * DEG;
       const gx = left ? -spec.grip.x : spec.grip.x;
       s.position.set(hand.x + gx * Math.cos(hr) - spec.grip.y * Math.sin(hr), hand.y + gx * Math.sin(hr) + spec.grip.y * Math.cos(hr));
-      s.rotation = hr + (left ? -spec.rot : spec.rot) * DEG;
+      // Свой поворот предмета в пальцах (спиннер, фигурка) — поверх поворота кисти.
+      const spin = left ? -v.propRotL : v.propRotR;
+      s.rotation = hr + ((left ? -spec.rot : spec.rot) + spin) * DEG;
       // Под пальцами своей кисти — между манжетой и кистью (там же карта в руке); above — поверх кисти.
       s.zIndex = spec.above ? 5 : 3;
       const hi = this.front.getChildIndex(hand);

@@ -7,7 +7,7 @@ import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
 import { AGATA_LINES } from '../../characters/agata/lines';
 import { Director, type Cue, type Trigger } from '../../characters/director';
-import { CharacterLife, moodOf } from '../../characters/life';
+import { CharacterLife, moodOf, PlayTempo } from '../../characters/life';
 import { createRng, nextInt, type RngState } from '../../core/rng';
 import { t } from '../../i18n';
 import type { LayoutSpec } from '../../layout/layout';
@@ -42,6 +42,8 @@ export class GameSession implements GameSessionApi {
   private readonly life: CharacterLife;
   /** С какого момента игрок думает над ходом (null — сейчас не его ход). */
   private waitSince: number | null = null;
+  /** Темп игрока и длительность партии — для сценок-ответов. */
+  private readonly tempo: PlayTempo;
   // Последние заявки на реплики — для отладки и e2e (только id и исход, без скрытой информации).
   private readonly voiceLog: { id: string; outcome: string }[] = [];
   private readonly director: Director;
@@ -81,6 +83,7 @@ export class GameSession implements GameSessionApi {
     this.voice = new VoiceChannel(host.audio, () => host.now());
     this.director = new Director({ lines: AGATA_LINES, minGapMs: 7000, lineCooldownMs: 90_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 17));
     // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
+    this.tempo = new PlayTempo(host.now());
     this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
     this.coach = opts.tutorial ? new TutorialCoach() : null;
     // HUD.
@@ -121,6 +124,7 @@ export class GameSession implements GameSessionApi {
       blinks: this.scene.rig.blinks,
       speaking: this.voice.speaking,
       life: this.life.playing,
+      lifeTier: this.life.playingTier,
       props: [this.scene.rig.brain.propL, this.scene.rig.brain.propR],
       /** e2e: сыграть сценку сразу. */
       playScene: (id: string) => {
@@ -330,6 +334,7 @@ export class GameSession implements GameSessionApi {
   private clearIdle(): void {
     if (this.idleTimer) clearTimeout(this.idleTimer);
     this.idleTimer = null;
+    if (this.waitSince !== null) this.tempo.moved(this.host.now() - this.waitSince);
     this.waitSince = null;
   }
 
@@ -508,6 +513,7 @@ export class GameSession implements GameSessionApi {
 
   rematch(): void {
     this.life.restart(this.host.now());
+    this.tempo.reset(this.host.now());
     this.result.classList.remove('result--show');
     this.coachBox.classList.remove('coach--show');
     this.match.nextGame();
@@ -603,11 +609,13 @@ export class GameSession implements GameSessionApi {
     const now = this.host.now();
     this.life.tick({
       now,
-      waiting: this.waitSince !== null && !this.paused && !this.coach,
+      active: !this.paused && !this.coach && this.view().result === null,
+      waiting: this.waitSince !== null && this.view().result === null,
       waitMs: this.waitSince === null ? 0 : now - this.waitSince,
       mood: moodOf(this.view().hand.length - this.view().opponentHandCount, 3),
       free: !this.scene.rig.brain.busy && this.voice.speaking === null,
       quietMs: this.director.quietMs(now),
+      tags: this.tempo.tags(now, this.waitSince === null ? 0 : now - this.waitSince),
     });
     this.scene.update(dtMs);
   }

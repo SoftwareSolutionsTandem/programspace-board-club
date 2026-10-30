@@ -6,7 +6,7 @@ import { button, el, iconButton, ICONS, placeChalk } from '../app/dom';
 import type { GameAssets, GameSession, SessionHost, SessionOptions } from '../app/game';
 import type { SfxName } from '../audio/engine';
 import { VoiceChannel } from '../audio/voiceChannel';
-import { CharacterLife, moodOf } from '../characters/life';
+import { CharacterLife, moodOf, PlayTempo } from '../characters/life';
 import { Director, type Cue, type Trigger } from '../characters/director';
 import type { LineCategory, VoiceLine } from '../characters/types';
 import { createRng, nextInt, type RngState } from '../core/rng';
@@ -120,6 +120,8 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   private readonly life: CharacterLife;
   /** С какого момента игрок думает над ходом (null — сейчас не его ход). */
   private waitSince: number | null = null;
+  /** Темп игрока и длительность партии — для сценок-ответов. */
+  private readonly tempo: PlayTempo;
   private readonly voiceLog: { id: string; outcome: string }[] = [];
   private readonly director: Director;
   private layout: BoardLayout | null = null;
@@ -167,6 +169,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.voice = new VoiceChannel(host.audio, () => host.now());
     this.director = new Director({ lines: spec.lines, minGapMs: spec.minGapMs, lineCooldownMs: 120_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
     // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
+    this.tempo = new PlayTempo(host.now());
     this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
     this.tutorial = opts.tutorial ? new Set() : null;
     const hudLeft = el('div', 'hud hud--left');
@@ -218,6 +221,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       speaking: this.voice.speaking,
       voiceLog: [...this.voiceLog],
       life: this.life.playing,
+      lifeTier: this.life.playingTier,
       props: [this.scene.rig.brain.propL, this.scene.rig.brain.propR],
       /** e2e: сыграть сценку сразу. */
       playScene: (id: string) => {
@@ -442,6 +446,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   private clearIdle(): void {
     if (this.idleTimer) clearTimeout(this.idleTimer);
     this.idleTimer = null;
+    if (this.waitSince !== null) this.tempo.moved(this.host.now() - this.waitSince);
     this.waitSince = null;
   }
 
@@ -768,6 +773,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.coachBox.classList.remove('coach--show');
     this.match.newMatch();
     this.life.restart(this.host.now());
+    this.tempo.reset(this.host.now());
     this.humanMoves = 0;
     this.plies = 0;
     this.scene.rig.setPose('idle');
@@ -856,11 +862,13 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     const now = this.host.now();
     this.life.tick({
       now,
-      waiting: this.waitSince !== null && !this.paused && !this.tutorial && !this.match.over,
+      active: !this.paused && !this.tutorial && !this.match.over,
+      waiting: this.waitSince !== null,
       waitMs: this.waitSince === null ? 0 : now - this.waitSince,
       mood: moodOf(this.spec.lead(this.view(), this.match.opponent), 2),
       free: !this.scene.rig.brain.busy && this.voice.speaking === null,
       quietMs: this.director.quietMs(now),
+      tags: this.tempo.tags(now, this.waitSince === null ? 0 : now - this.waitSince),
     });
     this.tweens.update(dtMs);
     this.scene.update(dtMs);

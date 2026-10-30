@@ -4,7 +4,7 @@ import type { PartSpec, PivotPart, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { AGATA_PIECES as P, emotionMouth, FIGURE_BOX, MOUTHS, type MouthShape } from './art';
-import { candySvg, hankySvg } from '../props';
+import { candySvg, hankySvg, knittingSvg, mirrorSvg, pieSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -62,6 +62,10 @@ export const AGATA_PUPPET: PuppetArt = {
   props: {
     hanky: { ...part('prop:hanky', { x: -24, y: -21, w: 48, h: 42 }, () => hankySvg(P.colors.outline, '#FFF8F0', '#E07A8A', '#E9D9CC')), grip: { x: -4, y: -20 }, rot: 0, above: true },
     candy: { ...part('prop:candy', { x: -23, y: -12, w: 46, h: 24 }, () => candySvg(P.colors.outline, '#D8343F', '#FFF3E4')), grip: { x: -2, y: -22 }, rot: -10, above: true },
+    // LIFE-2: вязание (спицы с полотном), пирожок, зеркальце.
+    knitting: { ...part('prop:knitting', { x: -45, y: -32, w: 90, h: 63 }, () => `<g transform="scale(1.5)">${knittingSvg(P.colors.outline, '#7FA6C9', '#5A82A6', '#C9CED6')}</g>`), grip: { x: 4, y: -22 }, rot: 0, above: true },
+    pie: { ...part('prop:pie', { x: -22, y: -14, w: 44, h: 28 }, () => pieSvg(P.colors.outline, '#E3A44F', '#B97A2E')), grip: { x: -2, y: -20 }, rot: 0, above: true },
+    mirror: { ...part('prop:mirror', { x: -17, y: -19, w: 34, h: 48 }, () => mirrorSvg(P.colors.outline, '#D8343F', '#D9EEF2')), grip: { x: -4, y: -40 }, rot: 0 },
   },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,

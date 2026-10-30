@@ -4,7 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, KHARITON_PIECES as P, MOUTHS, type MouthShape } from './art';
-import { clothSvg, pocketWatchSvg } from '../props';
+import { clothSvg, knightSvg, magnifierSvg, notebookSvg, pencilSvg, pocketWatchSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -61,6 +61,11 @@ export const KHARITON_PUPPET: PuppetArt = {
     glasses: { ...part('prop:glasses', { x: -58, y: -22, w: 116, h: 44 }, () => `<g transform="translate(-120 -130)">${P.glasses()}</g>`), grip: { x: -10, y: -24 }, rot: 0 },
     cloth: { ...part('prop:cloth', { x: -19, y: -15, w: 38, h: 30 }, () => clothSvg(P.colors.outline, '#E7C76A', '#B9963E')), grip: { x: -4, y: -12 }, rot: 0, above: true },
     watch: { ...part('prop:watch', { x: -19, y: -26, w: 38, h: 44 }, () => pocketWatchSvg(P.colors.outline, P.colors.frame, P.colors.frameHi, '#FFFDF5')), grip: { x: -6, y: -20 }, rot: 0 },
+    // LIFE-2: записная книжка и карандаш, лупа, шахматный конь из кармана.
+    notebook: { ...part('prop:notebook', { x: -29, y: -20, w: 58, h: 42 }, () => notebookSvg(P.colors.outline, '#7A3B2E', '#FBF6E8', '#6B6258')), grip: { x: 4, y: -18 }, rot: 0, above: true },
+    pencil: { ...part('prop:pencil', { x: -5, y: -28, w: 10, h: 52 }, () => pencilSvg(P.colors.outline, '#E8B83C', '#3B2418')), grip: { x: -10, y: -4 }, rot: 30, above: true },
+    magnifier: { ...part('prop:magnifier', { x: -18, y: -18, w: 46, h: 46 }, () => magnifierSvg(P.colors.outline, P.colors.frame, '#7A4A2A')), grip: { x: -20, y: -22 }, rot: 0 },
+    knight: { ...part('prop:knight', { x: -14, y: -18, w: 28, h: 38 }, () => knightSvg(P.colors.outline, '#F5ECD7', '#CDBF9D')), grip: { x: -2, y: -24 }, rot: 0, above: true },
   },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,

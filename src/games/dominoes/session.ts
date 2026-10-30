@@ -6,7 +6,7 @@ import type { GameAssets, GameSession, SessionHost, SessionOptions } from '../..
 import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
 import { Director, type Cue, type Trigger } from '../../characters/director';
-import { CharacterLife, moodOf } from '../../characters/life';
+import { CharacterLife, moodOf, PlayTempo } from '../../characters/life';
 import { MATVEY_LINES } from '../../characters/matvey/lines';
 import { createRng, nextInt, type RngState } from '../../core/rng';
 import { t } from '../../i18n';
@@ -43,6 +43,8 @@ export class DominoSession implements GameSession {
   private readonly life: CharacterLife;
   /** С какого момента игрок думает над ходом (null — сейчас не его ход). */
   private waitSince: number | null = null;
+  /** Темп игрока и длительность партии — для сценок-ответов. */
+  private readonly tempo: PlayTempo;
   private readonly voiceLog: { id: string; outcome: string }[] = [];
   private readonly director: Director;
   private coach: TutorialCoach | null;
@@ -86,6 +88,7 @@ export class DominoSession implements GameSession {
     // Матвей неразговорчив: паузы между репликами длиннее, чем у Агаты.
     this.director = new Director({ lines: MATVEY_LINES, minGapMs: 9000, lineCooldownMs: 120_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
     // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
+    this.tempo = new PlayTempo(host.now());
     this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
     this.coach = opts.tutorial ? new TutorialCoach() : null;
     const hudLeft = el('div', 'hud hud--left');
@@ -130,6 +133,7 @@ export class DominoSession implements GameSession {
       arms: this.scene.armsLayer(),
       speaking: this.voice.speaking,
       life: this.life.playing,
+      lifeTier: this.life.playingTier,
       props: [this.scene.rig.brain.propL, this.scene.rig.brain.propR],
       /** e2e: сыграть сценку сразу. */
       playScene: (id: string) => {
@@ -340,6 +344,7 @@ export class DominoSession implements GameSession {
   private clearIdle(): void {
     if (this.idleTimer) clearTimeout(this.idleTimer);
     this.idleTimer = null;
+    if (this.waitSince !== null) this.tempo.moved(this.host.now() - this.waitSince);
     this.waitSince = null;
   }
 
@@ -558,6 +563,7 @@ export class DominoSession implements GameSession {
 
   rematch(): void {
     this.life.restart(this.host.now());
+    this.tempo.reset(this.host.now());
     this.result.classList.remove('result--show', 'result--hand');
     this.coachBox.classList.remove('coach--show');
     this.match.newMatch();
@@ -649,11 +655,13 @@ export class DominoSession implements GameSession {
     const now = this.host.now();
     this.life.tick({
       now,
-      waiting: this.waitSince !== null && !this.paused && !this.coach,
+      active: !this.paused && !this.coach && this.match.phase === 'play',
+      waiting: this.waitSince !== null && this.match.phase === 'play',
       waitMs: this.waitSince === null ? 0 : now - this.waitSince,
       mood: moodOf(this.view().score[OPPONENT] - this.view().score[HUMAN], 30),
       free: !this.scene.rig.brain.busy && this.voice.speaking === null,
       quietMs: this.director.quietMs(now),
+      tags: this.tempo.tags(now, this.waitSince === null ? 0 : now - this.waitSince),
     });
     this.scene.update(dtMs);
   }

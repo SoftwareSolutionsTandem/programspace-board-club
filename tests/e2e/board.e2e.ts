@@ -242,7 +242,7 @@ test.describe('голос Харитона', () => {
     });
     await seedSettings(page, { chessTutorialDone: true, metKhariton: true, reducedMotion: true }, settingsKey());
     await page.getByRole('button', { name: 'Настройки' }).click();
-    await expect(page.locator('.modal .note', { hasText: 'Харитона' })).toContainText('записано реплик — 130 из 145');
+    await expect(page.locator('.modal .note', { hasText: 'Харитона' })).toContainText('записано реплик — 130 из 163');
     await page.getByRole('button', { name: 'Закрыть' }).click();
     await sit(page, 'chess');
     // Повторная встреча — настоящей записью.
