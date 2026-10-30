@@ -7,6 +7,8 @@
 import type { Emotion, LineCategory, VoiceLine } from '../types';
 
 const L = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ id, category, emotion, text, direction });
+/** Реплика сценки «своей жизни» (src/characters/life.ts): текст готов, записи ещё нет — не звучит, пока её не добавят. */
+const S = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ ...L(id, category, emotion, text, direction), pending: true });
 
 export const KHARITON_LINES: readonly VoiceLine[] = [
   // Встреча и начало.
@@ -146,4 +148,20 @@ export const KHARITON_LINES: readonly VoiceLine[] = [
   L('khariton_ah_01', 'nvAh', 'surprise', 'О!', 'удивлённо'),
   L('khariton_ah_02', 'nvAh', 'surprise', 'Ах!', 'коротко'),
   L('khariton_ah_03', 'nvAh', 'surprise', 'Ого!', 'приподняв брови'),
+  // Сценки «своей жизни» в паузах (категория scene_<сценка>, docs/voice/scenes.md). Записей пока нет.
+  S('khariton_scene_glasses_01', 'scene_glasses', 'sly', 'Вот теперь вижу всю глубину позиции.', 'удовлетворённо'),
+  S('khariton_scene_glasses_02', 'scene_glasses', 'think', 'Пылинка на линзе — и уже зевнул ферзя. Протрём.', 'рассуждая'),
+  S('khariton_scene_glasses_03', 'scene_glasses', 'warm', 'Ясность взгляда — мать комбинаций.', 'афористично'),
+  S('khariton_scene_watch_01', 'scene_watch', 'surprise', 'Ого! Уже столько? Впрочем, время в шахматах относительно.', 'изумлённо, потом философски'),
+  S('khariton_scene_watch_02', 'scene_watch', 'think', 'Тикают… Значит, партия продолжается.', 'прислушиваясь'),
+  S('khariton_scene_watch_03', 'scene_watch', 'warm', 'Часы идут, коллега. Но я не тороплю.', 'учтиво'),
+  S('khariton_scene_air_chess_01', 'scene_airChess', 'think', 'Конь сюда, слон туда… Нет, вздор.', 'бормочет'),
+  S('khariton_scene_air_chess_02', 'scene_airChess', 'think', 'А если жертва? Нет… Хотя…', 'увлечённо, сам себе'),
+  S('khariton_scene_air_chess_03', 'scene_airChess', 'sly', 'Е-два, е-четыре… Нет, это мы уже проходили.', 'с усмешкой'),
+  S('khariton_scene_tuft_01', 'scene_tuft', 'annoyed', 'Непокорный, как ферзевый гамбит.', 'с досадой и юмором'),
+  S('khariton_scene_tuft_02', 'scene_tuft', 'sad', 'Ну что ты будешь делать…', 'вздохнув'),
+  S('khariton_scene_lecture_01', 'scene_lecture', 'azart', 'Знаете, ещё Стейниц говорил… Впрочем, не буду отвлекать.', 'увлечённо, потом смущённо'),
+  S('khariton_scene_lecture_02', 'scene_lecture', 'azart', 'Позвольте небольшую лекцию… Нет-нет, потом. Думайте.', 'воодушевлённо, затем спохватившись'),
+  S('khariton_scene_false_eureka_01', 'scene_falseEureka', 'think', '…Нет. Показалось.', 'сникнув'),
+  S('khariton_scene_false_eureka_02', 'scene_falseEureka', 'laugh', 'Ах, нет. Ложная тревога.', 'посмеиваясь над собой'),
 ];

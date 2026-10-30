@@ -4,6 +4,7 @@
 import type { SpringParams } from '../../puppet/motion';
 import { clamp } from '../../puppet/motion';
 import type { Face, GestureDef, MotionStyle, Pose, StateDef, ThrowTarget } from '../../puppet/types';
+import { kharitonScenes } from './scenes';
 
 // Нейтральная поза — рисунок «ожидание» (art.ts, POSE_ARMS.idle): руки на столе по сторонам доски.
 const REST = {
@@ -378,6 +379,7 @@ export const KHARITON_MOTION: MotionStyle = {
   gazeHead: { rot: 2, y: 2 },
   throwCard: moveOnBoard,
   takeCards: collect,
+  scenes: kharitonScenes(REST),
   gestures: {
     move: (t) => moveOnBoard(t ?? { x: 260, y: 440 }),
     collect: (t) => collect(t ?? { x: 120, y: 420 }),

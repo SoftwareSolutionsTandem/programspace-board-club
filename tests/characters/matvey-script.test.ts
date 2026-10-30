@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { Director } from '../../src/characters/director';
 import { MATVEY_LINES } from '../../src/characters/matvey/lines';
+import { MATVEY_MOTION } from '../../src/characters/matvey/motions';
 import { VoiceChannel, type VoicePlayer } from '../../src/audio/voiceChannel';
 import { createRng } from '../../src/core/rng';
 import type { LineCategory, VoicePriority } from '../../src/characters/types';
@@ -19,7 +20,7 @@ function parseDoc() {
   const proposals = new Set<string>();
   let category = '';
   for (const line of DOC.split('\n')) {
-    const h = /^### .* — `([A-Za-z]+)`$/.exec(line);
+    const h = /^### .* — `([A-Za-z_]+)`$/.exec(line);
     if (h) category = h[1]!;
     if (category && line.startsWith('- Условие:') && line.includes('**предложение на будущее**')) proposals.add(category);
     const r = /^\| `(matvey_[a-z0-9_]+)` \| ([^|]+) \|/.exec(line);
@@ -47,7 +48,8 @@ describe('сценарий озвучки Матвея', () => {
 
   it('категория вызывается событием домино или помечена как предложение', () => {
     for (const c of new Set(MATVEY_LINES.map((l) => l.category))) {
-      const used = SOURCES.includes(`'${c}'`);
+      // Категория сценки — scene_<id> настоящей сценки Матвея (src/characters/matvey/scenes.ts).
+      const used = c.startsWith('scene_') ? (MATVEY_MOTION.scenes ?? []).some((x) => `scene_${x.id}` === c) : SOURCES.includes(`'${c}'`);
       expect(used || proposals.has(c), `${c}: нет события и нет пометки «предложение»`).toBe(true);
       // Предложение не должно уже вызываться кодом — иначе пометка устарела.
       if (proposals.has(c)) expect(used, `${c} вызывается, а помечена как предложение`).toBe(false);

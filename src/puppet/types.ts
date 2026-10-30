@@ -18,6 +18,8 @@ export const CHANNELS = [
   'lFist', 'rFist',
   // Передняя деталь головы (у Матвея — кепка): поворот и сдвиг относительно головы, для жестов вроде «приподнять кепку».
   'hatRot', 'hatX', 'hatY',
+  // Очки сняты (больше 0,5 — очков на лице нет: они в руке как реквизит).
+  'glassesOff',
 ] as const;
 export type Channel = (typeof CHANNELS)[number];
 export type Pose = Partial<Record<Channel, number>>;
@@ -64,6 +66,17 @@ export interface GestureKey {
   readonly holdHand?: 'l' | 'r';
   /** Рука над предметами на столе (тянется через свои кости к цепочке): l, r или нет (false). Сцена поднимает её слой. */
   readonly front?: 'l' | 'r' | false;
+  // Сценки (MotionStyle.scenes): значения держатся до следующего ключа, где они заданы, и сбрасываются в конце жеста.
+  /** Реквизит в кисти (PuppetArt.props): имя или null — убрать. */
+  readonly props?: { readonly l?: string | null; readonly r?: string | null };
+  /** Форма глаз поверх эмоции (зажмурился, задремал); null — снова по эмоции. */
+  readonly eyes?: EyeStyle | null;
+  /** Рот поверх эмоции, когда персонаж не говорит (жуёт, дует, зевает); null — снова по эмоции. */
+  readonly mouth?: string | null;
+  /** Сменить эмоцию в этот момент (один раз). */
+  readonly emotion?: Emotion;
+  /** Пока звучит реплика, жест стоит на этом ключе: сценка не кончается раньше фразы. */
+  readonly waitSpeech?: boolean;
 }
 
 export interface GestureDef {
@@ -91,6 +104,28 @@ export interface StateDef {
 }
 
 export type BaseState = 'idle' | 'think' | 'took' | 'victory';
+
+/** Настроение партии для выбора сценки: персонаж ведёт, отстаёт или идут на равных. */
+export type Mood = 'ahead' | 'behind' | 'even';
+
+/**
+ * Сценка — законченное бытовое действие персонажа в паузе (docs/ART_STYLE.md §5.6): заметил, достал, сделал,
+ * отреагировал, сказал, вернулся. Реплика — категория `scene_<id>`, звучит на маркере say; без записи сценка идёт молча.
+ */
+export interface SceneDef {
+  readonly id: string;
+  readonly gesture: GestureDef;
+  /** Сколько игрок уже думает над ходом (мс), прежде чем сценка уместна (задремать — только при долгом ожидании). */
+  readonly minWaitMs?: number;
+  /** В каком настроении партии сценка уместна (по умолчанию — в любом). */
+  readonly moods?: readonly Mood[];
+  /** Вес при выборе (по умолчанию 1). */
+  readonly weight?: number;
+  /** Не повторять раньше чем через (мс), по умолчанию 4 минуты. */
+  readonly cooldownMs?: number;
+  /** Лицо на время сценки. */
+  readonly emotion?: Emotion;
+}
 
 /** Точка на столе в единицах рига, куда летит карта (для броска). */
 export interface ThrowTarget {
@@ -125,4 +160,6 @@ export interface MotionStyle {
   readonly takeCards: (target: ThrowTarget) => GestureDef;
   /** Прочие жесты персонажа по имени (стук по столу, приподнять кепку…); target — точка в единицах рига. */
   readonly gestures?: Readonly<Record<string, (target?: ThrowTarget) => GestureDef>>;
+  /** Сценки в паузах (src/characters/life.ts выбирает, когда и какую). */
+  readonly scenes?: readonly SceneDef[];
 }

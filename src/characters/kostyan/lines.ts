@@ -7,6 +7,8 @@
 import type { Emotion, LineCategory, VoiceLine } from '../types';
 
 const L = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ id, category, emotion, text, direction });
+/** Реплика сценки «своей жизни» (src/characters/life.ts): текст готов, записи ещё нет — не звучит, пока её не добавят. */
+const S = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ ...L(id, category, emotion, text, direction), pending: true });
 
 export const KOSTYAN_LINES: readonly VoiceLine[] = [
   // Встреча и начало.
@@ -146,4 +148,16 @@ export const KOSTYAN_LINES: readonly VoiceLine[] = [
   L('kostyan_ah_01', 'nvAh', 'surprise', 'Ого!', 'удивлённо'),
   L('kostyan_ah_02', 'nvAh', 'surprise', 'Ух ты!', 'удивлённо'),
   L('kostyan_ah_03', 'nvAh', 'surprise', 'Вау!', 'коротко, восхищённо'),
+  // Сценки «своей жизни» в паузах (категория scene_<сценка>, docs/voice/scenes.md). Записей пока нет.
+  S('kostyan_scene_phone_01', 'scene_phone', 'sly', 'Так, это потом. Сейчас — шашки.', 'убирая телефон'),
+  S('kostyan_scene_phone_02', 'scene_phone', 'laugh', 'Друг пишет: «Ты где?» А я — в игре!', 'весело'),
+  S('kostyan_scene_phone_03', 'scene_phone', 'surprise', 'Ничего себе… Ладно, не отвлекаюсь.', 'удивлённо, потом собранно'),
+  S('kostyan_scene_selfie_01', 'scene_selfie', 'laugh', 'Для истории! Подпишу: «За минуту до победы».', 'позируя'),
+  S('kostyan_scene_selfie_02', 'scene_selfie', 'sly', 'Улыбочку! Ну, ты не в кадре, извини.', 'дурачась'),
+  S('kostyan_scene_air_guitar_01', 'scene_airGuitar', 'sly', 'Тыц-тыц… Так, о чём это я?', 'смутившись'),
+  S('kostyan_scene_air_guitar_02', 'scene_airGuitar', 'azart', 'Соло закончилось. Твой ход!', 'бодро'),
+  S('kostyan_scene_yawn_01', 'scene_yawn', 'sly', 'Ну давай, ходи уже!', 'потягиваясь, с подначкой'),
+  S('kostyan_scene_yawn_02', 'scene_yawn', 'laugh', 'Я так усну… Шучу. Думай.', 'зевая, со смешком'),
+  S('kostyan_scene_knuckles_01', 'scene_knuckles', 'azart', 'Разминка перед победой.', 'уверенно'),
+  S('kostyan_scene_knuckles_02', 'scene_knuckles', 'sly', 'Пальцы готовы. Голова тоже.', 'самоуверенно'),
 ];

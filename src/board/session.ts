@@ -6,6 +6,7 @@ import { button, el, iconButton, ICONS, placeChalk } from '../app/dom';
 import type { GameAssets, GameSession, SessionHost, SessionOptions } from '../app/game';
 import type { SfxName } from '../audio/engine';
 import { VoiceChannel } from '../audio/voiceChannel';
+import { CharacterLife, moodOf } from '../characters/life';
 import { Director, type Cue, type Trigger } from '../characters/director';
 import type { LineCategory, VoiceLine } from '../characters/types';
 import { createRng, nextInt, type RngState } from '../core/rng';
@@ -116,6 +117,9 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   readonly overlay = el('div', 'game');
   private readonly tweens = new Tweener();
   private readonly voice: VoiceChannel;
+  private readonly life: CharacterLife;
+  /** С какого момента игрок думает над ходом (null — сейчас не его ход). */
+  private waitSince: number | null = null;
   private readonly voiceLog: { id: string; outcome: string }[] = [];
   private readonly director: Director;
   private layout: BoardLayout | null = null;
@@ -161,7 +165,9 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       },
     }, spec.motion, spec.skin, opts.seed + 31);
     this.voice = new VoiceChannel(host.audio, () => host.now());
-    this.director = new Director({ lines: spec.lines, minGapMs: spec.minGapMs, lineCooldownMs: 120_000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
+    this.director = new Director({ lines: spec.lines, minGapMs: spec.minGapMs, lineCooldownMs: 120_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
+    // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
+    this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
     this.tutorial = opts.tutorial ? new Set() : null;
     const hudLeft = el('div', 'hud hud--left');
     hudLeft.append(iconButton(ICONS.menu, t('hud.menu'), () => this.openPause()));
@@ -211,6 +217,13 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       gesture: this.scene.rig.brain.gestureId,
       speaking: this.voice.speaking,
       voiceLog: [...this.voiceLog],
+      life: this.life.playing,
+      props: [this.scene.rig.brain.propL, this.scene.rig.brain.propR],
+      /** e2e: сыграть сценку сразу. */
+      playScene: (id: string) => {
+        const sc = this.scene.rig.scenes.find((s) => s.id === id);
+        if (sc) void this.life.play(sc);
+      },
       scene: this.scene.debug(),
       /** Центр поля на экране (CSS-пиксели) — для e2e. */
       squareAt: (sq: number) => this.scene.debug().square(sq),
@@ -366,12 +379,14 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   // ---------- реакции ----------
 
   private cue(trigger: Trigger, deferGesture = false): string | undefined {
+    this.life.event(this.host.now());
+    if (trigger.priority === 'result') this.life.stop();
     const c: Cue = this.director.react(trigger, this.host.now());
     this.scene.rig.setEmotion(c.emotion);
     if (c.pose) this.scene.rig.setPose(c.pose, c.pose === 'victory' ? 0 : 1400);
     if (c.gesture && !deferGesture) void this.scene.rig.gesture(c.gesture);
     if (this.emotionTimer) clearTimeout(this.emotionTimer);
-    if (trigger.priority !== 'result') this.emotionTimer = setTimeout(() => this.scene.rig.setEmotion('warm'), 4500);
+    if (trigger.priority !== 'result') this.emotionTimer = setTimeout(() => this.relaxFace(), 4500);
     if (c.line) {
       const outcome = this.voice.request(c.line.id, c.line.priority);
       this.voiceLog.push({ id: c.line.id, outcome });
@@ -379,6 +394,26 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       if (outcome === 'played' && this.host.settings().subtitles) this.showSubtitle(c.line.text);
     }
     return deferGesture ? c.gesture : undefined;
+  }
+
+  /** Эмоция реакции держится, пока звучит её реплика, и только потом лицо снова приветливое. */
+  private relaxFace(): void {
+    if (this.disposed) return;
+    if (this.voice.speaking) this.emotionTimer = setTimeout(() => this.relaxFace(), 500);
+    else this.scene.rig.setEmotion('warm');
+  }
+
+  /** Реплика сценки «своей жизни»: фоновый приоритет, режиссёр решает, к месту ли; true — зазвучала. */
+  private sayIdle(category: Trigger['category'], emotion: Trigger['emotion']): boolean {
+    const c = this.director.react({ category, emotion, priority: 'idle', chance: 1 }, this.host.now());
+    if (!c.line) return false;
+    const outcome = this.voice.request(c.line.id, c.line.priority);
+    this.voiceLog.push({ id: c.line.id, outcome });
+    if (this.voiceLog.length > 20) this.voiceLog.shift();
+    if (outcome !== 'played') return false;
+    this.scene.rig.setEmotion(c.emotion);
+    if (this.host.settings().subtitles) this.showSubtitle(c.line.text);
+    return true;
   }
 
   private showSubtitle(text: string): void {
@@ -393,6 +428,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
 
   private armIdle(): void {
     this.clearIdle();
+    this.waitSince = this.host.now();
     this.idleTimer = setTimeout(() => {
       if (this.paused || this.match.over || this.match.turn() !== this.match.human) return;
       this.cue({ category: 'wait', emotion: 'think', priority: 'idle', chance: 0.7 });
@@ -406,6 +442,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   private clearIdle(): void {
     if (this.idleTimer) clearTimeout(this.idleTimer);
     this.idleTimer = null;
+    this.waitSince = null;
   }
 
   // ---------- ввод: выбор хода по полям ----------
@@ -697,7 +734,12 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       if (draw) this.cue({ category, emotion: 'warm', gesture: this.spec.gestures.draw, priority: 'result', chance: 1 });
       else if (won) this.cue({ category, emotion: 'sad', gesture: this.spec.gestures.lose, priority: 'result', chance: 1 });
       else this.cue({ category, emotion: 'azart', pose: 'victory', priority: 'result', chance: 1 });
-    } else this.scene.rig.setPose('victory');
+    } else {
+      // Сдача игрока — тоже победа: поза и радость на лице (раньше лицо оставалось спокойным).
+      this.life.stop();
+      this.scene.rig.setPose('victory');
+      this.scene.rig.setEmotion('laugh');
+    }
     this.refresh();
     this.later(() => {
       const name = t(this.nameKey);
@@ -725,6 +767,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
     this.result.classList.remove('result--show', 'result--hand');
     this.coachBox.classList.remove('coach--show');
     this.match.newMatch();
+    this.life.restart(this.host.now());
     this.humanMoves = 0;
     this.plies = 0;
     this.scene.rig.setPose('idle');
@@ -809,12 +852,23 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   update(dtMs: number): void {
     if (this.disposed) return;
     this.scene.rig.setSpeaking(this.voice.speaking ? this.host.audio.voiceLevel() : 0);
+    this.scene.rig.brain.talking = this.voice.speaking !== null;
+    const now = this.host.now();
+    this.life.tick({
+      now,
+      waiting: this.waitSince !== null && !this.paused && !this.tutorial && !this.match.over,
+      waitMs: this.waitSince === null ? 0 : now - this.waitSince,
+      mood: moodOf(this.spec.lead(this.view(), this.match.opponent), 2),
+      free: !this.scene.rig.brain.busy && this.voice.speaking === null,
+      quietMs: this.director.quietMs(now),
+    });
     this.tweens.update(dtMs);
     this.scene.update(dtMs);
   }
 
   dispose(): void {
     this.disposed = true;
+    this.life.dispose();
     for (const tm of [this.timer, this.idleTimer, this.emotionTimer, this.hintTimer]) if (tm) clearTimeout(tm);
     this.voice.stopAll();
     this.tweens.finishAll();

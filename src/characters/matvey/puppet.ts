@@ -4,6 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, MATVEY_PIECES as P, MOUTHS, type MouthShape } from './art';
+import { seedSvg, teaGlassSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -57,6 +58,11 @@ export const MATVEY_PUPPET: PuppetArt = {
   // Своих костей в руке нет — они стоят на столе; в руке — одна кость, которую он кладёт или несёт из базара.
   fanOffset: null,
   heldCard: { x: -4, y: 12, rot: 90, w: 60, h: 30 },
+  // Реквизит сценок: стакан чая в подстаканнике, семечка.
+  props: {
+    tea: { ...part('prop:tea', { x: -26, y: -33, w: 52, h: 56 }, () => teaGlassSvg(P.colors.outline, '#B9BEC6', '#8A919C', '#B5621E')), grip: { x: -4, y: -26 }, rot: 0 },
+    seed: { ...part('prop:seed', { x: -8, y: -10, w: 16, h: 20 }, () => seedSvg(P.colors.outline)), grip: { x: -14, y: -14 }, rot: 0, above: true },
+  },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };

@@ -4,6 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, KHARITON_PIECES as P, MOUTHS, type MouthShape } from './art';
+import { clothSvg, pocketWatchSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -55,6 +56,12 @@ export const KHARITON_PUPPET: PuppetArt = {
   // Карт в руке нет: фигуры на доске ходят сами, рука лишь направляет ход.
   fanOffset: null,
   heldCard: { x: 0, y: 0, rot: 0, w: 1, h: 1 },
+  // Реквизит сценок: свои очки в руке (на лице их прячет канал glassesOff), замшевая салфетка, карманные часы.
+  props: {
+    glasses: { ...part('prop:glasses', { x: -58, y: -22, w: 116, h: 44 }, () => `<g transform="translate(-120 -130)">${P.glasses()}</g>`), grip: { x: -10, y: -24 }, rot: 0 },
+    cloth: { ...part('prop:cloth', { x: -19, y: -15, w: 38, h: 30 }, () => clothSvg(P.colors.outline, '#E7C76A', '#B9963E')), grip: { x: -4, y: -12 }, rot: 0, above: true },
+    watch: { ...part('prop:watch', { x: -19, y: -26, w: 38, h: 44 }, () => pocketWatchSvg(P.colors.outline, P.colors.frame, P.colors.frameHi, '#FFFDF5')), grip: { x: -6, y: -20 }, rot: 0 },
+  },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };

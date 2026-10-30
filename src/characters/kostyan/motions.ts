@@ -4,6 +4,7 @@
 import type { SpringParams } from '../../puppet/motion';
 import { clamp } from '../../puppet/motion';
 import type { Face, GestureDef, MotionStyle, Pose, StateDef, ThrowTarget } from '../../puppet/types';
+import { kostyanScenes } from './scenes';
 
 const REST = {
   torsoRot: 0, torsoX: 0, torsoY: 0,
@@ -356,6 +357,7 @@ export const KOSTYAN_MOTION: MotionStyle = {
   gazeHead: { rot: 2.4, y: 2.2 },
   throwCard: moveOnBoard,
   takeCards: collect,
+  scenes: kostyanScenes(REST),
   gestures: {
     move: (t) => moveOnBoard(t ?? { x: 260, y: 440 }),
     collect: (t) => collect(t ?? { x: 120, y: 420 }),

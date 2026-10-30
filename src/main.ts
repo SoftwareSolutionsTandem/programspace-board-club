@@ -7,7 +7,11 @@ const uiEl = document.getElementById('ui');
 if (!stageEl || !uiEl) throw new Error('В index.html нет #stage или #ui');
 // Демо-страницы анимаций — только в режиме разработки (/?anim — Агата, /?anim=matvey — Матвей); в сборку продукта не попадают.
 const anim = import.meta.env.DEV ? new URLSearchParams(location.search).get('anim') : null;
-if (anim === 'matvey') {
+// /?life=<персонаж> — сценки «своей жизни» любого из четырёх персонажей (src/dev/lifeLab.ts).
+const life = import.meta.env.DEV ? new URLSearchParams(location.search).get('life') : null;
+if (life !== null) {
+  void import('./dev/lifeLab').then((m) => m.startLifeLab(stageEl, uiEl, life));
+} else if (anim === 'matvey') {
   void import('./dev/matveyLab').then((m) => m.startMatveyLab(stageEl, uiEl));
 } else if (anim !== null) {
   void import('./dev/animLab').then((m) => m.startAnimLab(stageEl, uiEl));

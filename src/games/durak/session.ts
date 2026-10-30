@@ -7,6 +7,7 @@ import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
 import { AGATA_LINES } from '../../characters/agata/lines';
 import { Director, type Cue, type Trigger } from '../../characters/director';
+import { CharacterLife, moodOf } from '../../characters/life';
 import { createRng, nextInt, type RngState } from '../../core/rng';
 import { t } from '../../i18n';
 import type { LayoutSpec } from '../../layout/layout';
@@ -38,6 +39,9 @@ export class GameSession implements GameSessionApi {
   readonly overlay = el('div', 'game');
   private readonly tweens = new Tweener();
   private readonly voice: VoiceChannel;
+  private readonly life: CharacterLife;
+  /** С какого момента игрок думает над ходом (null — сейчас не его ход). */
+  private waitSince: number | null = null;
   // Последние заявки на реплики — для отладки и e2e (только id и исход, без скрытой информации).
   private readonly voiceLog: { id: string; outcome: string }[] = [];
   private readonly director: Director;
@@ -75,7 +79,9 @@ export class GameSession implements GameSessionApi {
       onOpponentCardLanded: (slap) => this.host.audio.sfx(slap ? 'slap' : 'place'),
     });
     this.voice = new VoiceChannel(host.audio, () => host.now());
-    this.director = new Director({ lines: AGATA_LINES, minGapMs: 7000, lineCooldownMs: 90_000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 17));
+    this.director = new Director({ lines: AGATA_LINES, minGapMs: 7000, lineCooldownMs: 90_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 17));
+    // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
+    this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
     this.coach = opts.tutorial ? new TutorialCoach() : null;
     // HUD.
     const hudLeft = el('div', 'hud hud--left');
@@ -114,6 +120,13 @@ export class GameSession implements GameSessionApi {
       emotion: this.scene.rig.currentEmotion,
       blinks: this.scene.rig.blinks,
       speaking: this.voice.speaking,
+      life: this.life.playing,
+      props: [this.scene.rig.brain.propL, this.scene.rig.brain.propR],
+      /** e2e: сыграть сценку сразу. */
+      playScene: (id: string) => {
+        const sc = this.scene.rig.scenes.find((x) => x.id === id);
+        if (sc) void this.life.play(sc);
+      },
       voiceLog: [...this.voiceLog],
       act: (i: number) => {
         const a = this.legal()[i];
@@ -259,18 +272,41 @@ export class GameSession implements GameSessionApi {
   // ---------- реакции Агаты ----------
 
   private cue(trigger: Trigger): void {
+    this.life.event(this.host.now());
+    if (trigger.priority === 'result') this.life.stop();
     const c: Cue = this.director.react(trigger, this.host.now());
     this.scene.rig.setEmotion(c.emotion);
     if (c.pose) this.scene.rig.setPose(c.pose, c.pose === 'victory' ? 0 : 1400);
+    if (c.gesture) void this.scene.rig.gesture(c.gesture);
     if (this.emotionTimer) clearTimeout(this.emotionTimer);
     // Эмоция держится несколько секунд и спокойно возвращается к приветливой (кроме итога партии).
-    if (trigger.priority !== 'result') this.emotionTimer = setTimeout(() => this.scene.rig.setEmotion('warm'), 4200);
+    if (trigger.priority !== 'result') this.emotionTimer = setTimeout(() => this.relaxFace(), 4200);
     if (c.line) {
       const outcome = this.voice.request(c.line.id, c.line.priority);
       this.voiceLog.push({ id: c.line.id, outcome });
       if (this.voiceLog.length > 20) this.voiceLog.shift();
       if (outcome === 'played' && this.host.settings().subtitles) this.showSubtitle(c.line.text);
     }
+  }
+
+  /** Эмоция реакции держится, пока звучит её реплика, и только потом лицо снова приветливое. */
+  private relaxFace(): void {
+    if (this.disposed) return;
+    if (this.voice.speaking) this.emotionTimer = setTimeout(() => this.relaxFace(), 500);
+    else this.scene.rig.setEmotion('warm');
+  }
+
+  /** Реплика сценки «своей жизни»: фоновый приоритет, режиссёр решает, к месту ли; true — зазвучала. */
+  private sayIdle(category: Trigger['category'], emotion: Trigger['emotion']): boolean {
+    const c = this.director.react({ category, emotion, priority: 'idle', chance: 1 }, this.host.now());
+    if (!c.line) return false;
+    const outcome = this.voice.request(c.line.id, c.line.priority);
+    this.voiceLog.push({ id: c.line.id, outcome });
+    if (this.voiceLog.length > 20) this.voiceLog.shift();
+    if (outcome !== 'played') return false;
+    this.scene.rig.setEmotion(c.emotion);
+    if (this.host.settings().subtitles) this.showSubtitle(c.line.text);
+    return true;
   }
 
   private showSubtitle(text: string): void {
@@ -285,6 +321,7 @@ export class GameSession implements GameSessionApi {
 
   private armIdle(): void {
     this.clearIdle();
+    this.waitSince = this.host.now();
     this.idleTimer = setTimeout(() => {
       if (!this.paused && this.match.turn() === HUMAN) this.cue({ category: 'wait', emotion: 'think', priority: 'idle', chance: 0.7 });
     }, 15_000);
@@ -293,6 +330,7 @@ export class GameSession implements GameSessionApi {
   private clearIdle(): void {
     if (this.idleTimer) clearTimeout(this.idleTimer);
     this.idleTimer = null;
+    this.waitSince = null;
   }
 
   // ---------- ввод ----------
@@ -469,6 +507,7 @@ export class GameSession implements GameSessionApi {
   }
 
   rematch(): void {
+    this.life.restart(this.host.now());
     this.result.classList.remove('result--show');
     this.coachBox.classList.remove('coach--show');
     this.match.nextGame();
@@ -560,11 +599,22 @@ export class GameSession implements GameSessionApi {
   update(dtMs: number): void {
     if (this.disposed) return;
     this.scene.rig.setSpeaking(this.voice.speaking ? this.host.audio.voiceLevel() : 0);
+    this.scene.rig.brain.talking = this.voice.speaking !== null;
+    const now = this.host.now();
+    this.life.tick({
+      now,
+      waiting: this.waitSince !== null && !this.paused && !this.coach,
+      waitMs: this.waitSince === null ? 0 : now - this.waitSince,
+      mood: moodOf(this.view().hand.length - this.view().opponentHandCount, 3),
+      free: !this.scene.rig.brain.busy && this.voice.speaking === null,
+      quietMs: this.director.quietMs(now),
+    });
     this.scene.update(dtMs);
   }
 
   dispose(): void {
     this.disposed = true;
+    this.life.dispose();
     for (const tm of [this.timer, this.idleTimer, this.emotionTimer, this.hintTimer]) if (tm) clearTimeout(tm);
     this.voice.stopAll();
     this.tweens.finishAll();

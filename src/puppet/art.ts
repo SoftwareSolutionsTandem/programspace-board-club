@@ -104,6 +104,11 @@ export interface PuppetArt {
     /** Начальная точка и кубические кривые [c1x, c1y, c2x, c2y, x, y]. */
     readonly edge: readonly (readonly number[])[];
   };
+  /**
+   * Реквизит сценок (платочек, часы, телефон): рисунок с центром в начале координат, как кисть. grip — смещение
+   * от центра кисти и поворот (градусы) для правой руки; у левой — зеркально. above — поверх пальцев (по умолчанию под ними).
+   */
+  readonly props?: Readonly<Record<string, PartSpec & { readonly grip: Point; readonly rot: number; readonly above?: boolean }>>;
   /** Формы рта при речи: сомкнутые губы между слогами и ступени раскрытия (в ступени — варианты). */
   readonly speech: { readonly closed: string; readonly levels: readonly (readonly string[])[] };
   emotionMouth(e: Emotion): string;

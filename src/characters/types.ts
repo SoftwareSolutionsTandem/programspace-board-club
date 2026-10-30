@@ -29,7 +29,9 @@ export type LineCategory =
   | 'opening' | 'waitLong' | 'checkQueen' | 'checkKnight' | 'eureka' | 'endgame' | 'streak' | 'nearCrown' | 'playerNearCrown'
   | 'playerBlunder'
   // Итог: пат — отдельные слова (у шахмат), прочие ничьи — `draw`.
-  | 'stalemate';
+  | 'stalemate'
+  // Сценки «своей жизни» за столом (src/characters/life.ts): категория — scene_<id сценки>.
+  | `scene_${string}`;
 
 export interface VoiceLine {
   /** Имя аудиофайла без расширения, например agata_win_01. */
@@ -40,4 +42,6 @@ export interface VoiceLine {
   readonly text: string;
   /** Режиссёрская пометка для исполнителя. */
   readonly direction: string;
+  /** Текст готов, записи ещё нет (сценки «своей жизни»): реплика не звучит, пока запись не добавлена. */
+  readonly pending?: true;
 }

@@ -29,11 +29,21 @@ export interface DirectorOptions {
   readonly lineCooldownMs: number;
   /** Есть ли у реплики настоящий аудиофайл. Реплики без файла не выбираются. */
   readonly available: (id: string) => boolean;
+  /**
+   * Рутинные реакции (шанс реплики меньше ROUTINE — «соперник походил», «я походил») показывают жест не каждый раз:
+   * не чаще чем раз в gestureGapMs и через раз, — иначе персонаж повторяет одно движение на каждом ходу.
+   * 0 — жест каждый раз (как раньше).
+   */
+  readonly gestureGapMs?: number;
 }
+
+/** Реакция с шансом реплики ниже этого — рутинная (обычный ход, не событие). */
+export const ROUTINE = 0.25;
 
 export class Director {
   private rng: RngState;
   private lastSpokeAt = -Infinity;
+  private lastGestureAt = -Infinity;
   private readonly lastUsed = new Map<string, number>();
   private readonly bags = new Map<LineCategory, string[]>();
   private lastId: string | null = null;
@@ -42,9 +52,22 @@ export class Director {
     this.rng = rng;
   }
 
+  /** Сколько мс персонаж молчит (с последней выбранной реплики). */
+  quietMs(now: number): number {
+    return now - this.lastSpokeAt;
+  }
+
   react(trigger: Trigger, now: number): Cue {
-    const base: Cue = { emotion: trigger.emotion, ...(trigger.pose ? { pose: trigger.pose } : {}), ...(trigger.gesture ? { gesture: trigger.gesture } : {}) };
     const urgent = PRIORITY_RANK[trigger.priority] >= PRIORITY_RANK.greeting;
+    let gesture = trigger.gesture;
+    const gap = this.opts.gestureGapMs ?? 0;
+    if (gesture && gap > 0 && !urgent && trigger.chance < ROUTINE) {
+      const [roll, next] = nextFloat(this.rng);
+      this.rng = next;
+      if (now - this.lastGestureAt < gap || roll < 0.5) gesture = undefined;
+    }
+    if (gesture) this.lastGestureAt = now;
+    const base: Cue = { emotion: trigger.emotion, ...(trigger.pose ? { pose: trigger.pose } : {}), ...(gesture ? { gesture } : {}) };
     if (!urgent && now - this.lastSpokeAt < this.opts.minGapMs) return base;
     const [roll, next] = nextFloat(this.rng);
     this.rng = next;

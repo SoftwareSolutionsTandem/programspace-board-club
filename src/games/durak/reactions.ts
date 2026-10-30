@@ -28,7 +28,7 @@ export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat):
         if (mine) offer(e.withTrump ? WEIGHT.trump : WEIGHT.play, e.withTrump
           ? { category: 'beatTrump', emotion: 'azart', pose: 'throw', priority: 'reaction', chance: 0.6 }
           : { category: 'defended', emotion: 'warm', pose: 'throw', priority: 'reaction', chance: 0.25 });
-        else if (e.withTrump) offer(WEIGHT.trump, { category: 'playerTrump', emotion: 'surprise', priority: 'reaction', chance: 0.5 });
+        else if (e.withTrump) offer(WEIGHT.trump, { category: 'playerTrump', emotion: 'surprise', gesture: 'throwUpHands', priority: 'reaction', chance: 0.5 });
         break;
       case 'took':
         offer(WEIGHT.take, mine
@@ -52,7 +52,7 @@ export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat):
         const r = e.result;
         if ('draw' in r) offer(WEIGHT.result, { category: 'draw', emotion: 'surprise', priority: 'result', chance: 1 });
         else if (r.winner === characterSeat) offer(WEIGHT.result, { category: 'win', emotion: 'laugh', pose: 'victory', priority: 'result', chance: 1 });
-        else offer(WEIGHT.result, { category: 'lose', emotion: 'sad', priority: 'result', chance: 1 });
+        else offer(WEIGHT.result, { category: 'lose', emotion: 'sad', gesture: 'sigh', priority: 'result', chance: 1 });
         break;
       }
       default:

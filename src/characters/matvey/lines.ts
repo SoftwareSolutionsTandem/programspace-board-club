@@ -6,6 +6,8 @@
 import type { Emotion, LineCategory, VoiceLine } from '../types';
 
 const L = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ id, category, emotion, text, direction });
+/** Реплика сценки «своей жизни» (src/characters/life.ts): текст готов, записи ещё нет — не звучит, пока её не добавят. */
+const S = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ ...L(id, category, emotion, text, direction), pending: true });
 
 export const MATVEY_LINES: readonly VoiceLine[] = [
   // Встреча и начало.
@@ -98,4 +100,18 @@ export const MATVEY_LINES: readonly VoiceLine[] = [
   L('matvey_tut_goal', 'tutGoal', 'think', 'Кто первым выложит все кости, тот и выиграл.', 'объясняя'),
   L('matvey_tut_wrong', 'tutWrong', 'think', 'Не подходит. Ищи такое же число.', 'мягко'),
   L('matvey_tut_done', 'tutDone', 'azart', 'Вот и всё. Играем до ста одного!', 'бодро'),
+  // Сценки «своей жизни» в паузах (категория scene_<сценка>, docs/voice/scenes.md). Записей пока нет.
+  S('matvey_scene_tea_01', 'scene_tea', 'laugh', 'Эх, хорош чаёк!', 'довольно крякнув'),
+  S('matvey_scene_tea_02', 'scene_tea', 'warm', 'Чай не пьёшь — откуда сила?', 'назидательно, с прищуром'),
+  S('matvey_scene_tea_03', 'scene_tea', 'warm', 'Горяченький… Ты ходи, я пока погреюсь.', 'не спеша'),
+  S('matvey_scene_seeds_01', 'scene_seeds', 'sly', 'Семечки — первое дело для думы.', 'щёлкая, неторопливо'),
+  S('matvey_scene_seeds_02', 'scene_seeds', 'warm', 'Ходи-ходи, не тороплю. У меня семечек много.', 'благодушно'),
+  S('matvey_scene_seeds_03', 'scene_seeds', 'sly', 'Без семечек какое домино?', 'риторически'),
+  S('matvey_scene_cap_nap_01', 'scene_capNap', 'sly', 'Ты ходи, ходи. Я тут подремлю…', 'из-под кепки, сонно'),
+  S('matvey_scene_cap_nap_02', 'scene_capNap', 'sly', 'Я всё вижу. Даже с закрытыми глазами.', 'хитро, приоткрыв глаз'),
+  S('matvey_scene_cap_nap_03', 'scene_capNap', 'warm', 'Думай, молодёжь, думай. Я подожду.', 'лениво'),
+  S('matvey_scene_stretch_01', 'scene_stretch', 'annoyed', 'Ох, спина… Старость не радость.', 'кряхтя'),
+  S('matvey_scene_stretch_02', 'scene_stretch', 'sly', 'Кости ломит — к дождю. Или к рыбе.', 'с усмешкой'),
+  S('matvey_scene_mustache_01', 'scene_mustache', 'sly', 'Знаю я одну хитрость… да не скажу.', 'загадочно'),
+  S('matvey_scene_mustache_02', 'scene_mustache', 'sly', 'Хе. Ничего-ничего. Это я так, о своём.', 'посмеиваясь в усы'),
 ];

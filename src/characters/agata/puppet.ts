@@ -4,6 +4,7 @@ import type { PartSpec, PivotPart, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { AGATA_PIECES as P, emotionMouth, FIGURE_BOX, MOUTHS, type MouthShape } from './art';
+import { candySvg, hankySvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -57,6 +58,11 @@ export const AGATA_PUPPET: PuppetArt = {
   heldCard: { x: -4, y: -18, rot: -12 },
   fringe: { ...P.fringe, color: hex(P.fringe.color), outline: hex(P.fringe.outline) },
   // vA — губы сомкнуты; дальше по раскрытию: чуть, средне (или «о»), широко (как в смехе).
+  // Реквизит сценок: платочек из рукава, конфета-барбариска из кармана фартука.
+  props: {
+    hanky: { ...part('prop:hanky', { x: -24, y: -21, w: 48, h: 42 }, () => hankySvg(P.colors.outline, '#FFF8F0', '#E07A8A', '#E9D9CC')), grip: { x: -4, y: -20 }, rot: 0, above: true },
+    candy: { ...part('prop:candy', { x: -23, y: -12, w: 46, h: 24 }, () => candySvg(P.colors.outline, '#D8343F', '#FFF3E4')), grip: { x: -2, y: -22 }, rot: -10, above: true },
+  },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };

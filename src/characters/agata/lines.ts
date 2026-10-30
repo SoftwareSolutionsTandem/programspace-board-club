@@ -4,6 +4,8 @@
 import type { Emotion, LineCategory, VoiceLine } from '../types';
 
 const L = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ id, category, emotion, text, direction });
+/** Реплика сценки «своей жизни» (src/characters/life.ts): текст готов, записи ещё нет — не звучит, пока её не добавят. */
+const S = (id: string, category: LineCategory, emotion: Emotion, text: string, direction: string): VoiceLine => ({ ...L(id, category, emotion, text, direction), pending: true });
 
 export const AGATA_LINES: readonly VoiceLine[] = [
   L('agata_greet_first_01', 'greetFirst', 'warm', 'О, гости дорогие! Садись, внучек!', 'радушно, чуть суетливо, с улыбкой'),
@@ -77,4 +79,23 @@ export const AGATA_LINES: readonly VoiceLine[] = [
   L('agata_tut_bito', 'tutBito', 'warm', 'Всё побито — жми «Бито».', 'подсказывая'),
   L('agata_tut_wrong', 'tutWrong', 'think', 'Так нельзя. Посмотри подсказку.', 'мягко'),
   L('agata_tut_done', 'tutDone', 'azart', 'Молодец! Теперь сыграем по-настоящему.', 'радостно'),
+  // Сценки «своей жизни» в паузах (категория scene_<сценка>, docs/voice/scenes.md). Записей пока нет.
+  S('agata_scene_hanky_01', 'scene_hanky', 'sly', 'Ох, простите, продуло меня у форточки.', 'смущённо, ещё в нос'),
+  S('agata_scene_hanky_02', 'scene_hanky', 'laugh', 'Будь здорова, Агата! Спасибо, Агата.', 'сама себе, со смешком'),
+  S('agata_scene_hanky_03', 'scene_hanky', 'warm', 'Платочек — первое дело. Без него и за стол не садись.', 'наставительно, по-доброму'),
+  S('agata_scene_candy_01', 'scene_candy', 'sly', 'Конфетку будешь? Ну, как хочешь, мне больше.', 'протягивая, потом довольно'),
+  S('agata_scene_candy_02', 'scene_candy', 'sly', 'Барбариску, милок? Нет? Ну и ладно.', 'ласково-хитро'),
+  S('agata_scene_candy_03', 'scene_candy', 'warm', 'Сладенькое — для ума. Сейчас как придумаю…', 'заговорщицки'),
+  S('agata_scene_peer_01', 'scene_peer', 'think', 'Ох, мелко нынче карты рисуют.', 'ворчливо, щурясь'),
+  S('agata_scene_peer_02', 'scene_peer', 'surprise', 'Это у меня валет или король?.. Король. Хороший король.', 'разглядывая, потом довольно'),
+  S('agata_scene_peer_03', 'scene_peer', 'think', 'Очки новые надо… Ну ничего, разберёмся.', 'со вздохом'),
+  S('agata_scene_doze_01', 'scene_doze', 'surprise', 'Я не сплю, я думаю!', 'встрепенувшись, поспешно'),
+  S('agata_scene_doze_02', 'scene_doze', 'sly', 'А? Мой ход? А, твой… Ну, ходи, ходи.', 'спросонья, потом бодро'),
+  S('agata_scene_doze_03', 'scene_doze', 'warm', 'Задремала… Ты уж не томи, внучек.', 'зевая, ласково'),
+  S('agata_scene_shawl_01', 'scene_shawl', 'sad', 'Сквозит что ли… Закрой-ка форточку, милок.', 'ёжась'),
+  S('agata_scene_shawl_02', 'scene_shawl', 'warm', 'Брр… Шаль моя тёплая, сама вязала.', 'кутаясь, с гордостью'),
+  S('agata_scene_hum_01', 'scene_hum', 'warm', 'Ой, мороз, мороз… Ля-ля-ля…', 'напевает себе под нос'),
+  S('agata_scene_hum_02', 'scene_hum', 'laugh', 'Под песенку и карта лучше идёт.', 'весело'),
+  S('agata_scene_peek_01', 'scene_peek', 'laugh', 'Я не подглядываю! Я… шею разминаю.', 'поспешно, пойманная'),
+  S('agata_scene_peek_02', 'scene_peek', 'surprise', 'Ой, что это я… Не смотрела я, честное слово!', 'смущённо-лукаво'),
 ];

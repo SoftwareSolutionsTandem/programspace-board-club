@@ -16,7 +16,14 @@ interface ActiveGesture {
   readonly enter?: boolean;
   /** Мелкое действие (его можно прервать в любой момент). */
   readonly fidget?: boolean;
+  /** Сколько последних ключей уже отыграно (разовые события ключа — смена эмоции). */
+  keysDone: number;
+  /** Сколько жест простоял, дожидаясь конца реплики (waitSpeech). */
+  heldMs: number;
 }
+
+/** Дольше этого жест не ждёт реплику (запись потерялась, канал завис): сценка не застревает. */
+const MAX_SPEECH_HOLD = 9000;
 
 export class PuppetBrain {
   private readonly rng: MotionRng;
@@ -98,6 +105,15 @@ export class PuppetBrain {
   armsFront: 'l' | 'r' | null = null;
   /** Жест входа в состояние ждёт конца текущего жеста. */
   private pendingEnter: GestureDef | null = null;
+  /** Реквизит в кистях (имена PuppetArt.props) — по ключам текущего жеста. */
+  propL: string | null = null;
+  propR: string | null = null;
+  /** Рот поверх эмоции (ключ жеста mouth), когда персонаж молчит. */
+  mouthOverride: string | null = null;
+  /** Форма глаз поверх эмоции (ключ жеста eyes). */
+  private eyesOverride: EyeStyle | null = null;
+  /** Персонаж сейчас говорит (сеанс ставит по голосовому каналу): ключ waitSpeech держит жест. */
+  talking = false;
 
   constructor(private readonly style: MotionStyle, seed: number) {
     this.rng = new MotionRng(createRng(seed));
@@ -176,7 +192,12 @@ export class PuppetBrain {
       for (const m of def.markers ?? []) onMarker?.(m.name);
       return;
     }
-    this.gesture = { def, t: 0, fired: new Set(), onMarker, enter: def === this.style.states[this.state].enter };
+    this.gesture = { def, t: 0, fired: new Set(), onMarker, enter: def === this.style.states[this.state].enter, keysDone: 0, heldMs: 0 };
+  }
+
+  /** Прервать текущий жест (сценку) — пружины вернут каналы к базовому состоянию. */
+  stopGesture(): void {
+    this.flushGesture();
   }
 
   private flushGesture(): void {
@@ -184,6 +205,9 @@ export class PuppetBrain {
     this.gesture = null;
     this.holdCard = false;
     this.armsFront = null;
+    this.propL = this.propR = null;
+    this.mouthOverride = null;
+    this.setEyesOverride(null);
     if (!g) return;
     for (const m of g.def.markers ?? []) {
       if (!g.fired.has(m.name)) {
@@ -193,17 +217,23 @@ export class PuppetBrain {
     }
   }
 
+  private setEyesOverride(e: EyeStyle | null): void {
+    if (e === this.eyesOverride) return;
+    this.eyesOverride = e;
+    this.applyFace(false);
+  }
+
   private applyFace(instant: boolean): void {
     const f = this.style.faces[this.emotion];
-    this.eyesTarget = f.eyes;
+    this.eyesTarget = this.eyesOverride ?? f.eyes;
     if (instant || this.reduced) {
-      this.eyes = f.eyes;
+      this.eyes = this.eyesTarget;
       this.eyePhase = 'none';
       this.eyeClose = 0;
       return;
     }
     // Во время раскрытия новой формы пришла ещё одна — снова прикрыть, начиная с текущего положения век.
-    if (f.eyes !== this.eyes && this.eyePhase !== 'close') {
+    if (this.eyesTarget !== this.eyes && this.eyePhase !== 'close') {
       this.eyePhase = 'close';
       this.eyeT = this.eyeClose * this.style.eyeSwap.close;
     }
@@ -300,8 +330,13 @@ export class PuppetBrain {
     const gesturePose: Pose = {};
     const springOverride: Partial<Record<string, SpringParams>> = {};
     if (g) {
-      g.t += dtMs;
+      // Ключ «ждать речь»: пока персонаж говорит, время жеста стоит на этом ключе (не дольше MAX_SPEECH_HOLD).
+      const cur = g.def.keys.reduce<(typeof g.def.keys)[number] | null>((a, k) => (k.at <= g.t ? k : a), null);
+      if (cur?.waitSpeech && this.talking && g.heldMs < MAX_SPEECH_HOLD && !this.reduced) g.heldMs += dtMs;
+      else g.t += dtMs;
       let hold = false, hand: 'l' | 'r' = 'r', front: 'l' | 'r' | false = false;
+      let propL: string | null = null, propR: string | null = null, mouth: string | null = null, eyes: EyeStyle | null = null;
+      let done = 0;
       for (const k of g.def.keys) {
         if (k.at > g.t) break;
         Object.assign(gesturePose, k.pose);
@@ -309,10 +344,21 @@ export class PuppetBrain {
         hold = k.holdCard ?? hold;
         hand = k.holdHand ?? hand;
         front = k.front ?? front;
+        if (k.props && 'l' in k.props) propL = k.props.l ?? null;
+        if (k.props && 'r' in k.props) propR = k.props.r ?? null;
+        if (k.mouth !== undefined) mouth = k.mouth;
+        if (k.eyes !== undefined) eyes = k.eyes;
+        // Разовое событие ключа — только когда до него дошли впервые.
+        if (++done > g.keysDone && k.emotion) this.setEmotion(k.emotion);
       }
+      g.keysDone = Math.max(g.keysDone, done);
       this.holdCard = hold;
       this.holdHand = hand;
       this.armsFront = front || null;
+      this.propL = propL;
+      this.propR = propR;
+      this.mouthOverride = mouth;
+      this.setEyesOverride(eyes);
       for (const m of g.def.markers ?? []) {
         if (m.at <= g.t && !g.fired.has(m.name)) {
           g.fired.add(m.name);
@@ -359,7 +405,7 @@ export class PuppetBrain {
         const choices = st.fidgets.length > 1 ? st.fidgets.filter((f) => f.id !== this.lastFidget) : st.fidgets;
         const f = this.rng.pick(choices);
         this.lastFidget = f.id;
-        this.gesture = { def: f, t: 0, fired: new Set(), fidget: true };
+        this.gesture = { def: f, t: 0, fired: new Set(), fidget: true, keysDone: 0, heldMs: 0 };
         this.fidgetTimer = this.rng.range(st.fidgetEvery[0], st.fidgetEvery[1]);
       }
     }

@@ -4,6 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, KOSTYAN_PIECES as P, MOUTHS, type MouthShape } from './art';
+import { phoneBackSvg, phoneSvg } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -53,6 +54,11 @@ export const KOSTYAN_PUPPET: PuppetArt = {
   cuff: part('cuff', { x: -19, y: -10, w: 38, h: 20 }, P.cuff),
   fanOffset: null,
   heldCard: { x: 0, y: 0, rot: 0, w: 1, h: 1 },
+  // Реквизит сценок: телефон из кармана худи.
+  props: {
+    phone: { ...part('prop:phone', { x: -16, y: -26, w: 32, h: 52 }, () => phoneSvg(P.colors.outline, '#2E3240', '#BFE6F2', P.colors.band)), grip: { x: -6, y: -18 }, rot: 0 },
+    phoneBack: { ...part('prop:phoneBack', { x: -16, y: -26, w: 32, h: 52 }, () => phoneBackSvg(P.colors.outline, '#2E3240', P.colors.band)), grip: { x: -6, y: -18 }, rot: 0 },
+  },
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };

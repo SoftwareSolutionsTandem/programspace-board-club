@@ -213,7 +213,7 @@ test('голос Агаты: записи загружаются и звучат
   });
   await seedSettings(page, { tutorialDone: true, metAgata: true, reducedMotion: true });
   await page.getByRole('button', { name: 'Настройки' }).click();
-  await expect(page.locator('.modal .note', { hasText: 'Агаты' })).toContainText('записано реплик — 71 из 71');
+  await expect(page.locator('.modal .note', { hasText: 'Агаты' })).toContainText('записано реплик — 71 из 89');
   await page.getByRole('button', { name: 'Закрыть' }).click();
   await sitAtTable(page, 'Лёгкая');
   // Приветствие при посадке за стол звучит настоящей записью.

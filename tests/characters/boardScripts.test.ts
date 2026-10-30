@@ -5,15 +5,18 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { Director } from '../../src/characters/director';
 import { KHARITON_LINES } from '../../src/characters/khariton/lines';
+import { KHARITON_MOTION } from '../../src/characters/khariton/motions';
 import { KOSTYAN_LINES } from '../../src/characters/kostyan/lines';
+import { KOSTYAN_MOTION } from '../../src/characters/kostyan/motions';
+import type { SceneDef } from '../../src/puppet/types';
 import type { VoiceLine } from '../../src/characters/types';
 import { createRng } from '../../src/core/rng';
 
 const ROOT = join(import.meta.dirname, '../..');
 // voiced — записи голоса подключены (Харитон, D63); у Костяна записей пока нет (D57).
-const CASES: readonly { name: string; id: string; game: string; lines: readonly VoiceLine[]; voiced: boolean }[] = [
-  { name: 'Харитона', id: 'khariton', game: 'chess', lines: KHARITON_LINES, voiced: true },
-  { name: 'Костяна', id: 'kostyan', game: 'checkers', lines: KOSTYAN_LINES, voiced: false },
+const CASES: readonly { name: string; id: string; game: string; lines: readonly VoiceLine[]; voiced: boolean; scenes: readonly SceneDef[] }[] = [
+  { name: 'Харитона', id: 'khariton', game: 'chess', lines: KHARITON_LINES, voiced: true, scenes: KHARITON_MOTION.scenes ?? [] },
+  { name: 'Костяна', id: 'kostyan', game: 'checkers', lines: KOSTYAN_LINES, voiced: false, scenes: KOSTYAN_MOTION.scenes ?? [] },
 ];
 
 for (const c of CASES) {
@@ -23,7 +26,7 @@ for (const c of CASES) {
   const proposals = new Set<string>();
   let category = '';
   for (const line of doc.split('\n')) {
-    const h = /^### .* — `([A-Za-z]+)`$/.exec(line);
+    const h = /^### .* — `([A-Za-z_]+)`$/.exec(line);
     if (h) category = h[1]!;
     if (category && line.startsWith('- Условие:') && line.includes('**предложение на будущее**')) proposals.add(category);
     const r = new RegExp(`^\\| \`(${c.id}_[a-z0-9_]+)\` \\| ([^|]+) \\|[^|]+\\|[^|]+\\|[^|]+\\| \`([^\`]+)\` \\| ([^|]+) \\|$`).exec(line);
@@ -43,12 +46,14 @@ for (const c of CASES) {
       const product = JSON.parse(readFileSync(join(ROOT, `src/products/${c.game}.json`), 'utf8')) as { publicAssets: string[] };
       if (c.voiced) {
         const manifest = JSON.parse(readFileSync(join(ROOT, `public/audio/ru/${c.id}/manifest.json`), 'utf8')) as { lines: Record<string, unknown> };
+        // Реплики сценок «ожидают записи» (D64): в сценарии — «нет записи», файла и строки манифеста нет.
+        const pending = new Set(c.lines.filter((l) => l.pending).map((l) => l.id));
         for (const [id, r] of rows) {
-          expect(r.status, id).toBe('записано');
-          expect(manifest.lines[id], id).toBeDefined();
-          expect(existsSync(join(ROOT, `assets-src/audio/ru/${c.id}/${r.file}`)), r.file).toBe(true);
+          expect(r.status, id).toBe(pending.has(id) ? 'нет записи' : 'записано');
+          expect(manifest.lines[id] !== undefined, id).toBe(!pending.has(id));
+          expect(existsSync(join(ROOT, `assets-src/audio/ru/${c.id}/${r.file}`)), r.file).toBe(!pending.has(id));
         }
-        expect(doc).toContain(`записано ${c.lines.length} из ${c.lines.length}`);
+        expect(doc).toContain(`записано ${c.lines.length - pending.size} из ${c.lines.length}`);
         expect(product.publicAssets).toContain(`audio/ru/${c.id}`);
         return;
       }
@@ -59,7 +64,8 @@ for (const c of CASES) {
 
     it('категория вызывается событием партии или помечена как предложение', () => {
       for (const cat of new Set(c.lines.map((l) => l.category))) {
-        const used = sources.includes(`'${cat}'`);
+        // Категория сценки — scene_<id> настоящей сценки персонажа (src/characters/<id>/scenes.ts).
+        const used = cat.startsWith('scene_') ? c.scenes.some((x) => `scene_${x.id}` === cat) : sources.includes(`'${cat}'`);
         expect(used || proposals.has(cat), `${cat}: нет события и нет пометки «предложение»`).toBe(true);
         if (proposals.has(cat)) expect(used, `${cat} вызывается, а помечена как предложение`).toBe(false);
       }

@@ -78,12 +78,15 @@ describe('голосовой манифест: сверка с каталого�
       // Защита принятой озвучки (D49, D51): запись владельца не подменена, не перекодирована и не потеряна.
       const src = join(ROOT, 'assets-src/audio/ru', character);
       const { manifest } = read(character);
-      expect(Object.keys(manifest.lines).sort()).toEqual(lines.map((l) => l.id).sort());
+      // Записаны все реплики, кроме помеченных «ожидает записи» (сценки «своей жизни», D64); у тех файлов нет.
+      const recorded = lines.filter((l) => !l.pending);
+      expect(Object.keys(manifest.lines).sort()).toEqual(recorded.map((l) => l.id).sort());
+      for (const l of lines.filter((x) => x.pending)) expect(existsSync(join(src, `${l.id}.flac`)), l.id).toBe(false);
       const voice = (manifest as { voice?: { synthetic?: boolean; approvedBy?: string } }).voice;
       // Харитон: исполнитель в архиве не указан — признак синтеза и одобрение не выдумываем, они пусты до слова владельца.
       expect(voice?.synthetic).toBe(approved ? false : null);
       expect(voice?.approvedBy ?? null).toBe(approved ? 'owner' : null);
-      for (const l of lines) {
+      for (const l of recorded) {
         const flac = join(src, `${l.id}.flac`);
         expect(existsSync(flac), l.id).toBe(true);
         const meta = JSON.parse(readFileSync(join(src, `${l.id}.json`), 'utf8')) as { id: string; text: string; sha256: string; approvedBy?: string };

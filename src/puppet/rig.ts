@@ -8,7 +8,7 @@ import { PuppetBrain } from './brain';
 import { clamp, lerp, Spring } from './motion';
 import { SpeechMouth } from './speech';
 import type { PuppetBank } from './textures';
-import type { MotionStyle } from './types';
+import type { GestureDef, MotionStyle, SceneDef } from './types';
 
 const DEG = Math.PI / 180;
 const CARD_W = 46, CARD_H = 66;
@@ -80,6 +80,9 @@ export class PuppetRig {
   private readonly handR = new Sprite();
   readonly fan = new Container();
   private readonly held = new Sprite();
+  /** Реквизит сценок в левой и правой кисти (платочек, часы, телефон): появляется и исчезает плавно. */
+  private readonly props: [Sprite, Sprite] = [new Sprite(), new Sprite()];
+  private readonly propShown: [string | null, string | null] = [null, null];
   private readonly joints = new Graphics();
   private fanCount = 6;
   private fanBack: Texture | null = null;
@@ -111,7 +114,12 @@ export class PuppetRig {
     this.back.addChild(this.torsoC, this.head);
     // Левая рука держит веер (кисть поверх карт); правая — поверх всего: тянется к вееру за картой.
     this.front.addChild(this.armL, this.cuffL, this.fan, this.handL, this.armR, this.cuffR, this.held, this.releaseLayer, this.handR, this.joints);
-    for (const s of [...this.pupils, ...this.eyeS, this.handL, this.handR, this.cuffL, this.cuffR, this.held]) s.anchor.set(0.5);
+    this.front.addChild(...this.props);
+    for (const s of [...this.pupils, ...this.eyeS, this.handL, this.handR, this.cuffL, this.cuffR, this.held, ...this.props]) s.anchor.set(0.5);
+    for (const s of this.props) {
+      s.visible = false;
+      s.alpha = 0;
+    }
     this.armL.zIndex = this.armR.zIndex = 0;
     this.cuffL.zIndex = this.cuffR.zIndex = 1;
     this.held.zIndex = 2;
@@ -124,6 +132,11 @@ export class PuppetRig {
 
   get reducedMotion(): boolean {
     return this.brain.reduced;
+  }
+
+  /** Сценки персонажа (MotionStyle.scenes). */
+  get scenes(): readonly SceneDef[] {
+    return this.style.scenes ?? [];
   }
 
   get blinks(): number {
@@ -310,6 +323,24 @@ export class PuppetRig {
     });
   }
 
+  /**
+   * Сценка (MotionStyle.scenes): жест с событиями. onMarker получает только события, до которых сценка дошла сама, —
+   * прерванная (реакцией на ход, итогом партии) не «договаривает» реплику. Промис — конец или прерывание.
+   */
+  playScene(def: GestureDef, onMarker: (name: string) => void): Promise<void> {
+    return new Promise((resolve) => {
+      if (!this.art || this.brain.reduced) {
+        resolve();
+        return;
+      }
+      const markers = [...(def.markers ?? []), { at: def.duration, name: 'end' }];
+      this.brain.play({ ...def, markers }, (name) => {
+        if (name === 'end') resolve();
+        else if (this.brain.gestureId === def.id) onMarker(name);
+      });
+    });
+  }
+
   /** Дождаться конца текущего жеста (мелкие действия не ждут): реакция начнётся, когда рука вернулась. */
   whenFree(): Promise<void> {
     if (!this.brain.busy || !this.art) return Promise.resolve();
@@ -441,9 +472,11 @@ export class PuppetRig {
     this.earC[0].rotation = clamp(b.earL, -40, 40) * DEG;
     this.earC[1].rotation = clamp(b.earR, -40, 40) * DEG;
     this.blush.alpha = clamp(v.blush, 0, 1);
+    // Очки сняты — их держит рука (реквизит), на лице их нет.
+    if (art.head.glasses) this.glasses.visible = v.glassesOff < 0.5;
     // Рот: при речи — по уровню голоса (форма держится, между слогами губы смыкаются), иначе — форма эмоции.
     const face = this.style.faces[b.currentEmotion];
-    const m = this.speech?.step(this.speechLevel, dtMs, face.speechMax) ?? art.emotionMouth(b.currentEmotion);
+    const m = this.speech?.step(this.speechLevel, dtMs, face.speechMax) ?? b.mouthOverride ?? art.emotionMouth(b.currentEmotion);
     const mt = bank.mouths.get(m);
     if (mt && this.mouth.texture !== mt) this.mouth.texture = mt;
     placeSprite(this.mouth, art.head.mouthBox);
@@ -519,8 +552,59 @@ export class PuppetRig {
       this.front.addChildAt(this.releaseLayer, at);
       this.front.addChildAt(this.held, at);
     }
+    this.layoutProps(dtMs);
     this.syncHeldOver();
     this.drawJoints();
+  }
+
+  /** Реквизит сценок: в кисти со своим хватом (у левой — зеркально), под пальцами или поверх; появляется за 120 мс. */
+  private layoutProps(dtMs: number): void {
+    const art = this.art!;
+    const bank = this.bank!;
+    const b = this.brain;
+    const v = b.values;
+    const rest = b.rest;
+    const want = [b.propL, b.propR] as const;
+    for (const i of [0, 1] as const) {
+      const s = this.props[i];
+      const left = i === 0;
+      const name = want[i];
+      // Новый предмет сменяет прежний сразу; исчезающий — гаснет на месте.
+      if (name && name !== this.propShown[i]) {
+        const spec = art.props?.[name];
+        if (!spec) continue;
+        this.propShown[i] = name;
+        s.texture = bank.parts.get(spec.key)!;
+        s.width = spec.box.w;
+        s.height = spec.box.h;
+        if (left) s.scale.x = -Math.abs(s.scale.x);
+      }
+      const target = name ? 1 : 0;
+      s.alpha = b.reduced ? target : clamp(s.alpha + Math.sign(target - s.alpha) * (dtMs / 120), 0, 1);
+      s.visible = s.alpha > 0.01 && !!this.propShown[i];
+      if (!s.visible) {
+        if (!name) this.propShown[i] = null;
+        continue;
+      }
+      const spec = art.props?.[this.propShown[i]!];
+      if (!spec) continue;
+      const hand = left ? this.handL : this.handR;
+      const hr = left ? (v.lHandRot - rest.lHandRot) * DEG : (v.rHandRot - rest.rHandRot) * DEG;
+      const gx = left ? -spec.grip.x : spec.grip.x;
+      s.position.set(hand.x + gx * Math.cos(hr) - spec.grip.y * Math.sin(hr), hand.y + gx * Math.sin(hr) + spec.grip.y * Math.cos(hr));
+      s.rotation = hr + (left ? -spec.rot : spec.rot) * DEG;
+      // Под пальцами своей кисти — между манжетой и кистью (там же карта в руке); above — поверх кисти.
+      s.zIndex = spec.above ? 5 : 3;
+      const hi = this.front.getChildIndex(hand);
+      const ci = this.front.getChildIndex(left ? this.cuffL : this.cuffR);
+      const si = this.front.getChildIndex(s);
+      const ok = spec.above ? si > hi : si > ci && si < hi;
+      if (!ok) {
+        this.front.removeChild(s);
+        const h2 = this.front.getChildIndex(hand);
+        this.front.addChildAt(s, spec.above ? h2 + 1 : h2);
+      }
+    }
   }
 
   /** Бахрома шали: пряди поворачиваются вокруг начала, сильнее к острию шали; контур нижних краёв — поверх прядей. */

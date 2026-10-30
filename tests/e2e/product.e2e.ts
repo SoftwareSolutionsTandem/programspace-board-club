@@ -5,11 +5,11 @@ const NO_VOICE = (gen: string) => `Записи голоса ${gen} ещё не 
 
 // Паспорт продукта (src/products/<id>.json) на настоящей сборке: название, подзаголовок, свой ключ настроек, голос.
 const PASSPORT = {
-  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 71', 'Голос Деда Матвея: записано реплик — 81 из 81', 'Голос Харитона: записано реплик — 130 из 130', NO_VOICE('Костяна')] },
-  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voices: ['Голос Агаты: записано реплик — 71 из 71'] },
-  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voices: ['Голос Деда Матвея: записано реплик — 81 из 81'] },
+  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 89', 'Голос Деда Матвея: записано реплик — 81 из 94', 'Голос Харитона: записано реплик — 130 из 145', NO_VOICE('Костяна')] },
+  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voices: ['Голос Агаты: записано реплик — 71 из 89'] },
+  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voices: ['Голос Деда Матвея: записано реплик — 81 из 94'] },
   // Голоса Харитона и Костяна ещё не записаны: настройки честно говорят, что записей нет.
-  chess: { title: 'Шахматы', subtitle: 'Партия с профессором Харитоном', key: 'chess.settings', otherKey: 'igroteka.settings', voices: ['Голос Харитона: записано реплик — 130 из 130'] },
+  chess: { title: 'Шахматы', subtitle: 'Партия с профессором Харитоном', key: 'chess.settings', otherKey: 'igroteka.settings', voices: ['Голос Харитона: записано реплик — 130 из 145'] },
   checkers: { title: 'Шашки', subtitle: 'Русские шашки с Костяном', key: 'checkers.settings', otherKey: 'igroteka.settings', voices: [NO_VOICE('Костяна')] },
 } as const;
 const productOf = () => test.info().project.metadata.product as keyof typeof PASSPORT;

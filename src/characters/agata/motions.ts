@@ -3,6 +3,7 @@
 import type { SpringParams } from '../../puppet/motion';
 import { clamp } from '../../puppet/motion';
 import type { Face, GestureDef, MotionStyle, Pose, StateDef } from '../../puppet/types';
+import { agataScenes } from './scenes';
 
 // Нейтральная поза — ровно утверждённый рисунок «ожидание»: рукава и кисти как в art.ts (POSE_ARMS.idle).
 const REST = {
@@ -153,6 +154,19 @@ const sigh: GestureDef = {
   ],
 };
 
+/** Всплеснула руками: «ах ты ж!» — правая ладонь к щеке, голова качнулась (веер в левой остаётся). */
+const throwUpHands: GestureDef = {
+  id: 'throwUpHands',
+  duration: 1500,
+  keys: [
+    { at: 0, pose: { rHandX: 300, rHandY: 250, rCtrlX: 350, rCtrlY: 320, rDX: -6, rDY: -10, rHandRot: -100, torsoY: -2, headY: -2, headRot: 2 }, spring: { arm: { f: 4.4, zeta: 0.6 }, body: { f: 3.6, zeta: 0.6 } } },
+    { at: 300, pose: { rHandX: 262, rHandY: 196, rCtrlX: 334, rCtrlY: 280, rDX: -10, rDY: -14, rHandRot: -150, headRot: -3 }, spring: { arm: { f: 3, zeta: 0.75 } } },
+    { at: 650, pose: { headRot: 3 } },
+    { at: 900, pose: { headRot: -2 } },
+    { at: 1100, pose: { ...pick(REST, 'rHandX', 'rHandY', 'rCtrlX', 'rCtrlY', 'rDX', 'rDY', 'rHandRot'), torsoY: 0, headY: 0, headRot: 0 }, spring: { arm: { f: 2.6, zeta: 0.8 }, body: { f: 1.8, zeta: 0.8 } } },
+  ],
+};
+
 const TOOK: StateDef = {
   pose: { torsoY: 3, headY: 3.5, headRot: -2, lHandY: 346, lHandRot: 6, fanRot: -5, rHandX: 300, rHandY: 396, rCtrlX: 326, rCtrlY: 334, rHandRot: -55 },
   looks: [
@@ -291,4 +305,7 @@ export const AGATA_MOTION: MotionStyle = {
   gazeHead: { rot: 3, y: 3 },
   throwCard,
   takeCards,
+  scenes: agataScenes(REST),
+  // Жесты-реакции дурака (src/games/durak/reactions.ts): раньше Агата отвечала на события только лицом.
+  gestures: { sigh: () => sigh, throwUpHands: () => throwUpHands },
 };

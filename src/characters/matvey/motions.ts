@@ -4,6 +4,7 @@
 import type { SpringParams } from '../../puppet/motion';
 import { clamp } from '../../puppet/motion';
 import type { Face, GestureDef, MotionStyle, Pose, StateDef, ThrowTarget } from '../../puppet/types';
+import { matveyScenes } from './scenes';
 
 // Нейтральная поза — рисунок «ожидание» (art.ts, POSE_ARMS.idle): руки на столе за своими костями.
 const REST = {
@@ -420,6 +421,7 @@ export const MATVEY_MOTION: MotionStyle = {
   gazeHead: { rot: 2, y: 2 },
   throwCard: placeBone,
   takeCards: takeFromBazaar,
+  scenes: matveyScenes(REST),
   gestures: {
     place: (t) => placeBone(t ?? { x: 260, y: 520 }),
     draw: (t) => takeFromBazaar(t ?? { x: 40, y: 420 }),
