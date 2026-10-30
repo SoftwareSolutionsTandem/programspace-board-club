@@ -98,5 +98,6 @@ export const CHESS_SPEC: BoardGameSpec<ChessState, ChessAction, ChessEvent, Play
   reason: (v) => v.result?.kind ?? null,
   mandatoryCapture: false,
   tutorial: TUTORIAL,
-  minGapMs: 7000,
+  // Записи Харитона длинные (в среднем 3,7 с, до 7 с), интервал считается от начала реплики — между фразами нужна пауза (D63).
+  minGapMs: 9000,
 };
