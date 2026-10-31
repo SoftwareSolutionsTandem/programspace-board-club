@@ -94,17 +94,6 @@ export function phoneLookSvg(outline: string, body: string, bodySh: string, glow
   <path d="M-9 -8 Q-10 4 -9.5 14" fill="none" stroke="#6B7384" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>`;
 }
 
-/**
- * Записная книжка в ракурсе (ART-REV): раскрыта и лежит почти плашмя перед грудью, страницами вверх — зритель видит их
- * сильно сокращёнными (ближний край шире), а пишущий карандаш стоит над страницей и касается её грифелем.
- */
-export function notebookFlatSvg(outline: string, cover: string, page: string, ink: string): string {
-  return `<path d="M-31 9 L-25 -9 L0 -7 L25 -9 L31 9 L0 12 Z" fill="${cover}" ${ol(outline)}/>
-  <path d="M-27 7 L-22.5 -6.5 L-1 -4.8 L-1 9.6 Z M27 7 L22.5 -6.5 L1 -4.8 L1 9.6 Z" fill="${page}"/>
-  <path d="M-21 -2.4 L-5 -1.4 M-22.4 1.2 L-5 2.2 M-23.6 4.6 L-10 5.6 M5 -1.4 L20 -2.4 M5 2.2 L18 1.4" stroke="${ink}" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
-  <path d="M0 -6.6 L0 11.6" stroke="${outline}" stroke-width="2"/>
-  <path d="M-30 9 L0 12 L30 9" fill="none" stroke="${outline}" stroke-width="1.2" opacity="0.5" transform="translate(0 1.6)"/>`;
-}
 
 // ---------- реквизит второго этапа (LIFE-2, D65) ----------
 
@@ -147,22 +136,6 @@ export function newspaperSvg(outline: string, paper: string, ink: string): strin
 export function sugarSvg(outline: string): string {
   return `<path d="M-6 -4 L2 -7 L8 -3 L8 5 L0 8 L-6 5 Z" fill="#FFFFFF" ${ol(outline, 1.8)}/>
   <path d="M-6 -4 L0 -1 L8 -3 M0 -1 L0 8" fill="none" stroke="#D8D4CC" stroke-width="1.2"/>`;
-}
-
-/** Записная книжка: раскрытая, в кожаной обложке, строчки на страницах. */
-export function notebookSvg(outline: string, cover: string, page: string, ink: string): string {
-  return `<path d="M-26 -17 L0 -14 L26 -17 L26 16 L0 19 L-26 16 Z" fill="${cover}" ${ol(outline)}/>
-  <path d="M-23 -14 L-1 -11 L-1 15 L-23 13 Z M23 -14 L1 -11 L1 15 L23 13 Z" fill="${page}"/>
-  <path d="M-19 -6 L-5 -4 M-19 0 L-5 2 M-19 6 L-9 7.5 M5 -4 L19 -6 M5 2 L16 0.5" stroke="${ink}" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
-  <path d="M0 -14 L0 19" stroke="${outline}" stroke-width="2"/>`;
-}
-
-/** Карандаш: грифель вниз-влево, ластик сверху. */
-export function pencilSvg(outline: string, wood: string, lead: string): string {
-  return `<path d="M-3 -22 L3 -22 L3 14 L0 22 L-3 14 Z" fill="${wood}" ${ol(outline, 2.4)}/>
-  <path d="M-3 14 L0 22 L3 14 Z" fill="#F3D9B1" ${ol(outline, 1.6)}/>
-  <path d="M-1 19 L0 22 L1 19 Z" fill="${lead}"/>
-  <rect x="-3" y="-26" width="6" height="5" rx="1.5" fill="#E58A8A" ${ol(outline, 1.6)}/>`;
 }
 
 /** Лупа: латунная оправа, ручка, блик. */
@@ -208,4 +181,30 @@ export function cubeSvg(outline: string): string {
   const colors = ['#E8473C', '#F4C542', '#2F9C8F', '#FFFFFF', '#E8743B', '#3B6FD4', '#F4C542', '#E8473C', '#FFFFFF'];
   const cells = colors.map((c, i) => `<rect x="${-12 + (i % 3) * 8.2}" y="${-12 + Math.floor(i / 3) * 8.2}" width="7" height="7" rx="1.4" fill="${c}"/>`).join('');
   return `<rect x="-14" y="-14" width="28" height="28" rx="4" fill="#25262E" ${ol(outline, 2.6)}/>${cells}`;
+}
+
+// ---------- предмет в руке: за кистью и в размер (2026-10-31, D71) ----------
+
+type HeldProp = { readonly key: string; readonly box: { x: number; y: number; w: number; h: number }; svg(): string; readonly grip: { readonly x: number; readonly y: number }; readonly rot: number; readonly above?: boolean };
+/** Настройка предмета: во сколько раз увеличить, новый хват, поверх кисти (только если кисть держит предмет снизу). */
+export interface PropFit { readonly scale?: number; readonly grip?: { readonly x: number; readonly y: number }; readonly rot?: number; readonly above?: boolean }
+
+/**
+ * Предметы в руке — за кистью: кисть-варежку видно с тыльной стороны, пальцы обхватывают предмет спереди, поэтому
+ * кисть частично закрывает его (above: false по умолчанию). Мелкие предметы (конфета, семечка, сахар) за варежкой
+ * не видны — их рисунок увеличивается (scale) и хват сдвигается, чтобы предмет выглядывал из-за кисти.
+ */
+export function fitProps<T extends Record<string, HeldProp>>(props: T, fit: Partial<Record<keyof T, PropFit>>): T {
+  const out: Record<string, HeldProp> = {};
+  for (const [name, p] of Object.entries(props)) {
+    const f = fit[name as keyof T] ?? {};
+    const k = f.scale ?? 1;
+    const box = { x: p.box.x * k, y: p.box.y * k, w: p.box.w * k, h: p.box.h * k };
+    const svg = k === 1 ? p.svg : (): string => {
+      const inner = p.svg().replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}"><g transform="scale(${k})">${inner}</g></svg>`;
+    };
+    out[name] = { ...p, box, svg, grip: f.grip ?? p.grip, rot: f.rot ?? p.rot, above: f.above ?? false };
+  }
+  return out as T;
 }

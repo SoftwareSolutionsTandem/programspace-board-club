@@ -170,29 +170,31 @@ export function kharitonScenes(rest: Pose): SceneDef[] {
     markers: [{ at: 3000, name: 'say' }],
   };
 
-  /** Записная книжка: книжка в левой, карандаш в правой, пишет, задумывается с карандашом у губ, дописывает. */
-  const write = (at: number, k: number): GestureDef['keys'][number] => ({ at, pose: { rHandX: 214 + 10 * k, rHandY: 286 + 3 * k, propRotR: 8 * k }, spring: { arm: { f: 6, zeta: 0.6 } } });
-  const notebook: GestureDef = {
-    id: 'scene:notebook',
-    duration: 8200,
+  /**
+   * Газета (как у Матвея, D71): разворачивает обеими руками, читает, находит шахматный раздел, восклицает — смотрит
+   * поверх газеты на игрока, складывает. Газета — за обеими кистями: левая рука сверху (topArm), правая держит газету.
+   */
+  const readLine = (at: number, x: number): GestureDef['keys'][number] => ({ at, pose: { gazeX: x, gazeY: 0.45, headRot: x * 3 } });
+  const newspaper: GestureDef = {
+    id: 'scene:newspaper',
+    duration: 9000,
     keys: [
-      { at: 0, pose: { lHandX: 190, lHandY: 336, lCtrlX: 110, lCtrlY: 340, lDX: 12, lDY: -2, lHandRot: -20, rHandX: 234, rHandY: 336, rCtrlX: 320, rCtrlY: 350, rDX: -10, rDY: 0, rHandRot: -150, gazeY: 0.85 }, spring: { arm: calm } },
-      { at: 550, pose: { lHandY: 330, rHandY: 330 }, props: { l: 'notebook', r: 'pencil' } },
-      { at: 800, pose: { lHandX: 196, lHandY: 292, lCtrlX: 110, lCtrlY: 320, lDX: 12, lDY: -6, lHandRot: -10, rHandX: 220, rHandY: 284, rCtrlX: 310, rCtrlY: 330, rDX: -12, rDY: -8, rHandRot: -150, gazeX: -0.1, gazeY: 0.9, headY: 3 }, emotion: 'think', spring: { arm: calm, head: calm } },
-      write(1300, 1), write(1500, -1), write(1700, 1), write(1900, -1), write(2100, 1),
-      // Карандаш у губ: задумался, глаза вверх.
-      { at: 2500, pose: { rHandX: 236, rHandY: 214, rCtrlX: 330, rCtrlY: 290, rHandRot: -150, propRotR: -20, headY: 0, gazeX: 0.4, gazeY: -0.6 }, spring: { arm: calm } },
-      { at: 3300, pose: {}, emotion: 'azart', eyes: 'star' },
-      { at: 3500, pose: {}, eyes: null, waitSpeech: true },
-      { at: 3800, pose: { rHandX: 220, rHandY: 284, propRotR: 0, gazeX: -0.1, gazeY: 0.9, headY: 3 }, emotion: 'warm', spring: { arm: calm } },
-      write(4200, 1), write(4400, -1), write(4600, 1), write(4800, -1),
-      // Точка — с размаху.
-      { at: 5000, pose: { rHandY: 296 }, spring: { arm: { f: 9, zeta: 0.5 } } },
-      { at: 5300, pose: { lHandX: 190, lHandY: 336, lCtrlX: 110, lCtrlY: 340, lHandRot: -20, rHandX: 234, rHandY: 336, rCtrlX: 320, rCtrlY: 350, rHandRot: -150, headY: 0, gazeY: 0.8 }, emotion: 'sly', spring: { arm: calm } },
-      { at: 5800, pose: { lHandY: 344, rHandY: 344 }, props: { l: null, r: null } },
-      { at: 6000, pose: { ...lr, ...rr, gazeY: 0.1 }, spring: { arm: calm } },
+      { at: 0, pose: { rHandX: 334, rHandY: 386, rCtrlX: 350, rCtrlY: 320, rDX: -8, rDY: 4, rHandRot: 150, gazeX: 0.6, gazeY: 0.8 }, spring: { arm: calm } },
+      { at: 600, pose: { rHandY: 378 }, props: { r: 'newspaper' }, topArm: 'l' },
+      { at: 850, pose: { rHandX: 270, rHandY: 262, rCtrlX: 336, rCtrlY: 320, rDX: -10, rDY: -6, rHandRot: -175, lHandX: 156, lHandY: 268, lCtrlX: 104, lCtrlY: 320, lDX: 10, lDY: -6, lHandRot: 0, gazeX: 0, gazeY: 0.5, headY: 2 }, emotion: 'think', spring: { arm: { f: 2, zeta: 0.85 } } },
+      readLine(1400, -0.5), readLine(2000, 0.35), readLine(2300, -0.5), readLine(2900, 0.35), readLine(3200, -0.5),
+      // Шахматный раздел! Брови вверх, «эврика».
+      { at: 3700, pose: { gazeX: 0.1, headY: 0, browLI: -6, browRI: -8 }, emotion: 'surprise', eyes: 'star', spring: { head: calm } },
+      { at: 4100, pose: { torsoY: -1.5, headY: -1.5 }, eyes: null, emotion: 'azart', spring: { body: quick } },
+      { at: 4300, pose: { torsoY: 0, headY: 0 } },
+      // Поверх газеты — на игрока.
+      { at: 4700, pose: { rHandY: 286, lHandY: 292, headY: -3, gazeX: 0, gazeY: 0.2, browLI: 1, browRI: 1 }, emotion: 'sly', spring: { arm: calm, head: calm } },
+      { at: 5000, pose: {}, waitSpeech: true },
+      { at: 5400, pose: { rHandX: 334, rHandY: 386, rCtrlX: 350, rCtrlY: 320, rHandRot: 150, ...lr, headY: 0, gazeX: 0.6, gazeY: 0.8 }, spring: { arm: calm } },
+      { at: 6000, pose: { rHandY: 392 }, props: { r: null } },
+      { at: 6200, pose: { ...rr, gazeX: 0, gazeY: 0.1 }, emotion: 'warm', spring: { arm: calm } },
     ],
-    markers: [{ at: 3400, name: 'say' }],
+    markers: [{ at: 4900, name: 'say' }],
   };
 
   /** Конь из кармана: вертит фигурку в пальцах, смотрит ей в «глаза», «прыгает» ею буквой Г и прячет. */
@@ -324,7 +326,7 @@ export function kharitonScenes(rest: Pose): SceneDef[] {
     { id: 'lecture', gesture: lecture, moods: ['ahead', 'even'] },
     { id: 'falseEureka', gesture: falseEureka, weight: 0.8 },
     { id: 'magnifier', gesture: magnifier, weight: 1.2 },
-    { id: 'notebook', gesture: notebook, tier: 'special', minWaitMs: 15_000, weight: 1.3 },
+    { id: 'newspaper', gesture: newspaper, tier: 'special', minWaitMs: 15_000, weight: 1.3 },
     { id: 'knight', gesture: knight },
     { id: 'forgot', gesture: forgot, weight: 1.2 },
     { id: 'conduct', gesture: conduct, moods: ['ahead', 'even'] },

@@ -4,7 +4,7 @@ import type { PartSpec, PivotPart, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { AGATA_PIECES as P, emotionMouth, FIGURE_BOX, MOUTHS, type MouthShape } from './art';
-import { candySvg, hankySvg, knittingSvg, mirrorSvg, pieSvg } from '../props';
+import { candySvg, hankySvg, knittingSvg, mirrorSvg, pieSvg, fitProps } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -16,6 +16,9 @@ const HEAD_FULL = { x: -10, y: -30, w: 260, h: 270 };
 const EYE_BOX = { x: -22, y: -26, w: 44, h: 52 };
 const eyes = (style: EyeStyle) => part(`eye:${style}`, EYE_BOX, () => P.eyeWhite(style));
 const extras = (e: Emotion) => part(`extras:${e}`, HEAD_FULL, () => P.extras(e));
+
+/** Предметы в руке — за кистью; мелкие увеличены, чтобы выглядывать из-за варежки (D71). */
+const PROP_FIT = { hanky: { scale: 1.35, grip: { x: -2, y: -24 } }, candy: { scale: 1.9, grip: { x: 0, y: -26 } }, pie: { scale: 1.35, grip: { x: 0, y: -24 } }, knitting: { scale: 1.3, grip: { x: 4, y: -30 } } };
 
 export const AGATA_PUPPET: PuppetArt = {
   id: 'agata',
@@ -66,14 +69,14 @@ export const AGATA_PUPPET: PuppetArt = {
   fringe: { ...P.fringe, color: hex(P.fringe.color), outline: hex(P.fringe.outline) },
   // vA — губы сомкнуты; дальше по раскрытию: чуть, средне (или «о»), широко (как в смехе).
   // Реквизит сценок: платочек из рукава, конфета-барбариска из кармана фартука.
-  props: {
+  props: fitProps({
     hanky: { ...part('prop:hanky', { x: -24, y: -21, w: 48, h: 42 }, () => hankySvg(P.colors.outline, '#FFF8F0', '#E07A8A', '#E9D9CC')), grip: { x: -4, y: -20 }, rot: 0, above: true },
     candy: { ...part('prop:candy', { x: -23, y: -12, w: 46, h: 24 }, () => candySvg(P.colors.outline, '#D8343F', '#FFF3E4')), grip: { x: -2, y: -22 }, rot: -10, above: true },
     // LIFE-2: вязание (спицы с полотном), пирожок, зеркальце.
     knitting: { ...part('prop:knitting', { x: -45, y: -32, w: 90, h: 63 }, () => `<g transform="scale(1.5)">${knittingSvg(P.colors.outline, '#7FA6C9', '#5A82A6', '#C9CED6')}</g>`), grip: { x: 4, y: -22 }, rot: 0, above: true },
     pie: { ...part('prop:pie', { x: -22, y: -14, w: 44, h: 28 }, () => pieSvg(P.colors.outline, '#E3A44F', '#B97A2E')), grip: { x: -2, y: -20 }, rot: 0, above: true },
     mirror: { ...part('prop:mirror', { x: -17, y: -19, w: 34, h: 48 }, () => mirrorSvg(P.colors.outline, '#D8343F', '#D9EEF2')), grip: { x: -4, y: -40 }, rot: 0 },
-  },
+  }, PROP_FIT),
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };

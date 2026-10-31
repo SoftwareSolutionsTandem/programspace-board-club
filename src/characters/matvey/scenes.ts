@@ -127,7 +127,8 @@ export function matveyScenes(rest: Pose): SceneDef[] {
     duration: 9000,
     keys: [
       { at: 0, pose: { rHandX: 336, rHandY: 386, rCtrlX: 352, rCtrlY: 320, rDX: -8, rDY: 4, rHandRot: 150, gazeX: 0.6, gazeY: 0.8 }, spring: { arm: calm } },
-      { at: 600, pose: { rHandY: 378 }, props: { r: 'newspaper' } },
+      // Газета за обеими кистями: левая рука поверх неё (topArm), правая держит газету (D71).
+      { at: 600, pose: { rHandY: 378 }, props: { r: 'newspaper' }, topArm: 'l' },
       { at: 850, pose: { rHandX: 270, rHandY: 262, rCtrlX: 336, rCtrlY: 320, rDX: -10, rDY: -6, rHandRot: -175, lHandX: 156, lHandY: 268, lCtrlX: 104, lCtrlY: 320, lDX: 10, lDY: -6, lHandRot: 0, gazeX: 0, gazeY: 0.5, headY: 2 }, spring: { arm: { f: 2, zeta: 0.85 } } },
       readLine(1400, -0.5), readLine(2000, 0.35), readLine(2300, -0.5), readLine(2900, 0.35), readLine(3200, -0.5),
       // Хмыкнул: что-то интересное.

@@ -238,8 +238,8 @@ function tube(d: string, w = 30, fill = C.dress): string {
   return `<path d="${d}" fill="none" stroke="${C.outline}" stroke-width="${w + 8}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
-/** Кисть по единому стандарту (src/characters/hands.ts). Кисть пожилой женщины: мягкая, пухлая ладонь, короткие округлые пальцы, складки на костяшках, тонкое колечко. */
-export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#FFE6D2', line: 3.2, palm: { cx: -1, rx: 10.5, ry: 10.5 }, fingers: { base: 6, len: [12, 13, 12, 10], w: 6, gap: 5.4, droop: 2.5 }, thumb: { len: 9.5, w: 6.4 }, knuckles: 'soft', nails: '#FBE3D6', ring: '#E2B33C', shift: 5 };
+/** Кисть-варежка (src/characters/hands.ts, D70): овал без пальцев и толстый большой палец. fist — кулак; mirror — правая рука. */
+export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#FFE6D2', rx: 18, ry: 15.5, thumb: [8.6, 10] };
 /** r — прежний «радиус» кисти (19 — обычный размер); mirror — правая рука (большой палец снизу до поворота). */
 const hand = (x: number, y: number, r = 19, rot = 0, mirror = false, fist = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${r / 19} ${(mirror ? -1 : 1) * r / 19})">${handSvg(HAND, fist)}</g>`;
 const cuff = (x: number, y: number, rot = 0): string => `<ellipse cx="${x}" cy="${y}" rx="17" ry="8" transform="rotate(${rot} ${x} ${y})" fill="${C.shawl}" ${ol(3)}/>`;

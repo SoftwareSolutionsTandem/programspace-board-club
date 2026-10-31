@@ -167,8 +167,8 @@ export const KHARITON_LINES: readonly VoiceLine[] = [
   // LIFE-2: сценки второго этапа и ответы на темп игрока (docs/voice/scenes.md). Записей пока нет.
   S('khariton_scene_magnifier_01', 'scene_magnifier', 'surprise', 'Под лупой позиция ещё интереснее… Ах, какие перспективы!', 'изумлённо'),
   S('khariton_scene_magnifier_02', 'scene_magnifier', 'surprise', 'Так-так… Ни одной пылинки и ни одной ошибки. Пока.', 'въедливо'),
-  S('khariton_scene_notebook_01', 'scene_notebook', 'azart', 'Запишу для мемуаров: «Партия была упорной».', 'вдохновенно'),
-  S('khariton_scene_notebook_02', 'scene_notebook', 'azart', 'Блестящая мысль! Записываю, пока не улетела.', 'торопливо, с азартом'),
+  S('khariton_scene_newspaper_01', 'scene_newspaper', 'azart', 'Шахматный раздел! Мат в три хода… Элементарно!', 'вдохновенно, затем гордо'),
+  S('khariton_scene_newspaper_02', 'scene_newspaper', 'sly', 'Пишут, что дебюты устарели. Рано хоронят, коллеги!', 'с усмешкой, поверх газеты'),
   S('khariton_scene_knight_01', 'scene_knight', 'sly', 'Ну что, лошадка, куда прыгнем? Буквой «Г», разумеется.', 'ласково-хитро, фигурке'),
   S('khariton_scene_knight_02', 'scene_knight', 'sly', 'Мой талисман. Никогда не подводит. Почти.', 'доверительно'),
   S('khariton_scene_forgot_01', 'scene_forgot', 'surprise', 'Так… Что я искал? Ах да… Ничего. Продолжаем.', 'озадаченно, потом смиренно'),

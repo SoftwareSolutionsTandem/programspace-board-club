@@ -103,6 +103,8 @@ export class PuppetBrain {
   holdHand: 'l' | 'r' = 'r';
   /** Какая рука над предметами на столе (ключ жеста front). */
   armsFront: 'l' | 'r' | null = null;
+  /** Какая рука ближе к зрителю (ключ жеста topArm); по умолчанию правая. */
+  topArm: 'l' | 'r' = 'r';
   /** Жест входа в состояние ждёт конца текущего жеста. */
   private pendingEnter: GestureDef | null = null;
   /** Реквизит в кистях (имена PuppetArt.props) — по ключам текущего жеста. */
@@ -205,6 +207,7 @@ export class PuppetBrain {
     this.gesture = null;
     this.holdCard = false;
     this.armsFront = null;
+    this.topArm = 'r';
     this.propL = this.propR = null;
     this.mouthOverride = null;
     this.setEyesOverride(null);
@@ -334,7 +337,7 @@ export class PuppetBrain {
       const cur = g.def.keys.reduce<(typeof g.def.keys)[number] | null>((a, k) => (k.at <= g.t ? k : a), null);
       if (cur?.waitSpeech && this.talking && g.heldMs < MAX_SPEECH_HOLD && !this.reduced) g.heldMs += dtMs;
       else g.t += dtMs;
-      let hold = false, hand: 'l' | 'r' = 'r', front: 'l' | 'r' | false = false;
+      let hold = false, hand: 'l' | 'r' = 'r', front: 'l' | 'r' | false = false, top: 'l' | 'r' = 'r';
       let propL: string | null = null, propR: string | null = null, mouth: string | null = null, eyes: EyeStyle | null = null;
       let done = 0;
       for (const k of g.def.keys) {
@@ -344,6 +347,7 @@ export class PuppetBrain {
         hold = k.holdCard ?? hold;
         hand = k.holdHand ?? hand;
         front = k.front ?? front;
+        top = k.topArm ?? top;
         if (k.props && 'l' in k.props) propL = k.props.l ?? null;
         if (k.props && 'r' in k.props) propR = k.props.r ?? null;
         if (k.mouth !== undefined) mouth = k.mouth;
@@ -355,6 +359,7 @@ export class PuppetBrain {
       this.holdCard = hold;
       this.holdHand = hand;
       this.armsFront = front || null;
+      this.topArm = top;
       this.propL = propL;
       this.propR = propR;
       this.mouthOverride = mouth;

@@ -204,8 +204,8 @@ function tube(d: string, w = 32, fill = C.hoodie): string {
   <path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
 
-/** Кисть по единому стандарту (src/characters/hands.ts). Молодая кисть: ровная, плотные пальцы без складок. fist — кулак; mirror — правая рука. */
-export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#FCE0C8', line: 3.2, palm: { cx: -3, rx: 12.5, ry: 11 }, fingers: { base: 6, len: [14, 15, 14, 12], w: 6.4, gap: 5.6, droop: 2.5 }, thumb: { len: 11, w: 6.6 }, knuckles: 'none', nails: '#FBE1CC' };
+/** Кисть-варежка (src/characters/hands.ts, D70): овал без пальцев и толстый большой палец. fist — кулак; mirror — правая рука. */
+export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#FCE0C8', rx: 17.5, ry: 14.5, thumb: [8.6, 10.5] };
 const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(1 ${mirror ? -1 : 1})">${handSvg(HAND, fist)}</g>`;
 /** Манжета худи в рубчик. */
 const cuff = (x: number, y: number, rot = 0): string => `<g transform="rotate(${rot} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="17" ry="8" fill="${C.hoodieSh}" ${ol(3)}/>

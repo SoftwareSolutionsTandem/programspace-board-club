@@ -585,12 +585,31 @@ export class PuppetRig {
       this.front.addChildAt(this.releaseLayer, at);
       this.front.addChildAt(this.held, at);
     }
+    this.orderArms();
     this.layoutProps(dtMs);
     this.syncHeldOver();
     this.drawJoints();
   }
 
   /** Реквизит сценок: в кисти со своим хватом (у левой — зеркально), под пальцами или поверх; появляется за 120 мс. */
+  /** Какая рука сейчас нарисована ближе к зрителю. */
+  private armOnTop: 'l' | 'r' = 'r';
+
+  /**
+   * Порядок рук по ключу жеста topArm: группа одной руки (рукав, накладка, манжета, веер или предмет, кисть) целиком
+   * над группой другой. Предметы сценок встают на место у своей кисти в layoutProps.
+   */
+  private orderArms(): void {
+    const want = this.brain.topArm;
+    if (want === this.armOnTop) return;
+    this.armOnTop = want;
+    const L = [this.armL, this.capC[0], this.cuffL, this.fan, this.handL];
+    const R = [this.armR, this.capC[1], this.cuffR, this.held, this.releaseLayer, this.handR];
+    const order = want === 'l' ? [...R, ...L] : [...L, ...R];
+    for (const c of order) this.front.removeChild(c);
+    order.forEach((c, i) => this.front.addChildAt(c, i));
+  }
+
   private layoutProps(dtMs: number): void {
     const art = this.art!;
     const bank = this.bank!;

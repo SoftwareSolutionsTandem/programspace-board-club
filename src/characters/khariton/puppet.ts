@@ -4,7 +4,7 @@ import type { PartSpec, PuppetArt } from '../../puppet/art';
 import type { EyeStyle } from '../../puppet/types';
 import type { Emotion } from '../types';
 import { emotionMouth, FIGURE_BOX, KHARITON_PIECES as P, MOUTHS, type MouthShape } from './art';
-import { clothSvg, knightSvg, magnifierSvg, notebookFlatSvg, pencilSvg, pocketWatchSvg } from '../props';
+import { clothSvg, knightSvg, magnifierSvg, newspaperSvg, pocketWatchSvg, fitProps } from '../props';
 
 const doc = (box: { x: number; y: number; w: number; h: number }, inner: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box.x} ${box.y} ${box.w} ${box.h}" width="${box.w}" height="${box.h}">${inner}</svg>`;
@@ -16,6 +16,9 @@ const EYE_BOX = { x: -15, y: -17, w: 30, h: 34 };
 const MOUTH = { x: 70, y: 150, w: 100, h: 100 };
 const eyes = (style: EyeStyle) => part(`eye:${style}`, EYE_BOX, () => P.eyeWhite(style));
 const extras = (e: Emotion) => part(`extras:${e}`, HEAD_FULL, () => P.extras(e));
+
+/** Предметы в руке — за кистью; мелкие увеличены, чтобы выглядывать из-за варежки (D71). */
+const PROP_FIT = { cloth: { scale: 1.6, grip: { x: -2, y: -22 } }, watch: { scale: 1.2 }, knight: { scale: 1.6, grip: { x: 0, y: -30 } } };
 
 export const KHARITON_PUPPET: PuppetArt = {
   id: 'khariton',
@@ -57,18 +60,16 @@ export const KHARITON_PUPPET: PuppetArt = {
   fanOffset: null,
   heldCard: { x: 0, y: 0, rot: 0, w: 1, h: 1 },
   // Реквизит сценок: свои очки в руке (на лице их прячет канал glassesOff), замшевая салфетка, карманные часы.
-  props: {
+  props: fitProps({
     glasses: { ...part('prop:glasses', { x: -58, y: -22, w: 116, h: 44 }, () => `<g transform="translate(-120 -130)">${P.glasses()}</g>`), grip: { x: -10, y: -24 }, rot: 0 },
     cloth: { ...part('prop:cloth', { x: -19, y: -15, w: 38, h: 30 }, () => clothSvg(P.colors.outline, '#E7C76A', '#B9963E')), grip: { x: -4, y: -12 }, rot: 0, above: true },
     watch: { ...part('prop:watch', { x: -19, y: -26, w: 38, h: 44 }, () => pocketWatchSvg(P.colors.outline, P.colors.frame, P.colors.frameHi, '#FFFDF5')), grip: { x: -6, y: -20 }, rot: 0 },
-    // LIFE-2: записная книжка и карандаш, лупа, шахматный конь из кармана.
-    // Записная книжка лежит почти плашмя перед грудью страницами вверх (ракурс), карандаш пишет по странице (ART-REV).
-    notebook: { ...part('prop:notebook', { x: -34, y: -14, w: 68, h: 30 }, () => notebookFlatSvg(P.colors.outline, '#7A3B2E', '#FBF6E8', '#6B6258')), grip: { x: 14, y: -6 }, rot: 0, above: true },
-    // Карандаш в пальцах грифелем вниз-влево: в позе письма грифель касается страницы книжки (ART-REV).
-    pencil: { ...part('prop:pencil', { x: -5, y: -28, w: 10, h: 52 }, () => pencilSvg(P.colors.outline, '#E8B83C', '#3B2418')), grip: { x: -10, y: -4 }, rot: -10, above: true },
+    // LIFE-2: газета, лупа, шахматный конь из кармана.
+    // Газета — как у Матвея: разворачивает обеими руками (D71).
+    newspaper: { ...part('prop:newspaper', { x: -68, y: -53, w: 136, h: 106 }, () => `<g transform="scale(1.85)">${newspaperSvg(P.colors.outline, '#F1ECDD', '#4A4F57')}</g>`), grip: { x: -42, y: -30 }, rot: 0 },
     magnifier: { ...part('prop:magnifier', { x: -18, y: -18, w: 46, h: 46 }, () => magnifierSvg(P.colors.outline, P.colors.frame, '#7A4A2A')), grip: { x: -20, y: -22 }, rot: 0 },
     knight: { ...part('prop:knight', { x: -14, y: -18, w: 28, h: 38 }, () => knightSvg(P.colors.outline, '#F5ECD7', '#CDBF9D')), grip: { x: -2, y: -24 }, rot: 0, above: true },
-  },
+  }, PROP_FIT),
   speech: { closed: 'vA', levels: [['vB', 'vF'], ['vC', 'vE'], ['vD']] },
   emotionMouth,
 };
