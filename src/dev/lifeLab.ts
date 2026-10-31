@@ -98,8 +98,12 @@ export async function startLifeLab(stageEl: HTMLElement, uiEl: HTMLElement, id: 
     value: {
       step,
       play,
-      scenes: () => scenes.map((s) => ({ id: s.id, duration: s.gesture.duration })),
+      scenes: () => scenes.map((s) => ({ id: s.id, duration: s.gesture.duration, tier: s.tier ?? 'scene' })),
       emotion: (e: Emotion) => rig.setEmotion(e),
+      /** Жесты-реакции персонажа (MotionStyle.gestures) и базовые состояния — для обзора всех анимаций. */
+      gestures: () => Object.keys(ch.motion.gestures ?? {}),
+      gesture: (gid: string) => rig.gesture(gid),
+      setState: (st: 'idle' | 'think' | 'took' | 'victory') => rig.setPose(st),
       state: () => ({ gesture: rig.brain.gestureId, propL: rig.brain.propL, propR: rig.brain.propR, emotion: rig.currentEmotion, talking: rig.brain.talking }),
       log: () => [...log],
     },
