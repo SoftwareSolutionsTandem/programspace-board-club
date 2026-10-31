@@ -128,13 +128,26 @@ describe('реакции Матвея', () => {
     const big = makeState({ hands: ['5:1 2:2', '6:6 3:3 0:0'], chain: '6:5', turn: 1 });
     const bg = mustApply(big, { type: 'play', seat: 1, bone: b('6:6'), end: 'left' });
     expect(reactionFor(bg.events, OPPONENT, projectView(bg.state, HUMAN))?.category).toBe('bigDouble');
+    // Игрок вышел, а у Матвея на руках 20+ очков — похвала (запасная — обычный вздох handLose).
+    const strong = mustApply(makeState({ hands: ['2:1', '6:6 5:5'], chain: '6:2', turn: 0 }), { type: 'play', seat: 0, bone: b('2:1'), end: 'right' });
+    expect(reactionFor(strong.events, OPPONENT, projectView(strong.state, HUMAN))).toMatchObject({ category: 'praise', fallback: 'handLose', gesture: 'handLose' });
+    // Дубль игрока — своя реакция (запасная — обычный ход соперника).
+    const pd = mustApply(makeState({ hands: ['5:5 0:1 0:2', '6:6 3:3'], chain: '6:5', turn: 0 }), { type: 'play', seat: 0, bone: b('5:5'), end: 'right' });
+    expect(reactionFor(pd.events, OPPONENT, projectView(pd.state, HUMAN))).toMatchObject({ category: 'playerDouble', fallback: 'playerPlay' });
+  });
+  it('базар по нарастающей: вторая кость — бурчание (у игрока — смешок), третья — вздох', () => {
+    const v = projectView(makeState({ hands: ['1:1', '2:2'], chain: '6:5', turn: 0 }), HUMAN);
+    const drew = (seat: 0 | 1, n: number) => reactionFor([{ type: 'drew', seat, bone: b('0:1'), drawnThisTurn: n }], OPPONENT, v)?.category;
+    expect([1, 2, 3, 4].map((n) => drew(OPPONENT as 0 | 1, n))).toEqual(['drew', 'nvGrumble', 'nvSigh', 'drewMany']);
+    expect([1, 2, 3, 4].map((n) => drew(HUMAN as 0 | 1, n))).toEqual(['playerDrew', 'nvGiggle', undefined, 'playerDrewMany']);
   });
 
   it('долгий добор из базара — одна реакция, на 4-й кости за ход (dominoes.md §11)', () => {
     const view = projectView(makeState({ hands: ['1:1', '2:2'], chain: '6:5', bazaar: '0:0 0:1 0:2 0:3 0:4', turn: 1 }), HUMAN);
     const drew = (seat: 0 | 1, n: number) => [{ type: 'drew' as const, seat, bone: b('0:1'), drawnThisTurn: n }];
     expect(reactionFor(drew(OPPONENT, 1), OPPONENT, view)?.category).toBe('drew');
-    expect(reactionFor(drew(OPPONENT, 3), OPPONENT, view)).toBeNull();
+    // Вторая и третья кость — короткие звуки без слов (бурчание, вздох), а не слова о «долгом доборе».
+    expect(reactionFor(drew(OPPONENT, 3), OPPONENT, view)?.category).toBe('nvSigh');
     expect(reactionFor(drew(OPPONENT, 4), OPPONENT, view)).toMatchObject({ category: 'drewMany', gesture: 'grumble' });
     expect(reactionFor(drew(OPPONENT, 5), OPPONENT, view)).toBeNull();
     expect(reactionFor(drew(HUMAN, 4), OPPONENT, view)).toMatchObject({ category: 'playerDrewMany', gesture: 'chuckle' });

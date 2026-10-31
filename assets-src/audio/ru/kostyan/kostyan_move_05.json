@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_move_05",
+  "text": "Держи вот так.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "3ff38b00be7002cfdb3f65e9125e22db51dcdb8730aa2a96672633d5ff52121b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.15
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_praise_03",
+  "text": "Это было мощно. Уважаю.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f05d5bcacd9de47f1cdabac8b79a5ead6ed1fc976651c28fa62f85a58d2b74e4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.58
+}

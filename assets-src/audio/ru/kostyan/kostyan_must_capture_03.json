@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_must_capture_03",
+  "text": "Стоп-стоп, тут бить надо.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "82cfcfb623feb22cc1fcbb1e0637ac4453d5fd74ca9275cb9db42508fffd80f5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.72
+}

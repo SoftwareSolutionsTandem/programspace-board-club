@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_move_01",
+  "text": "Так.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "3a63b6811e8c0c443ec382e5457bc3dc25404247fde77900116c48ce1f8b7b84",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.88
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lost_piece_01",
+  "text": "Эй! Ну ладно…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "eeabebad80a6d72fb9dc45b14240dadcdaa20ef206e42aa554401358d8e5abd5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.44
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_giggle_03",
+  "text": "Ха!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c362c531bb46aa8e005de015c0bae016f1882d828ab388aba5edea3df0d8e22f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.42
+}

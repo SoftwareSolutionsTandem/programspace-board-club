@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lost_piece_03",
+  "text": "Ого, не заметил!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "89354ef74ee69a0b68b6b9e99cb8135c61f32545861b3a3566c7c9e3e5a51f38",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.14
+}

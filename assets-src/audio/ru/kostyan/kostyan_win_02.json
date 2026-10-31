@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_win_02",
+  "text": "Ха, моя партия! Хорошо сыграли.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "e3a5f3d8cd8e593f9be282ffbfbb5dd8440a0d9194e015d01dc5e8c16786778e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.95
+}

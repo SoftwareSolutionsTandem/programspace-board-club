@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_capture_01",
+  "text": "Если можно бить — бить обязательно. Перепрыгиваешь — и шашки нет.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "d571ef4217fe8e8c234b0c590439d221543d188ab7f673bb3ccd00a6c05f14c5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 6.03
+}

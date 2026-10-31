@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_praise_01",
+  "text": "Красиво! Уважаю.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "92f695cd6093ecd27d187341ed3dc91d6999f3b6572280f541decfaf72db4e2c",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.09
+}

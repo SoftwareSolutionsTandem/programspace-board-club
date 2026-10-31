@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_ahead_03",
+  "text": "Веду! Но расслабляться рано.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "783984919e07d497a854806fd32aec08ff51f33dd14af4e52bacab2aa728b3fd",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.0
+}

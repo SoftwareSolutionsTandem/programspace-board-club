@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_start_04",
+  "text": "Ну что, начнём? Белые ходят первыми.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "520295eb345b8b70233d63921bf9042d31e8382f08fef1c6c5e1883ba2912725",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.25
+}

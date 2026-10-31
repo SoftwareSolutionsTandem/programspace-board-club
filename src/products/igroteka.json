@@ -19,7 +19,8 @@
   "publicAssets": [
     "audio/ru/agata",
     "audio/ru/matvey",
-    "audio/ru/khariton"
+    "audio/ru/khariton",
+    "audio/ru/kostyan"
   ],
   "icon": {
     "file": "public/favicon.svg",

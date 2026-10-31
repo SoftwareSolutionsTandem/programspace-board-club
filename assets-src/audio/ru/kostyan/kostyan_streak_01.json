@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_streak_01",
+  "text": "Три подряд! Это рекорд!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "b203da38b271c489f5f094f062bd831531ab504ae0b34373272e6d194d7d5f81",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.69
+}

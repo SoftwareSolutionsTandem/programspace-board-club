@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_resign_02",
+  "text": "Уже сдаёшься? А я только разогнался.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c3f939bd3caea40882cd9bb345083edc5901de68a4a8a586a4fd5f229371a4dd",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.25
+}

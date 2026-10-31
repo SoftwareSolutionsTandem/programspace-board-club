@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_first_01",
+  "text": "Привет! Я Костян. В шашки рубишься?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "b2a2bdaafcfacd3d5d182dfa16c7d6241a19198d9ac6d39a1b354200b597f2bd",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.3
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_multi_capture_02",
+  "text": "Комбо!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f18b6bbb028154c8c8ffcc299989a64bf7d5929156535b8f961ee07f1c3be811",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.65
+}

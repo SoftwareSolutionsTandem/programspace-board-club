@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_move_02",
+  "text": "Вот сюда.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "07e1f98bf129183c30105f6aaa87f727b5b12ae4cd594dc6c8b32fd63b903170",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.25
+}

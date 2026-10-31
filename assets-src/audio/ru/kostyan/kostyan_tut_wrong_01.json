@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_wrong_01",
+  "text": "Не, так нельзя. Глянь на подсветку.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "a366954a46d530e4eabff8bb21f22d22f32f9382d9dea93744d04c84dbe2686a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.69
+}

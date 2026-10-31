@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_crown_01",
+  "text": "Дамка у тебя? Серьёзно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "236c501adf1005ba6d6dbd20db744903c96da80b7d9a9379d2e2be298a43b1b9",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.95
+}

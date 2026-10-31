@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_rematch_01",
+  "text": "Ещё разок? Теперь меняемся цветами.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c4c211a2e5352729d16ad7c74302a4aa8cb6373e2f1dd73757e3c5318b62867a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.2
+}

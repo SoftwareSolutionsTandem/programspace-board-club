@@ -7,7 +7,7 @@ import type { GameAssets, GameSession, SessionHost, SessionOptions } from '../ap
 import type { SfxName } from '../audio/engine';
 import { VoiceChannel } from '../audio/voiceChannel';
 import { CharacterLife, moodOf, PlayTempo } from '../characters/life';
-import { Director, type Cue, type Trigger } from '../characters/director';
+import { Director, voiceMemory, type Cue, type Trigger } from '../characters/director';
 import type { LineCategory, VoiceLine } from '../characters/types';
 import { createRng, nextInt, type RngState } from '../core/rng';
 import { t } from '../i18n';
@@ -167,7 +167,7 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
       },
     }, spec.motion, spec.skin, opts.seed + 31);
     this.voice = new VoiceChannel(host.audio, () => host.now());
-    this.director = new Director({ lines: spec.lines, minGapMs: spec.minGapMs, lineCooldownMs: 120_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
+    this.director = new Director({ lines: spec.lines, minGapMs: spec.minGapMs, lineCooldownMs: 120_000, gestureGapMs: 7000, memory: voiceMemory(spec.id), available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
     // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
     this.tempo = new PlayTempo(host.now());
     this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
@@ -267,9 +267,9 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   start(): void {
     this.resetBoard();
     const s = this.host.settings();
-    this.cue({ category: s[this.spec.metKey] ? 'greetAgain' : 'greetFirst', emotion: 'warm', priority: 'greeting', chance: 1 });
+    this.cue({ category: s[this.spec.metKey] ? 'greetAgain' : 'greetFirst', emotion: 'warm', priority: 'greeting', chance: 1, mustSpeak: true });
     if (!s[this.spec.metKey]) this.host.updateSettings({ [this.spec.metKey]: true } as Partial<Settings>);
-    this.soon(() => this.cue({ category: 'gameStart', emotion: 'think', priority: 'reaction', chance: 0.6 }), 2800);
+    if (!this.tutorial) this.afterVoice(() => this.cue({ category: 'gameStart', emotion: 'think', priority: 'reaction', chance: 0.6, followUp: true }), 1200);
     this.host.audio.sfx('shuffle');
     this.busy = false;
     this.showCoach();
@@ -786,6 +786,24 @@ export class BoardSession<S, A extends { readonly type: string; readonly color: 
   }
 
   // ---------- пауза и таймеры ----------
+
+  /**
+   * Продолжение только что сказанного (например, «раздаю» после приветствия): не раньше ms, когда голос замолчал
+   * (ждём не дольше 6 с), и только если за это время персонаж ничего другого не сказал.
+   */
+  private afterVoice(fn: () => void, ms: number): void {
+    const said = this.voiceLog.length;
+    const until = this.host.now() + ms + 6000;
+    const tick = () => {
+      if (this.disposed || this.paused) return;
+      if (this.voice.speaking && this.host.now() < until) {
+        setTimeout(tick, 250);
+        return;
+      }
+      if (this.voiceLog.length === said) fn();
+    };
+    setTimeout(tick, ms);
+  }
 
   private soon(fn: () => void, ms: number): void {
     setTimeout(() => {

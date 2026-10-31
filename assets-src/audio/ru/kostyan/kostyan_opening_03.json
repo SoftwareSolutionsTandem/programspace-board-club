@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_opening_03",
+  "text": "Так-так, знакомое начало.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "a0d252e9145c2ed356da7fe1295d85f2acfbb4aa4f7ddcd240283ad4c1e748da",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.44
+}

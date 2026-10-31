@@ -12,6 +12,21 @@ export interface Trigger {
   readonly priority: VoicePriority;
   /** Вероятность высказаться (0…1); результат и приветствие — всегда 1. */
   readonly chance: number;
+  /**
+   * Запасная категория: если у основной нет ни одной доступной записи (реплики ждут записи или все на кулдауне),
+   * звучит реплика отсюда. Так новая, ещё не записанная ситуация не отнимает голос у уже записанной.
+   */
+  readonly fallback?: LineCategory;
+  /**
+   * Продолжение только что сказанного (например, «раздаю» сразу после приветствия): не ждёт minGap,
+   * но шанс бросается как обычно. Сеанс вызывает его, когда голос уже замолчал.
+   */
+  readonly followUp?: boolean;
+  /**
+   * Сказать обязательно, даже если все записи категории на кулдауне (тогда — самая давняя). Только для приветствия
+   * при посадке: память реплик общая на страницу (voiceMemory), и без этого быстрая пересадка оставила бы персонажа немым.
+   */
+  readonly mustSpeak?: boolean;
 }
 
 export interface Cue {
@@ -35,6 +50,19 @@ export interface DirectorOptions {
    * 0 — жест каждый раз (как раньше).
    */
   readonly gestureGapMs?: number;
+  /**
+   * Общая память «реплика → когда звучала» (часы — те же, что у now). Передаётся одна на персонажа на всю страницу,
+   * чтобы новая посадка за стол (новый сеанс) не повторяла только что сказанное: кулдаун переживает сеанс.
+   */
+  readonly memory?: Map<string, number>;
+}
+
+const MEMORIES = new Map<string, Map<string, number>>();
+/** Память реплик персонажа на всю страницу (DirectorOptions.memory): одна на персонажа, переживает смену сеансов. */
+export function voiceMemory(character: string): Map<string, number> {
+  let m = MEMORIES.get(character);
+  if (!m) MEMORIES.set(character, (m = new Map()));
+  return m;
 }
 
 /** Реакция с шансом реплики ниже этого — рутинная (обычный ход, не событие). */
@@ -44,12 +72,13 @@ export class Director {
   private rng: RngState;
   private lastSpokeAt = -Infinity;
   private lastGestureAt = -Infinity;
-  private readonly lastUsed = new Map<string, number>();
+  private readonly lastUsed: Map<string, number>;
   private readonly bags = new Map<LineCategory, string[]>();
   private lastId: string | null = null;
 
   constructor(private readonly opts: DirectorOptions, rng: RngState) {
     this.rng = rng;
+    this.lastUsed = opts.memory ?? new Map<string, number>();
   }
 
   /** Сколько мс персонаж молчит (с последней выбранной реплики). */
@@ -68,16 +97,24 @@ export class Director {
     }
     if (gesture) this.lastGestureAt = now;
     const base: Cue = { emotion: trigger.emotion, ...(trigger.pose ? { pose: trigger.pose } : {}), ...(gesture ? { gesture } : {}) };
-    if (!urgent && now - this.lastSpokeAt < this.opts.minGapMs) return base;
+    if (!urgent && !trigger.followUp && now - this.lastSpokeAt < this.opts.minGapMs) return base;
     const [roll, next] = nextFloat(this.rng);
     this.rng = next;
     if (!urgent && roll >= trigger.chance) return base;
-    const line = this.pick(trigger.category, now);
+    // Приветствие при посадке не молчит из-за кулдауна: если все его записи недавно звучали — самая давняя.
+    const line = this.pick(trigger.category, now) ?? (trigger.fallback ? this.pick(trigger.fallback, now) : null) ?? (trigger.mustSpeak ? this.oldest(trigger.category) : null);
     if (!line) return base;
     this.lastSpokeAt = now;
     this.lastUsed.set(line.id, now);
     this.lastId = line.id;
     return { ...base, emotion: line.emotion, line: { id: line.id, priority: trigger.priority, text: line.text } };
+  }
+
+  /** Доступная реплика категории, звучавшая давнее всех (не та, что последней). */
+  private oldest(category: LineCategory): VoiceLine | null {
+    const pool = this.opts.lines.filter((l) => l.category === category && this.opts.available(l.id));
+    const fresh = pool.length > 1 ? pool.filter((l) => l.id !== this.lastId) : pool;
+    return [...fresh].sort((a, b) => (this.lastUsed.get(a.id) ?? -Infinity) - (this.lastUsed.get(b.id) ?? -Infinity))[0] ?? null;
   }
 
   /** «Мешок без повторов»: реплики категории идут по кругу в случайном порядке, с кулдауном. */

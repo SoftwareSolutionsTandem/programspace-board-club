@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_praise_02",
+  "text": "Вот это ход!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "bec3abff051f3a16a4e9755cca5f453472bf9044f45c0c45e34383a173c425b1",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.04
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_must_capture_04",
+  "text": "По правилам — бьёшь. Без вариантов.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "fbb9bc293b5c3732ec185f3be58b21994c282d463d4f6d8fcfb2a5041d5ee1d8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.74
+}

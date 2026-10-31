@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_capture_05",
+  "text": "Эту — мне.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "73ed56a58d8c6ab63619dc1926d20b2653efc136bc13cae4565ba654debc808d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.96
+}

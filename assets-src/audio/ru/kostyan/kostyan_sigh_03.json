@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_sigh_03",
+  "text": "Ну вот…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "4b6ecb0ab04fc87674a8004601747d36fff1fa90826a7151b57cc9b7ecd5ba29",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.79
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_done_01",
+  "text": "Всё, ты в теме! Теперь по-настоящему.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "a90f66d1cc48b89589699286818185f16621aabfed82695b018900c65946d5bf",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.34
+}

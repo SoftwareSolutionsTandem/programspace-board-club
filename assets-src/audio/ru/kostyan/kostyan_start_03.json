@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_start_03",
+  "text": "Поехали. Удачи!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c9506dd8d9e111e03dc9937f3341b3e1ebf3ea42bc69175420947d80a4171091",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.05
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_intro_01",
+  "text": "Смотри: ходим по тёмным клеткам, наискосок вперёд.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "2335c0a2ff8537a628d1d1710d6e5788d82a3867b8d6be1c1dbf5c4a81e1f526",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.76
+}

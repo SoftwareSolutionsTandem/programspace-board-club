@@ -6,6 +6,7 @@ import { checkVoiceManifest } from '../../src/audio/manifestCheck';
 import type { VoiceManifest } from '../../src/audio/engine';
 import { AGATA_LINES } from '../../src/characters/agata/lines';
 import { KHARITON_LINES } from '../../src/characters/khariton/lines';
+import { KOSTYAN_LINES } from '../../src/characters/kostyan/lines';
 import { MATVEY_LINES } from '../../src/characters/matvey/lines';
 import type { VoiceLine } from '../../src/characters/types';
 
@@ -16,11 +17,12 @@ const read = (character: string): { manifest: VoiceManifest; files: string[] } =
   files: readdirSync(dirOf(character)).filter((f) => f !== 'manifest.json'),
 });
 // Голоса персонажей — у каждого своя папка, свой манифест и свой каталог (данные не смешиваются).
-// approved — владелец прослушал и одобрил все реплики; у Харитона одобрение ещё впереди (D63).
+// approved — владелец прослушал и одобрил все реплики; у Харитона и Костяна одобрение ещё впереди (D63, D66).
 const VOICES: readonly { name: string; character: string; lines: readonly VoiceLine[]; approved: boolean }[] = [
   { name: 'Агаты', character: 'agata', lines: AGATA_LINES, approved: true },
   { name: 'Матвея', character: 'matvey', lines: MATVEY_LINES, approved: true },
   { name: 'Харитона', character: 'khariton', lines: KHARITON_LINES, approved: false },
+  { name: 'Костяна', character: 'kostyan', lines: KOSTYAN_LINES, approved: false },
 ];
 
 describe('голосовой манифест: сверка с каталогом', () => {
@@ -83,7 +85,7 @@ describe('голосовой манифест: сверка с каталого�
       expect(Object.keys(manifest.lines).sort()).toEqual(recorded.map((l) => l.id).sort());
       for (const l of lines.filter((x) => x.pending)) expect(existsSync(join(src, `${l.id}.flac`)), l.id).toBe(false);
       const voice = (manifest as { voice?: { synthetic?: boolean; approvedBy?: string } }).voice;
-      // Харитон: исполнитель в архиве не указан — признак синтеза и одобрение не выдумываем, они пусты до слова владельца.
+      // Харитон и Костян: исполнитель в архиве не указан — признак синтеза и одобрение не выдумываем, они пусты до слова владельца.
       expect(voice?.synthetic).toBe(approved ? false : null);
       expect(voice?.approvedBy ?? null).toBe(approved ? 'owner' : null);
       for (const l of recorded) {

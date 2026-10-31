@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_01",
+  "text": "Ну что, есть идея?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "48fe7c3d5620bb845d658ae1358ab2e820d4fab293734a9ffaba0eee115cc4e3",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.85
+}

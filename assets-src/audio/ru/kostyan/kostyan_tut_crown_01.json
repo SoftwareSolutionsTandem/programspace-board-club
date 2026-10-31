@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_crown_01",
+  "text": "Шашка дошла до края — дамка! Она ходит далеко.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f84cf495172f401ccfaaadd0d41e648d138b41f133bd8b243c42b7c26d61ad07",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.82
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_farewell_02",
+  "text": "Заходи ещё — отыграешься.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c52ee752f77c5848d552349fd50c0eb255585a2b2e8b774f90b5bbd0b3340ef6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.28
+}

@@ -3,11 +3,18 @@
 import type { Trigger } from '../../characters/director';
 import type { Seat } from './rules/cards';
 import type { DurakEvent } from './rules/engine';
+import type { PlayerView } from './view';
 
 /** Чем выше, тем важнее реакция в одной пачке событий. */
-const WEIGHT = { result: 100, take: 50, trump: 40, deck: 30, throw: 20, play: 10, bito: 5 } as const;
+const WEIGHT = { result: 100, take: 50, last: 45, trump: 40, trumpTaken: 35, deck: 30, throw: 20, play: 10, bito: 5 } as const;
+/** «Полный веер»: игрок забрал столько карт и больше — отдельные слова («Ого, сколько набрал!»). */
+const TOOK_MANY = 4;
 
-export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat): Trigger | null {
+/**
+ * view — проекция игрока после действия (открытые данные: число карт у соперника, остаток колоды).
+ * Без неё реакции на «последнюю карту» не выбираются.
+ */
+export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat, view?: PlayerView): Trigger | null {
   let best: { w: number; t: Trigger } | null = null;
   const offer = (w: number, t: Trigger) => {
     if (!best || w > best.w) best = { w, t };
@@ -23,6 +30,8 @@ export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat):
         if (mine) offer(WEIGHT.throw, e.afterTake
           ? { category: 'throwInAfterTake', emotion: 'laugh', pose: 'throw', priority: 'reaction', chance: 0.6 }
           : { category: 'throwIn', emotion: 'azart', pose: 'throw', priority: 'reaction', chance: 0.4 });
+        // Игрок подкинул ей ещё карту — короткое «Ах!».
+        else offer(WEIGHT.throw, { category: 'nvAh', emotion: 'surprise', priority: 'reaction', chance: 0.25 });
         break;
       case 'defended':
         if (mine) offer(e.withTrump ? WEIGHT.trump : WEIGHT.play, e.withTrump
@@ -31,9 +40,19 @@ export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat):
         else if (e.withTrump) offer(WEIGHT.trump, { category: 'playerTrump', emotion: 'surprise', gesture: 'throwUpHands', priority: 'reaction', chance: 0.5 });
         break;
       case 'took':
-        offer(WEIGHT.take, mine
-          ? { category: 'took', emotion: 'annoyed', pose: 'took', priority: 'reaction', chance: 0.7 }
-          : { category: 'playerTook', emotion: 'laugh', priority: 'reaction', chance: 0.7 });
+        // Одна карта — без слов-жалоб: вздох (своя) или смешок (игрока); полный веер у игрока — «сколько набрал!».
+        if (mine) offer(WEIGHT.take, e.cards.length === 1
+          ? { category: 'nvSigh', emotion: 'annoyed', pose: 'took', priority: 'reaction', chance: 0.6, fallback: 'took' }
+          : { category: 'took', emotion: 'annoyed', pose: 'took', priority: 'reaction', chance: 0.7 });
+        else if (e.cards.length === 1) offer(WEIGHT.take, { category: 'nvGiggle', emotion: 'laugh', priority: 'reaction', chance: 0.6, fallback: 'playerTook' });
+        else if (e.cards.length >= TOOK_MANY) offer(WEIGHT.take, { category: 'playerTookMany', emotion: 'laugh', priority: 'reaction', chance: 0.8, fallback: 'playerTook' });
+        else offer(WEIGHT.take, { category: 'playerTook', emotion: 'laugh', priority: 'reaction', chance: 0.7 });
+        break;
+      case 'drew':
+        // Открытый козырь лежит под колодой последним: кто его вытянул, тот добрал колоду до дна.
+        if (e.trumpTaken) offer(WEIGHT.trumpTaken, mine
+          ? { category: 'trumpTaken', emotion: 'sly', priority: 'reaction', chance: 0.7, fallback: 'deckEmpty' }
+          : { category: 'playerTrumpTaken', emotion: 'surprise', priority: 'reaction', chance: 0.6, fallback: 'deckEmpty' });
         break;
       case 'bito':
         if (e.attacker === characterSeat) {
@@ -58,6 +77,12 @@ export function reactionFor(events: readonly DurakEvent[], characterSeat: Seat):
       default:
         break;
     }
+  }
+  // Колода пуста, и после хода у кого-то осталась одна карта — только что, этим ходом этого игрока.
+  if (view && view.deckCount === 0 && !view.result) {
+    const played = (seat: Seat) => events.some((e) => (e.type === 'attacked' || e.type === 'defended' || e.type === 'thrownIn') && e.seat === seat);
+    if (view.opponentHandCount === 1 && played(characterSeat)) offer(WEIGHT.last, { category: 'lastCard', emotion: 'sly', priority: 'reaction', chance: 0.7 });
+    else if (view.hand.length === 1 && played(view.seat)) offer(WEIGHT.last, { category: 'playerLastCard', emotion: 'surprise', gesture: 'throwUpHands', priority: 'reaction', chance: 0.6 });
   }
   return (best as { w: number; t: Trigger } | null)?.t ?? null;
 }

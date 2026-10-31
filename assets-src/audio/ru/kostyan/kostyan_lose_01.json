@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lose_01",
+  "text": "Да ну! Так нечестно… шучу. Красиво.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "673dead497e164dd944690a4ee1521ab957db271f3eeaf3295c6b172471ac5d7",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 5.07
+}

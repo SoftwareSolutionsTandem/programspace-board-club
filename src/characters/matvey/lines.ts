@@ -100,6 +100,22 @@ export const MATVEY_LINES: readonly VoiceLine[] = [
   L('matvey_tut_goal', 'tutGoal', 'think', 'Кто первым выложит все кости, тот и выиграл.', 'объясняя'),
   L('matvey_tut_wrong', 'tutWrong', 'think', 'Не подходит. Ищи такое же число.', 'мягко'),
   L('matvey_tut_done', 'tutDone', 'azart', 'Вот и всё. Играем до ста одного!', 'бодро'),
+  // VOICE-ALL (2026-10-31): дубль соперника и разнообразие частых событий (docs/voice/additions.md). Записей пока нет:
+  // пока запись не добавлена, звучит запасная категория (Trigger.fallback) или Матвей отвечает мимикой и жестом.
+  S('matvey_player_double_01', 'playerDouble', 'surprise', 'Дубль? Ну-ну.', 'приподняв бровь, сухо'),
+  S('matvey_player_double_02', 'playerDouble', 'think', 'Дублем пошёл… Солидно.', 'оценивающе'),
+  S('matvey_praise_03', 'praise', 'warm', 'Крепко сыграно. Уважаю.', 'коротко, с уважением'),
+  S('matvey_big_double_02', 'bigDouble', 'sly', 'Шесть-шесть. Пусть полежит, тяжёлая.', 'неспешно, со стуком'),
+  S('matvey_big_double_03', 'bigDouble', 'azart', 'Вот она, главная! Шесть-шесть.', 'громко, с удовольствием'),
+  S('matvey_rematch_loss_02', 'rematchAfterLoss', 'sly', 'Ну, молодёжь… Ещё матч? Отыграться надо.', 'ворчливо, с азартом'),
+  S('matvey_rematch_loss_03', 'rematchAfterLoss', 'annoyed', 'Так не пойдёт. Давай-ка снова.', 'ворчливо-добродушно'),
+  S('matvey_wait_03', 'wait', 'warm', 'Не спеши. Хорошая кость любит, когда о ней подумают.', 'неторопливо, наставительно'),
+  S('matvey_nv_hmm_03', 'nvHmm', 'think', 'Хм.', 'коротко, в усы'),
+  S('matvey_nv_grumble_02', 'nvGrumble', 'annoyed', 'Бр-р… Ну-ну.', 'бурчит под нос'),
+  S('matvey_nv_laugh_02', 'nvGiggle', 'laugh', 'Хе. Базар — дело такое.', 'посмеиваясь'),
+  S('matvey_nv_sigh_02', 'nvSigh', 'annoyed', 'Эх-хе-хе…', 'протяжно, по-стариковски'),
+  S('matvey_hand_lose_03', 'handLose', 'sad', 'Вышел. Ну, считай, считай.', 'спокойно, со вздохом'),
+  S('matvey_hand_win_03', 'handWin', 'laugh', 'Всё, пустой. Пиши мне.', 'довольно'),
   // Сценки «своей жизни» в паузах (категория scene_<сценка>, docs/voice/scenes.md). Записей пока нет.
   S('matvey_scene_tea_01', 'scene_tea', 'laugh', 'Эх, хорош чаёк!', 'довольно крякнув'),
   S('matvey_scene_tea_02', 'scene_tea', 'warm', 'Чай не пьёшь — откуда сила?', 'назидательно, с прищуром'),

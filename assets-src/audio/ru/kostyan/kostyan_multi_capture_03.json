@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_multi_capture_03",
+  "text": "Вот это я понимаю — серия!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "990176df13e4db97d8e30575cdd937001ee4792d08541ca0dfb802d63dbeac6b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.09
+}

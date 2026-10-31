@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_crown_03",
+  "text": "Дамка? Ну всё, игра пошла серьёзная.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "b98c1b9a23d595d7e97393afc339df621038f8bb41d5bf296a55162fc637c85e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.74
+}

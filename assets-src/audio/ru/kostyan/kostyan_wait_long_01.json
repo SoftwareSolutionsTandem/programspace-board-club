@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_long_01",
+  "text": "Эй, ты там? Доска ждёт!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "75aa527871c4462c40a645568ce5a3709face9f9d3d4f44e8c5577646dfc8f42",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.34
+}

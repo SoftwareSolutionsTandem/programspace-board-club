@@ -218,86 +218,92 @@ for (const game of ['chess', 'checkers'] as const) {
       const st = await page.evaluate((k) => JSON.parse(localStorage.getItem(k) ?? '{}') as Record<string, unknown>, settingsKey());
       expect(st[game === 'chess' ? 'metKhariton' : 'metKostyan']).toBe(true);
       const v = (await probe(page)).session!.voiceLog;
-      // Харитон знакомится голосом (запись владельца); у Костяна записей нет — молчит, но и ошибок нет.
-      if (game === 'chess') expect(v.find((l) => l.id.startsWith('khariton_greet_first_'))?.outcome).toBe('played');
-      else expect(v.every((l) => l.outcome !== 'played')).toBe(true);
+      // Оба персонажа знакомятся голосом (записи владельца).
+      expect(v.find((l) => l.id.startsWith(`${game === 'chess' ? 'khariton' : 'kostyan'}_greet_first_`))?.outcome).toBe('played');
       noErrors(errors);
     });
   });
 }
 
-test.describe('голос Харитона', () => {
-  test.beforeEach(() => test.skip(!games().includes('chess'), `в продукте «${product()}» нет шахмат`));
+// Голоса персонажей настольных игр: обе записи владельца (Харитон — audio_chess.zip, Костян — audio_checkers.zip).
+const VOICED = [
+  { name: 'Харитона', id: 'khariton', game: 'chess', tutorial: 'chessTutorialDone', met: 'metKhariton', count: '130 из 163' },
+  { name: 'Костяна', id: 'kostyan', game: 'checkers', tutorial: 'checkersTutorialDone', met: 'metKostyan', count: '130 из 159' },
+] as const;
+for (const V of VOICED) {
+  test.describe(`голос ${V.name}`, () => {
+    test.beforeEach(() => test.skip(!games().includes(V.game), `в продукте «${product()}» нет ${V.game}`));
 
-  test('записи загружаются из игры и звучат; одна реплика за раз; без звука — молчит; выход в клуб глушит', async ({ page }) => {
-    const errors = collectErrors(page);
-    const voiceFiles = new Set<string>();
-    const external = new Set<string>();
-    page.on('request', (r) => {
-      const u = new URL(r.url());
-      if (u.protocol.startsWith('http') && u.hostname !== 'localhost' && u.hostname !== '127.0.0.1') external.add(u.hostname);
+    test('записи загружаются из игры и звучат; одна реплика за раз; без звука — молчит; выход в клуб глушит', async ({ page }) => {
+      const errors = collectErrors(page);
+      const voiceFiles = new Set<string>();
+      const external = new Set<string>();
+      page.on('request', (r) => {
+        const u = new URL(r.url());
+        if (u.protocol.startsWith('http') && u.hostname !== 'localhost' && u.hostname !== '127.0.0.1') external.add(u.hostname);
+      });
+      page.on('response', (r) => {
+        if (new RegExp(`/audio/ru/${V.id}/${V.id}_[^/]+\\.(opus|m4a)$`).test(r.url()) && r.ok()) voiceFiles.add(r.url());
+      });
+      await seedSettings(page, { [V.tutorial]: true, [V.met]: true, reducedMotion: true }, settingsKey());
+      await page.getByRole('button', { name: 'Настройки' }).click();
+      await expect(page.locator('.modal .note', { hasText: V.name })).toContainText(`записано реплик — ${V.count}`);
+      await page.getByRole('button', { name: 'Закрыть' }).click();
+      await sit(page, V.game);
+      // Повторная встреча — настоящей записью.
+      await page.waitForFunction(() => (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().session?.voiceLog.some((v) => v.outcome === 'played'), null, { timeout: 15_000 });
+      const first = (await probe(page)).session!.voiceLog.find((v) => v.outcome === 'played')!;
+      expect(first.id).toMatch(new RegExp(`^${V.id}_greet_again_`));
+      // Каждый файл грузится один раз; все — из ресурсов игры.
+      expect(voiceFiles.size).toBe(130);
+      expect([...voiceFiles].every((u) => u.endsWith('.opus'))).toBe(true);
+      // В памяти — только голос персонажа (130 декодированных реплик), без голосов других столов.
+      expect(await page.evaluate(() => (window as unknown as { __igroteka: () => { decodedVoice: number } }).__igroteka().decodedVoice)).toBe(130);
+      // Несколько ходов: реплики идут по одной (канал не накладывает голоса), очередь не застревает.
+      for (let step = 0; step < 4; step++) {
+        const s = await waitMyTurn(page, 30_000);
+        if (s.over) break;
+        await playPath(page, pick(s.legal, step));
+        await moveAccepted(page, pick(s.legal, step), s.plies);
+      }
+      const log = (await probe(page)).session!.voiceLog;
+      expect(log.every((v) => v.id.startsWith(`${V.id}_`))).toBe(true);
+      expect(log.every((v) => ['played', 'queued', 'dropped'].includes(v.outcome)), JSON.stringify(log)).toBe(true);
+      // Без звука: текущая реплика гаснет, новые не запускаются.
+      await page.getByRole('button', { name: 'Звук', exact: true }).click();
+      await expect.poll(async () => (await probe(page)).session!.speaking).toBeNull();
+      const before = (await probe(page)).session!.voiceLog.length;
+      for (let step = 0; step < 2; step++) {
+        const s = await waitMyTurn(page, 30_000);
+        if (s.over) break;
+        await playPath(page, pick(s.legal, step));
+        await moveAccepted(page, pick(s.legal, step), s.plies);
+      }
+      const muted = (await probe(page)).session!.voiceLog.slice(before);
+      expect(muted.every((v) => v.outcome !== 'played'), JSON.stringify(muted)).toBe(true);
+      await page.getByRole('button', { name: 'Звук выключен' }).click();
+      // Выход в клуб: сеанс закрыт, голос не звучит.
+      await page.getByRole('button', { name: 'Меню' }).click();
+      await page.getByRole('button', { name: 'Выйти в клуб' }).click();
+      await page.waitForFunction(() => (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().screen === 'club', null, { timeout: 10_000 });
+      expect((await probe(page)).session).toBeNull();
+      expect([...external]).toEqual([]);
+      noErrors(errors);
     });
-    page.on('response', (r) => {
-      if (/\/audio\/ru\/khariton\/khariton_[^/]+\.(opus|m4a)$/.test(r.url()) && r.ok()) voiceFiles.add(r.url());
-    });
-    await seedSettings(page, { chessTutorialDone: true, metKhariton: true, reducedMotion: true }, settingsKey());
-    await page.getByRole('button', { name: 'Настройки' }).click();
-    await expect(page.locator('.modal .note', { hasText: 'Харитона' })).toContainText('записано реплик — 130 из 163');
-    await page.getByRole('button', { name: 'Закрыть' }).click();
-    await sit(page, 'chess');
-    // Повторная встреча — настоящей записью.
-    await page.waitForFunction(() => (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().session?.voiceLog.some((v) => v.outcome === 'played'), null, { timeout: 15_000 });
-    const first = (await probe(page)).session!.voiceLog.find((v) => v.outcome === 'played')!;
-    expect(first.id).toMatch(/^khariton_greet_again_/);
-    // Каждый файл грузится один раз; все — из ресурсов игры.
-    expect(voiceFiles.size).toBe(130);
-    expect([...voiceFiles].every((u) => u.endsWith('.opus'))).toBe(true);
-    // В памяти — только голос Харитона (130 декодированных реплик), без голосов других столов.
-    expect(await page.evaluate(() => (window as unknown as { __igroteka: () => { decodedVoice: number } }).__igroteka().decodedVoice)).toBe(130);
-    // Несколько ходов: реплики идут по одной (канал не накладывает голоса), очередь не застревает.
-    for (let step = 0; step < 4; step++) {
-      const s = await waitMyTurn(page, 30_000);
-      if (s.over) break;
-      await playPath(page, pick(s.legal, step));
-      await moveAccepted(page, pick(s.legal, step), s.plies);
-    }
-    const log = (await probe(page)).session!.voiceLog;
-    expect(log.every((v) => /^khariton_/.test(v.id))).toBe(true);
-    expect(log.every((v) => ['played', 'queued', 'dropped'].includes(v.outcome)), JSON.stringify(log)).toBe(true);
-    // Без звука: текущая реплика гаснет, новые не запускаются.
-    await page.getByRole('button', { name: 'Звук', exact: true }).click();
-    await expect.poll(async () => (await probe(page)).session!.speaking).toBeNull();
-    const before = (await probe(page)).session!.voiceLog.length;
-    for (let step = 0; step < 2; step++) {
-      const s = await waitMyTurn(page, 30_000);
-      if (s.over) break;
-      await playPath(page, pick(s.legal, step));
-      await moveAccepted(page, pick(s.legal, step), s.plies);
-    }
-    const muted = (await probe(page)).session!.voiceLog.slice(before);
-    expect(muted.every((v) => v.outcome !== 'played'), JSON.stringify(muted)).toBe(true);
-    await page.getByRole('button', { name: 'Звук выключен' }).click();
-    // Выход в клуб: сеанс закрыт, голос не звучит.
-    await page.getByRole('button', { name: 'Меню' }).click();
-    await page.getByRole('button', { name: 'Выйти в клуб' }).click();
-    await page.waitForFunction(() => (window as unknown as { __igroteka: () => BoardProbe }).__igroteka().screen === 'club', null, { timeout: 10_000 });
-    expect((await probe(page)).session).toBeNull();
-    expect([...external]).toEqual([]);
-    noErrors(errors);
-  });
 
-  test('без файлов голоса шахматы играются: ошибки загрузки не ломают партию', async ({ page }) => {
-    const errors = collectErrors(page);
-    await page.route('**/audio/ru/khariton/**', (r) => r.abort());
-    await seedSettings(page, { chessTutorialDone: true, metKhariton: true, reducedMotion: true }, settingsKey());
-    await sit(page, 'chess');
-    for (let step = 0; step < 3; step++) {
-      const s = await waitMyTurn(page, 30_000);
-      await playPath(page, pick(s.legal, step));
-      await moveAccepted(page, pick(s.legal, step), s.plies);
-    }
-    const log = (await probe(page)).session!.voiceLog;
-    expect(log.every((v) => v.outcome !== 'played')).toBe(true);
-    expect(errors.filter((e) => e.startsWith('pageerror'))).toEqual([]);
+    test(`без файлов голоса ${V.game} играются: ошибки загрузки не ломают партию`, async ({ page }) => {
+      const errors = collectErrors(page);
+      await page.route(`**/audio/ru/${V.id}/**`, (r) => r.abort());
+      await seedSettings(page, { [V.tutorial]: true, [V.met]: true, reducedMotion: true }, settingsKey());
+      await sit(page, V.game);
+      for (let step = 0; step < 3; step++) {
+        const s = await waitMyTurn(page, 30_000);
+        await playPath(page, pick(s.legal, step));
+        await moveAccepted(page, pick(s.legal, step), s.plies);
+      }
+      const log = (await probe(page)).session!.voiceLog;
+      expect(log.every((v) => v.outcome !== 'played')).toBe(true);
+      expect(errors.filter((e) => e.startsWith('pageerror'))).toEqual([]);
+    });
   });
-});
+}

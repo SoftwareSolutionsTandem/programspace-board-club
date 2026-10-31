@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_ah_03",
+  "text": "Вау!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c245ae581d555eef53639737f77ed6a0939e6b7bb67154d4275c98195f382978",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.11
+}

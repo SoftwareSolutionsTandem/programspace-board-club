@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lose_02",
+  "text": "Эх, проиграл. Сильно играешь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "bef569eaf29f097b1d15a1944a3415b7e640299e06e1858a50a502b951f52cb6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.88
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_ah_01",
+  "text": "Ого!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "0cfc82ea20f842969bfd3672fe3a732b5574af2b52826046f1640c3ea7f2354b",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.95
+}

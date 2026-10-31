@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_draw_02",
+  "text": "Ничья — тоже результат.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "85ef99f2957050c26355b3e01e8d7e2dcdb18f441aa8a71e5a1be750105bd6d8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.51
+}

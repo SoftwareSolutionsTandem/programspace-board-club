@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_behind_01",
+  "text": "Так, собрался. Ещё не всё.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f996485f4bc27cee998e4e430ce45e385479e7d65b2d023ed0ce6f7cdfdc50c6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.05
+}

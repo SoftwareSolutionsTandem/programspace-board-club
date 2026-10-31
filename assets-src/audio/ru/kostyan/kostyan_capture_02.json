@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_capture_02",
+  "text": "Спасибо, беру.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "1821d3c2951c578746b28ce29dc47e2d6dd8861871523d370febf4953023a475",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.5
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_hmm_03",
+  "text": "Ну и задачка…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "5bd8c2b76055b0821252a3a86b17ff2aee576f38e6fcfc397150db199685bdba",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.55
+}

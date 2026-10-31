@@ -146,7 +146,7 @@ interface VoiceRequest { lineId: string; priority: 'result'|'greeting'|'reaction
 - `durak`: своё название и подзаголовок, ключ `durak.settings`, **временная** иконка — та же, что у «Игротеки»;
 - `dominoes`: своё название и подзаголовок, ключ `dominoes.settings`, **временная** иконка; голос Матвея — `audio/ru/matvey` (D51);
 - `chess`: ключ `chess.settings`, **временная** иконка; голос Харитона — `publicAssets: audio/ru/khariton` (D63);
-- `checkers`: ключ `checkers.settings`, **временная** иконка; голоса Костяна нет (D57).
+- `checkers`: ключ `checkers.settings`, **временная** иконка; голос Костяна — `publicAssets: ["audio/ru/kostyan"]` (D66).
 
 Игровые модули продукта перечислены в `src/products/<id>.games.ts` (псевдоним `@product-games`): в бандл попадают только они. Тест сверяет этот список с полем `games` конфига.
 

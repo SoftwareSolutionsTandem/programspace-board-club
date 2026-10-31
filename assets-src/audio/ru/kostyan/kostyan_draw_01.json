@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_draw_01",
+  "text": "Ничья. Ну, по-честному.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "310c7ed050891bd199898b33c6e29e0708af77cfe0cf4df3f701368030190c35",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.7
+}

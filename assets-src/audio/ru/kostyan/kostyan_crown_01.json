@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_crown_01",
+  "text": "В дамки!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "d25e23a043fa81e164130027cf5754503d705a5eef0d88cad9f66d00c1f673fb",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.83
+}

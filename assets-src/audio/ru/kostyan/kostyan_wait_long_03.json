@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_long_03",
+  "text": "Это ты так стратегию строишь?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "75837fed0c9907305fef8f8be4823f50a72000c14880defcc5a1fd81930a19be",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.25
+}

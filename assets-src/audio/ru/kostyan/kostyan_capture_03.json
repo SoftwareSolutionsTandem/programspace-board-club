@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_capture_03",
+  "text": "Ам — и нету.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "95f6e6e8ebc4d4899faa8f49d993232e6be0e25e664603f31128b1bd2d72e564",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.07
+}

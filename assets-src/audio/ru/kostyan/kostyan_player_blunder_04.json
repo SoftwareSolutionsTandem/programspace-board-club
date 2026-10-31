@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_blunder_04",
+  "text": "Ты точно так хочешь? Ну ладно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "048e6011762c7770bc916786b0bd9034d9ee1268985f544e275125bac9216fcb",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.08
+}

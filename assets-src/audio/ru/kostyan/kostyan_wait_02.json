@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_02",
+  "text": "Не спеши, я подожду.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "294a0f0a12cf3353b27c1988f1399e72816b02480e4b8a9b067c3c1c8f862119",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.14
+}

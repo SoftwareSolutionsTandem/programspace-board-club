@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_first_03",
+  "text": "Костян. Шашки — моя тема. Сыграем?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "fb310655f9245757b7be59a9a9e2b57f5d0dd5e1b09f9d338af249549143033d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.05
+}

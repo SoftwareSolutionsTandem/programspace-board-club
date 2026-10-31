@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_win_01",
+  "text": "Есть! Победа!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f0f95fcedd3bb7950637c91feac257ecd7912953edd5974bc19fa08d37677e04",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.2
+}

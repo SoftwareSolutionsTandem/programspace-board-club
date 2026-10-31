@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_hmm_04",
+  "text": "Так… так… ага.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "976a6fae50142ebae22b293bcfee5590856a584a57bb04e8396568980b574719",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.65
+}

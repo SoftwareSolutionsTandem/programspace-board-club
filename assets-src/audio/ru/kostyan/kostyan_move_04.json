@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_move_04",
+  "text": "Опа!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "0c474151fb934e315d70d343dfde3212e1fbe788bc0f4b10df62bcf0ef93ec1e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.55
+}

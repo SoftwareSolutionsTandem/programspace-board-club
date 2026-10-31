@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_capture_01",
+  "text": "Есть!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f9d9200dc0d5414b99906a5f9c94eabad945d33ae2cd53611737bd33d7ee354a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.65
+}

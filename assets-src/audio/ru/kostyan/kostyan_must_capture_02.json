@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_must_capture_02",
+  "text": "Есть взятие — значит, бьёшь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "7f604d514e05ca4c7b831c4daeada16e39b398d26db5d49961df355bfe1e0156",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.28
+}

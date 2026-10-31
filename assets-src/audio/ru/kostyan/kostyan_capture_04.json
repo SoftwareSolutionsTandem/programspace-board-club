@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_capture_04",
+  "text": "Чисто!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "e06e7bd59b11339bb77b3f7bb5a0de52c2ddc69a318591db7db4b7067d53018e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.65
+}

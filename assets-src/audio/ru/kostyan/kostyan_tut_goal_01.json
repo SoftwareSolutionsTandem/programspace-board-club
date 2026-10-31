@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_goal_01",
+  "text": "Побеждает тот, у кого остались ходы.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "31b045b05332336b90fd51e45fed5409594684fabc123c180dddce511d5ddac8",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.1
+}

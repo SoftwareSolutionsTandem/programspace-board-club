@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lose_05",
+  "text": "Обыграли! Ну, по делу, по делу.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "288e4f4dd9eb8bddb36f94f33c662a3f4c35444e81002d8b00eb2d0ea6c858d5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.85
+}

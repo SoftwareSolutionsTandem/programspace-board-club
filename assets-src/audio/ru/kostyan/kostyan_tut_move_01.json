@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_tut_move_01",
+  "text": "Жми на шашку, потом на клетку с точкой.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "6b3ff8abe28c9d7705901fa2e21a7aabf67aeae1181dfedca1138e8053a783fa",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.75
+}

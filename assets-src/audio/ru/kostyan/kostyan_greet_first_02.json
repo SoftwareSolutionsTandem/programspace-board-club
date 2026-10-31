@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_first_02",
+  "text": "О, новый соперник! Садись, сыграем.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "ff951d22556646a8d08ee7f2cc2da930912c11efdc8112c548f1bc5f34330f87",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.99
+}

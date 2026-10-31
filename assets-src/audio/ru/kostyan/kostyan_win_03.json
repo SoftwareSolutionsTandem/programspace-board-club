@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_win_03",
+  "text": "Ходов нет? Значит, моя.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "5ae64d47e95ccc15b8c698fb7abf59a0bdc547fb0805cb0bc30874f2c71e4e27",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.41
+}

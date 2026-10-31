@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_again_04",
+  "text": "Давно не виделись! Ну, погнали.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "9a153bb242cc7deac34540d9ca13358b4a94cfb8e06be32d883d7a5690fefd3f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.0
+}

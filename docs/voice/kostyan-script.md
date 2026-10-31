@@ -4,9 +4,11 @@
 `tests/characters/boardScripts.test.ts` сверяет этот документ с каталогом: каждый ID, текст и категория
 должны совпадать. Меняешь реплику — меняй оба места.
 
-**Статус: записей нет (0 из 159).** Голос персонажа ещё не записан: папки `public/audio/ru/kostyan/`
-нет, продукт её не подключает, и реплики не выбираются (`Director.available`) — персонаж отвечает мимикой и
-жестом. Синтез и TTS не используются (D51); пустые файлы и заглушки за озвучку не выдаются.
+**Статус: записано 130 из 159** (архив владельца `audio_checkers.zip`, 2026-10-31; 29 реплик сценок «своей жизни» ждут записи —
+`docs/voice/scenes.md`; прослушивание и одобрение владельцем — ожидается, D66). Исходники — `assets-src/audio/ru/kostyan/<ID>.flac`
+(побайтно как в архиве) и `<ID>.json`; в игре — `public/audio/ru/kostyan/<ID>.opus` и `.m4a` с `manifest.json` (сборка
+`node tools/audio/build-voice.mjs --character kostyan`, docs/AUDIO.md §21). Голос входит в «Шашки» и «Игротеку».
+Синтез и TTS не используются; пустые файлы и заглушки за озвучку не выдаются.
 
 ## 0. Характер и подача
 
@@ -43,10 +45,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_greet_first_01` | Привет! Я Костян. В шашки рубишься? | тепло (`warm`) | бодро, открыто | `greeting` | `kostyan_greet_first_01.flac` | нет записи |
-| `kostyan_greet_first_02` | О, новый соперник! Садись, сыграем. | азарт (`azart`) | с азартом | `greeting` | `kostyan_greet_first_02.flac` | нет записи |
-| `kostyan_greet_first_03` | Костян. Шашки — моя тема. Сыграем? | азарт (`azart`) | бодро, протягивая руку | `greeting` | `kostyan_greet_first_03.flac` | нет записи |
-| `kostyan_greet_first_04` | Привет! Садись, я уже расставил. | тепло (`warm`) | приветливо | `greeting` | `kostyan_greet_first_04.flac` | нет записи |
+| `kostyan_greet_first_01` | Привет! Я Костян. В шашки рубишься? | тепло (`warm`) | бодро, открыто | `greeting` | `kostyan_greet_first_01.flac` | записано |
+| `kostyan_greet_first_02` | О, новый соперник! Садись, сыграем. | азарт (`azart`) | с азартом | `greeting` | `kostyan_greet_first_02.flac` | записано |
+| `kostyan_greet_first_03` | Костян. Шашки — моя тема. Сыграем? | азарт (`azart`) | бодро, протягивая руку | `greeting` | `kostyan_greet_first_03.flac` | записано |
+| `kostyan_greet_first_04` | Привет! Садись, я уже расставил. | тепло (`warm`) | приветливо | `greeting` | `kostyan_greet_first_04.flac` | записано |
 
 ### Повторная встреча — `greetAgain`
 
@@ -55,10 +57,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_greet_again_01` | Снова ты? Отлично, я как раз размялся. | хитро (`sly`) | с ухмылкой | `greeting` | `kostyan_greet_again_01.flac` | нет записи |
-| `kostyan_greet_again_02` | О, привет! Ещё партейку? | тепло (`warm`) | радостно | `greeting` | `kostyan_greet_again_02.flac` | нет записи |
-| `kostyan_greet_again_03` | О, снова за доску? Красота. | азарт (`azart`) | обрадованно | `greeting` | `kostyan_greet_again_03.flac` | нет записи |
-| `kostyan_greet_again_04` | Давно не виделись! Ну, погнали. | тепло (`warm`) | тепло, с азартом | `greeting` | `kostyan_greet_again_04.flac` | нет записи |
+| `kostyan_greet_again_01` | Снова ты? Отлично, я как раз размялся. | хитро (`sly`) | с ухмылкой | `greeting` | `kostyan_greet_again_01.flac` | записано |
+| `kostyan_greet_again_02` | О, привет! Ещё партейку? | тепло (`warm`) | радостно | `greeting` | `kostyan_greet_again_02.flac` | записано |
+| `kostyan_greet_again_03` | О, снова за доску? Красота. | азарт (`azart`) | обрадованно | `greeting` | `kostyan_greet_again_03.flac` | записано |
+| `kostyan_greet_again_04` | Давно не виделись! Ну, погнали. | тепло (`warm`) | тепло, с азартом | `greeting` | `kostyan_greet_again_04.flac` | записано |
 
 ### Начало партии — `gameStart`
 
@@ -67,10 +69,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_start_01` | Погнали! | азарт (`azart`) | энергично | `reaction` | `kostyan_start_01.flac` | нет записи |
-| `kostyan_start_02` | Ну, держись. | хитро (`sly`) | дружески-задиристо | `reaction` | `kostyan_start_02.flac` | нет записи |
-| `kostyan_start_03` | Поехали. Удачи! | тепло (`warm`) | легко | `reaction` | `kostyan_start_03.flac` | нет записи |
-| `kostyan_start_04` | Ну что, начнём? Белые ходят первыми. | тепло (`warm`) | деловито | `reaction` | `kostyan_start_04.flac` | нет записи |
+| `kostyan_start_01` | Погнали! | азарт (`azart`) | энергично | `reaction` | `kostyan_start_01.flac` | записано |
+| `kostyan_start_02` | Ну, держись. | хитро (`sly`) | дружески-задиристо | `reaction` | `kostyan_start_02.flac` | записано |
+| `kostyan_start_03` | Поехали. Удачи! | тепло (`warm`) | легко | `reaction` | `kostyan_start_03.flac` | записано |
+| `kostyan_start_04` | Ну что, начнём? Белые ходят первыми. | тепло (`warm`) | деловито | `reaction` | `kostyan_start_04.flac` | записано |
 
 ### Первый ход игрока в партии — `opening`
 
@@ -79,10 +81,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_opening_01` | Ага, классика. | хитро (`sly`) | кивая | `reaction` | `kostyan_opening_01.flac` | нет записи |
-| `kostyan_opening_02` | Смело начинаешь! | удивление (`surprise`) | оживлённо | `reaction` | `kostyan_opening_02.flac` | нет записи |
-| `kostyan_opening_03` | Так-так, знакомое начало. | раздумье (`think`) | прищурившись | `reaction` | `kostyan_opening_03.flac` | нет записи |
-| `kostyan_opening_04` | Нормально пошло. | тепло (`warm`) | одобрительно | `reaction` | `kostyan_opening_04.flac` | нет записи |
+| `kostyan_opening_01` | Ага, классика. | хитро (`sly`) | кивая | `reaction` | `kostyan_opening_01.flac` | записано |
+| `kostyan_opening_02` | Смело начинаешь! | удивление (`surprise`) | оживлённо | `reaction` | `kostyan_opening_02.flac` | записано |
+| `kostyan_opening_03` | Так-так, знакомое начало. | раздумье (`think`) | прищурившись | `reaction` | `kostyan_opening_03.flac` | записано |
+| `kostyan_opening_04` | Нормально пошло. | тепло (`warm`) | одобрительно | `reaction` | `kostyan_opening_04.flac` | записано |
 
 ### Обычный ход Костяна — `boardMove`
 
@@ -91,11 +93,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_move_01` | Так. | хитро (`sly`) | коротко | `reaction` | `kostyan_move_01.flac` | нет записи |
-| `kostyan_move_02` | Вот сюда. | раздумье (`think`) | деловито | `reaction` | `kostyan_move_02.flac` | нет записи |
-| `kostyan_move_03` | Твой ход. | хитро (`sly`) | с вызовом | `reaction` | `kostyan_move_03.flac` | нет записи |
-| `kostyan_move_04` | Опа! | азарт (`azart`) | весело | `reaction` | `kostyan_move_04.flac` | нет записи |
-| `kostyan_move_05` | Держи вот так. | хитро (`sly`) | с вызовом | `reaction` | `kostyan_move_05.flac` | нет записи |
+| `kostyan_move_01` | Так. | хитро (`sly`) | коротко | `reaction` | `kostyan_move_01.flac` | записано |
+| `kostyan_move_02` | Вот сюда. | раздумье (`think`) | деловито | `reaction` | `kostyan_move_02.flac` | записано |
+| `kostyan_move_03` | Твой ход. | хитро (`sly`) | с вызовом | `reaction` | `kostyan_move_03.flac` | записано |
+| `kostyan_move_04` | Опа! | азарт (`azart`) | весело | `reaction` | `kostyan_move_04.flac` | записано |
+| `kostyan_move_05` | Держи вот так. | хитро (`sly`) | с вызовом | `reaction` | `kostyan_move_05.flac` | записано |
 
 ### Костян берёт шашку — `boardCapture`
 
@@ -104,11 +106,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_capture_01` | Есть! | азарт (`azart`) | резко, радостно | `reaction` | `kostyan_capture_01.flac` | нет записи |
-| `kostyan_capture_02` | Спасибо, беру. | хитро (`sly`) | нахально-вежливо | `reaction` | `kostyan_capture_02.flac` | нет записи |
-| `kostyan_capture_03` | Ам — и нету. | смех (`laugh`) | посмеиваясь | `reaction` | `kostyan_capture_03.flac` | нет записи |
-| `kostyan_capture_04` | Чисто! | азарт (`azart`) | коротко, довольно | `reaction` | `kostyan_capture_04.flac` | нет записи |
-| `kostyan_capture_05` | Эту — мне. | хитро (`sly`) | с ухмылкой | `reaction` | `kostyan_capture_05.flac` | нет записи |
+| `kostyan_capture_01` | Есть! | азарт (`azart`) | резко, радостно | `reaction` | `kostyan_capture_01.flac` | записано |
+| `kostyan_capture_02` | Спасибо, беру. | хитро (`sly`) | нахально-вежливо | `reaction` | `kostyan_capture_02.flac` | записано |
+| `kostyan_capture_03` | Ам — и нету. | смех (`laugh`) | посмеиваясь | `reaction` | `kostyan_capture_03.flac` | записано |
+| `kostyan_capture_04` | Чисто! | азарт (`azart`) | коротко, довольно | `reaction` | `kostyan_capture_04.flac` | записано |
+| `kostyan_capture_05` | Эту — мне. | хитро (`sly`) | с ухмылкой | `reaction` | `kostyan_capture_05.flac` | записано |
 
 ### Костян бьёт две за раз — `multiCapture`
 
@@ -117,10 +119,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_multi_capture_01` | Две за раз! Как тебе? | азарт (`azart`) | восторженно | `reaction` | `kostyan_multi_capture_01.flac` | нет записи |
-| `kostyan_multi_capture_02` | Комбо! | азарт (`azart`) | громко, с удовольствием | `reaction` | `kostyan_multi_capture_02.flac` | нет записи |
-| `kostyan_multi_capture_03` | Вот это я понимаю — серия! | смех (`laugh`) | смеясь | `reaction` | `kostyan_multi_capture_03.flac` | нет записи |
-| `kostyan_multi_capture_04` | Двойной прыжок! | азарт (`azart`) | азартно | `reaction` | `kostyan_multi_capture_04.flac` | нет записи |
+| `kostyan_multi_capture_01` | Две за раз! Как тебе? | азарт (`azart`) | восторженно | `reaction` | `kostyan_multi_capture_01.flac` | записано |
+| `kostyan_multi_capture_02` | Комбо! | азарт (`azart`) | громко, с удовольствием | `reaction` | `kostyan_multi_capture_02.flac` | записано |
+| `kostyan_multi_capture_03` | Вот это я понимаю — серия! | смех (`laugh`) | смеясь | `reaction` | `kostyan_multi_capture_03.flac` | записано |
+| `kostyan_multi_capture_04` | Двойной прыжок! | азарт (`azart`) | азартно | `reaction` | `kostyan_multi_capture_04.flac` | записано |
 
 ### Костян бьёт три и больше (серия) — `streak`
 
@@ -129,9 +131,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_streak_01` | Три подряд! Это рекорд! | смех (`laugh`) | восторженно, смеясь | `reaction` | `kostyan_streak_01.flac` | нет записи |
-| `kostyan_streak_02` | Серия! Серия! Не остановить! | азарт (`azart`) | на подъёме | `reaction` | `kostyan_streak_02.flac` | нет записи |
-| `kostyan_streak_03` | Вот это прыжки! Как по лестнице. | смех (`laugh`) | радостно | `reaction` | `kostyan_streak_03.flac` | нет записи |
+| `kostyan_streak_01` | Три подряд! Это рекорд! | смех (`laugh`) | восторженно, смеясь | `reaction` | `kostyan_streak_01.flac` | записано |
+| `kostyan_streak_02` | Серия! Серия! Не остановить! | азарт (`azart`) | на подъёме | `reaction` | `kostyan_streak_02.flac` | записано |
+| `kostyan_streak_03` | Вот это прыжки! Как по лестнице. | смех (`laugh`) | радостно | `reaction` | `kostyan_streak_03.flac` | записано |
 
 ### Костян проходит в дамки — `crown`
 
@@ -140,10 +142,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_crown_01` | В дамки! | азарт (`azart`) | громко, торжествуя | `reaction` | `kostyan_crown_01.flac` | нет записи |
-| `kostyan_crown_02` | А вот и дамка. Теперь берегись. | хитро (`sly`) | с хитрецой | `reaction` | `kostyan_crown_02.flac` | нет записи |
-| `kostyan_crown_03` | Дамка! Теперь полетаем. | азарт (`azart`) | с воодушевлением | `reaction` | `kostyan_crown_03.flac` | нет записи |
-| `kostyan_crown_04` | Королева доски. Ну, почти. | хитро (`sly`) | шутливо-важно | `reaction` | `kostyan_crown_04.flac` | нет записи |
+| `kostyan_crown_01` | В дамки! | азарт (`azart`) | громко, торжествуя | `reaction` | `kostyan_crown_01.flac` | записано |
+| `kostyan_crown_02` | А вот и дамка. Теперь берегись. | хитро (`sly`) | с хитрецой | `reaction` | `kostyan_crown_02.flac` | записано |
+| `kostyan_crown_03` | Дамка! Теперь полетаем. | азарт (`azart`) | с воодушевлением | `reaction` | `kostyan_crown_03.flac` | записано |
+| `kostyan_crown_04` | Королева доски. Ну, почти. | хитро (`sly`) | шутливо-важно | `reaction` | `kostyan_crown_04.flac` | записано |
 
 ### Своя шашка почти в дамках — `nearCrown`
 
@@ -152,9 +154,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_near_crown_01` | Ещё шаг — и дамка. | хитро (`sly`) | многозначительно | `reaction` | `kostyan_near_crown_01.flac` | нет записи |
-| `kostyan_near_crown_02` | Чуешь? Дамкой пахнет. | хитро (`sly`) | хитро | `reaction` | `kostyan_near_crown_02.flac` | нет записи |
-| `kostyan_near_crown_03` | Почти дошла! Не мешай. | азарт (`azart`) | азартно, подгоняя шашку | `reaction` | `kostyan_near_crown_03.flac` | нет записи |
+| `kostyan_near_crown_01` | Ещё шаг — и дамка. | хитро (`sly`) | многозначительно | `reaction` | `kostyan_near_crown_01.flac` | записано |
+| `kostyan_near_crown_02` | Чуешь? Дамкой пахнет. | хитро (`sly`) | хитро | `reaction` | `kostyan_near_crown_02.flac` | записано |
+| `kostyan_near_crown_03` | Почти дошла! Не мешай. | азарт (`azart`) | азартно, подгоняя шашку | `reaction` | `kostyan_near_crown_03.flac` | записано |
 
 ### Вышел вперёд по материалу — `ahead`
 
@@ -163,9 +165,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_ahead_01` | Счёт-то в мою пользу. | хитро (`sly`) | довольно | `reaction` | `kostyan_ahead_01.flac` | нет записи |
-| `kostyan_ahead_02` | Изи. Ну почти. | азарт (`azart`) | хвастливо, но с улыбкой | `reaction` | `kostyan_ahead_02.flac` | нет записи |
-| `kostyan_ahead_03` | Веду! Но расслабляться рано. | раздумье (`think`) | сдержанно | `reaction` | `kostyan_ahead_03.flac` | нет записи |
+| `kostyan_ahead_01` | Счёт-то в мою пользу. | хитро (`sly`) | довольно | `reaction` | `kostyan_ahead_01.flac` | записано |
+| `kostyan_ahead_02` | Изи. Ну почти. | азарт (`azart`) | хвастливо, но с улыбкой | `reaction` | `kostyan_ahead_02.flac` | записано |
+| `kostyan_ahead_03` | Веду! Но расслабляться рано. | раздумье (`think`) | сдержанно | `reaction` | `kostyan_ahead_03.flac` | записано |
 
 ### Тихий ход соперника — `playerPlay`
 
@@ -174,10 +176,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_player_play_01` | Ага. Понял. | раздумье (`think`) | прикидывая | `reaction` | `kostyan_player_play_01.flac` | нет записи |
-| `kostyan_player_play_02` | Хитро… но я вижу. | хитро (`sly`) | с прищуром | `reaction` | `kostyan_player_play_02.flac` | нет записи |
-| `kostyan_player_play_03` | Ну-ну. | раздумье (`think`) | негромко | `reaction` | `kostyan_player_play_03.flac` | нет записи |
-| `kostyan_player_play_04` | Интересно ходишь. | раздумье (`think`) | задумчиво | `reaction` | `kostyan_player_play_04.flac` | нет записи |
+| `kostyan_player_play_01` | Ага. Понял. | раздумье (`think`) | прикидывая | `reaction` | `kostyan_player_play_01.flac` | записано |
+| `kostyan_player_play_02` | Хитро… но я вижу. | хитро (`sly`) | с прищуром | `reaction` | `kostyan_player_play_02.flac` | записано |
+| `kostyan_player_play_03` | Ну-ну. | раздумье (`think`) | негромко | `reaction` | `kostyan_player_play_03.flac` | записано |
+| `kostyan_player_play_04` | Интересно ходишь. | раздумье (`think`) | задумчиво | `reaction` | `kostyan_player_play_04.flac` | записано |
 
 ### Потерял фигуру — `boardLostPiece`
 
@@ -186,11 +188,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_lost_piece_01` | Эй! Ну ладно… | досада (`annoyed`) | досадливо | `reaction` | `kostyan_lost_piece_01.flac` | нет записи |
-| `kostyan_lost_piece_02` | Проморгал. Бывает. | досада (`annoyed`) | на себя | `reaction` | `kostyan_lost_piece_02.flac` | нет записи |
-| `kostyan_lost_piece_03` | Ого, не заметил! | удивление (`surprise`) | удивлённо | `reaction` | `kostyan_lost_piece_03.flac` | нет записи |
-| `kostyan_lost_piece_04` | Ай! Мою шашку! | удивление (`surprise`) | возмущённо-шутливо | `reaction` | `kostyan_lost_piece_04.flac` | нет записи |
-| `kostyan_lost_piece_05` | Ладно-ладно, верну. | хитро (`sly`) | с вызовом | `reaction` | `kostyan_lost_piece_05.flac` | нет записи |
+| `kostyan_lost_piece_01` | Эй! Ну ладно… | досада (`annoyed`) | досадливо | `reaction` | `kostyan_lost_piece_01.flac` | записано |
+| `kostyan_lost_piece_02` | Проморгал. Бывает. | досада (`annoyed`) | на себя | `reaction` | `kostyan_lost_piece_02.flac` | записано |
+| `kostyan_lost_piece_03` | Ого, не заметил! | удивление (`surprise`) | удивлённо | `reaction` | `kostyan_lost_piece_03.flac` | записано |
+| `kostyan_lost_piece_04` | Ай! Мою шашку! | удивление (`surprise`) | возмущённо-шутливо | `reaction` | `kostyan_lost_piece_04.flac` | записано |
+| `kostyan_lost_piece_05` | Ладно-ладно, верну. | хитро (`sly`) | с вызовом | `reaction` | `kostyan_lost_piece_05.flac` | записано |
 
 ### Соперник бьёт две за раз — `playerMultiCapture`
 
@@ -199,10 +201,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_player_multi_capture_01` | Ничего себе серия! | удивление (`surprise`) | поражённо | `reaction` | `kostyan_player_multi_capture_01.flac` | нет записи |
-| `kostyan_player_multi_capture_02` | Сразу две?! Ну ты даёшь. | досада (`annoyed`) | возмущённо и с уважением | `reaction` | `kostyan_player_multi_capture_02.flac` | нет записи |
-| `kostyan_player_multi_capture_03` | Ух, серия у тебя! Красиво. | удивление (`surprise`) | восхищённо | `reaction` | `kostyan_player_multi_capture_03.flac` | нет записи |
-| `kostyan_player_multi_capture_04` | Две сразу… Я это запомню. | досада (`annoyed`) | шутливо-обиженно | `reaction` | `kostyan_player_multi_capture_04.flac` | нет записи |
+| `kostyan_player_multi_capture_01` | Ничего себе серия! | удивление (`surprise`) | поражённо | `reaction` | `kostyan_player_multi_capture_01.flac` | записано |
+| `kostyan_player_multi_capture_02` | Сразу две?! Ну ты даёшь. | досада (`annoyed`) | возмущённо и с уважением | `reaction` | `kostyan_player_multi_capture_02.flac` | записано |
+| `kostyan_player_multi_capture_03` | Ух, серия у тебя! Красиво. | удивление (`surprise`) | восхищённо | `reaction` | `kostyan_player_multi_capture_03.flac` | записано |
+| `kostyan_player_multi_capture_04` | Две сразу… Я это запомню. | досада (`annoyed`) | шутливо-обиженно | `reaction` | `kostyan_player_multi_capture_04.flac` | записано |
 
 ### Соперник проходит в дамки — `playerCrown`
 
@@ -211,9 +213,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_player_crown_01` | Дамка у тебя? Серьёзно. | удивление (`surprise`) | насторожённо | `reaction` | `kostyan_player_crown_01.flac` | нет записи |
-| `kostyan_player_crown_02` | Пропустил в дамки… Ладно, догоню. | досада (`annoyed`) | с досадой | `reaction` | `kostyan_player_crown_02.flac` | нет записи |
-| `kostyan_player_crown_03` | Дамка? Ну всё, игра пошла серьёзная. | раздумье (`think`) | собираясь | `reaction` | `kostyan_player_crown_03.flac` | нет записи |
+| `kostyan_player_crown_01` | Дамка у тебя? Серьёзно. | удивление (`surprise`) | насторожённо | `reaction` | `kostyan_player_crown_01.flac` | записано |
+| `kostyan_player_crown_02` | Пропустил в дамки… Ладно, догоню. | досада (`annoyed`) | с досадой | `reaction` | `kostyan_player_crown_02.flac` | записано |
+| `kostyan_player_crown_03` | Дамка? Ну всё, игра пошла серьёзная. | раздумье (`think`) | собираясь | `reaction` | `kostyan_player_crown_03.flac` | записано |
 
 ### Шашка игрока почти в дамках — `playerNearCrown`
 
@@ -222,9 +224,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_player_near_crown_01` | Эй-эй, куда это шашка идёт? | удивление (`surprise`) | встревоженно-шутливо | `reaction` | `kostyan_player_near_crown_01.flac` | нет записи |
-| `kostyan_player_near_crown_02` | Не пущу в дамки! Ну, попробую. | азарт (`azart`) | упрямо, со смешком | `reaction` | `kostyan_player_near_crown_02.flac` | нет записи |
-| `kostyan_player_near_crown_03` | Так, у тебя почти дамка. Надо думать. | раздумье (`think`) | сосредоточенно | `reaction` | `kostyan_player_near_crown_03.flac` | нет записи |
+| `kostyan_player_near_crown_01` | Эй-эй, куда это шашка идёт? | удивление (`surprise`) | встревоженно-шутливо | `reaction` | `kostyan_player_near_crown_01.flac` | записано |
+| `kostyan_player_near_crown_02` | Не пущу в дамки! Ну, попробую. | азарт (`azart`) | упрямо, со смешком | `reaction` | `kostyan_player_near_crown_02.flac` | записано |
+| `kostyan_player_near_crown_03` | Так, у тебя почти дамка. Надо думать. | раздумье (`think`) | сосредоточенно | `reaction` | `kostyan_player_near_crown_03.flac` | записано |
 
 ### Игрок подставился («ты серьёзно?») — `playerBlunder`
 
@@ -233,10 +235,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_player_blunder_01` | Ты серьёзно? Спасибо! | смех (`laugh`) | не веря удаче, смеясь | `reaction` | `kostyan_player_blunder_01.flac` | нет записи |
-| `kostyan_player_blunder_02` | О-о, а вот это зря. | хитро (`sly`) | протяжно, хитро | `reaction` | `kostyan_player_blunder_02.flac` | нет записи |
-| `kostyan_player_blunder_03` | Подарок? Беру с радостью! | смех (`laugh`) | весело | `reaction` | `kostyan_player_blunder_03.flac` | нет записи |
-| `kostyan_player_blunder_04` | Ты точно так хочешь? Ну ладно. | хитро (`sly`) | с притворной заботой | `reaction` | `kostyan_player_blunder_04.flac` | нет записи |
+| `kostyan_player_blunder_01` | Ты серьёзно? Спасибо! | смех (`laugh`) | не веря удаче, смеясь | `reaction` | `kostyan_player_blunder_01.flac` | записано |
+| `kostyan_player_blunder_02` | О-о, а вот это зря. | хитро (`sly`) | протяжно, хитро | `reaction` | `kostyan_player_blunder_02.flac` | записано |
+| `kostyan_player_blunder_03` | Подарок? Беру с радостью! | смех (`laugh`) | весело | `reaction` | `kostyan_player_blunder_03.flac` | записано |
+| `kostyan_player_blunder_04` | Ты точно так хочешь? Ну ладно. | хитро (`sly`) | с притворной заботой | `reaction` | `kostyan_player_blunder_04.flac` | записано |
 
 ### Подсказка: бить обязательно — `mustCapture`
 
@@ -245,10 +247,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_must_capture_01` | Бить надо! Обязательно. | хитро (`sly`) | подсказывая, по-дружески | `reaction` | `kostyan_must_capture_01.flac` | нет записи |
-| `kostyan_must_capture_02` | Есть взятие — значит, бьёшь. | тепло (`warm`) | объясняя | `reaction` | `kostyan_must_capture_02.flac` | нет записи |
-| `kostyan_must_capture_03` | Стоп-стоп, тут бить надо. | тепло (`warm`) | подсказывая | `reaction` | `kostyan_must_capture_03.flac` | нет записи |
-| `kostyan_must_capture_04` | По правилам — бьёшь. Без вариантов. | раздумье (`think`) | спокойно, объясняя | `reaction` | `kostyan_must_capture_04.flac` | нет записи |
+| `kostyan_must_capture_01` | Бить надо! Обязательно. | хитро (`sly`) | подсказывая, по-дружески | `reaction` | `kostyan_must_capture_01.flac` | записано |
+| `kostyan_must_capture_02` | Есть взятие — значит, бьёшь. | тепло (`warm`) | объясняя | `reaction` | `kostyan_must_capture_02.flac` | записано |
+| `kostyan_must_capture_03` | Стоп-стоп, тут бить надо. | тепло (`warm`) | подсказывая | `reaction` | `kostyan_must_capture_03.flac` | записано |
+| `kostyan_must_capture_04` | По правилам — бьёшь. Без вариантов. | раздумье (`think`) | спокойно, объясняя | `reaction` | `kostyan_must_capture_04.flac` | записано |
 
 ### Отстаёт по материалу — `behind`
 
@@ -257,9 +259,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_behind_01` | Так, собрался. Ещё не всё. | досада (`annoyed`) | сквозь зубы, но бодро | `reaction` | `kostyan_behind_01.flac` | нет записи |
-| `kostyan_behind_02` | Ничего, отыграюсь. | раздумье (`think`) | упрямо | `reaction` | `kostyan_behind_02.flac` | нет записи |
-| `kostyan_behind_03` | Отстаю… Но это ненадолго. | досада (`annoyed`) | упрямо | `reaction` | `kostyan_behind_03.flac` | нет записи |
+| `kostyan_behind_01` | Так, собрался. Ещё не всё. | досада (`annoyed`) | сквозь зубы, но бодро | `reaction` | `kostyan_behind_01.flac` | записано |
+| `kostyan_behind_02` | Ничего, отыграюсь. | раздумье (`think`) | упрямо | `reaction` | `kostyan_behind_02.flac` | записано |
+| `kostyan_behind_03` | Отстаю… Но это ненадолго. | досада (`annoyed`) | упрямо | `reaction` | `kostyan_behind_03.flac` | записано |
 
 ### Похвала сильному ходу соперника — `praise`
 
@@ -268,10 +270,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_praise_01` | Красиво! Уважаю. | удивление (`surprise`) | искренне | `reaction` | `kostyan_praise_01.flac` | нет записи |
-| `kostyan_praise_02` | Вот это ход! | тепло (`warm`) | восхищённо | `reaction` | `kostyan_praise_02.flac` | нет записи |
-| `kostyan_praise_03` | Это было мощно. Уважаю. | тепло (`warm`) | искренне | `reaction` | `kostyan_praise_03.flac` | нет записи |
-| `kostyan_praise_04` | Три за раз?! Это шедевр. | удивление (`surprise`) | потрясённо | `reaction` | `kostyan_praise_04.flac` | нет записи |
+| `kostyan_praise_01` | Красиво! Уважаю. | удивление (`surprise`) | искренне | `reaction` | `kostyan_praise_01.flac` | записано |
+| `kostyan_praise_02` | Вот это ход! | тепло (`warm`) | восхищённо | `reaction` | `kostyan_praise_02.flac` | записано |
+| `kostyan_praise_03` | Это было мощно. Уважаю. | тепло (`warm`) | искренне | `reaction` | `kostyan_praise_03.flac` | записано |
+| `kostyan_praise_04` | Три за раз?! Это шедевр. | удивление (`surprise`) | потрясённо | `reaction` | `kostyan_praise_04.flac` | записано |
 
 ### Раздумье над ходом — `nvHmm`
 
@@ -280,10 +282,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_hmm_01` | Хм… | раздумье (`think`) | коротко | `idle` | `kostyan_hmm_01.flac` | нет записи |
-| `kostyan_hmm_02` | Так, а если сюда… | раздумье (`think`) | сам себе | `idle` | `kostyan_hmm_02.flac` | нет записи |
-| `kostyan_hmm_03` | Ну и задачка… | раздумье (`think`) | почесав затылок | `idle` | `kostyan_hmm_03.flac` | нет записи |
-| `kostyan_hmm_04` | Так… так… ага. | раздумье (`think`) | сам себе, быстро | `idle` | `kostyan_hmm_04.flac` | нет записи |
+| `kostyan_hmm_01` | Хм… | раздумье (`think`) | коротко | `idle` | `kostyan_hmm_01.flac` | записано |
+| `kostyan_hmm_02` | Так, а если сюда… | раздумье (`think`) | сам себе | `idle` | `kostyan_hmm_02.flac` | записано |
+| `kostyan_hmm_03` | Ну и задачка… | раздумье (`think`) | почесав затылок | `idle` | `kostyan_hmm_03.flac` | записано |
+| `kostyan_hmm_04` | Так… так… ага. | раздумье (`think`) | сам себе, быстро | `idle` | `kostyan_hmm_04.flac` | записано |
 
 ### Игрок долго думает — `wait`
 
@@ -292,10 +294,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_wait_01` | Ну что, есть идея? | хитро (`sly`) | подначивая | `idle` | `kostyan_wait_01.flac` | нет записи |
-| `kostyan_wait_02` | Не спеши, я подожду. | тепло (`warm`) | добродушно | `idle` | `kostyan_wait_02.flac` | нет записи |
-| `kostyan_wait_03` | Думай-думай, я не тороплю. | тепло (`warm`) | добродушно | `idle` | `kostyan_wait_03.flac` | нет записи |
-| `kostyan_wait_04` | Ход за тобой, если что. | хитро (`sly`) | с улыбкой | `idle` | `kostyan_wait_04.flac` | нет записи |
+| `kostyan_wait_01` | Ну что, есть идея? | хитро (`sly`) | подначивая | `idle` | `kostyan_wait_01.flac` | записано |
+| `kostyan_wait_02` | Не спеши, я подожду. | тепло (`warm`) | добродушно | `idle` | `kostyan_wait_02.flac` | записано |
+| `kostyan_wait_03` | Думай-думай, я не тороплю. | тепло (`warm`) | добродушно | `idle` | `kostyan_wait_03.flac` | записано |
+| `kostyan_wait_04` | Ход за тобой, если что. | хитро (`sly`) | с улыбкой | `idle` | `kostyan_wait_04.flac` | записано |
 
 ### Игрок думает очень долго — `waitLong`
 
@@ -304,10 +306,10 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_wait_long_01` | Эй, ты там? Доска ждёт! | хитро (`sly`) | шутливо окликая | `idle` | `kostyan_wait_long_01.flac` | нет записи |
-| `kostyan_wait_long_02` | Я уже успел зевнуть… Ходи давай! | смех (`laugh`) | смеясь, потягиваясь | `idle` | `kostyan_wait_long_02.flac` | нет записи |
-| `kostyan_wait_long_03` | Это ты так стратегию строишь? | хитро (`sly`) | с подначкой | `idle` | `kostyan_wait_long_03.flac` | нет записи |
-| `kostyan_wait_long_04` | Может, подсказку? Шучу, думай. | смех (`laugh`) | весело | `idle` | `kostyan_wait_long_04.flac` | нет записи |
+| `kostyan_wait_long_01` | Эй, ты там? Доска ждёт! | хитро (`sly`) | шутливо окликая | `idle` | `kostyan_wait_long_01.flac` | записано |
+| `kostyan_wait_long_02` | Я уже успел зевнуть… Ходи давай! | смех (`laugh`) | смеясь, потягиваясь | `idle` | `kostyan_wait_long_02.flac` | записано |
+| `kostyan_wait_long_03` | Это ты так стратегию строишь? | хитро (`sly`) | с подначкой | `idle` | `kostyan_wait_long_03.flac` | записано |
+| `kostyan_wait_long_04` | Может, подсказку? Шучу, думай. | смех (`laugh`) | весело | `idle` | `kostyan_wait_long_04.flac` | записано |
 
 ### Победа Костяна — `win`
 
@@ -316,11 +318,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_win_01` | Есть! Победа! | азарт (`azart`) | громко, радостно | `result` | `kostyan_win_01.flac` | нет записи |
-| `kostyan_win_02` | Ха, моя партия! Хорошо сыграли. | смех (`laugh`) | смеясь, дружелюбно | `result` | `kostyan_win_02.flac` | нет записи |
-| `kostyan_win_03` | Ходов нет? Значит, моя. | хитро (`sly`) | довольно | `result` | `kostyan_win_03.flac` | нет записи |
-| `kostyan_win_04` | Есть! Вот это я понимаю — партия! | азарт (`azart`) | ликуя | `result` | `kostyan_win_04.flac` | нет записи |
-| `kostyan_win_05` | Победа! Но играть с тобой — огонь. | тепло (`warm`) | довольно, дружески | `result` | `kostyan_win_05.flac` | нет записи |
+| `kostyan_win_01` | Есть! Победа! | азарт (`azart`) | громко, радостно | `result` | `kostyan_win_01.flac` | записано |
+| `kostyan_win_02` | Ха, моя партия! Хорошо сыграли. | смех (`laugh`) | смеясь, дружелюбно | `result` | `kostyan_win_02.flac` | записано |
+| `kostyan_win_03` | Ходов нет? Значит, моя. | хитро (`sly`) | довольно | `result` | `kostyan_win_03.flac` | записано |
+| `kostyan_win_04` | Есть! Вот это я понимаю — партия! | азарт (`azart`) | ликуя | `result` | `kostyan_win_04.flac` | записано |
+| `kostyan_win_05` | Победа! Но играть с тобой — огонь. | тепло (`warm`) | довольно, дружески | `result` | `kostyan_win_05.flac` | записано |
 
 ### Игрок сдался — `playerResign`
 
@@ -329,9 +331,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_player_resign_01` | Сдаёшься? Ладно, засчитано. | тепло (`warm`) | добродушно | `result` | `kostyan_player_resign_01.flac` | нет записи |
-| `kostyan_player_resign_02` | Уже сдаёшься? А я только разогнался. | удивление (`surprise`) | удивлённо | `result` | `kostyan_player_resign_02.flac` | нет записи |
-| `kostyan_player_resign_03` | Ладно, по-честному. Ещё одну? | тепло (`warm`) | дружелюбно | `result` | `kostyan_player_resign_03.flac` | нет записи |
+| `kostyan_player_resign_01` | Сдаёшься? Ладно, засчитано. | тепло (`warm`) | добродушно | `result` | `kostyan_player_resign_01.flac` | записано |
+| `kostyan_player_resign_02` | Уже сдаёшься? А я только разогнался. | удивление (`surprise`) | удивлённо | `result` | `kostyan_player_resign_02.flac` | записано |
+| `kostyan_player_resign_03` | Ладно, по-честному. Ещё одну? | тепло (`warm`) | дружелюбно | `result` | `kostyan_player_resign_03.flac` | записано |
 
 ### Поражение Костяна — `lose`
 
@@ -340,11 +342,11 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_lose_01` | Да ну! Так нечестно… шучу. Красиво. | досада (`annoyed`) | сначала досада, потом смех | `result` | `kostyan_lose_01.flac` | нет записи |
-| `kostyan_lose_02` | Эх, проиграл. Сильно играешь. | огорчение (`sad`) | расстроенно, но честно | `result` | `kostyan_lose_02.flac` | нет записи |
-| `kostyan_lose_03` | Меня обыграли! Требую реванш. | удивление (`surprise`) | поражённо, азартно | `result` | `kostyan_lose_03.flac` | нет записи |
-| `kostyan_lose_04` | Всё, твоя взяла. Респект! | тепло (`warm`) | с уважением | `result` | `kostyan_lose_04.flac` | нет записи |
-| `kostyan_lose_05` | Обыграли! Ну, по делу, по делу. | смех (`laugh`) | смеясь над собой | `result` | `kostyan_lose_05.flac` | нет записи |
+| `kostyan_lose_01` | Да ну! Так нечестно… шучу. Красиво. | досада (`annoyed`) | сначала досада, потом смех | `result` | `kostyan_lose_01.flac` | записано |
+| `kostyan_lose_02` | Эх, проиграл. Сильно играешь. | огорчение (`sad`) | расстроенно, но честно | `result` | `kostyan_lose_02.flac` | записано |
+| `kostyan_lose_03` | Меня обыграли! Требую реванш. | удивление (`surprise`) | поражённо, азартно | `result` | `kostyan_lose_03.flac` | записано |
+| `kostyan_lose_04` | Всё, твоя взяла. Респект! | тепло (`warm`) | с уважением | `result` | `kostyan_lose_04.flac` | записано |
+| `kostyan_lose_05` | Обыграли! Ну, по делу, по делу. | смех (`laugh`) | смеясь над собой | `result` | `kostyan_lose_05.flac` | записано |
 
 ### Ничья — `draw`
 
@@ -353,9 +355,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_draw_01` | Ничья. Ну, по-честному. | раздумье (`think`) | пожимая плечами | `result` | `kostyan_draw_01.flac` | нет записи |
-| `kostyan_draw_02` | Ничья — тоже результат. | тепло (`warm`) | легко | `result` | `kostyan_draw_02.flac` | нет записи |
-| `kostyan_draw_03` | Ничья! Никто не уступил. | раздумье (`think`) | бодро | `result` | `kostyan_draw_03.flac` | нет записи |
+| `kostyan_draw_01` | Ничья. Ну, по-честному. | раздумье (`think`) | пожимая плечами | `result` | `kostyan_draw_01.flac` | записано |
+| `kostyan_draw_02` | Ничья — тоже результат. | тепло (`warm`) | легко | `result` | `kostyan_draw_02.flac` | записано |
+| `kostyan_draw_03` | Ничья! Никто не уступил. | раздумье (`think`) | бодро | `result` | `kostyan_draw_03.flac` | записано |
 
 ### Предложение сыграть ещё (персонаж выиграл или ничья) — `rematch`
 
@@ -364,9 +366,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_rematch_01` | Ещё разок? Теперь меняемся цветами. | хитро (`sly`) | с вызовом | `greeting` | `kostyan_rematch_01.flac` | нет записи |
-| `kostyan_rematch_02` | Реванш? Давай! | азарт (`azart`) | бодро | `greeting` | `kostyan_rematch_02.flac` | нет записи |
-| `kostyan_rematch_03` | Ещё одну? Я только вошёл во вкус. | азарт (`azart`) | азартно | `greeting` | `kostyan_rematch_03.flac` | нет записи |
+| `kostyan_rematch_01` | Ещё разок? Теперь меняемся цветами. | хитро (`sly`) | с вызовом | `greeting` | `kostyan_rematch_01.flac` | записано |
+| `kostyan_rematch_02` | Реванш? Давай! | азарт (`azart`) | бодро | `greeting` | `kostyan_rematch_02.flac` | записано |
+| `kostyan_rematch_03` | Ещё одну? Я только вошёл во вкус. | азарт (`azart`) | азартно | `greeting` | `kostyan_rematch_03.flac` | записано |
 
 ### Предложение реванша (персонаж проиграл) — `rematchAfterLoss`
 
@@ -375,9 +377,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_rematch_after_loss_01` | Реванш! Сейчас я соберусь. | азарт (`azart`) | с жаром | `greeting` | `kostyan_rematch_after_loss_01.flac` | нет записи |
-| `kostyan_rematch_after_loss_02` | Давай ещё! Хочу отыграться. | азарт (`azart`) | нетерпеливо | `greeting` | `kostyan_rematch_after_loss_02.flac` | нет записи |
-| `kostyan_rematch_after_loss_03` | Реванш! Теперь я знаю твой стиль. | хитро (`sly`) | хитро | `greeting` | `kostyan_rematch_after_loss_03.flac` | нет записи |
+| `kostyan_rematch_after_loss_01` | Реванш! Сейчас я соберусь. | азарт (`azart`) | с жаром | `greeting` | `kostyan_rematch_after_loss_01.flac` | записано |
+| `kostyan_rematch_after_loss_02` | Давай ещё! Хочу отыграться. | азарт (`azart`) | нетерпеливо | `greeting` | `kostyan_rematch_after_loss_02.flac` | записано |
+| `kostyan_rematch_after_loss_03` | Реванш! Теперь я знаю твой стиль. | хитро (`sly`) | хитро | `greeting` | `kostyan_rematch_after_loss_03.flac` | записано |
 
 ### Выход в клуб — `farewell`
 
@@ -386,9 +388,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_farewell_01` | Давай, до встречи! | тепло (`warm`) | легко | `greeting` | `kostyan_farewell_01.flac` | нет записи |
-| `kostyan_farewell_02` | Заходи ещё — отыграешься. | хитро (`sly`) | с улыбкой | `greeting` | `kostyan_farewell_02.flac` | нет записи |
-| `kostyan_farewell_03` | Пока! Приходи на реванш. | тепло (`warm`) | весело | `greeting` | `kostyan_farewell_03.flac` | нет записи |
+| `kostyan_farewell_01` | Давай, до встречи! | тепло (`warm`) | легко | `greeting` | `kostyan_farewell_01.flac` | записано |
+| `kostyan_farewell_02` | Заходи ещё — отыграешься. | хитро (`sly`) | с улыбкой | `greeting` | `kostyan_farewell_02.flac` | записано |
+| `kostyan_farewell_03` | Пока! Приходи на реванш. | тепло (`warm`) | весело | `greeting` | `kostyan_farewell_03.flac` | записано |
 
 ### Обучение: вступление — `tutIntro`
 
@@ -397,7 +399,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_intro_01` | Смотри: ходим по тёмным клеткам, наискосок вперёд. | тепло (`warm`) | объясняя, бодро | `greeting` | `kostyan_tut_intro_01.flac` | нет записи |
+| `kostyan_tut_intro_01` | Смотри: ходим по тёмным клеткам, наискосок вперёд. | тепло (`warm`) | объясняя, бодро | `greeting` | `kostyan_tut_intro_01.flac` | записано |
 
 ### Обучение: как ходить — `tutMove`
 
@@ -406,7 +408,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_move_01` | Жми на шашку, потом на клетку с точкой. | тепло (`warm`) | просто | `greeting` | `kostyan_tut_move_01.flac` | нет записи |
+| `kostyan_tut_move_01` | Жми на шашку, потом на клетку с точкой. | тепло (`warm`) | просто | `greeting` | `kostyan_tut_move_01.flac` | записано |
 
 ### Обучение: взятие — `tutCapture`
 
@@ -415,7 +417,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_capture_01` | Если можно бить — бить обязательно. Перепрыгиваешь — и шашки нет. | хитро (`sly`) | с азартом | `greeting` | `kostyan_tut_capture_01.flac` | нет записи |
+| `kostyan_tut_capture_01` | Если можно бить — бить обязательно. Перепрыгиваешь — и шашки нет. | хитро (`sly`) | с азартом | `greeting` | `kostyan_tut_capture_01.flac` | записано |
 
 ### Обучение: дамка — `tutCrown`
 
@@ -424,7 +426,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_crown_01` | Шашка дошла до края — дамка! Она ходит далеко. | азарт (`azart`) | воодушевлённо | `greeting` | `kostyan_tut_crown_01.flac` | нет записи |
+| `kostyan_tut_crown_01` | Шашка дошла до края — дамка! Она ходит далеко. | азарт (`azart`) | воодушевлённо | `greeting` | `kostyan_tut_crown_01.flac` | записано |
 
 ### Обучение: цель партии — `tutGoal`
 
@@ -433,7 +435,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_goal_01` | Побеждает тот, у кого остались ходы. | тепло (`warm`) | объясняя | `greeting` | `kostyan_tut_goal_01.flac` | нет записи |
+| `kostyan_tut_goal_01` | Побеждает тот, у кого остались ходы. | тепло (`warm`) | объясняя | `greeting` | `kostyan_tut_goal_01.flac` | записано |
 
 ### Обучение: неверное касание — `tutWrong`
 
@@ -442,7 +444,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_wrong_01` | Не, так нельзя. Глянь на подсветку. | раздумье (`think`) | по-дружески | `greeting` | `kostyan_tut_wrong_01.flac` | нет записи |
+| `kostyan_tut_wrong_01` | Не, так нельзя. Глянь на подсветку. | раздумье (`think`) | по-дружески | `greeting` | `kostyan_tut_wrong_01.flac` | записано |
 
 ### Обучение: конец — `tutDone`
 
@@ -451,7 +453,7 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_tut_done_01` | Всё, ты в теме! Теперь по-настоящему. | азарт (`azart`) | радостно | `greeting` | `kostyan_tut_done_01.flac` | нет записи |
+| `kostyan_tut_done_01` | Всё, ты в теме! Теперь по-настоящему. | азарт (`azart`) | радостно | `greeting` | `kostyan_tut_done_01.flac` | записано |
 
 ### Смешок — `nvGiggle`
 
@@ -460,9 +462,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_giggle_01` | Хех. | смех (`laugh`) | коротко | `reaction` | `kostyan_giggle_01.flac` | нет записи |
-| `kostyan_giggle_02` | Хе-хе! | смех (`laugh`) | довольно | `reaction` | `kostyan_giggle_02.flac` | нет записи |
-| `kostyan_giggle_03` | Ха! | смех (`laugh`) | коротко | `reaction` | `kostyan_giggle_03.flac` | нет записи |
+| `kostyan_giggle_01` | Хех. | смех (`laugh`) | коротко | `reaction` | `kostyan_giggle_01.flac` | записано |
+| `kostyan_giggle_02` | Хе-хе! | смех (`laugh`) | довольно | `reaction` | `kostyan_giggle_02.flac` | записано |
+| `kostyan_giggle_03` | Ха! | смех (`laugh`) | коротко | `reaction` | `kostyan_giggle_03.flac` | записано |
 
 ### Вздох — `nvSigh`
 
@@ -471,9 +473,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_sigh_01` | Эх. | огорчение (`sad`) | вздох | `reaction` | `kostyan_sigh_01.flac` | нет записи |
-| `kostyan_sigh_02` | Ох… | огорчение (`sad`) | тихо | `reaction` | `kostyan_sigh_02.flac` | нет записи |
-| `kostyan_sigh_03` | Ну вот… | огорчение (`sad`) | с досадой | `reaction` | `kostyan_sigh_03.flac` | нет записи |
+| `kostyan_sigh_01` | Эх. | огорчение (`sad`) | вздох | `reaction` | `kostyan_sigh_01.flac` | записано |
+| `kostyan_sigh_02` | Ох… | огорчение (`sad`) | тихо | `reaction` | `kostyan_sigh_02.flac` | записано |
+| `kostyan_sigh_03` | Ну вот… | огорчение (`sad`) | с досадой | `reaction` | `kostyan_sigh_03.flac` | записано |
 
 ### Возглас удивления — `nvAh`
 
@@ -482,9 +484,9 @@
 
 | ID | Текст | Настроение | Интонация | Приоритет | Файл | Статус |
 |---|---|---|---|---|---|---|
-| `kostyan_ah_01` | Ого! | удивление (`surprise`) | удивлённо | `reaction` | `kostyan_ah_01.flac` | нет записи |
-| `kostyan_ah_02` | Ух ты! | удивление (`surprise`) | удивлённо | `reaction` | `kostyan_ah_02.flac` | нет записи |
-| `kostyan_ah_03` | Вау! | удивление (`surprise`) | коротко, восхищённо | `reaction` | `kostyan_ah_03.flac` | нет записи |
+| `kostyan_ah_01` | Ого! | удивление (`surprise`) | удивлённо | `reaction` | `kostyan_ah_01.flac` | записано |
+| `kostyan_ah_02` | Ух ты! | удивление (`surprise`) | удивлённо | `reaction` | `kostyan_ah_02.flac` | записано |
+| `kostyan_ah_03` | Вау! | удивление (`surprise`) | коротко, восхищённо | `reaction` | `kostyan_ah_03.flac` | записано |
 
 ## Сценки «своей жизни» (2026-10-30) — записей нет
 

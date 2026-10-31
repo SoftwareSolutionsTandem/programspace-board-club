@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_giggle_01",
+  "text": "Хех.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "bf8a4ae6a7495691f0f8a22153a2437d8fd77a0e7698929b244b48f84e452ca0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.46
+}

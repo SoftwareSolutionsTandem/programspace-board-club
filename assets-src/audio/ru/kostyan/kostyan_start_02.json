@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_start_02",
+  "text": "Ну, держись.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "a6f1b87e14d53e5fed0519bb1d22ad54b1cd135bf41a621b61e2af5d625f2eb4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.88
+}

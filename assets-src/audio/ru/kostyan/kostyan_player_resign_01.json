@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_resign_01",
+  "text": "Сдаёшься? Ладно, засчитано.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c279f1574e976e5eaf8bbd4a59ecf2fd03bdc9f2681a394b6455c5c6fe95081f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.5
+}

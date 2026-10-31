@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_near_crown_01",
+  "text": "Эй-эй, куда это шашка идёт?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "383c2ac122cc4251f70c8f2b42e2f027c8d1d0d1fc9ce9f1a6686131a50f87d6",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.5
+}

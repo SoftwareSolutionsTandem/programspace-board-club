@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_again_01",
+  "text": "Снова ты? Отлично, я как раз размялся.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "6e405f8653b11c6f05ca7e7a894aafc286487a460c230e7827f0ebd477fed4b5",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.29
+}

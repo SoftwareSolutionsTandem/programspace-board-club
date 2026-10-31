@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_again_02",
+  "text": "О, привет! Ещё партейку?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f1165c6161661f70aba0d4018a78c0d7d16f9ac395f733d9344c74fc93cdd5ad",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.73
+}

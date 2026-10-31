@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_blunder_02",
+  "text": "О-о, а вот это зря.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "d0b13462a95385498d63dce243ba39238f8d0fa435d6a1850b53ed0f0786f968",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.55
+}

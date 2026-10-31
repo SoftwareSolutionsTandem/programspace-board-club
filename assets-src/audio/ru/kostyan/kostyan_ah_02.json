@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_ah_02",
+  "text": "Ух ты!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "66b1e0212f6595241475ae3c6df02085ec3aa2dbafdc248d2f4e4c6d3629d3eb",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.95
+}

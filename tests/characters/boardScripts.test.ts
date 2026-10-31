@@ -13,10 +13,10 @@ import type { VoiceLine } from '../../src/characters/types';
 import { createRng } from '../../src/core/rng';
 
 const ROOT = join(import.meta.dirname, '../..');
-// voiced — записи голоса подключены (Харитон, D63); у Костяна записей пока нет (D57).
+// voiced — записи голоса подключены (Харитон — D63, Костян — D66).
 const CASES: readonly { name: string; id: string; game: string; lines: readonly VoiceLine[]; voiced: boolean; scenes: readonly SceneDef[] }[] = [
   { name: 'Харитона', id: 'khariton', game: 'chess', lines: KHARITON_LINES, voiced: true, scenes: KHARITON_MOTION.scenes ?? [] },
-  { name: 'Костяна', id: 'kostyan', game: 'checkers', lines: KOSTYAN_LINES, voiced: false, scenes: KOSTYAN_MOTION.scenes ?? [] },
+  { name: 'Костяна', id: 'kostyan', game: 'checkers', lines: KOSTYAN_LINES, voiced: true, scenes: KOSTYAN_MOTION.scenes ?? [] },
 ];
 
 for (const c of CASES) {

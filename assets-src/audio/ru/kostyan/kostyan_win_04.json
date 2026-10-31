@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_win_04",
+  "text": "Есть! Вот это я понимаю — партия!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "2172e74b148701245492c27076abf10f571272aaa502c42b7bea92a7ec7f0158",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.65
+}

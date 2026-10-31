@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lost_piece_02",
+  "text": "Проморгал. Бывает.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c915d97659e504a5a88894c6b179a65214dec95cc4f73cfd4fcf89ab851616b4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.2
+}

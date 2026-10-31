@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_ahead_02",
+  "text": "Изи. Ну почти.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "7631fd53e4f5c5802b8e96f4ac7b6085f276b115c2fc00cf1abb07907e3b0a00",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.69
+}

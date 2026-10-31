@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_multi_capture_04",
+  "text": "Двойной прыжок!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "13b7fe87399fc94e2d84fba7aacf2066824b6d8b09239967df1009d70ea8dafb",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.3
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_streak_02",
+  "text": "Серия! Серия! Не остановить!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "ae93d4968e342a4be6ec6eb2fb7ed6cacd37fe7003a84c8040d549384ed537b2",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.05
+}

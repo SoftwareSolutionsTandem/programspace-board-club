@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_rematch_03",
+  "text": "Ещё одну? Я только вошёл во вкус.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "9ea31ed39366843c7b9d9ee172a33a50f7983adc196c5e83877374903cb6329f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.0
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_draw_03",
+  "text": "Ничья! Никто не уступил.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "8bce7376c0ce63a0c5ec37036ddb30c69c6f54969c81af5c787a56d7ce29d76c",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.37
+}

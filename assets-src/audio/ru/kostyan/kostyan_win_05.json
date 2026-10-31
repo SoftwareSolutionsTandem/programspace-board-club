@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_win_05",
+  "text": "Победа! Но играть с тобой — огонь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "8cd5df654b367c6abe115af852274231cdee913f2461c0f257d5ba1f8de23a2a",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.95
+}

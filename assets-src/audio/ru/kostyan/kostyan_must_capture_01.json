@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_must_capture_01",
+  "text": "Бить надо! Обязательно.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "cf21ca1400e88fa53d507b7f02b9bf227efee9b869ce63cce59dd3a8a5498673",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.75
+}

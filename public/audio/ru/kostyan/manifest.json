@@ -1,0 +1,532 @@
+{
+  "voice": {
+    "id": "kostyan-owner-2026-10",
+    "synthetic": null,
+    "providedBy": "owner",
+    "providedAt": "2026-10-31",
+    "approvedBy": null,
+    "approvedAt": null
+  },
+  "lines": {
+    "kostyan_ah_01": {
+      "opus": "kostyan_ah_01.opus",
+      "m4a": "kostyan_ah_01.m4a"
+    },
+    "kostyan_ah_02": {
+      "opus": "kostyan_ah_02.opus",
+      "m4a": "kostyan_ah_02.m4a"
+    },
+    "kostyan_ah_03": {
+      "opus": "kostyan_ah_03.opus",
+      "m4a": "kostyan_ah_03.m4a"
+    },
+    "kostyan_ahead_01": {
+      "opus": "kostyan_ahead_01.opus",
+      "m4a": "kostyan_ahead_01.m4a"
+    },
+    "kostyan_ahead_02": {
+      "opus": "kostyan_ahead_02.opus",
+      "m4a": "kostyan_ahead_02.m4a"
+    },
+    "kostyan_ahead_03": {
+      "opus": "kostyan_ahead_03.opus",
+      "m4a": "kostyan_ahead_03.m4a"
+    },
+    "kostyan_behind_01": {
+      "opus": "kostyan_behind_01.opus",
+      "m4a": "kostyan_behind_01.m4a"
+    },
+    "kostyan_behind_02": {
+      "opus": "kostyan_behind_02.opus",
+      "m4a": "kostyan_behind_02.m4a"
+    },
+    "kostyan_behind_03": {
+      "opus": "kostyan_behind_03.opus",
+      "m4a": "kostyan_behind_03.m4a"
+    },
+    "kostyan_capture_01": {
+      "opus": "kostyan_capture_01.opus",
+      "m4a": "kostyan_capture_01.m4a"
+    },
+    "kostyan_capture_02": {
+      "opus": "kostyan_capture_02.opus",
+      "m4a": "kostyan_capture_02.m4a"
+    },
+    "kostyan_capture_03": {
+      "opus": "kostyan_capture_03.opus",
+      "m4a": "kostyan_capture_03.m4a"
+    },
+    "kostyan_capture_04": {
+      "opus": "kostyan_capture_04.opus",
+      "m4a": "kostyan_capture_04.m4a"
+    },
+    "kostyan_capture_05": {
+      "opus": "kostyan_capture_05.opus",
+      "m4a": "kostyan_capture_05.m4a"
+    },
+    "kostyan_crown_01": {
+      "opus": "kostyan_crown_01.opus",
+      "m4a": "kostyan_crown_01.m4a"
+    },
+    "kostyan_crown_02": {
+      "opus": "kostyan_crown_02.opus",
+      "m4a": "kostyan_crown_02.m4a"
+    },
+    "kostyan_crown_03": {
+      "opus": "kostyan_crown_03.opus",
+      "m4a": "kostyan_crown_03.m4a"
+    },
+    "kostyan_crown_04": {
+      "opus": "kostyan_crown_04.opus",
+      "m4a": "kostyan_crown_04.m4a"
+    },
+    "kostyan_draw_01": {
+      "opus": "kostyan_draw_01.opus",
+      "m4a": "kostyan_draw_01.m4a"
+    },
+    "kostyan_draw_02": {
+      "opus": "kostyan_draw_02.opus",
+      "m4a": "kostyan_draw_02.m4a"
+    },
+    "kostyan_draw_03": {
+      "opus": "kostyan_draw_03.opus",
+      "m4a": "kostyan_draw_03.m4a"
+    },
+    "kostyan_farewell_01": {
+      "opus": "kostyan_farewell_01.opus",
+      "m4a": "kostyan_farewell_01.m4a"
+    },
+    "kostyan_farewell_02": {
+      "opus": "kostyan_farewell_02.opus",
+      "m4a": "kostyan_farewell_02.m4a"
+    },
+    "kostyan_farewell_03": {
+      "opus": "kostyan_farewell_03.opus",
+      "m4a": "kostyan_farewell_03.m4a"
+    },
+    "kostyan_giggle_01": {
+      "opus": "kostyan_giggle_01.opus",
+      "m4a": "kostyan_giggle_01.m4a"
+    },
+    "kostyan_giggle_02": {
+      "opus": "kostyan_giggle_02.opus",
+      "m4a": "kostyan_giggle_02.m4a"
+    },
+    "kostyan_giggle_03": {
+      "opus": "kostyan_giggle_03.opus",
+      "m4a": "kostyan_giggle_03.m4a"
+    },
+    "kostyan_greet_again_01": {
+      "opus": "kostyan_greet_again_01.opus",
+      "m4a": "kostyan_greet_again_01.m4a"
+    },
+    "kostyan_greet_again_02": {
+      "opus": "kostyan_greet_again_02.opus",
+      "m4a": "kostyan_greet_again_02.m4a"
+    },
+    "kostyan_greet_again_03": {
+      "opus": "kostyan_greet_again_03.opus",
+      "m4a": "kostyan_greet_again_03.m4a"
+    },
+    "kostyan_greet_again_04": {
+      "opus": "kostyan_greet_again_04.opus",
+      "m4a": "kostyan_greet_again_04.m4a"
+    },
+    "kostyan_greet_first_01": {
+      "opus": "kostyan_greet_first_01.opus",
+      "m4a": "kostyan_greet_first_01.m4a"
+    },
+    "kostyan_greet_first_02": {
+      "opus": "kostyan_greet_first_02.opus",
+      "m4a": "kostyan_greet_first_02.m4a"
+    },
+    "kostyan_greet_first_03": {
+      "opus": "kostyan_greet_first_03.opus",
+      "m4a": "kostyan_greet_first_03.m4a"
+    },
+    "kostyan_greet_first_04": {
+      "opus": "kostyan_greet_first_04.opus",
+      "m4a": "kostyan_greet_first_04.m4a"
+    },
+    "kostyan_hmm_01": {
+      "opus": "kostyan_hmm_01.opus",
+      "m4a": "kostyan_hmm_01.m4a"
+    },
+    "kostyan_hmm_02": {
+      "opus": "kostyan_hmm_02.opus",
+      "m4a": "kostyan_hmm_02.m4a"
+    },
+    "kostyan_hmm_03": {
+      "opus": "kostyan_hmm_03.opus",
+      "m4a": "kostyan_hmm_03.m4a"
+    },
+    "kostyan_hmm_04": {
+      "opus": "kostyan_hmm_04.opus",
+      "m4a": "kostyan_hmm_04.m4a"
+    },
+    "kostyan_lose_01": {
+      "opus": "kostyan_lose_01.opus",
+      "m4a": "kostyan_lose_01.m4a"
+    },
+    "kostyan_lose_02": {
+      "opus": "kostyan_lose_02.opus",
+      "m4a": "kostyan_lose_02.m4a"
+    },
+    "kostyan_lose_03": {
+      "opus": "kostyan_lose_03.opus",
+      "m4a": "kostyan_lose_03.m4a"
+    },
+    "kostyan_lose_04": {
+      "opus": "kostyan_lose_04.opus",
+      "m4a": "kostyan_lose_04.m4a"
+    },
+    "kostyan_lose_05": {
+      "opus": "kostyan_lose_05.opus",
+      "m4a": "kostyan_lose_05.m4a"
+    },
+    "kostyan_lost_piece_01": {
+      "opus": "kostyan_lost_piece_01.opus",
+      "m4a": "kostyan_lost_piece_01.m4a"
+    },
+    "kostyan_lost_piece_02": {
+      "opus": "kostyan_lost_piece_02.opus",
+      "m4a": "kostyan_lost_piece_02.m4a"
+    },
+    "kostyan_lost_piece_03": {
+      "opus": "kostyan_lost_piece_03.opus",
+      "m4a": "kostyan_lost_piece_03.m4a"
+    },
+    "kostyan_lost_piece_04": {
+      "opus": "kostyan_lost_piece_04.opus",
+      "m4a": "kostyan_lost_piece_04.m4a"
+    },
+    "kostyan_lost_piece_05": {
+      "opus": "kostyan_lost_piece_05.opus",
+      "m4a": "kostyan_lost_piece_05.m4a"
+    },
+    "kostyan_move_01": {
+      "opus": "kostyan_move_01.opus",
+      "m4a": "kostyan_move_01.m4a"
+    },
+    "kostyan_move_02": {
+      "opus": "kostyan_move_02.opus",
+      "m4a": "kostyan_move_02.m4a"
+    },
+    "kostyan_move_03": {
+      "opus": "kostyan_move_03.opus",
+      "m4a": "kostyan_move_03.m4a"
+    },
+    "kostyan_move_04": {
+      "opus": "kostyan_move_04.opus",
+      "m4a": "kostyan_move_04.m4a"
+    },
+    "kostyan_move_05": {
+      "opus": "kostyan_move_05.opus",
+      "m4a": "kostyan_move_05.m4a"
+    },
+    "kostyan_multi_capture_01": {
+      "opus": "kostyan_multi_capture_01.opus",
+      "m4a": "kostyan_multi_capture_01.m4a"
+    },
+    "kostyan_multi_capture_02": {
+      "opus": "kostyan_multi_capture_02.opus",
+      "m4a": "kostyan_multi_capture_02.m4a"
+    },
+    "kostyan_multi_capture_03": {
+      "opus": "kostyan_multi_capture_03.opus",
+      "m4a": "kostyan_multi_capture_03.m4a"
+    },
+    "kostyan_multi_capture_04": {
+      "opus": "kostyan_multi_capture_04.opus",
+      "m4a": "kostyan_multi_capture_04.m4a"
+    },
+    "kostyan_must_capture_01": {
+      "opus": "kostyan_must_capture_01.opus",
+      "m4a": "kostyan_must_capture_01.m4a"
+    },
+    "kostyan_must_capture_02": {
+      "opus": "kostyan_must_capture_02.opus",
+      "m4a": "kostyan_must_capture_02.m4a"
+    },
+    "kostyan_must_capture_03": {
+      "opus": "kostyan_must_capture_03.opus",
+      "m4a": "kostyan_must_capture_03.m4a"
+    },
+    "kostyan_must_capture_04": {
+      "opus": "kostyan_must_capture_04.opus",
+      "m4a": "kostyan_must_capture_04.m4a"
+    },
+    "kostyan_near_crown_01": {
+      "opus": "kostyan_near_crown_01.opus",
+      "m4a": "kostyan_near_crown_01.m4a"
+    },
+    "kostyan_near_crown_02": {
+      "opus": "kostyan_near_crown_02.opus",
+      "m4a": "kostyan_near_crown_02.m4a"
+    },
+    "kostyan_near_crown_03": {
+      "opus": "kostyan_near_crown_03.opus",
+      "m4a": "kostyan_near_crown_03.m4a"
+    },
+    "kostyan_opening_01": {
+      "opus": "kostyan_opening_01.opus",
+      "m4a": "kostyan_opening_01.m4a"
+    },
+    "kostyan_opening_02": {
+      "opus": "kostyan_opening_02.opus",
+      "m4a": "kostyan_opening_02.m4a"
+    },
+    "kostyan_opening_03": {
+      "opus": "kostyan_opening_03.opus",
+      "m4a": "kostyan_opening_03.m4a"
+    },
+    "kostyan_opening_04": {
+      "opus": "kostyan_opening_04.opus",
+      "m4a": "kostyan_opening_04.m4a"
+    },
+    "kostyan_player_blunder_01": {
+      "opus": "kostyan_player_blunder_01.opus",
+      "m4a": "kostyan_player_blunder_01.m4a"
+    },
+    "kostyan_player_blunder_02": {
+      "opus": "kostyan_player_blunder_02.opus",
+      "m4a": "kostyan_player_blunder_02.m4a"
+    },
+    "kostyan_player_blunder_03": {
+      "opus": "kostyan_player_blunder_03.opus",
+      "m4a": "kostyan_player_blunder_03.m4a"
+    },
+    "kostyan_player_blunder_04": {
+      "opus": "kostyan_player_blunder_04.opus",
+      "m4a": "kostyan_player_blunder_04.m4a"
+    },
+    "kostyan_player_crown_01": {
+      "opus": "kostyan_player_crown_01.opus",
+      "m4a": "kostyan_player_crown_01.m4a"
+    },
+    "kostyan_player_crown_02": {
+      "opus": "kostyan_player_crown_02.opus",
+      "m4a": "kostyan_player_crown_02.m4a"
+    },
+    "kostyan_player_crown_03": {
+      "opus": "kostyan_player_crown_03.opus",
+      "m4a": "kostyan_player_crown_03.m4a"
+    },
+    "kostyan_player_multi_capture_01": {
+      "opus": "kostyan_player_multi_capture_01.opus",
+      "m4a": "kostyan_player_multi_capture_01.m4a"
+    },
+    "kostyan_player_multi_capture_02": {
+      "opus": "kostyan_player_multi_capture_02.opus",
+      "m4a": "kostyan_player_multi_capture_02.m4a"
+    },
+    "kostyan_player_multi_capture_03": {
+      "opus": "kostyan_player_multi_capture_03.opus",
+      "m4a": "kostyan_player_multi_capture_03.m4a"
+    },
+    "kostyan_player_multi_capture_04": {
+      "opus": "kostyan_player_multi_capture_04.opus",
+      "m4a": "kostyan_player_multi_capture_04.m4a"
+    },
+    "kostyan_player_near_crown_01": {
+      "opus": "kostyan_player_near_crown_01.opus",
+      "m4a": "kostyan_player_near_crown_01.m4a"
+    },
+    "kostyan_player_near_crown_02": {
+      "opus": "kostyan_player_near_crown_02.opus",
+      "m4a": "kostyan_player_near_crown_02.m4a"
+    },
+    "kostyan_player_near_crown_03": {
+      "opus": "kostyan_player_near_crown_03.opus",
+      "m4a": "kostyan_player_near_crown_03.m4a"
+    },
+    "kostyan_player_play_01": {
+      "opus": "kostyan_player_play_01.opus",
+      "m4a": "kostyan_player_play_01.m4a"
+    },
+    "kostyan_player_play_02": {
+      "opus": "kostyan_player_play_02.opus",
+      "m4a": "kostyan_player_play_02.m4a"
+    },
+    "kostyan_player_play_03": {
+      "opus": "kostyan_player_play_03.opus",
+      "m4a": "kostyan_player_play_03.m4a"
+    },
+    "kostyan_player_play_04": {
+      "opus": "kostyan_player_play_04.opus",
+      "m4a": "kostyan_player_play_04.m4a"
+    },
+    "kostyan_player_resign_01": {
+      "opus": "kostyan_player_resign_01.opus",
+      "m4a": "kostyan_player_resign_01.m4a"
+    },
+    "kostyan_player_resign_02": {
+      "opus": "kostyan_player_resign_02.opus",
+      "m4a": "kostyan_player_resign_02.m4a"
+    },
+    "kostyan_player_resign_03": {
+      "opus": "kostyan_player_resign_03.opus",
+      "m4a": "kostyan_player_resign_03.m4a"
+    },
+    "kostyan_praise_01": {
+      "opus": "kostyan_praise_01.opus",
+      "m4a": "kostyan_praise_01.m4a"
+    },
+    "kostyan_praise_02": {
+      "opus": "kostyan_praise_02.opus",
+      "m4a": "kostyan_praise_02.m4a"
+    },
+    "kostyan_praise_03": {
+      "opus": "kostyan_praise_03.opus",
+      "m4a": "kostyan_praise_03.m4a"
+    },
+    "kostyan_praise_04": {
+      "opus": "kostyan_praise_04.opus",
+      "m4a": "kostyan_praise_04.m4a"
+    },
+    "kostyan_rematch_01": {
+      "opus": "kostyan_rematch_01.opus",
+      "m4a": "kostyan_rematch_01.m4a"
+    },
+    "kostyan_rematch_02": {
+      "opus": "kostyan_rematch_02.opus",
+      "m4a": "kostyan_rematch_02.m4a"
+    },
+    "kostyan_rematch_03": {
+      "opus": "kostyan_rematch_03.opus",
+      "m4a": "kostyan_rematch_03.m4a"
+    },
+    "kostyan_rematch_after_loss_01": {
+      "opus": "kostyan_rematch_after_loss_01.opus",
+      "m4a": "kostyan_rematch_after_loss_01.m4a"
+    },
+    "kostyan_rematch_after_loss_02": {
+      "opus": "kostyan_rematch_after_loss_02.opus",
+      "m4a": "kostyan_rematch_after_loss_02.m4a"
+    },
+    "kostyan_rematch_after_loss_03": {
+      "opus": "kostyan_rematch_after_loss_03.opus",
+      "m4a": "kostyan_rematch_after_loss_03.m4a"
+    },
+    "kostyan_sigh_01": {
+      "opus": "kostyan_sigh_01.opus",
+      "m4a": "kostyan_sigh_01.m4a"
+    },
+    "kostyan_sigh_02": {
+      "opus": "kostyan_sigh_02.opus",
+      "m4a": "kostyan_sigh_02.m4a"
+    },
+    "kostyan_sigh_03": {
+      "opus": "kostyan_sigh_03.opus",
+      "m4a": "kostyan_sigh_03.m4a"
+    },
+    "kostyan_start_01": {
+      "opus": "kostyan_start_01.opus",
+      "m4a": "kostyan_start_01.m4a"
+    },
+    "kostyan_start_02": {
+      "opus": "kostyan_start_02.opus",
+      "m4a": "kostyan_start_02.m4a"
+    },
+    "kostyan_start_03": {
+      "opus": "kostyan_start_03.opus",
+      "m4a": "kostyan_start_03.m4a"
+    },
+    "kostyan_start_04": {
+      "opus": "kostyan_start_04.opus",
+      "m4a": "kostyan_start_04.m4a"
+    },
+    "kostyan_streak_01": {
+      "opus": "kostyan_streak_01.opus",
+      "m4a": "kostyan_streak_01.m4a"
+    },
+    "kostyan_streak_02": {
+      "opus": "kostyan_streak_02.opus",
+      "m4a": "kostyan_streak_02.m4a"
+    },
+    "kostyan_streak_03": {
+      "opus": "kostyan_streak_03.opus",
+      "m4a": "kostyan_streak_03.m4a"
+    },
+    "kostyan_tut_capture_01": {
+      "opus": "kostyan_tut_capture_01.opus",
+      "m4a": "kostyan_tut_capture_01.m4a"
+    },
+    "kostyan_tut_crown_01": {
+      "opus": "kostyan_tut_crown_01.opus",
+      "m4a": "kostyan_tut_crown_01.m4a"
+    },
+    "kostyan_tut_done_01": {
+      "opus": "kostyan_tut_done_01.opus",
+      "m4a": "kostyan_tut_done_01.m4a"
+    },
+    "kostyan_tut_goal_01": {
+      "opus": "kostyan_tut_goal_01.opus",
+      "m4a": "kostyan_tut_goal_01.m4a"
+    },
+    "kostyan_tut_intro_01": {
+      "opus": "kostyan_tut_intro_01.opus",
+      "m4a": "kostyan_tut_intro_01.m4a"
+    },
+    "kostyan_tut_move_01": {
+      "opus": "kostyan_tut_move_01.opus",
+      "m4a": "kostyan_tut_move_01.m4a"
+    },
+    "kostyan_tut_wrong_01": {
+      "opus": "kostyan_tut_wrong_01.opus",
+      "m4a": "kostyan_tut_wrong_01.m4a"
+    },
+    "kostyan_wait_01": {
+      "opus": "kostyan_wait_01.opus",
+      "m4a": "kostyan_wait_01.m4a"
+    },
+    "kostyan_wait_02": {
+      "opus": "kostyan_wait_02.opus",
+      "m4a": "kostyan_wait_02.m4a"
+    },
+    "kostyan_wait_03": {
+      "opus": "kostyan_wait_03.opus",
+      "m4a": "kostyan_wait_03.m4a"
+    },
+    "kostyan_wait_04": {
+      "opus": "kostyan_wait_04.opus",
+      "m4a": "kostyan_wait_04.m4a"
+    },
+    "kostyan_wait_long_01": {
+      "opus": "kostyan_wait_long_01.opus",
+      "m4a": "kostyan_wait_long_01.m4a"
+    },
+    "kostyan_wait_long_02": {
+      "opus": "kostyan_wait_long_02.opus",
+      "m4a": "kostyan_wait_long_02.m4a"
+    },
+    "kostyan_wait_long_03": {
+      "opus": "kostyan_wait_long_03.opus",
+      "m4a": "kostyan_wait_long_03.m4a"
+    },
+    "kostyan_wait_long_04": {
+      "opus": "kostyan_wait_long_04.opus",
+      "m4a": "kostyan_wait_long_04.m4a"
+    },
+    "kostyan_win_01": {
+      "opus": "kostyan_win_01.opus",
+      "m4a": "kostyan_win_01.m4a"
+    },
+    "kostyan_win_02": {
+      "opus": "kostyan_win_02.opus",
+      "m4a": "kostyan_win_02.m4a"
+    },
+    "kostyan_win_03": {
+      "opus": "kostyan_win_03.opus",
+      "m4a": "kostyan_win_03.m4a"
+    },
+    "kostyan_win_04": {
+      "opus": "kostyan_win_04.opus",
+      "m4a": "kostyan_win_04.m4a"
+    },
+    "kostyan_win_05": {
+      "opus": "kostyan_win_05.opus",
+      "m4a": "kostyan_win_05.m4a"
+    }
+  }
+}

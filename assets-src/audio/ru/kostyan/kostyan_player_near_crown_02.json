@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_near_crown_02",
+  "text": "Не пущу в дамки! Ну, попробую.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "a43cacba8d26dab9adc13c64f54994a943d5092f3c185388753de2d266901d4d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.25
+}

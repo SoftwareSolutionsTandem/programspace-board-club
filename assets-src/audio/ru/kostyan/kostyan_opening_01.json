@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_opening_01",
+  "text": "Ага, классика.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "b77a3c9a84473ed13c5aed42cc8b3e70dcfba9f23b7d07ac88aed6c42bed5b6f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.67
+}

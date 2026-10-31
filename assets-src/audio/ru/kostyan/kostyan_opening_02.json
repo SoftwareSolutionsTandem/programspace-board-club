@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_opening_02",
+  "text": "Смело начинаешь!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "e7df10917b563fd260a5032b4d66602e729af9fc309e13ef1ab8cf5d6c98af8e",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.39
+}

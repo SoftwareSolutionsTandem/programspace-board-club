@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_lost_piece_05",
+  "text": "Ладно-ладно, верну.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "556a99b8f7382679a39fec48c63aef9f266b9c89792980a30d3c7512b854d8d2",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.9
+}

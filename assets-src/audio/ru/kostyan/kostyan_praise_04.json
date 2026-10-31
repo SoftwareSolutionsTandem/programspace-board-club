@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_praise_04",
+  "text": "Три за раз?! Это шедевр.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "6e06b596f8925c07a4de263b85713380297e98c0ea4040eda73ffd36bf07364f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.77
+}

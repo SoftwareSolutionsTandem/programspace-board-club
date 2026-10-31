@@ -28,6 +28,8 @@ export type LineCategory =
   // Живость доски: дебют, долгое раздумье, шах ферзём или конём, крупная добыча, эндшпиль, серия, «почти дамка», зевок.
   | 'opening' | 'waitLong' | 'checkQueen' | 'checkKnight' | 'eureka' | 'endgame' | 'streak' | 'nearCrown' | 'playerNearCrown'
   | 'playerBlunder'
+  // Дурак: козырь из-под колоды, последняя карта, «полный веер» взятых; домино: дубль игрока.
+  | 'trumpTaken' | 'playerTrumpTaken' | 'lastCard' | 'playerLastCard' | 'playerTookMany' | 'playerDouble'
   // Итог: пат — отдельные слова (у шахмат), прочие ничьи — `draw`.
   | 'stalemate'
   // Сценки «своей жизни» за столом (src/characters/life.ts): категория — scene_<id сценки>.

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_sigh_01",
+  "text": "Эх.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "937f0cd1952c97d8165096f98d51909dd2f091d317bea785dd8bfa106f3aabd4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.75
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_farewell_01",
+  "text": "Давай, до встречи!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "dc21245d73df57e891dd7939ca5369f9ee5bdbb308bbad5a11df4523e0fc2921",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.7
+}

@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_opening_04",
+  "text": "Нормально пошло.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "0d28f13c22b4099a424fde38902acb76ca00b62ab9eeda32e0888f57d5e29de0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.35
+}

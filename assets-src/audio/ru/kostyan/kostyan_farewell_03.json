@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_farewell_03",
+  "text": "Пока! Приходи на реванш.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "6220970dcbd2c497ba8da009e0e917a130217d3eb91e9124c48e1fe6f5b80457",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.55
+}

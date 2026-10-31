@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_ahead_01",
+  "text": "Счёт-то в мою пользу.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "73eecc60c5dd72526f0b8ce5ebce24a077a3a8f5580e347e004de163218f25d3",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.44
+}

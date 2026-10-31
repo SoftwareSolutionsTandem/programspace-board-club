@@ -72,6 +72,40 @@ describe('режиссёр реакций', () => {
     expect(cue.line).toBeUndefined();
     expect(cue).toEqual({ emotion: 'annoyed', pose: 'took' });
   });
+  it('запасная категория: у основной нет записей или все на кулдауне — звучит запасная', () => {
+    // Основная категория без доступных файлов (как реплика «ожидает записи»).
+    const d = make((id) => !id.startsWith('agata_bye_'), 0, 60_000);
+    expect(d.react({ ...always('farewell'), fallback: 'took' }, 0).line?.id).toMatch(/^agata_took_/);
+    // Основная доступна — запасная не нужна.
+    const e = make(() => true, 0, 60_000);
+    expect(e.react({ ...always('farewell'), fallback: 'took' }, 0).line?.id).toMatch(/^agata_bye_/);
+    expect(e.react({ ...always('farewell'), fallback: 'took' }, 1).line?.id).toMatch(/^agata_bye_/);
+    // Обе записи основной на кулдауне — берётся запасная.
+    expect(e.react({ ...always('farewell'), fallback: 'took' }, 2).line?.id).toMatch(/^agata_took_/);
+  });
+  it('продолжение (followUp) не ждёт minGap после только что сказанного, но шанс бросает', () => {
+    const d = make(() => true, 7000);
+    expect(d.react(always('greetAgain', 'greeting'), 0).line).toBeDefined();
+    expect(d.react(always('gameStart'), 2600).line).toBeUndefined();
+    expect(d.react({ ...always('gameStart'), followUp: true }, 2700).line?.id).toMatch(/^agata_start_/);
+    expect(d.react({ ...always('gameStart'), followUp: true, chance: 0 }, 2800).line).toBeUndefined();
+  });
+  it('общая память: новый сеанс (новый режиссёр) не повторяет только что сказанное', () => {
+    const memory = new Map<string, number>();
+    const mk = () => new Director({ lines: AGATA_LINES, minGapMs: 0, lineCooldownMs: 60_000, available: () => true, memory }, createRng(1));
+    const first = mk().react(always('farewell', 'greeting'), 0).line!.id;
+    // Тот же ГСЧ выбрал бы ту же реплику, но она на кулдауне в общей памяти.
+    expect(mk().react(always('farewell', 'greeting'), 1000).line!.id).not.toBe(first);
+  });
+  it('приветствие (mustSpeak) не молчит из-за кулдауна: звучит самая давняя', () => {
+    const memory = new Map<string, number>();
+    const mk = () => new Director({ lines: AGATA_LINES, minGapMs: 0, lineCooldownMs: 60_000, available: () => true, memory }, createRng(1));
+    const ids = [0, 1, 2].map((i) => mk().react({ ...always('greetAgain', 'greeting'), mustSpeak: true }, i * 1000).line?.id);
+    // Без mustSpeak срочная реплика на кулдауне молчит (кулдаун действует и для срочных).
+    expect(mk().react(always('greetAgain', 'greeting'), 3000).line).toBeUndefined();
+    expect(ids.every(Boolean)).toBe(true);
+    expect(ids[2]).toBe(ids[0]);
+  });
   it('вероятность: при chance 0 некритичные реплики не звучат', () => {
     const d = make();
     for (let i = 0; i < 20; i++) expect(d.react({ ...always('attack'), chance: 0 }, i * 10_000).line).toBeUndefined();

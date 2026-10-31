@@ -6,7 +6,7 @@ import type { GameAssets, GameSession as GameSessionApi, SessionHost, SessionOpt
 import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
 import { AGATA_LINES } from '../../characters/agata/lines';
-import { Director, type Cue, type Trigger } from '../../characters/director';
+import { Director, voiceMemory, type Cue, type Trigger } from '../../characters/director';
 import { CharacterLife, moodOf, PlayTempo } from '../../characters/life';
 import { createRng, nextInt, type RngState } from '../../core/rng';
 import { t } from '../../i18n';
@@ -81,7 +81,7 @@ export class GameSession implements GameSessionApi {
       onOpponentCardLanded: (slap) => this.host.audio.sfx(slap ? 'slap' : 'place'),
     });
     this.voice = new VoiceChannel(host.audio, () => host.now());
-    this.director = new Director({ lines: AGATA_LINES, minGapMs: 7000, lineCooldownMs: 90_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 17));
+    this.director = new Director({ lines: AGATA_LINES, minGapMs: 7000, lineCooldownMs: 90_000, gestureGapMs: 7000, memory: voiceMemory('agata'), available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 17));
     // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
     this.tempo = new PlayTempo(host.now());
     this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
@@ -174,9 +174,9 @@ export class GameSession implements GameSessionApi {
     this.scene.reset(this.view());
     this.refresh();
     const s = this.host.settings();
-    this.cue({ category: s.metAgata ? 'greetAgain' : 'greetFirst', emotion: 'warm', priority: 'greeting', chance: 1 });
+    this.cue({ category: s.metAgata ? 'greetAgain' : 'greetFirst', emotion: 'warm', priority: 'greeting', chance: 1, mustSpeak: true });
     if (!s.metAgata) this.host.updateSettings({ metAgata: true });
-    this.soon(() => this.cue({ category: 'gameStart', emotion: 'sly', priority: 'reaction', chance: 0.6 }), 2600);
+    if (!this.coach) this.afterVoice(() => this.cue({ category: 'gameStart', emotion: 'sly', priority: 'reaction', chance: 0.6, followUp: true }), 1200);
     this.busy = false;
     this.advance();
   }
@@ -250,7 +250,7 @@ export class GameSession implements GameSessionApi {
 
   private async afterAction(events: readonly DurakEvent[]): Promise<void> {
     this.sfxFor(events);
-    const trig = reactionFor(events, OPPONENT);
+    const trig = reactionFor(events, OPPONENT, this.view());
     if (trig) this.cue(trig);
     await this.scene.show(this.view(), events);
     const end = events.find((e) => e.type === 'gameOver');
@@ -529,6 +529,24 @@ export class GameSession implements GameSessionApi {
   // ---------- пауза и таймеры ----------
 
   /** Косметическая задержка (реплика, подсказка): не влияет на ход партии. */
+  /**
+   * Продолжение только что сказанного (например, «раздаю» после приветствия): не раньше ms, когда голос замолчал
+   * (ждём не дольше 6 с), и только если за это время персонаж ничего другого не сказал.
+   */
+  private afterVoice(fn: () => void, ms: number): void {
+    const said = this.voiceLog.length;
+    const until = this.host.now() + ms + 6000;
+    const tick = () => {
+      if (this.disposed || this.paused) return;
+      if (this.voice.speaking && this.host.now() < until) {
+        setTimeout(tick, 250);
+        return;
+      }
+      if (this.voiceLog.length === said) fn();
+    };
+    setTimeout(tick, ms);
+  }
+
   private soon(fn: () => void, ms: number): void {
     setTimeout(() => {
       if (!this.disposed && !this.paused) fn();

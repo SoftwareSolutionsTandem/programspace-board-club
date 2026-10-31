@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_resign_03",
+  "text": "Ладно, по-честному. Ещё одну?",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "82fdeaf5db7fac780439b8d93f039152e1d9cd96959be9e0439d73c8e3d9b6f4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.13
+}

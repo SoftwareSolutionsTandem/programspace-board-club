@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_blunder_01",
+  "text": "Ты серьёзно? Спасибо!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "f9d20e259aaebaa43a3bdfab00688ff858a6aab2378925870588889247b42461",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.36
+}

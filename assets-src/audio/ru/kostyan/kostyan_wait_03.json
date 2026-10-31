@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_03",
+  "text": "Думай-думай, я не тороплю.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "5d867eb0d94232c8febf3344fc6a22e042635bf6c79922cfb5290dd6df61ad59",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.2
+}

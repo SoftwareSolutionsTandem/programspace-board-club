@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_streak_03",
+  "text": "Вот это прыжки! Как по лестнице.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "09f7c998826d2859b433b3c488f10f54596be00bd8f9c3e474548fb22e59517f",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.48
+}

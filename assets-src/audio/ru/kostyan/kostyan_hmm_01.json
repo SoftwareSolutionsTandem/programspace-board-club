@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_hmm_01",
+  "text": "Хм…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "fb6a0891faa33b87a2482f30e996a18ef4876a0665f8abd88e5a08ae43b376b0",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.9
+}

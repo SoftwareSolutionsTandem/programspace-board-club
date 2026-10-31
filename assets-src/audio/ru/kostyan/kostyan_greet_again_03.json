@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_greet_again_03",
+  "text": "О, снова за доску? Красота.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "40b4268e0e066e0c66f77efcc86d119a6306589f57245a51c5c91980e95867f1",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 4.15
+}

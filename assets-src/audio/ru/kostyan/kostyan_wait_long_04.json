@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_long_04",
+  "text": "Может, подсказку? Шучу, думай.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "5b4f0484b915fb3ddfc331025f22ede559d2baa84d979dd14343a8e21453c379",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.8
+}

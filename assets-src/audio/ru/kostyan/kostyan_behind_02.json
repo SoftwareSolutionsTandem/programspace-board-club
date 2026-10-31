@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_behind_02",
+  "text": "Ничего, отыграюсь.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "ad861d434d00d2c219f37a608160f6d6249cdec672744efe7aaf03e473c98dcc",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.9
+}

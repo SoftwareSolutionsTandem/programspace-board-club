@@ -1,0 +1,1993 @@
+{
+  "target": {
+    "lufs": -16,
+    "truePeak": -1.5,
+    "lra": 11,
+    "opusKbps": 32,
+    "aacKbps": 48
+  },
+  "results": [
+    {
+      "id": "kostyan_ah_01",
+      "durationSec": 1.12,
+      "bytes": {
+        "flac": 51029,
+        "opus": 4213,
+        "m4a": 7890,
+        "wav": 106638
+      },
+      "inputLufs": -16.25,
+      "gainDb": 0.25,
+      "peakDb": -4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_ah_02",
+      "durationSec": 1.12,
+      "bytes": {
+        "flac": 54246,
+        "opus": 4924,
+        "m4a": 8048,
+        "wav": 106638
+      },
+      "inputLufs": -19.17,
+      "gainDb": 3.17,
+      "peakDb": -3.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_ah_03",
+      "durationSec": 1.28,
+      "bytes": {
+        "flac": 61640,
+        "opus": 5021,
+        "m4a": 8409,
+        "wav": 122094
+      },
+      "inputLufs": -19.46,
+      "gainDb": 2.48,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_ahead_01",
+      "durationSec": 1.61,
+      "bytes": {
+        "flac": 81184,
+        "opus": 6325,
+        "m4a": 11894,
+        "wav": 153644
+      },
+      "inputLufs": -17.49,
+      "gainDb": 1.49,
+      "peakDb": -2.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_ahead_02",
+      "durationSec": 2.86,
+      "bytes": {
+        "flac": 134726,
+        "opus": 11214,
+        "m4a": 18873,
+        "wav": 274016
+      },
+      "inputLufs": -20.86,
+      "gainDb": 3.96,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_ahead_03",
+      "durationSec": 3.17,
+      "bytes": {
+        "flac": 140999,
+        "opus": 12157,
+        "m4a": 21209,
+        "wav": 303438
+      },
+      "inputLufs": -16.91,
+      "gainDb": 0.91,
+      "peakDb": -2.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_behind_01",
+      "durationSec": 3.22,
+      "bytes": {
+        "flac": 149995,
+        "opus": 12669,
+        "m4a": 21506,
+        "wav": 308238
+      },
+      "inputLufs": -18.61,
+      "gainDb": 1.91,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_behind_02",
+      "durationSec": 2.07,
+      "bytes": {
+        "flac": 89857,
+        "opus": 8070,
+        "m4a": 13209,
+        "wav": 198226
+      },
+      "inputLufs": -22.81,
+      "gainDb": 4.37,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_behind_03",
+      "durationSec": 3.66,
+      "bytes": {
+        "flac": 156276,
+        "opus": 14489,
+        "m4a": 23878,
+        "wav": 350862
+      },
+      "inputLufs": -16.85,
+      "gainDb": 0.7,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_capture_01",
+      "durationSec": 0.82,
+      "bytes": {
+        "flac": 51732,
+        "opus": 3535,
+        "m4a": 6524,
+        "wav": 77854
+      },
+      "inputLufs": -21.98,
+      "gainDb": 5.75,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_capture_02",
+      "durationSec": 1.67,
+      "bytes": {
+        "flac": 77186,
+        "opus": 6356,
+        "m4a": 11918,
+        "wav": 159438
+      },
+      "inputLufs": -18.48,
+      "gainDb": 2.48,
+      "peakDb": -2.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_capture_03",
+      "durationSec": 1.23,
+      "bytes": {
+        "flac": 54667,
+        "opus": 4588,
+        "m4a": 9233,
+        "wav": 117978
+      },
+      "inputLufs": -17.2,
+      "gainDb": 1.2,
+      "peakDb": -2.4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_capture_04",
+      "durationSec": 0.82,
+      "bytes": {
+        "flac": 46295,
+        "opus": 3033,
+        "m4a": 6528,
+        "wav": 77838
+      },
+      "inputLufs": -19.58,
+      "gainDb": 3.58,
+      "peakDb": -3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_capture_05",
+      "durationSec": 2.12,
+      "bytes": {
+        "flac": 78771,
+        "opus": 7726,
+        "m4a": 13460,
+        "wav": 203384
+      },
+      "inputLufs": -17.95,
+      "gainDb": -0.63,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_crown_01",
+      "durationSec": 1,
+      "bytes": {
+        "flac": 59617,
+        "opus": 3854,
+        "m4a": 7384,
+        "wav": 95346
+      },
+      "inputLufs": -14.42,
+      "gainDb": -1.58,
+      "peakDb": -3.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_crown_02",
+      "durationSec": 3,
+      "bytes": {
+        "flac": 137092,
+        "opus": 11962,
+        "m4a": 21619,
+        "wav": 287392
+      },
+      "inputLufs": -19.17,
+      "gainDb": 3.17,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_crown_03",
+      "durationSec": 2.53,
+      "bytes": {
+        "flac": 110018,
+        "opus": 9832,
+        "m4a": 17471,
+        "wav": 242808
+      },
+      "inputLufs": -18.43,
+      "gainDb": 2.16,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_crown_04",
+      "durationSec": 3.71,
+      "bytes": {
+        "flac": 139755,
+        "opus": 13210,
+        "m4a": 24786,
+        "wav": 355724
+      },
+      "inputLufs": -20.03,
+      "gainDb": 2.6,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_draw_01",
+      "durationSec": 2.87,
+      "bytes": {
+        "flac": 120273,
+        "opus": 10812,
+        "m4a": 18092,
+        "wav": 274638
+      },
+      "inputLufs": -17.04,
+      "gainDb": 0.74,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_draw_02",
+      "durationSec": 2.67,
+      "bytes": {
+        "flac": 115879,
+        "opus": 10235,
+        "m4a": 19068,
+        "wav": 256184
+      },
+      "inputLufs": -18.34,
+      "gainDb": 1.69,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_draw_03",
+      "durationSec": 2.53,
+      "bytes": {
+        "flac": 106064,
+        "opus": 9682,
+        "m4a": 18419,
+        "wav": 242808
+      },
+      "inputLufs": -19.21,
+      "gainDb": 3.21,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_farewell_01",
+      "durationSec": 1.87,
+      "bytes": {
+        "flac": 82443,
+        "opus": 7041,
+        "m4a": 11675,
+        "wav": 178638
+      },
+      "inputLufs": -20.19,
+      "gainDb": 1.46,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_farewell_02",
+      "durationSec": 2.44,
+      "bytes": {
+        "flac": 124621,
+        "opus": 9562,
+        "m4a": 17255,
+        "wav": 233892
+      },
+      "inputLufs": -18.02,
+      "gainDb": 1.95,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_farewell_03",
+      "durationSec": 2.72,
+      "bytes": {
+        "flac": 115523,
+        "opus": 10041,
+        "m4a": 17142,
+        "wav": 260238
+      },
+      "inputLufs": -16.62,
+      "gainDb": -0.38,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_giggle_01",
+      "durationSec": 0.63,
+      "bytes": {
+        "flac": 35987,
+        "opus": 2358,
+        "m4a": 4392,
+        "wav": 60022
+      },
+      "inputLufs": -23.25,
+      "gainDb": 1.8,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_giggle_02",
+      "durationSec": 0.86,
+      "bytes": {
+        "flac": 50259,
+        "opus": 3363,
+        "m4a": 6250,
+        "wav": 82312
+      },
+      "inputLufs": -17.16,
+      "gainDb": 1.16,
+      "peakDb": -3.1,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_giggle_03",
+      "durationSec": 0.58,
+      "bytes": {
+        "flac": 35191,
+        "opus": 2231,
+        "m4a": 4380,
+        "wav": 55564
+      },
+      "inputLufs": -18.95,
+      "gainDb": 0.94,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_again_01",
+      "durationSec": 4.45,
+      "bytes": {
+        "flac": 192568,
+        "opus": 17294,
+        "m4a": 28375,
+        "wav": 426978
+      },
+      "inputLufs": -20.19,
+      "gainDb": 3.64,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_again_02",
+      "durationSec": 2.9,
+      "bytes": {
+        "flac": 115230,
+        "opus": 11597,
+        "m4a": 20636,
+        "wav": 277450
+      },
+      "inputLufs": -20.73,
+      "gainDb": 4.73,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_again_03",
+      "durationSec": 4.32,
+      "bytes": {
+        "flac": 181338,
+        "opus": 16281,
+        "m4a": 27987,
+        "wav": 413838
+      },
+      "inputLufs": -19.1,
+      "gainDb": -0.32,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_again_04",
+      "durationSec": 3.17,
+      "bytes": {
+        "flac": 141919,
+        "opus": 12483,
+        "m4a": 21797,
+        "wav": 303438
+      },
+      "inputLufs": -16.37,
+      "gainDb": -0.48,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_first_01",
+      "durationSec": 3.47,
+      "bytes": {
+        "flac": 164756,
+        "opus": 13579,
+        "m4a": 22571,
+        "wav": 332238
+      },
+      "inputLufs": -16.42,
+      "gainDb": -0.01,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_first_02",
+      "durationSec": 4.16,
+      "bytes": {
+        "flac": 164451,
+        "opus": 15604,
+        "m4a": 26947,
+        "wav": 398846
+      },
+      "inputLufs": -18.38,
+      "gainDb": 1.98,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_first_03",
+      "durationSec": 4.22,
+      "bytes": {
+        "flac": 180707,
+        "opus": 16206,
+        "m4a": 29432,
+        "wav": 404238
+      },
+      "inputLufs": -20.58,
+      "gainDb": 3.28,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_greet_first_04",
+      "durationSec": 3.59,
+      "bytes": {
+        "flac": 150662,
+        "opus": 13760,
+        "m4a": 23679,
+        "wav": 343640
+      },
+      "inputLufs": -18.99,
+      "gainDb": 0.17,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_hmm_01",
+      "durationSec": 1.07,
+      "bytes": {
+        "flac": 44157,
+        "opus": 3878,
+        "m4a": 7429,
+        "wav": 101838
+      },
+      "inputLufs": -18.96,
+      "gainDb": 2.96,
+      "peakDb": -3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_hmm_02",
+      "durationSec": 2.47,
+      "bytes": {
+        "flac": 110208,
+        "opus": 9337,
+        "m4a": 17625,
+        "wav": 236238
+      },
+      "inputLufs": -19.18,
+      "gainDb": -0.73,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_hmm_03",
+      "durationSec": 1.72,
+      "bytes": {
+        "flac": 86601,
+        "opus": 6758,
+        "m4a": 11129,
+        "wav": 164238
+      },
+      "inputLufs": -17.17,
+      "gainDb": 1.17,
+      "peakDb": -1.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_hmm_04",
+      "durationSec": 3.82,
+      "bytes": {
+        "flac": 142900,
+        "opus": 13228,
+        "m4a": 25321,
+        "wav": 365838
+      },
+      "inputLufs": -17.9,
+      "gainDb": 0.27,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lose_01",
+      "durationSec": 5.24,
+      "bytes": {
+        "flac": 210614,
+        "opus": 19757,
+        "m4a": 34327,
+        "wav": 502472
+      },
+      "inputLufs": -20.44,
+      "gainDb": 4.4,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lose_02",
+      "durationSec": 4.05,
+      "bytes": {
+        "flac": 150564,
+        "opus": 15690,
+        "m4a": 26530,
+        "wav": 388222
+      },
+      "inputLufs": -21.56,
+      "gainDb": 4.45,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lose_03",
+      "durationSec": 4.19,
+      "bytes": {
+        "flac": 180468,
+        "opus": 16570,
+        "m4a": 27449,
+        "wav": 401254
+      },
+      "inputLufs": -18.98,
+      "gainDb": 2.98,
+      "peakDb": -1.8,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lose_04",
+      "durationSec": 3.47,
+      "bytes": {
+        "flac": 134205,
+        "opus": 13141,
+        "m4a": 25455,
+        "wav": 332238
+      },
+      "inputLufs": -20.65,
+      "gainDb": 1.67,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lose_05",
+      "durationSec": 4.02,
+      "bytes": {
+        "flac": 153365,
+        "opus": 15072,
+        "m4a": 26327,
+        "wav": 385038
+      },
+      "inputLufs": -17.82,
+      "gainDb": 1.82,
+      "peakDb": -2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lost_piece_01",
+      "durationSec": 2.61,
+      "bytes": {
+        "flac": 102418,
+        "opus": 10290,
+        "m4a": 18107,
+        "wav": 249674
+      },
+      "inputLufs": -19.43,
+      "gainDb": 3.43,
+      "peakDb": -1.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lost_piece_02",
+      "durationSec": 2.37,
+      "bytes": {
+        "flac": 92929,
+        "opus": 8899,
+        "m4a": 15798,
+        "wav": 226638
+      },
+      "inputLufs": -19.15,
+      "gainDb": 3.15,
+      "peakDb": -2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lost_piece_03",
+      "durationSec": 2.3,
+      "bytes": {
+        "flac": 104879,
+        "opus": 8921,
+        "m4a": 14517,
+        "wav": 220518
+      },
+      "inputLufs": -16.69,
+      "gainDb": 0.69,
+      "peakDb": -4.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lost_piece_04",
+      "durationSec": 2.44,
+      "bytes": {
+        "flac": 106840,
+        "opus": 9008,
+        "m4a": 15244,
+        "wav": 233892
+      },
+      "inputLufs": -15.71,
+      "gainDb": -0.29,
+      "peakDb": -2.4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_lost_piece_05",
+      "durationSec": 2.07,
+      "bytes": {
+        "flac": 103139,
+        "opus": 8170,
+        "m4a": 13729,
+        "wav": 198226
+      },
+      "inputLufs": -17.89,
+      "gainDb": 0.25,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_move_01",
+      "durationSec": 1.05,
+      "bytes": {
+        "flac": 56283,
+        "opus": 3934,
+        "m4a": 8145,
+        "wav": 100146
+      },
+      "inputLufs": -17.67,
+      "gainDb": -0.68,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_move_02",
+      "durationSec": 1.42,
+      "bytes": {
+        "flac": 77497,
+        "opus": 5648,
+        "m4a": 10029,
+        "wav": 135438
+      },
+      "inputLufs": -20.03,
+      "gainDb": 2.33,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_move_03",
+      "durationSec": 0.72,
+      "bytes": {
+        "flac": 42029,
+        "opus": 2803,
+        "m4a": 5456,
+        "wav": 68938
+      },
+      "inputLufs": -17.64,
+      "gainDb": 1.64,
+      "peakDb": -3.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_move_04",
+      "durationSec": 0.72,
+      "bytes": {
+        "flac": 34211,
+        "opus": 2643,
+        "m4a": 4873,
+        "wav": 68238
+      },
+      "inputLufs": -19.64,
+      "gainDb": 0.29,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_move_05",
+      "durationSec": 1.32,
+      "bytes": {
+        "flac": 66453,
+        "opus": 5153,
+        "m4a": 10492,
+        "wav": 125838
+      },
+      "inputLufs": -20.84,
+      "gainDb": 4.16,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_multi_capture_01",
+      "durationSec": 2.02,
+      "bytes": {
+        "flac": 99593,
+        "opus": 7800,
+        "m4a": 13996,
+        "wav": 193768
+      },
+      "inputLufs": -17.76,
+      "gainDb": 1.31,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_multi_capture_02",
+      "durationSec": 0.82,
+      "bytes": {
+        "flac": 42016,
+        "opus": 3309,
+        "m4a": 5709,
+        "wav": 77838
+      },
+      "inputLufs": -20.24,
+      "gainDb": 4.24,
+      "peakDb": -3.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_multi_capture_03",
+      "durationSec": 2.25,
+      "bytes": {
+        "flac": 128923,
+        "opus": 9159,
+        "m4a": 15795,
+        "wav": 215718
+      },
+      "inputLufs": -14.5,
+      "gainDb": -1.5,
+      "peakDb": -5.1,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_multi_capture_04",
+      "durationSec": 1.47,
+      "bytes": {
+        "flac": 75047,
+        "opus": 5839,
+        "m4a": 9625,
+        "wav": 140238
+      },
+      "inputLufs": -16.18,
+      "gainDb": 0.18,
+      "peakDb": -3.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_must_capture_01",
+      "durationSec": 2.92,
+      "bytes": {
+        "flac": 119409,
+        "opus": 11125,
+        "m4a": 19447,
+        "wav": 279438
+      },
+      "inputLufs": -19.96,
+      "gainDb": 2.46,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_must_capture_02",
+      "durationSec": 2.44,
+      "bytes": {
+        "flac": 120910,
+        "opus": 9723,
+        "m4a": 17783,
+        "wav": 233892
+      },
+      "inputLufs": -21.55,
+      "gainDb": 2.78,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_must_capture_03",
+      "durationSec": 1.88,
+      "bytes": {
+        "flac": 91673,
+        "opus": 7443,
+        "m4a": 14272,
+        "wav": 180394
+      },
+      "inputLufs": -18.02,
+      "gainDb": 1.56,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_must_capture_04",
+      "durationSec": 2.9,
+      "bytes": {
+        "flac": 124293,
+        "opus": 11076,
+        "m4a": 20919,
+        "wav": 278132
+      },
+      "inputLufs": -20.63,
+      "gainDb": 0.57,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_near_crown_01",
+      "durationSec": 2.67,
+      "bytes": {
+        "flac": 117073,
+        "opus": 10122,
+        "m4a": 17744,
+        "wav": 256184
+      },
+      "inputLufs": -17.67,
+      "gainDb": 1.67,
+      "peakDb": -1.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_near_crown_02",
+      "durationSec": 2.3,
+      "bytes": {
+        "flac": 100095,
+        "opus": 8795,
+        "m4a": 14949,
+        "wav": 220518
+      },
+      "inputLufs": -17.67,
+      "gainDb": 1.02,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_near_crown_03",
+      "durationSec": 2.4,
+      "bytes": {
+        "flac": 129033,
+        "opus": 9628,
+        "m4a": 16445,
+        "wav": 229434
+      },
+      "inputLufs": -16.05,
+      "gainDb": -0.79,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_opening_01",
+      "durationSec": 1.83,
+      "bytes": {
+        "flac": 73215,
+        "opus": 6767,
+        "m4a": 12826,
+        "wav": 175594
+      },
+      "inputLufs": -20.24,
+      "gainDb": 2.47,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_opening_02",
+      "durationSec": 1.56,
+      "bytes": {
+        "flac": 89394,
+        "opus": 6120,
+        "m4a": 10365,
+        "wav": 149186
+      },
+      "inputLufs": -13.51,
+      "gainDb": -2.49,
+      "peakDb": -4.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_opening_03",
+      "durationSec": 3.6,
+      "bytes": {
+        "flac": 167365,
+        "opus": 14064,
+        "m4a": 23745,
+        "wav": 345348
+      },
+      "inputLufs": -17.43,
+      "gainDb": 1.43,
+      "peakDb": -2.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_opening_04",
+      "durationSec": 1.51,
+      "bytes": {
+        "flac": 70007,
+        "opus": 5928,
+        "m4a": 10739,
+        "wav": 144728
+      },
+      "inputLufs": -20.54,
+      "gainDb": 0.81,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_blunder_01",
+      "durationSec": 2.53,
+      "bytes": {
+        "flac": 111426,
+        "opus": 9659,
+        "m4a": 17441,
+        "wav": 242126
+      },
+      "inputLufs": -19.43,
+      "gainDb": 1,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_blunder_02",
+      "durationSec": 2.72,
+      "bytes": {
+        "flac": 125532,
+        "opus": 10395,
+        "m4a": 18432,
+        "wav": 260642
+      },
+      "inputLufs": -19.31,
+      "gainDb": 2.07,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_blunder_03",
+      "durationSec": 3.09,
+      "bytes": {
+        "flac": 134398,
+        "opus": 11970,
+        "m4a": 20487,
+        "wav": 295966
+      },
+      "inputLufs": -17.38,
+      "gainDb": 1.06,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_blunder_04",
+      "durationSec": 3.25,
+      "bytes": {
+        "flac": 135000,
+        "opus": 12342,
+        "m4a": 21388,
+        "wav": 311064
+      },
+      "inputLufs": -18.5,
+      "gainDb": 0.41,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_crown_01",
+      "durationSec": 3.12,
+      "bytes": {
+        "flac": 139734,
+        "opus": 12106,
+        "m4a": 20210,
+        "wav": 298638
+      },
+      "inputLufs": -17.1,
+      "gainDb": 0.53,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_crown_02",
+      "durationSec": 4.07,
+      "bytes": {
+        "flac": 160493,
+        "opus": 15881,
+        "m4a": 26490,
+        "wav": 389930
+      },
+      "inputLufs": -20.68,
+      "gainDb": 1.94,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_crown_03",
+      "durationSec": 4.91,
+      "bytes": {
+        "flac": 209687,
+        "opus": 18987,
+        "m4a": 31910,
+        "wav": 470892
+      },
+      "inputLufs": -17.58,
+      "gainDb": 0.77,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_multi_capture_01",
+      "durationSec": 2.21,
+      "bytes": {
+        "flac": 118837,
+        "opus": 8892,
+        "m4a": 14894,
+        "wav": 211602
+      },
+      "inputLufs": -19.81,
+      "gainDb": 2.29,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_multi_capture_02",
+      "durationSec": 3.42,
+      "bytes": {
+        "flac": 154994,
+        "opus": 13183,
+        "m4a": 23372,
+        "wav": 327516
+      },
+      "inputLufs": -17.21,
+      "gainDb": 0.34,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_multi_capture_03",
+      "durationSec": 3.52,
+      "bytes": {
+        "flac": 168510,
+        "opus": 14135,
+        "m4a": 23162,
+        "wav": 337038
+      },
+      "inputLufs": -20.61,
+      "gainDb": 3.68,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_multi_capture_04",
+      "durationSec": 3.34,
+      "bytes": {
+        "flac": 154723,
+        "opus": 13038,
+        "m4a": 22619,
+        "wav": 319640
+      },
+      "inputLufs": -19.01,
+      "gainDb": 2.8,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_near_crown_01",
+      "durationSec": 2.67,
+      "bytes": {
+        "flac": 116217,
+        "opus": 9788,
+        "m4a": 18034,
+        "wav": 255438
+      },
+      "inputLufs": -20.18,
+      "gainDb": 1.48,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_near_crown_02",
+      "durationSec": 4.42,
+      "bytes": {
+        "flac": 182579,
+        "opus": 16898,
+        "m4a": 29073,
+        "wav": 423438
+      },
+      "inputLufs": -18.12,
+      "gainDb": 1.66,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_near_crown_03",
+      "durationSec": 4.25,
+      "bytes": {
+        "flac": 180989,
+        "opus": 16741,
+        "m4a": 28852,
+        "wav": 407422
+      },
+      "inputLufs": -20.72,
+      "gainDb": 3.04,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_play_01",
+      "durationSec": 2.07,
+      "bytes": {
+        "flac": 89976,
+        "opus": 7852,
+        "m4a": 13825,
+        "wav": 197838
+      },
+      "inputLufs": -18,
+      "gainDb": 1.99,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_play_02",
+      "durationSec": 2.3,
+      "bytes": {
+        "flac": 103376,
+        "opus": 8958,
+        "m4a": 15000,
+        "wav": 220518
+      },
+      "inputLufs": -17.82,
+      "gainDb": 1.5,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_play_03",
+      "durationSec": 1.02,
+      "bytes": {
+        "flac": 44322,
+        "opus": 3772,
+        "m4a": 6614,
+        "wav": 97038
+      },
+      "inputLufs": -17.31,
+      "gainDb": 1.31,
+      "peakDb": -6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_play_04",
+      "durationSec": 1.82,
+      "bytes": {
+        "flac": 97679,
+        "opus": 7249,
+        "m4a": 12851,
+        "wav": 173838
+      },
+      "inputLufs": -18.72,
+      "gainDb": 2.72,
+      "peakDb": -3.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_resign_01",
+      "durationSec": 3.67,
+      "bytes": {
+        "flac": 152508,
+        "opus": 14406,
+        "m4a": 25594,
+        "wav": 351438
+      },
+      "inputLufs": -19.02,
+      "gainDb": 0.89,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_resign_02",
+      "durationSec": 4.42,
+      "bytes": {
+        "flac": 202821,
+        "opus": 17133,
+        "m4a": 29465,
+        "wav": 423438
+      },
+      "inputLufs": -18.04,
+      "gainDb": 1.03,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_player_resign_03",
+      "durationSec": 3.29,
+      "bytes": {
+        "flac": 133929,
+        "opus": 12899,
+        "m4a": 22212,
+        "wav": 315522
+      },
+      "inputLufs": -19.86,
+      "gainDb": 3.86,
+      "peakDb": -1.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_praise_01",
+      "durationSec": 2.25,
+      "bytes": {
+        "flac": 101325,
+        "opus": 8763,
+        "m4a": 15677,
+        "wav": 215718
+      },
+      "inputLufs": -21.1,
+      "gainDb": 1.81,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_praise_02",
+      "durationSec": 2.21,
+      "bytes": {
+        "flac": 119314,
+        "opus": 8732,
+        "m4a": 15464,
+        "wav": 211602
+      },
+      "inputLufs": -23.75,
+      "gainDb": 7.61,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_praise_03",
+      "durationSec": 3.74,
+      "bytes": {
+        "flac": 155098,
+        "opus": 14253,
+        "m4a": 26365,
+        "wav": 358722
+      },
+      "inputLufs": -17.13,
+      "gainDb": -0.45,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_praise_04",
+      "durationSec": 2.94,
+      "bytes": {
+        "flac": 135481,
+        "opus": 11130,
+        "m4a": 18998,
+        "wav": 281582
+      },
+      "inputLufs": -15.41,
+      "gainDb": -0.59,
+      "peakDb": -1.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_rematch_01",
+      "durationSec": 3.37,
+      "bytes": {
+        "flac": 156211,
+        "opus": 13086,
+        "m4a": 21723,
+        "wav": 323056
+      },
+      "inputLufs": -16.96,
+      "gainDb": 0.96,
+      "peakDb": -3.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_rematch_02",
+      "durationSec": 2.42,
+      "bytes": {
+        "flac": 103515,
+        "opus": 9062,
+        "m4a": 16357,
+        "wav": 232184
+      },
+      "inputLufs": -18.27,
+      "gainDb": 2.27,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_rematch_03",
+      "durationSec": 3.17,
+      "bytes": {
+        "flac": 152256,
+        "opus": 12417,
+        "m4a": 20897,
+        "wav": 303438
+      },
+      "inputLufs": -17.52,
+      "gainDb": 1.32,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_rematch_after_loss_01",
+      "durationSec": 2.48,
+      "bytes": {
+        "flac": 114557,
+        "opus": 9705,
+        "m4a": 16349,
+        "wav": 238008
+      },
+      "inputLufs": -20.18,
+      "gainDb": 2.13,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_rematch_after_loss_02",
+      "durationSec": 2.77,
+      "bytes": {
+        "flac": 132396,
+        "opus": 10696,
+        "m4a": 17275,
+        "wav": 265038
+      },
+      "inputLufs": -18.09,
+      "gainDb": 0.38,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_rematch_after_loss_03",
+      "durationSec": 3.46,
+      "bytes": {
+        "flac": 160412,
+        "opus": 13768,
+        "m4a": 22397,
+        "wav": 331974
+      },
+      "inputLufs": -18.91,
+      "gainDb": 2.42,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_sigh_01",
+      "durationSec": 0.92,
+      "bytes": {
+        "flac": 47960,
+        "opus": 3490,
+        "m4a": 6417,
+        "wav": 87438
+      },
+      "inputLufs": -20.65,
+      "gainDb": 4.65,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_sigh_02",
+      "durationSec": 1.42,
+      "bytes": {
+        "flac": 68828,
+        "opus": 6258,
+        "m4a": 9545,
+        "wav": 135812
+      },
+      "inputLufs": -20.65,
+      "gainDb": 4.65,
+      "peakDb": -4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_sigh_03",
+      "durationSec": 0.96,
+      "bytes": {
+        "flac": 46949,
+        "opus": 3670,
+        "m4a": 6951,
+        "wav": 91228
+      },
+      "inputLufs": -15.31,
+      "gainDb": -0.69,
+      "peakDb": -4.4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_start_01",
+      "durationSec": 0.95,
+      "bytes": {
+        "flac": 52357,
+        "opus": 4105,
+        "m4a": 6945,
+        "wav": 90888
+      },
+      "inputLufs": -15.4,
+      "gainDb": -0.6,
+      "peakDb": -2.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_start_02",
+      "durationSec": 3.05,
+      "bytes": {
+        "flac": 135179,
+        "opus": 11492,
+        "m4a": 19776,
+        "wav": 291850
+      },
+      "inputLufs": -16.43,
+      "gainDb": 0.43,
+      "peakDb": -3.8,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_start_03",
+      "durationSec": 2.22,
+      "bytes": {
+        "flac": 90242,
+        "opus": 8353,
+        "m4a": 15790,
+        "wav": 212238
+      },
+      "inputLufs": -17.64,
+      "gainDb": 0.17,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_start_04",
+      "durationSec": 3.42,
+      "bytes": {
+        "flac": 152730,
+        "opus": 13178,
+        "m4a": 22346,
+        "wav": 327438
+      },
+      "inputLufs": -18.52,
+      "gainDb": 1.08,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_streak_01",
+      "durationSec": 2.86,
+      "bytes": {
+        "flac": 135053,
+        "opus": 11168,
+        "m4a": 19919,
+        "wav": 274016
+      },
+      "inputLufs": -15.37,
+      "gainDb": -0.63,
+      "peakDb": -4,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_streak_02",
+      "durationSec": 3.22,
+      "bytes": {
+        "flac": 160476,
+        "opus": 12211,
+        "m4a": 21695,
+        "wav": 308238
+      },
+      "inputLufs": -17.28,
+      "gainDb": 1.28,
+      "peakDb": -3.3,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_streak_03",
+      "durationSec": 3.65,
+      "bytes": {
+        "flac": 166113,
+        "opus": 14387,
+        "m4a": 24955,
+        "wav": 349806
+      },
+      "inputLufs": -16.45,
+      "gainDb": 0.45,
+      "peakDb": -2.2,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_capture_01",
+      "durationSec": 6.2,
+      "bytes": {
+        "flac": 267126,
+        "opus": 24129,
+        "m4a": 40704,
+        "wav": 594668
+      },
+      "inputLufs": -18.48,
+      "gainDb": 1.97,
+      "peakDb": -1.7,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_crown_01",
+      "durationSec": 4.99,
+      "bytes": {
+        "flac": 216914,
+        "opus": 19135,
+        "m4a": 33825,
+        "wav": 478412
+      },
+      "inputLufs": -16.37,
+      "gainDb": 0.05,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_done_01",
+      "durationSec": 3.51,
+      "bytes": {
+        "flac": 156563,
+        "opus": 13737,
+        "m4a": 23756,
+        "wav": 336432
+      },
+      "inputLufs": -20.89,
+      "gainDb": 4.01,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_goal_01",
+      "durationSec": 3.27,
+      "bytes": {
+        "flac": 149055,
+        "opus": 12841,
+        "m4a": 24874,
+        "wav": 313038
+      },
+      "inputLufs": -18.21,
+      "gainDb": 1.56,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_intro_01",
+      "durationSec": 3.93,
+      "bytes": {
+        "flac": 175711,
+        "opus": 15612,
+        "m4a": 26824,
+        "wav": 376556
+      },
+      "inputLufs": -19.38,
+      "gainDb": 1.74,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_move_01",
+      "durationSec": 2.92,
+      "bytes": {
+        "flac": 134234,
+        "opus": 11552,
+        "m4a": 20519,
+        "wav": 279438
+      },
+      "inputLufs": -18.31,
+      "gainDb": 2.31,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_tut_wrong_01",
+      "durationSec": 2.86,
+      "bytes": {
+        "flac": 130058,
+        "opus": 11370,
+        "m4a": 19865,
+        "wav": 273674
+      },
+      "inputLufs": -16.38,
+      "gainDb": -0.15,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_01",
+      "durationSec": 2.02,
+      "bytes": {
+        "flac": 86120,
+        "opus": 7665,
+        "m4a": 13916,
+        "wav": 193038
+      },
+      "inputLufs": -19.28,
+      "gainDb": 1,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_02",
+      "durationSec": 2.3,
+      "bytes": {
+        "flac": 95899,
+        "opus": 8757,
+        "m4a": 14428,
+        "wav": 220518
+      },
+      "inputLufs": -22.13,
+      "gainDb": 3.57,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_03",
+      "durationSec": 2.37,
+      "bytes": {
+        "flac": 95342,
+        "opus": 9213,
+        "m4a": 16186,
+        "wav": 226638
+      },
+      "inputLufs": -18.26,
+      "gainDb": 0.27,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_04",
+      "durationSec": 2.12,
+      "bytes": {
+        "flac": 102675,
+        "opus": 8399,
+        "m4a": 15094,
+        "wav": 202638
+      },
+      "inputLufs": -20.16,
+      "gainDb": 2.5,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_long_01",
+      "durationSec": 3.5,
+      "bytes": {
+        "flac": 136700,
+        "opus": 13064,
+        "m4a": 22445,
+        "wav": 335748
+      },
+      "inputLufs": -17.58,
+      "gainDb": 0.29,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_long_02",
+      "durationSec": 3.72,
+      "bytes": {
+        "flac": 154178,
+        "opus": 14561,
+        "m4a": 24192,
+        "wav": 356238
+      },
+      "inputLufs": -21.27,
+      "gainDb": 2.07,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_long_03",
+      "durationSec": 2.42,
+      "bytes": {
+        "flac": 126837,
+        "opus": 9666,
+        "m4a": 16140,
+        "wav": 231438
+      },
+      "inputLufs": -17.94,
+      "gainDb": 0.65,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_wait_long_04",
+      "durationSec": 3.97,
+      "bytes": {
+        "flac": 165858,
+        "opus": 15304,
+        "m4a": 25556,
+        "wav": 380238
+      },
+      "inputLufs": -20.18,
+      "gainDb": 1.22,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_win_01",
+      "durationSec": 2.37,
+      "bytes": {
+        "flac": 110330,
+        "opus": 8638,
+        "m4a": 17777,
+        "wav": 226638
+      },
+      "inputLufs": -14.09,
+      "gainDb": -1.91,
+      "peakDb": -2.9,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_win_02",
+      "durationSec": 4.11,
+      "bytes": {
+        "flac": 179706,
+        "opus": 15935,
+        "m4a": 26455,
+        "wav": 394388
+      },
+      "inputLufs": -17.17,
+      "gainDb": -0.94,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_win_03",
+      "durationSec": 2.58,
+      "bytes": {
+        "flac": 109295,
+        "opus": 9844,
+        "m4a": 17438,
+        "wav": 247268
+      },
+      "inputLufs": -18.01,
+      "gainDb": 0.79,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_win_04",
+      "durationSec": 3.82,
+      "bytes": {
+        "flac": 175301,
+        "opus": 15041,
+        "m4a": 25863,
+        "wav": 365838
+      },
+      "inputLufs": -18.89,
+      "gainDb": 1.53,
+      "peakDb": -1.5,
+      "status": "ok",
+      "warnings": []
+    },
+    {
+      "id": "kostyan_win_05",
+      "durationSec": 4.12,
+      "bytes": {
+        "flac": 161914,
+        "opus": 15830,
+        "m4a": 26840,
+        "wav": 394638
+      },
+      "inputLufs": -18.19,
+      "gainDb": 1.53,
+      "peakDb": -1.6,
+      "status": "ok",
+      "warnings": []
+    }
+  ],
+  "missing": [
+    "kostyan_scene_phone_01",
+    "kostyan_scene_phone_02",
+    "kostyan_scene_phone_03",
+    "kostyan_scene_selfie_01",
+    "kostyan_scene_selfie_02",
+    "kostyan_scene_air_guitar_01",
+    "kostyan_scene_air_guitar_02",
+    "kostyan_scene_yawn_01",
+    "kostyan_scene_yawn_02",
+    "kostyan_scene_knuckles_01",
+    "kostyan_scene_knuckles_02",
+    "kostyan_scene_soda_01",
+    "kostyan_scene_soda_02",
+    "kostyan_scene_spinner_01",
+    "kostyan_scene_spinner_02",
+    "kostyan_scene_cube_01",
+    "kostyan_scene_cube_02",
+    "kostyan_scene_notification_01",
+    "kostyan_scene_notification_02",
+    "kostyan_scene_flex_01",
+    "kostyan_scene_flex_02",
+    "kostyan_scene_dance_01",
+    "kostyan_scene_dance_02",
+    "kostyan_scene_fast_player_01",
+    "kostyan_scene_fast_player_02",
+    "kostyan_scene_nudge_01",
+    "kostyan_scene_nudge_02",
+    "kostyan_scene_long_game_01",
+    "kostyan_scene_long_game_02"
+  ],
+  "unknown": []
+}

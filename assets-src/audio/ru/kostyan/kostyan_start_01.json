@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_start_01",
+  "text": "Погнали!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "5e5de9b2b10d5b74fa2e72097a248644b5facdd8b964e5fd1ff0d396d57ed9b2",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 0.79
+}

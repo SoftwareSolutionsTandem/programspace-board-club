@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_hmm_02",
+  "text": "Так, а если сюда…",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "9439d8fcff2d8d0c1cdb7e3cd06b964b4f9c871c30615030e73f4ee6009ce6b4",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.3
+}

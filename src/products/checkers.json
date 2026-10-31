@@ -1,5 +1,5 @@
 {
-  "$comment": "Самостоятельные «Шашки» (русские) с Костяном. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голоса Костяна ещё нет: папки audio/ru/kostyan в составе нет, реплики молчат (docs/voice/kostyan-script.md).",
+  "$comment": "Самостоятельные «Шашки» (русские) с Костяном. Иконка пока общая с «Игротекой» — временно, до утверждения собственной (docs/ARCHITECTURE.md §8). Голос Костяна — записи из архива владельца audio_checkers.zip (docs/AUDIO.md §21, D66).",
   "id": "checkers",
   "version": "0.1.0",
   "strings": {
@@ -7,8 +7,17 @@
     "start.subtitle": "Русские шашки с Костяном"
   },
   "storageKey": "checkers.settings",
-  "games": ["checkers"],
-  "characters": ["kostyan"],
-  "publicAssets": [],
-  "icon": { "file": "public/favicon.svg", "status": "temporary" }
+  "games": [
+    "checkers"
+  ],
+  "characters": [
+    "kostyan"
+  ],
+  "publicAssets": [
+    "audio/ru/kostyan"
+  ],
+  "icon": {
+    "file": "public/favicon.svg",
+    "status": "temporary"
+  }
 }

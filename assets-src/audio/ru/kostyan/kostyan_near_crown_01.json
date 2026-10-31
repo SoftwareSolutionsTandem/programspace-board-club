@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_near_crown_01",
+  "text": "Ещё шаг — и дамка.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "38d42972f732bb9b5317cbc8a849b40bb547ee1c7f38f003a97da08c652a9148",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.51
+}

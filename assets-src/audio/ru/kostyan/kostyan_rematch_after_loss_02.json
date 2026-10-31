@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_rematch_after_loss_02",
+  "text": "Давай ещё! Хочу отыграться.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "9f8a40f6266ec88f507c54b198fee73182d250a7f29aad2a65b1514d8515c20d",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.6
+}

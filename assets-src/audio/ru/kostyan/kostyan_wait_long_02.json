@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_long_02",
+  "text": "Я уже успел зевнуть… Ходи давай!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "ea4fde117367d8dddefa2e7f008974fa295a14887c5037dd9388062e6a48d5bb",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.55
+}

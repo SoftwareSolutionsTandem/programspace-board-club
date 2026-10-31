@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_rematch_02",
+  "text": "Реванш? Давай!",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "c1672007eb4688b10f2bc6ad8280f165dc15719b6de2bf2ef749ade1b65676ec",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.26
+}

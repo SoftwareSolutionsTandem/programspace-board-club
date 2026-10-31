@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_player_multi_capture_03",
+  "text": "Ух, серия у тебя! Красиво.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "9485055d0633388939f6c45f0832f81cc3225a7a5750a28e4968e2287bc462ed",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 3.35
+}

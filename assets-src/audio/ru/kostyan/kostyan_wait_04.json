@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_wait_04",
+  "text": "Ход за тобой, если что.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "51e8748fd2e628b8e867ba2ed9aa9db1a9ef2ae432a6f3115729d782c9042c42",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 1.95
+}

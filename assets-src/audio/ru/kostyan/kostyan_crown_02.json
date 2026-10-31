@@ -1,0 +1,14 @@
+{
+  "id": "kostyan_crown_02",
+  "text": "А вот и дамка. Теперь берегись.",
+  "source": "озвучка, переданная владельцем проекта (архив audio_checkers.zip)",
+  "providedAt": "2026-10-31",
+  "approvedBy": null,
+  "approvedAt": null,
+  "archive": "audio_checkers.zip",
+  "sha256": "0b2c9e99163f8ee100d148e2bc561bb20c4dee29e70b49c4b6470c4ca1379102",
+  "sampleRate": 44100,
+  "channels": 1,
+  "bitsPerSample": 16,
+  "durationSec": 2.83
+}

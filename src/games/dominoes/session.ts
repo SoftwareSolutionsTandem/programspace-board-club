@@ -5,7 +5,7 @@ import { button, el, iconButton, ICONS, placeChalk } from '../../app/dom';
 import type { GameAssets, GameSession, SessionHost, SessionOptions } from '../../app/game';
 import type { SfxName } from '../../audio/engine';
 import { VoiceChannel } from '../../audio/voiceChannel';
-import { Director, type Cue, type Trigger } from '../../characters/director';
+import { Director, voiceMemory, type Cue, type Trigger } from '../../characters/director';
 import { CharacterLife, moodOf, PlayTempo } from '../../characters/life';
 import { MATVEY_LINES } from '../../characters/matvey/lines';
 import { createRng, nextInt, type RngState } from '../../core/rng';
@@ -86,7 +86,7 @@ export class DominoSession implements GameSession {
     });
     this.voice = new VoiceChannel(host.audio, () => host.now());
     // Матвей неразговорчив: паузы между репликами длиннее, чем у Агаты.
-    this.director = new Director({ lines: MATVEY_LINES, minGapMs: 9000, lineCooldownMs: 120_000, gestureGapMs: 7000, available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
+    this.director = new Director({ lines: MATVEY_LINES, minGapMs: 9000, lineCooldownMs: 120_000, gestureGapMs: 7000, memory: voiceMemory('matvey'), available: (id) => host.audio.hasLine(id) && !this.voice.isUnavailable(id) }, createRng(opts.seed + 23));
     // «Своя жизнь» в паузах: сценки, пока игрок думает (src/characters/life.ts).
     this.tempo = new PlayTempo(host.now());
     this.life = new CharacterLife(this.scene.rig, this.scene.rig.scenes, createRng(opts.seed + 41), host.now(), (category, emotion) => this.sayIdle(category, emotion));
@@ -177,9 +177,9 @@ export class DominoSession implements GameSession {
     this.scene.reset(this.view());
     this.refresh();
     const s = this.host.settings();
-    this.cue({ category: s.metMatvey ? 'greetAgain' : 'greetFirst', emotion: 'warm', priority: 'greeting', chance: 1 });
+    this.cue({ category: s.metMatvey ? 'greetAgain' : 'greetFirst', emotion: 'warm', priority: 'greeting', chance: 1, mustSpeak: true });
     if (!s.metMatvey) this.host.updateSettings({ metMatvey: true });
-    this.soon(() => this.cue({ category: 'gameStart', emotion: 'think', priority: 'reaction', chance: 0.6 }), 2800);
+    if (!this.coach) this.afterVoice(() => this.cue({ category: 'gameStart', emotion: 'think', priority: 'reaction', chance: 0.6, followUp: true }), 1200);
     this.host.audio.sfx('shuffle');
     this.busy = false;
     this.advance();
@@ -578,6 +578,24 @@ export class DominoSession implements GameSession {
   }
 
   // ---------- пауза и таймеры ----------
+
+  /**
+   * Продолжение только что сказанного (например, «раздаю» после приветствия): не раньше ms, когда голос замолчал
+   * (ждём не дольше 6 с), и только если за это время персонаж ничего другого не сказал.
+   */
+  private afterVoice(fn: () => void, ms: number): void {
+    const said = this.voiceLog.length;
+    const until = this.host.now() + ms + 6000;
+    const tick = () => {
+      if (this.disposed || this.paused) return;
+      if (this.voice.speaking && this.host.now() < until) {
+        setTimeout(tick, 250);
+        return;
+      }
+      if (this.voiceLog.length === said) fn();
+    };
+    setTimeout(tick, ms);
+  }
 
   private soon(fn: () => void, ms: number): void {
     setTimeout(() => {

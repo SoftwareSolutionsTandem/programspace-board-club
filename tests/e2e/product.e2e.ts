@@ -1,16 +1,13 @@
 import { expect, test } from '@playwright/test';
 import { collectErrors, noErrors, playThroughUi, probe, seedSettings, sitAtTable } from './helpers';
 
-const NO_VOICE = (gen: string) => `Записи голоса ${gen} ещё не добавлены в игру: персонаж пока реагирует мимикой и жестами.`;
-
 // Паспорт продукта (src/products/<id>.json) на настоящей сборке: название, подзаголовок, свой ключ настроек, голос.
 const PASSPORT = {
-  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 109', 'Голос Деда Матвея: записано реплик — 81 из 112', 'Голос Харитона: записано реплик — 130 из 163', NO_VOICE('Костяна')] },
-  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voices: ['Голос Агаты: записано реплик — 71 из 109'] },
-  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voices: ['Голос Деда Матвея: записано реплик — 81 из 112'] },
-  // Голоса Харитона и Костяна ещё не записаны: настройки честно говорят, что записей нет.
+  igroteka: { title: 'Игротека', subtitle: 'Клуб-кафе классических игр', key: 'igroteka.settings', otherKey: 'durak.settings', voices: ['Голос Агаты: записано реплик — 71 из 134', 'Голос Деда Матвея: записано реплик — 81 из 126', 'Голос Харитона: записано реплик — 130 из 163', 'Голос Костяна: записано реплик — 130 из 159'] },
+  durak: { title: 'Подкидной дурак', subtitle: 'Карточная игра с Бабушкой Агатой', key: 'durak.settings', otherKey: 'igroteka.settings', voices: ['Голос Агаты: записано реплик — 71 из 134'] },
+  dominoes: { title: 'Домино', subtitle: '«Козла» забиваем с Дедом Матвеем', key: 'dominoes.settings', otherKey: 'igroteka.settings', voices: ['Голос Деда Матвея: записано реплик — 81 из 126'] },
   chess: { title: 'Шахматы', subtitle: 'Партия с профессором Харитоном', key: 'chess.settings', otherKey: 'igroteka.settings', voices: ['Голос Харитона: записано реплик — 130 из 163'] },
-  checkers: { title: 'Шашки', subtitle: 'Русские шашки с Костяном', key: 'checkers.settings', otherKey: 'igroteka.settings', voices: [NO_VOICE('Костяна')] },
+  checkers: { title: 'Шашки', subtitle: 'Русские шашки с Костяном', key: 'checkers.settings', otherKey: 'igroteka.settings', voices: ['Голос Костяна: записано реплик — 130 из 159'] },
 } as const;
 const productOf = () => test.info().project.metadata.product as keyof typeof PASSPORT;
 
