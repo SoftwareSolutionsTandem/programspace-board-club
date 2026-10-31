@@ -20,7 +20,7 @@ export function puppetParts(art: PuppetArt): PartSpec[] {
     art.torso, h.bun, h.back, ...(h.earrings ?? []), h.face, h.blush, h.details, h.glasses, h.bangs,
     ...EYE_STYLES.map((s) => h.eyes[s]), h.pupil, h.pupilStar,
     ...(Object.values(h.extras) as PartSpec[]),
-    art.hand, art.handFist, art.cuff,
+    art.hand, art.handFist, art.cuff, ...(art.shoulderCaps ?? []),
     ...Object.values(art.props ?? {}),
   ].filter((p): p is PartSpec => !!p);
 }

@@ -3,6 +3,7 @@
 // с завязками, наушники на шее, нашивка-корона дамки на груди. Никаких «блатных» атрибутов.
 // Те же единицы рига, что у Агаты и Матвея (docs/ART_STYLE.md §5). Модуль строит SVG-строки и не зависит от DOM.
 import type { CharacterArt } from '../art';
+import { handSvg, type HandStyle } from '../hands';
 import type { Emotion, Pose } from '../types';
 
 export interface Expr {
@@ -203,13 +204,9 @@ function tube(d: string, w = 32, fill = C.hoodie): string {
   <path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
 
-const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(-1 ${mirror ? -1 : 1})">
-  <ellipse rx="17" ry="14" fill="${C.skin}" ${ol(3.4)}/>
-  ${fist
-    ? `<path d="M-10 -6 q4 -4 8 0 M-2 -6 q4 -4 8 0 M6 -6 q3 -3 6 1" fill="none" ${ol(2.2)}/>`
-    : `<path d="M-12 -3 q4 -3 8 0 M-3 -4 q4 -3 8 0 M6 -3 q3 -2 6 1" fill="none" ${ol(2)} opacity="0.5"/>`}
-  <ellipse cx="-15" cy="-4" rx="6" ry="8.5" fill="${C.skin}" ${ol(2.8)}/>
-  </g>`;
+/** Кисть по единому стандарту (src/characters/hands.ts). Молодая кисть: ровная, плотные пальцы без складок. fist — кулак; mirror — правая рука. */
+export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#FCE0C8', line: 3.2, palm: { cx: -3, rx: 12.5, ry: 11 }, fingers: { base: 6, len: [14, 15, 14, 12], w: 6.4, gap: 5.6, droop: 2.5 }, thumb: { len: 11, w: 6.6 }, knuckles: 'none', nails: '#FBE1CC' };
+const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(1 ${mirror ? -1 : 1})">${handSvg(HAND, fist)}</g>`;
 /** Манжета худи в рубчик. */
 const cuff = (x: number, y: number, rot = 0): string => `<g transform="rotate(${rot} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="17" ry="8" fill="${C.hoodieSh}" ${ol(3)}/>
   <path d="M${x - 9} ${y - 5} v10 M${x - 3} ${y - 6} v12 M${x + 3} ${y - 6} v12 M${x + 9} ${y - 5} v10" stroke="${C.hoodie}" stroke-width="2"/></g>`;

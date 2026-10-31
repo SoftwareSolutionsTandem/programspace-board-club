@@ -79,6 +79,33 @@ export function phoneBackSvg(outline: string, body: string, accent: string): str
   <path d="M-10 -12 Q-11 0 -10 14" fill="none" stroke="#5B6270" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>`;
 }
 
+/**
+ * Телефон в руке экраном к себе (ART-REV): зрителю видна задняя крышка в лёгком ракурсе (верх чуть дальше — уже),
+ * камера в углу, а по верхнему краю — отсвет экрана, который смотрит на персонажа. Пальцы держат корпус поверх него.
+ */
+export function phoneLookSvg(outline: string, body: string, bodySh: string, glow: string, accent: string): string {
+  return `<path d="M-13 -21 Q-13 -24 -10 -24 L10 -24 Q13 -24 13 -21 L15 20 Q15 24 11 24 L-11 24 Q-15 24 -15 20 Z" fill="${glow}" opacity="0.55" transform="translate(0 -2.5) scale(1.12 1.02)"/>
+  <path d="M-12 -21 Q-12 -24 -9 -24 L9 -24 Q12 -24 12 -21 L14 20 Q14 23 11 23 L-11 23 Q-14 23 -14 20 Z" fill="${body}" ${ol(outline)}/>
+  <path d="M-11 18 L11 18 L11.6 21 Q11.4 22.6 10 22.6 L-10 22.6 Q-11.4 22.6 -11.6 21 Z" fill="${bodySh}"/>
+  <rect x="-8.5" y="-20" width="9" height="11" rx="2.6" fill="#1E2029" ${ol(outline, 1.4)}/>
+  <circle cx="-4" cy="-17" r="2.2" fill="#5B6270"/><circle cx="-4" cy="-12" r="1.9" fill="#5B6270"/>
+  <circle cx="4" cy="-17" r="1.3" fill="#F4E6A8"/>
+  <path d="M-6 6 L6 6" stroke="${accent}" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M-9 -8 Q-10 4 -9.5 14" fill="none" stroke="#6B7384" stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>`;
+}
+
+/**
+ * Записная книжка в ракурсе (ART-REV): раскрыта и лежит почти плашмя перед грудью, страницами вверх — зритель видит их
+ * сильно сокращёнными (ближний край шире), а пишущий карандаш стоит над страницей и касается её грифелем.
+ */
+export function notebookFlatSvg(outline: string, cover: string, page: string, ink: string): string {
+  return `<path d="M-31 9 L-25 -9 L0 -7 L25 -9 L31 9 L0 12 Z" fill="${cover}" ${ol(outline)}/>
+  <path d="M-27 7 L-22.5 -6.5 L-1 -4.8 L-1 9.6 Z M27 7 L22.5 -6.5 L1 -4.8 L1 9.6 Z" fill="${page}"/>
+  <path d="M-21 -2.4 L-5 -1.4 M-22.4 1.2 L-5 2.2 M-23.6 4.6 L-10 5.6 M5 -1.4 L20 -2.4 M5 2.2 L18 1.4" stroke="${ink}" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M0 -6.6 L0 11.6" stroke="${outline}" stroke-width="2"/>
+  <path d="M-30 9 L0 12 L30 9" fill="none" stroke="${outline}" stroke-width="1.2" opacity="0.5" transform="translate(0 1.6)"/>`;
+}
+
 // ---------- реквизит второго этапа (LIFE-2, D65) ----------
 
 /** Вязание: две спицы крест-накрест и полоска вязаного полотна с рядами «косичек». */

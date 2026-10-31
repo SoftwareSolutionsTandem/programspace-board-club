@@ -2,6 +2,7 @@
 // Строит SVG-строки слоёв рига в тех же единицах, что у Агаты (docs/ART_STYLE.md §5): тело, голова по эмоциям,
 // рот вместе с усами, веки, руки по позам за столом домино. Модуль не зависит от DOM.
 import type { CharacterArt } from '../art';
+import { handSvg, type HandStyle } from '../hands';
 import type { Emotion, Pose } from '../types';
 
 export interface Expr {
@@ -251,14 +252,9 @@ function tube(d: string, w = 26, fill = C.jacket): string {
   <path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
 
-/** Худая кисть с костяшками; fist — сжатый кулак. */
-const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(-1 ${mirror ? -1 : 1})">
-  <ellipse rx="17" ry="14" fill="${C.skin}" ${ol(3.4)}/>
-  ${fist
-    ? `<path d="M-10 -6 q4 -4 8 0 M-2 -6 q4 -4 8 0 M6 -6 q3 -3 6 1" fill="none" ${ol(2.2)}/>`
-    : `<path d="M-12 -3 q4 -3 8 0 M-3 -4 q4 -3 8 0 M6 -3 q3 -2 6 1" fill="none" ${ol(2)} opacity="0.6"/>`}
-  <ellipse cx="-15" cy="-4" rx="6" ry="8" fill="${C.skin}" ${ol(2.8)}/>
-  </g>`;
+/** Кисть по единому стандарту (src/characters/hands.ts). Худая натруженная кисть: длинные пальцы, выпуклые суставы. fist — кулак; mirror — правая рука. */
+export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#F9DCC2', line: 3.2, palm: { cx: -3, rx: 12, ry: 10.5 }, fingers: { base: 5, len: [16, 17, 16, 13], w: 5.6, gap: 5.3, droop: 2 }, thumb: { len: 12, w: 6 }, knuckles: 'bony', nails: '#F6DCC6' };
+const hand = (x: number, y: number, rot = 0, fist = false, mirror = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(1 ${mirror ? -1 : 1})">${handSvg(HAND, fist)}</g>`;
 const cuff = (x: number, y: number, rot = 0): string => `<ellipse cx="${x}" cy="${y}" rx="15" ry="7" transform="rotate(${rot} ${x} ${y})" fill="${C.shirt}" ${ol(3)}/>`;
 
 /** Значок-костяшка домино на лацкане. */

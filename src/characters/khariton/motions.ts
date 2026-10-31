@@ -99,7 +99,8 @@ const smoothHair: GestureDef = {
   id: 'smoothHair',
   duration: 1700,
   keys: [
-    { at: 0, pose: { lHandX: 140, lHandY: 116, lCtrlX: 86, lCtrlY: 220, lDX: 10, lDY: -12, lHandRot: -120, headRot: 2 }, spring: { arm: { f: 2.6, zeta: 0.8 } } },
+    // Локоть наружу: предплечье идёт вдоль виска, а не по щеке (ART-REV).
+    { at: 0, pose: { lHandX: 140, lHandY: 116, lCtrlX: 66, lCtrlY: 200, lDX: 10, lDY: -12, lHandRot: -120, headRot: 2 }, spring: { arm: { f: 2.6, zeta: 0.8 } } },
     { at: 550, pose: { lHandY: 132, hatY: 2 }, spring: { arm: { f: 3, zeta: 0.85 } } },
     { at: 850, pose: { hatY: -3, hatRot: -2 }, spring: { face: { f: 6, zeta: 0.35 } } },
     { at: 1000, pose: { ...L_REST, headRot: 0, hatY: 0, hatRot: 0 }, spring: { arm: { f: 2.2, zeta: 0.85 } } },

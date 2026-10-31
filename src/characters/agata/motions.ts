@@ -183,6 +183,8 @@ const TOOK: StateDef = {
 const ARMS_UP: Pose = {
   lHandX: 96, lHandY: 108, lCtrlX: 74, lCtrlY: 190, lDX: 0, lDY: -8, lHandRot: 160,
   rHandX: 324, rHandY: 108, rCtrlX: 346, rCtrlY: 190, rDX: 0, rDY: -8, rHandRot: 20,
+  // Ликует кулаками (ART-REV: у Агаты появился кулак по стандарту кистей).
+  lFist: 1, rFist: 1,
 };
 const victoryBurst: GestureDef = {
   id: 'victoryBurst',

@@ -13,7 +13,7 @@ const only = (p: Pose, keys: readonly (keyof Pose)[]): Pose => Object.fromEntrie
 
 /** Правая кисть у кармана худи — там телефон. */
 const R_POCKET: Pose = { rHandX: 248, rHandY: 360, rCtrlX: 318, rCtrlY: 350, rDX: -10, rDY: 2, rHandRot: -160 };
-/** Телефон перед грудью, экран к себе. */
+/** Телефон перед грудью, экран к себе: зрителю видна задняя крышка (реквизит phoneLook). */
 const R_PHONE: Pose = { rHandX: 236, rHandY: 282, rCtrlX: 322, rCtrlY: 330, rDX: -12, rDY: -8, rHandRot: -170 };
 
 export function kostyanScenes(rest: Pose): SceneDef[] {
@@ -27,7 +27,7 @@ export function kostyanScenes(rest: Pose): SceneDef[] {
     duration: 6400,
     keys: [
       { at: 0, pose: { ...R_POCKET, gazeX: 0.2, gazeY: 0.8 }, spring: { arm: brisk } },
-      { at: 450, pose: { rHandY: 352 }, props: { r: 'phone' } },
+      { at: 450, pose: { rHandY: 352 }, props: { r: 'phoneLook' } },
       { at: 650, pose: { ...R_PHONE, headY: 3, headRot: 2, gazeX: 0.15, gazeY: 0.95 }, emotion: 'think', spring: { arm: brisk } },
       scroll(1200, -164), scroll(1400, -172), scroll(1700, -163), scroll(1900, -172), scroll(2200, -164), scroll(2400, -171),
       // Смешное: брови вверх, смешок.
@@ -50,14 +50,14 @@ export function kostyanScenes(rest: Pose): SceneDef[] {
     duration: 6000,
     keys: [
       { at: 0, pose: { ...R_POCKET, gazeY: 0.7 }, spring: { arm: brisk } },
-      { at: 450, pose: { rHandY: 352 }, props: { r: 'phone' } },
+      { at: 450, pose: { rHandY: 352 }, props: { r: 'phoneLook' } },
       { at: 700, props: { r: 'phoneBack' }, pose: { rHandX: 334, rHandY: 132, rCtrlX: 352, rCtrlY: 230, rDX: -4, rDY: -14, rHandRot: -120, headRot: -6, headX: 2, gazeX: 0.55, gazeY: -0.5, torsoRot: -1.5 }, emotion: 'sly', spring: { arm: { f: 2.8, zeta: 0.78 }, head: brisk } },
       { at: 1300, pose: { headRot: -8 }, eyes: 'happy', emotion: 'laugh' },
       { at: 1700, pose: {}, waitSpeech: true },
       // Щёлк: короткое моргание вспышки — кисть дёрнулась.
       { at: 1900, pose: { rHandY: 138 }, eyes: 'closed', spring: { arm: quick } },
       { at: 2050, pose: { rHandY: 132 }, eyes: 'happy' },
-      { at: 2400, props: { r: 'phone' }, pose: { ...R_PHONE, headRot: 0, headX: 0, gazeX: 0.15, gazeY: 0.95, torsoRot: 0 }, eyes: null, emotion: 'think', spring: { arm: brisk, head: brisk } },
+      { at: 2400, props: { r: 'phoneLook' }, pose: { ...R_PHONE, headRot: 0, headX: 0, gazeX: 0.15, gazeY: 0.95, torsoRot: 0 }, eyes: null, emotion: 'think', spring: { arm: brisk, head: brisk } },
       { at: 3100, pose: { headY: 1 }, emotion: 'sly' },
       { at: 3500, pose: { ...R_POCKET, headY: 0, gazeX: 0, gazeY: 0.3 }, spring: { arm: brisk } },
       { at: 3900, pose: { rHandY: 368 }, props: { r: null } },
@@ -196,7 +196,7 @@ export function kostyanScenes(rest: Pose): SceneDef[] {
     keys: [
       { at: 0, pose: { torsoY: -1.5, headRot: 3, gazeX: 0.3, gazeY: 0.9 }, eyes: 'wide', emotion: 'surprise', spring: { body: quick, head: brisk } },
       { at: 300, pose: { torsoY: 0, ...R_POCKET }, eyes: null, spring: { body: brisk, arm: brisk } },
-      { at: 700, pose: { rHandY: 352 }, props: { r: 'phone' } },
+      { at: 700, pose: { rHandY: 352 }, props: { r: 'phoneLook' } },
       { at: 950, pose: { ...R_PHONE, headY: 3, headRot: 2, gazeX: 0.15, gazeY: 0.95 }, emotion: 'think', spring: { arm: brisk } },
       // Мама. Краснеет, отвечает быстро.
       { at: 1700, pose: { blush: 0.9, browLI: -8, browLO: 6, browRI: -8, browRO: 6 }, emotion: 'warm' },

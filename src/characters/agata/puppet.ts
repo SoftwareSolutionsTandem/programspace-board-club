@@ -50,9 +50,16 @@ export const AGATA_PUPPET: PuppetArt = {
   lid: { halfW: 16, top: 24, line: 3.4, skin: hex(P.colors.skin), outline: hex(P.colors.outline) },
   brow: { dy: -40, halfW: 15, width: 6.5, color: hex(P.colors.hairSh), line: 1.6, lineAlpha: 0.55, outline: hex(P.colors.outline) },
   shoulders: [{ x: 132, y: 256 }, { x: 288, y: 256 }],
+  shoulderCaps: [part('shawlCapL', { x: 90, y: 194, w: 76, h: 104 }, () => P.shawlCap(0)), part('shawlCapR', { x: 254, y: 194, w: 76, h: 104 }, () => P.shawlCap(1))],
   sleeve: { width: P.sleeve.width, outline: P.sleeve.outline, fill: hex(P.sleeve.fill), line: hex(P.sleeve.line) },
-  hand: part('hand', { x: -28, y: -28, w: 56, h: 56 }, () => P.hand(19)),
+  hand: part('hand', { x: -40, y: -40, w: 80, h: 80 }, () => P.hand(19)),
+  handFist: part('fist', { x: -40, y: -40, w: 80, h: 80 }, () => P.fist(19)),
   handR: 19,
+  // Кисть — по единому стандарту (с пальцами и направлением). Движения Агаты сделаны под круглую кисть, углы кисти
+  // в них произвольны (правая — почти наоборот к предплечью): кисть идёт по предплечью, сгиб запястья — до 45°;
+  // в покое правая кисть повёрнута к середине стола (иначе свисала бы пальцами за край).
+  mirrorHandR: true,
+  handAlongArm: { limit: 45, bend: [0, 40] },
   cuff: part('cuff', { x: -20, y: -11, w: 40, h: 22 }, P.cuff),
   fanOffset: { x: -4, y: -46 },
   heldCard: { x: -4, y: -18, rot: -12 },

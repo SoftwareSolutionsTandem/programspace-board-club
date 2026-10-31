@@ -3,6 +3,7 @@
 // фон кафе — src/render/cafe.ts.
 // Модуль не зависит от DOM: SVG превращается в текстуры в src/render/svgTexture.ts.
 import type { CharacterArt } from '../art';
+import { handSvg, type HandStyle } from '../hands';
 import type { Emotion, Pose } from '../types';
 
 type Palette = typeof BASE;
@@ -229,17 +230,18 @@ export const EXPR: Record<Emotion, Expr> = {
 
 // ---------- тело ----------
 const DRESS = 'M128 222 C94 290 56 420 64 516 Q210 552 356 516 C364 420 326 290 292 222 Z';
-const SHAWL = 'M108 238 C148 204 272 204 312 238 L304 266 C272 304 240 352 210 394 C180 352 148 304 116 266 Z';
+// Верх шали — по плечам, выше и шире верха платья (DRESS): платье у шеи и на плечах из-под шали не выступает;
+// углы на плечах скруглены — шаль стекает на руки, а не торчит «эполетами» (ART-REV).
+const SHAWL = 'M114 266 Q102 254 106 238 C126 210 168 202 210 202 C252 202 294 210 314 238 Q318 254 306 266 C272 304 240 352 210 394 C180 352 148 304 116 266 Z';
 
 function tube(d: string, w = 30, fill = C.dress): string {
   return `<path d="${d}" fill="none" stroke="${C.outline}" stroke-width="${w + 8}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
-const hand = (x: number, y: number, r = 18, rot = 0): string => `<g transform="translate(${x} ${y}) rotate(${rot})">
-  <circle r="${r}" fill="${C.skin}" ${ol(3.6)}/>
-  <path d="M${-r * 0.5} ${-r * 0.2} q${r * 0.5} ${-r * 0.35} ${r * 0.95} 0" fill="none" ${ol(2.4)} opacity="0.55"/>
-  <ellipse cx="${-r * 0.85}" cy="${-r * 0.35}" rx="${r * 0.38}" ry="${r * 0.5}" fill="${C.skin}" ${ol(3)}/>
-  </g>`;
+/** Кисть по единому стандарту (src/characters/hands.ts). Кисть пожилой женщины: мягкая, пухлая ладонь, короткие округлые пальцы, складки на костяшках, тонкое колечко. */
+export const HAND: HandStyle = { outline: C.outline, skin: C.skin, skinSh: C.skinSh, skinHi: '#FFE6D2', line: 3.2, palm: { cx: -1, rx: 10.5, ry: 10.5 }, fingers: { base: 6, len: [12, 13, 12, 10], w: 6, gap: 5.4, droop: 2.5 }, thumb: { len: 9.5, w: 6.4 }, knuckles: 'soft', nails: '#FBE3D6', ring: '#E2B33C', shift: 5 };
+/** r — прежний «радиус» кисти (19 — обычный размер); mirror — правая рука (большой палец снизу до поворота). */
+const hand = (x: number, y: number, r = 19, rot = 0, mirror = false, fist = false): string => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${r / 19} ${(mirror ? -1 : 1) * r / 19})">${handSvg(HAND, fist)}</g>`;
 const cuff = (x: number, y: number, rot = 0): string => `<ellipse cx="${x}" cy="${y}" rx="17" ry="8" transform="rotate(${rot} ${x} ${y})" fill="${C.shawl}" ${ol(3)}/>`;
 
 /** Бахрома шали: пряди вдоль нижних краёв — начало и вектор пряди (единицы рига). */
@@ -268,6 +270,29 @@ function shawlDecor(withFringe = true): string {
   return `<path d="${f}" stroke="${C.shawlSh}" stroke-width="3.2" stroke-linecap="round"/>` + s;
 }
 
+/** Шаль целиком (заливка, узор, контур, складки) — для тела и для накладок на плечи. */
+function shawlLayer(id: string, withFringe: boolean): string {
+  return `<clipPath id="${id}-shawl"><path d="${SHAWL}"/></clipPath>
+  <path d="${SHAWL}" fill="${C.shawlSh}"/>
+  <g clip-path="url(#${id}-shawl)"><ellipse cx="196" cy="260" rx="112" ry="120" fill="${C.shawl}"/></g>
+  ${shawlDecor(withFringe)}
+  <path d="${SHAWL}" fill="none" ${ol()}/>
+  <path d="M168 240 Q176 290 198 330 M252 240 Q244 290 222 330" fill="none" stroke="${C.shawlSh}" stroke-width="3.4" stroke-linecap="round"/>`;
+}
+
+/**
+ * Накладка шали на плечо (ART-REV): та же шаль, вырезанная по плечу, поверх начала рукава — рука выходит из-под шали,
+ * как у настоящей шали на плечах. Внутренняя граница выреза — складка ткани (линия тени), а не шов.
+ * side: 0 — левое плечо фигуры, 1 — правое (зеркально относительно x = 210).
+ */
+export function shawlCapSvg(side: 0 | 1): string {
+  const m = side === 1 ? ' transform="translate(420 0) scale(-1 1)"' : '';
+  const clip = 'M92 196 L156 196 Q144 238 154 282 L92 296 Z';
+  return `<defs><clipPath id="cap${side}"><path d="${clip}"${m}/></clipPath></defs>
+  <g clip-path="url(#cap${side})">${shawlLayer(`cap${side}`, false)}</g>
+  <path d="M155 204 Q145 240 152 280"${m} fill="none" stroke="${C.shawlSh}" stroke-width="3.4" stroke-linecap="round"/>`;
+}
+
 /** Тело; без бахромы — для марионетки: пряди она рисует сама и качает их. */
 function body(id: string, withFringe = true): string {
   return `
@@ -285,12 +310,7 @@ function body(id: string, withFringe = true): string {
   </g>
   <path d="${DRESS}" fill="none" ${ol()}/>
   <path d="M70 500 Q210 536 350 500" fill="none" stroke="${C.dot}" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
-  <clipPath id="${id}-shawl"><path d="${SHAWL}"/></clipPath>
-  <path d="${SHAWL}" fill="${C.shawlSh}"/>
-  <g clip-path="url(#${id}-shawl)"><ellipse cx="196" cy="260" rx="112" ry="120" fill="${C.shawl}"/></g>
-  ${shawlDecor(withFringe)}
-  <path d="${SHAWL}" fill="none" ${ol()}/>
-  <path d="M168 240 Q176 290 198 330 M252 240 Q244 290 222 330" fill="none" stroke="${C.shawlSh}" stroke-width="3.4" stroke-linecap="round"/>`;
+  ${shawlLayer(id, withFringe)}`;
 }
 
 
@@ -426,8 +446,10 @@ export const AGATA_PIECES = {
   },
   /** Кисть в начале координат, без поворота. */
   hand: (r = 19): string => hand(0, 0, r, 0),
+  fist: (r = 19): string => hand(0, 0, r, 0, false, true),
   /** Манжета в начале координат, длинная ось — по x. */
   cuff: (): string => cuff(0, 0, 0),
+  shawlCap: shawlCapSvg,
   /** Труба рукава: ширина заливки и цвет — как у tube(). */
   sleeve: { width: 30, outline: 8, fill: C.dress, line: C.outline },
 };

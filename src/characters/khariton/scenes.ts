@@ -96,7 +96,8 @@ export function kharitonScenes(rest: Pose): SceneDef[] {
     id: 'scene:tuft',
     duration: 5400,
     keys: [
-      { at: 0, pose: { lHandX: 156, lHandY: 66, lCtrlX: 86, lCtrlY: 190, lDX: 12, lDY: -14, lHandRot: -150, headRot: 2, gazeY: -0.85 }, spring: { arm: calm } },
+      // Локоть отведён наружу и вверх: рука огибает голову сбоку, а не ложится рукавом на лицо и очки (ART-REV).
+      { at: 0, pose: { lHandX: 156, lHandY: 66, lCtrlX: 44, lCtrlY: 140, lDX: 12, lDY: -14, lHandRot: -150, headRot: 2, gazeY: -0.85 }, spring: { arm: calm } },
       { at: 600, pose: { lHandX: 178, lHandY: 74, hatY: 7, hatRot: 3 }, spring: { arm: { f: 2, zeta: 0.85 }, face: { f: 4, zeta: 0.85 } } },
       { at: 1300, pose: { lHandX: 120, lHandY: 110 }, spring: { arm: { f: 4, zeta: 0.7 } } },
       // Отпустил — хохолок выстреливает вверх и долго качается.

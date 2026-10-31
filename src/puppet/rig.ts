@@ -49,6 +49,9 @@ export class PuppetRig {
   private art: PuppetArt | null = null;
   // Корпус и голова.
   private readonly torsoC = new Container();
+  /** Накладки одежды на плечи (PuppetArt.shoulderCaps): двигаются как корпус, лежат над началом рукава. */
+  private readonly capC: [Container, Container] = [new Container(), new Container()];
+  private readonly caps: [Sprite, Sprite] = [new Sprite(), new Sprite()];
   private readonly torso = new Sprite();
   /** Бахрома шали — рисуется каждый кадр, качается на пружине. */
   private readonly fringe = new Graphics();
@@ -113,7 +116,8 @@ export class PuppetRig {
     this.head.addChild(this.bunC, this.hair, ...this.earC, this.face, this.blush, this.details, ...this.eyeS, ...this.pupils, this.lids, this.glasses, this.mouth, this.brows, this.bangsC);
     this.back.addChild(this.torsoC, this.head);
     // Левая рука держит веер (кисть поверх карт); правая — поверх всего: тянется к вееру за картой.
-    this.front.addChild(this.armL, this.cuffL, this.fan, this.handL, this.armR, this.cuffR, this.held, this.releaseLayer, this.handR, this.joints);
+    this.capC.forEach((c, i) => c.addChild(this.caps[i]!));
+    this.front.addChild(this.armL, this.capC[0], this.cuffL, this.fan, this.handL, this.armR, this.capC[1], this.cuffR, this.held, this.releaseLayer, this.handR, this.joints);
     this.front.addChild(...this.props);
     for (const s of [...this.pupils, ...this.eyeS, this.handL, this.handR, this.cuffL, this.cuffR, this.held, ...this.props]) s.anchor.set(0.5);
     for (const s of this.props) {
@@ -153,6 +157,15 @@ export class PuppetRig {
     this.torso.texture = tex(art.torso);
     placeSprite(this.torso, art.torso.box);
     this.torsoC.pivot.set(art.hip.x, art.hip.y);
+    this.capC.forEach((c, i) => {
+      const cap = art.shoulderCaps?.[i];
+      c.visible = !!cap;
+      c.pivot.set(art.hip.x, art.hip.y);
+      if (cap) {
+        this.caps[i]!.texture = tex(cap);
+        placeSprite(this.caps[i]!, cap.box);
+      }
+    });
     this.head.pivot.set(art.headPivot.x, art.headPivot.y);
     // Части головы — в своих областях (координаты головы).
     for (const [s, p] of [[this.hair, h.back], [this.face, h.face], [this.blush, h.blush], [this.details, h.details]] as const) {
@@ -459,6 +472,20 @@ export class PuppetRig {
     this.torsoC.position.set(art.hip.x + v.torsoX, art.hip.y + v.torsoY);
     this.torsoC.rotation = v.torsoRot * DEG;
     this.torsoC.scale.y = 1 + b.breath;
+    // Накладка на плечо видна, пока кисть ниже плеча: рука висит или лежит — рукав выходит из-под шали. Поднятая к лицу
+    // или вверх рука идёт поверх шали (иначе из-под накладки торчал бы клин рукава).
+    this.capC.forEach((c, i) => {
+      c.position.copyFrom(this.torsoC.position);
+      c.rotation = this.torsoC.rotation;
+      c.scale.y = this.torsoC.scale.y;
+      if (!art.shoulderCaps) return;
+      const sh = this.torsoPoint(art.shoulders[i]!);
+      const hy = i === 0 ? v.lHandY : v.rHandY;
+      // Порог с переходом 120 мс (как у реквизита): в позе накладка либо есть, либо нет — без полупрозрачности.
+      const target = hy > sh.y + 34 ? 1 : 0;
+      c.alpha = b.reduced ? target : clamp(c.alpha + Math.sign(target - c.alpha) * (dtMs / 120), 0, 1);
+      c.visible = c.alpha > 0.01;
+    });
     // Голова на шее.
     const neck = this.torsoPoint(art.neck);
     this.head.position.set(neck.x + v.headX, neck.y + v.headY);
@@ -473,7 +500,9 @@ export class PuppetRig {
     this.earC[1].rotation = clamp(b.earR, -40, 40) * DEG;
     this.blush.alpha = clamp(v.blush, 0, 1);
     // Очки сняты — их держит рука (реквизит), на лице их нет.
-    if (art.head.glasses) this.glasses.visible = v.glassesOff < 0.5;
+    // Очки в руке (реквизит glasses) — значит, на лице их нет: канал glassesOff пружинный и доходит до порога позже,
+    // чем появляется предмет, — без этой проверки несколько кадров видны двое очков (ART-REV).
+    if (art.head.glasses) this.glasses.visible = v.glassesOff < 0.5 && b.propL !== 'glasses' && b.propR !== 'glasses';
     // Рот: при речи — по уровню голоса (форма держится, между слогами губы смыкаются), иначе — форма эмоции.
     const face = this.style.faces[b.currentEmotion];
     const m = this.speech?.step(this.speechLevel, dtMs, face.speechMax) ?? b.mouthOverride ?? art.emotionMouth(b.currentEmotion);
@@ -519,8 +548,12 @@ export class PuppetRig {
       s.visible = s.alpha > 0.01;
     }
     // Руки.
-    this.drawArm(this.armL, this.cuffL, this.handL, art.shoulders[0], v.lHandX, v.lHandY, v.lCtrlX, v.lCtrlY, v.lDX, v.lDY, v.lHandRot);
-    this.drawArm(this.armR, this.cuffR, this.handR, art.shoulders[1], v.rHandX, v.rHandY, v.rCtrlX, v.rCtrlY, v.rDX, v.rDY, v.rHandRot);
+    // Кисть вдоль предплечья (handAlongArm): угол движения относительно покоя — сгиб запястья в пределе.
+    const along = art.handAlongArm;
+    const wristL = along === undefined ? null : along.bend[0] + clamp(v.lHandRot - rest.lHandRot, -along.limit, along.limit);
+    const wristR = along === undefined ? null : along.bend[1] + clamp(v.rHandRot - rest.rHandRot, -along.limit, along.limit);
+    this.drawArm(this.armL, this.cuffL, this.handL, art.shoulders[0], v.lHandX, v.lHandY, v.lCtrlX, v.lCtrlY, v.lDX, v.lDY, v.lHandRot, wristL);
+    this.drawArm(this.armR, this.cuffR, this.handR, art.shoulders[1], v.rHandX, v.rHandY, v.rCtrlX, v.rCtrlY, v.rDX, v.rDY, v.rHandRot, wristR);
     // Кулак — своя кисть, если она есть в рисунке.
     const handTex = bank.parts.get(art.hand.key)!;
     const fistTex = art.handFist ? bank.parts.get(art.handFist.key)! : handTex;
@@ -636,7 +669,7 @@ export class PuppetRig {
   }
 
   /** Рукав от плеча через изгиб к запястью (квадратичная кривая, как tube() в рисунке), манжета и кисть. */
-  private drawArm(g: Graphics, cuff: Sprite, hand: Sprite, shoulder: Point, ex: number, ey: number, cx: number, cy: number, hdx: number, hdy: number, rot: number): void {
+  private drawArm(g: Graphics, cuff: Sprite, hand: Sprite, shoulder: Point, ex: number, ey: number, cx: number, cy: number, hdx: number, hdy: number, rot: number, wrist: number | null = null): void {
     const art = this.art!;
     const s = this.torsoPoint(shoulder);
     // Изгиб следует за плечом наполовину: корпус наклоняется — локоть сдвигается вместе с ним.
@@ -651,7 +684,8 @@ export class PuppetRig {
     cuff.position.set(ex - ux * 5, ey - uy * 5);
     cuff.rotation = Math.atan2(uy, ux) + Math.PI / 2;
     hand.position.set(ex + hdx, ey + hdy);
-    hand.rotation = rot * DEG;
+    // По предплечью (от изгиба к запястью) плюс сгиб запястья — или угол движения как есть.
+    hand.rotation = wrist === null ? rot * DEG : Math.atan2(uy, ux) + wrist * DEG;
   }
 
   /** Веки — по геометрии рисунка (art.ts, eye() → lid()), с морганием поверх. */

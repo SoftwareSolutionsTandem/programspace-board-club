@@ -275,7 +275,8 @@ export function agataScenes(rest: Pose): SceneDef[] {
     duration: 6600,
     keys: [
       { at: 0, pose: { rHandX: 262, rHandY: 352, rCtrlX: 318, rCtrlY: 352, rDX: -6, rDY: 4, rHandRot: -70, gazeX: 0.2, gazeY: 0.8 }, spring: { arm: soft } },
-      { at: 500, pose: { rHandY: 344 }, props: { r: 'mirror' } },
+      // Зеркальце — в кулаке за ручку (ART-REV): раскрытая кисть с пальцами держала бы его кончиками.
+      { at: 500, pose: { rHandY: 344, rFist: 1 }, props: { r: 'mirror' } },
       { at: 750, pose: { rHandX: 300, rHandY: 214, rCtrlX: 352, rCtrlY: 300, rDX: -6, rDY: -12, rHandRot: -95, gazeX: 0.75, gazeY: 0.1, headRot: 3, headX: 2 }, emotion: 'warm', spring: { arm: { f: 2.6, zeta: 0.8 } } },
       { at: 1300, pose: { headRot: -4, headX: -1, gazeX: 0.85 }, spring: { head: soft } },
       { at: 1800, pose: { headRot: 5, headX: 2, gazeX: 0.7 } },
@@ -283,7 +284,7 @@ export function agataScenes(rest: Pose): SceneDef[] {
       { at: 2300, pose: { headRot: 2, browLI: -8, browRI: -8, blush: 0.9 }, mouth: 'pursed', emotion: 'sly' },
       { at: 2700, pose: {}, mouth: null, waitSpeech: true },
       { at: 3000, pose: { rHandX: 262, rHandY: 352, rCtrlX: 318, rCtrlY: 352, rHandRot: -70, headRot: 0, headX: 0, gazeX: 0.2, gazeY: 0.8, browLI: 2, browRI: 2, blush: 0.55 }, spring: { arm: soft, head: soft } },
-      { at: 3500, pose: { rHandY: 360 }, props: { r: null } },
+      { at: 3500, pose: { rHandY: 360, rFist: 0 }, props: { r: null } },
       { at: 3700, pose: { ...rr, gazeX: 0, gazeY: 0.1 }, emotion: 'warm', spring: { arm: soft } },
     ],
     markers: [{ at: 2600, name: 'say' }],
